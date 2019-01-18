@@ -132,11 +132,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void searchForHSInstitution(String institutionName,String institutionType){
         if(institutionType.equalsIgnoreCase("High school"))
         highSchoolStaffMember().click();
-        inputTextBox().click();
-        inputTextBox().clear();
-        inputTextBox().sendKeys(institutionName);
-        searchButton().click();
-        waitUntilPageFinishLoading();
+        searchInstitution(institutionName);
         while (showMore().size()==1){
             showMoreButton().click();
             waitUntilPageFinishLoading();
@@ -201,26 +197,34 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if(navianceOrNonnaviance.equalsIgnoreCase("naviance")){
             Assert.assertTrue("'access counselor community' text is not displayed for naviance HS", driver.findElement(By.xpath("//span[contains(text(),'Please access the Counselor Community via')]")).isDisplayed());
             Assert.assertTrue("'naviance' link is not displayed for naviance HS", link("Naviance").isDisplayed());
-            Assert.assertTrue("'log in ' button is displayed for naviance HS", !button("Log In").isDisplayed());
+            Assert.assertTrue("'Sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
             Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='Back to search']")).isDisplayed());
             try{
+                setImplicitWaitTimeout(2);
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
                 {
                     logger.info("Primary user details is not displayed");
                 }else{logger.info("Primary user details is displayed");}
-            }catch(Exception e){}
+                resetImplicitWaitTimeout();
+            }catch(Exception e){
+                resetImplicitWaitTimeout();
+            }
         }
         else{
-            Assert.assertTrue("'log in ' button is not displayed for non-naviance HS", button("Log In").isDisplayed());
+            Assert.assertTrue("'Sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
             Assert.assertTrue("'Already have an account? ' text is not displayed for non-naviance HS", text("Already have an account?").isDisplayed());
             Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
             Assert.assertTrue("Back to search is not displayed",link("Back to search").isDisplayed());
             try{
+                setImplicitWaitTimeout(2);
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
                 {
                     logger.info("Primary user details is not displayed");
                 }else{logger.info("Primary user details is displayed");}
-            }catch(Exception e){}
+                resetImplicitWaitTimeout();
+            }catch(Exception e){
+                resetImplicitWaitTimeout();
+            }
 
         }
 
@@ -238,19 +242,27 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(highSchoolButton());
         Assert.assertTrue("High School Staff Member is not displayed",button("High School Staff Member").isDisplayed());
         Assert.assertTrue("Higher Education Staff Member is not displayed",button("Higher Education Staff Member").isDisplayed());
-        Assert.assertTrue("Log In button is not displayed",button("Log In").isDisplayed());
+        Assert.assertTrue("Sign In button is not displayed",button("Sign In").isDisplayed());
         Assert.assertTrue("text is not displayed",text("New User? Find Your Institution").isDisplayed());
         Assert.assertTrue("textbox is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).isDisplayed());
 
     }
     public void searchInstitution(String school)
     {
-        waitUntilElementExists(highSchoolButton());
-        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
-        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
+        waitUntilElementExists(inputTextBox());
+        // .clear() doesn't work for this control, so we need to manually clear with backspace.
+        int oldLength = inputTextBox().getAttribute("value").length();
+        for (int i = 0; i<oldLength; i++) {
+            inputTextBox().sendKeys(Keys.BACK_SPACE);
+        }
+        inputTextBox().sendKeys(school);
         button("Search").click();
-        //Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        //driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectInstitutionFromRegistration(String school)
+    {
+        registrationPageResultsTable().findElement(By.xpath("//a[text()='"+school+"']")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -289,7 +301,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if (navianceORnonNavianceLink.equalsIgnoreCase("please complete this form.")) {
             Assert.assertTrue("New user request form was not displayed!", text("Request User Account").isDisplayed());
         } else if (navianceORnonNavianceLink.equalsIgnoreCase("Naviance")) {
-            Assert.assertTrue("Error:  Naviance login page was not displayed!", textbox(By.name("hsid")).isDisplayed());
+            Assert.assertTrue("Error:  User was not taken to naviance.com!", getDriver().getCurrentUrl().contains("naviance.com"));
         }
     }
 
