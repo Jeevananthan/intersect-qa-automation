@@ -70,6 +70,7 @@ public class UserProfilePageStepDefs implements En {
         And("^I check if I can see \"([^\"]*)\" as a placeholder$", userProfile::checkPlaceholderVisible);
         And("^I click on delete button$", userProfile::clickOnDeleteButton);
         And("^I click cancel deletion button$", userProfile::clickCancelButton);
+        And("^I click on Inactivate Account link$", userProfile::clickOnInactivateAccount);
 
     }
 

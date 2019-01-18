@@ -17,21 +17,31 @@ public class ConfigPageImpl extends PageObjectFacadeImpl {
 
     public ConfigPageImpl() { logger = Logger.getLogger(ConfigPageImpl.class);    }
 
+    /**
+     * This method will login into URL, which displays all blocked users to support.
+     * Author : Arun
+     * @param urlType
+     */
     public void goToManageBlockedAccounts(String urlType){
             String url = GetProperties.get("sp."+ urlType + ".url");
             driver.get(url);
     }
 
+    /**
+     * The below method will activate users who inactivated their own community profile.
+     * Parameter accepted : User Name which you want to activate.
+     * Author : Arun
+     * @param inactivatedUserName
+     */
     public void activateBlockedUser(String inactivatedUserName){
         driver.switchTo().frame(0);
-        WebElement inactiveUserCheckbox = driver.findElement(By.xpath("//div[text()='"+inactivatedUserName+"']/../../../../../td/div/input"));
-        inactiveUserCheckbox.click();
-        WebElement unblockSelectedAccountsButton = driver.findElement(By.id("edit-submit"));
-        unblockSelectedAccountsButton.click();
-        List<WebElement> users = driver.findElements(By.xpath("//div[text()='"+inactivatedUserName+"']"));
-        Assert.assertTrue(inactivatedUserName + " is not activated successfully.", users.size()==0);
+        inactiveUserCheckbox(inactivatedUserName).click();
+        unblockSelectedAccountsButton().click();
+        Assert.assertTrue(inactivatedUserName + " is not activated successfully.", inactivateUsers(inactivatedUserName).size()==0);
     }
 
     //locator
-
+    private WebElement inactiveUserCheckbox(String inactivatedUserName){return driver.findElement(By.xpath("//div[text()='"+inactivatedUserName+"']/../../../../../td/div/input"));}
+    private WebElement unblockSelectedAccountsButton(){return driver.findElement(By.id("edit-submit"));}
+    private List<WebElement> inactivateUsers(String inactivatedUserName){ return driver.findElements(By.xpath("//div[text()='"+inactivatedUserName+"']"));}
 }
