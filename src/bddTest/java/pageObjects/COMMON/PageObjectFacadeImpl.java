@@ -2,14 +2,13 @@ package pageObjects.COMMON;
 
 import org.apache.log4j.Logger;
 import org.assertj.core.api.SoftAssertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
 import stepDefinitions.GlobalSteps;
 import utilities.GetProperties;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -22,14 +21,17 @@ public class PageObjectFacadeImpl extends SeleniumBase {
 
     private Logger logger;
     public NavBarImpl navBar;
-    public  NavigationBarImpl navigationBar;
     public GlobalSearch globalSearch;
 
     protected PageObjectFacadeImpl() {
         logger = Logger.getLogger(PageObjectFacadeImpl.class);
+        // navBar is still required for the SP webapp, as it has not been updated to use the new NavigationBar
         navBar = new NavBarImpl();
         globalSearch = new GlobalSearch();
-        navigationBar = new NavigationBarImpl();
+    }
+
+      public NavigationBarImpl getNavigationBar(){
+        return new NavigationBarImpl();
     }
 
     /**
@@ -134,22 +136,24 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      */
     protected void pickDateInDatePicker(Calendar date) {
         Calendar todaysDate = Calendar.getInstance();
-
         String dateString = getDay(date);
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
         }
-
-        if (date.before(todaysDate)) {
-            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
-                datePickerPrevMonthButton().click();
-            }
-        } else if (date.after(todaysDate)) {
-            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
-                datePickerNextMonthButton().click();
+        if(!getMonth(date).equals(getMonth(todaysDate))) {
+            if (date.before(todaysDate)) {
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(datePickerMonthYearTextLocator), 0));
+                while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                    datePickerPrevMonthButton().click();
+                }
+            } else if (date.after(todaysDate)) {
+                while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                    datePickerNextMonthButton().click();
+                }
             }
         }
         waitForUITransition();
+
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
                 "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
                 "DayPicker-Day--today'][text()='" + dateString + "']")).click();
@@ -204,7 +208,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      * @return String containing the time in hh:mm a (e.g.: 10:30 AM) format
      */
     protected String getTime(Calendar cal) {
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm a");
         return sdf.format(cal.getTime());
     }
 
@@ -283,6 +287,19 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     }
 
     /**
+     * Waits up to 10 seconds for the text of the supplied WebElement to equal the text of the passed String.
+     * @param element - WebElement to evaluate .getText() on
+     * @param expectedText - expected value of .getText()
+     */
+    protected void waitForElementTextToEqual(WebElement element, String expectedText){
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return element.getText().equals(expectedText);
+            }
+        });
+    }
+
+    /**
      * Returns a SoftAssertions object to check things that you care about, but don't want to stop test
      *      execution over if the assertion fails.
      *
@@ -292,8 +309,22 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return GlobalSteps.softly;
     }
 
-    private WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
-    private WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
-    private WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
+    public long getEpochTime(int delta) {
+        Date date =  null;
+        Calendar calendarDate = getDeltaDate(delta);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
+        String dateString = dateFormat.format(calendarDate.getTime());
+        try {
+            date = dateFormat.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(datePickerMonthYearTextLocator)); }
+    private String datePickerMonthYearTextLocator = "div.DayPicker-Caption";
+    protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    protected WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
 
 }

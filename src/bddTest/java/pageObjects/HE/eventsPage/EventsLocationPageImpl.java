@@ -37,7 +37,10 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The created Location is not displayed in the Location field", eventsPage.locationField().
                 getAttribute("value").equals(locationName+locationIndex));
         eventsPage.locationField().click();
-        Assert.assertTrue("The created location is not displayed in the location list", singleResultInLocationListNameText().getText().equals(locationName+locationIndex));
+        List<WebElement> locationsWebElementList = driver.findElements(By.xpath(locationsList));
+        List<String> locationsListText = new ArrayList<>();
+        for (WebElement element : locationsWebElementList) locationsListText.add(element.getText());
+        Assert.assertTrue("The created location is not displayed in the location list", locationsListText.contains(locationName+locationIndex));
         waitUntil(ExpectedConditions.visibilityOf(singleResultInLocationListEditLink()));
         Assert.assertTrue("The Edit button is not displayed for the new location in the location list",
                 singleResultInLocationListEditLink().isDisplayed());
@@ -90,7 +93,9 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
 
     public void openEditFormForSelectedLocation() {
         waitUntilPageFinishLoading();
-        eventsPage.locationField().click();
+        if (driver.findElements(By.cssSelector("div.popup.transition.visible")).size() == 0) {
+            eventsPage.locationField().click();
+        }
         singleResultInLocationListEditLink().click();
     }
 
@@ -157,18 +162,20 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
         deleteLocationLink().click();
         if(eventStatus.equals("unpublished")) {
             Assert.assertTrue("The message when deleting a location associated to an unpublished event is not correct: "
-                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
-                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent));
+                    + locationDeleteMessage1().getText(), locationDeleteMessage1().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent1) &
+                    locationDeleteMessage2().getText().equals(EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithUnpublishedEvent2));
             deleteLocationYesButton().click();
         } else if(eventStatus.equals("published")) {
             Assert.assertTrue("The message when deleting a location associated to a published event is not correct: "
-                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
+                    + locationDeleteMessage1().getText(), locationDeleteMessage1().getText().equals
                     (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithPublishedEvent));
             locationAssociatedToPublishedEventOkButton().click();
         } else if(eventStatus.equals("expired")) {
             Assert.assertTrue("The message when deleting a location associated to a expired event is not correct: "
-                    + locationDeleteMessage().getText(), locationDeleteMessage().getText().equals
-                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent));
+                    + locationDeleteMessage1().getText(), locationDeleteMessage1().getText().equals
+                    (EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent1) &&
+                    locationDeleteMessage2().getText().equals(EventsLocationPageImpl.deleteLocationMessageWhenAssociatedWithExpiredEvent2));
         }
     }
 
@@ -194,19 +201,24 @@ public class EventsLocationPageImpl extends PageObjectFacadeImpl {
     private WebElement stateField() { return driver.findElement(By.cssSelector("input[name='location-state']")); }
     private WebElement postalCodeField() { return driver.findElement(By.cssSelector("input[name='location-postalcode']")); }
     private WebElement doneButton() { return driver.findElement(By.cssSelector("button.ui.primary.button._2hWsKmd3ZpllcWLNxffNeu")); }
-    private WebElement singleResultInLocationListNameText() { return driver.findElement(By.cssSelector("tr._1hExGvG5jluro4Q-IOyjd7 div._1mf5Fc8-Wa2hXhNfBdgxce")); }
-    private WebElement singleResultInLocationListEditLink() { return driver.findElement(By.xpath("//tr[@class='_1hExGvG5jluro4Q-IOyjd7']//td[@class='_1OZ1oMK3GglRUsHKbjbU2-']")); }
+    private WebElement singleResultInLocationListNameText() { return driver.findElement(By.cssSelector("tr._1hExGvG5jluro4Q-IOyjd7 div:nth-of-type(1)")); }
+    private WebElement singleResultInLocationListEditLink() { return driver.findElement(By.xpath("//tr[@class = '_1hExGvG5jluro4Q-IOyjd7']//a/span[text() = 'Edit']")); }
     private WebElement deleteLocationLink() { return driver.findElement(By.cssSelector("a._2m8lgYbkXvYZuzvkh1m_Q1 span")); }
     private WebElement deleteLocationYesButton() { return driver.findElement(By.cssSelector("div.ui.warning.message + div button.ui.primary.button")); }
     private List<WebElement> locationList() {
         return driver.findElements(By.cssSelector("div._1mf5Fc8-Wa2hXhNfBdgxce"));
     }
-    public WebElement locationDeleteMessage() { return driver.findElement(By.xpath("//div[@name='eventLocation']//div[@class='ui warning message']")); }
-    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent =
-            "This location is associated with an existing unpublished event.Are you sure you want to delete?";
+    public WebElement locationDeleteMessage1() { return driver.findElement(By.xpath("//div[@name='eventLocation']//div[@class='ui warning message']/span[1]")); }
+    public WebElement locationDeleteMessage2() { return driver.findElement(By.xpath("//div[@name='eventLocation']//div[@class='ui warning message']/span[2]")); }
+    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent1 =
+            "This location is associated with an existing unpublished event.";
+    private static final String deleteLocationMessageWhenAssociatedWithUnpublishedEvent2 = "Are you sure you want to delete?";
     private static final String deleteLocationMessageWhenAssociatedWithPublishedEvent =
             "This location can not be deleted since it is associated with a published event";
-    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent =
-            "This location is associated with a past published event.Are you sure you want to delete?";
+    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent1 =
+            "This location is associated with a past published event.";
+    private static final String deleteLocationMessageWhenAssociatedWithExpiredEvent2 =
+            "Are you sure you want to delete?";
     public WebElement locationAssociatedToPublishedEventOkButton() { return driver.findElement(By.xpath("//button[@class = 'ui primary button']")); }
+    private String locationsList = "//div[@class = 'content']//td[1]/div[1]";
 }

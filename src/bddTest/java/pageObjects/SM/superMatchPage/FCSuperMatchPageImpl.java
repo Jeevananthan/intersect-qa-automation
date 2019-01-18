@@ -3,12 +3,11 @@ package pageObjects.SM.superMatchPage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import pageObjects.CM.groupsPage.GroupsPageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -29,6 +28,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
     private NewSuperMatchPageImpl newSuperMatch = new NewSuperMatchPageImpl();
     private SearchPageImpl searchPage = new SearchPageImpl();
+    private GroupsPageImpl groupsPage = new GroupsPageImpl();
     static String saveSearchName;
 
     public void verifySuperMatchBanner() {
@@ -70,6 +70,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
             case "Admission" :
                 verifyTooltips("admission.tooltips.titles.list");
                 verifyTooltips("admission.tooltips.text.list");
+                verifyTooltips("admission.your.gpa.table");
                 break;
             case "Diversity" : verifyTooltips("diversity.tooltips.titles.list");
                 break;
@@ -184,6 +185,33 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                     }
                 }
                 break;
+            case "admission.your.gpa.table" :
+                WebElement yourGPAIcon = driver.findElements(By.cssSelector(tooltipsInTabListLocator)).get(0);
+                yourGPAIcon.click();
+
+                List<WebElement> letterGrade = driver.findElements(By.cssSelector(letterGradeListLocator));
+                List<WebElement> percentGrade = driver.findElements(By.cssSelector(percentGradeListLocator));
+                List<WebElement> fourScale = driver.findElements(By.cssSelector(fourScaleListLocator));
+
+                List<String> letterGradeStrings = new ArrayList<>();
+                List<String> percentGradeStrings = new ArrayList<>();
+                List<String> fourScaleStrings = new ArrayList<>();
+
+                for (int i = 0; i < letterGrade.size(); i++) {
+                    letterGradeStrings.add(letterGrade.get(i).getText());
+                    percentGradeStrings.add(percentGrade.get(i).getText());
+                    fourScaleStrings.add(fourScale.get(i).getText());
+                }
+
+                Assert.assertTrue("The values in the GPA scores table are not correct.", letterGradeStrings.equals
+                        (getListFromPropFile(propertiesFilePath, ";", "admission.gpa.letter.grade")));
+                Assert.assertTrue("The values in the GPA scores table are not correct.", percentGradeStrings.equals
+                        (getListFromPropFile(propertiesFilePath, ";", "admission.gpa.percent.grade")));
+                Assert.assertTrue("The values in the GPA scores table are not correct.", fourScaleStrings.equals
+                        (getListFromPropFile(propertiesFilePath, ";", "admission.gpa.4.scale")));
+
+                break;
+
             case "gpa.results.table.title" :
                 waitUntil(ExpectedConditions.elementToBeClickable(searchPage.firstWhyButton()));
                 gpaTooltipsIconsInResults = driver.findElements(By.cssSelector(gpaTooltipIconInResultsLocator));
@@ -569,8 +597,94 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies the text of a link in the "More" link inside the SuperMatch footer, as well as the location the user is sent to,
+     * @param link Name of the link to navigate to in the "More" menu in the SM footer.
+     */
+    public void verifyFooterLink(String link) {
+        // Check if the More menu is already open, and if not, click it to open.
+        try {
+            setImplicitWaitTimeout(1);
+            getDriver().findElement(By.xpath("//div[@class='supermatch-footer-popup']"));
+            resetImplicitWaitTimeout();
+        } catch (NoSuchElementException nsee) {
+            jsClick(footerMoreButton());
+            resetImplicitWaitTimeout();
+        }
+        waitUntilPageFinishLoading();
+        switch(link) {
+            case "Upcoming Visits":
+                footerUpcomingVisitsLink().click();
+                waitUntilPageFinishLoading();
+                switchToNewestWindow();
+                softly().assertThat(getDriver().getCurrentUrl()).contains("/colleges/visits");
+                getDriver().close();
+                switchToParentWindow();
+                break;
+            case "Events":
+                footerEventsAppLink().click();
+                waitUntilPageFinishLoading();
+                switchToNewestWindow();
+                waitUntilPageFinishLoading();
+                softly().assertThat(getDriver().getCurrentUrl()).contains("college-events");
+                getDriver().close();
+                switchToParentWindow();
+                break;
+        }
+    }
+
+    public void verifyInfoMessage(DataTable dataTable) {
+        List<String> messageContents = dataTable.asList(String.class);
+        for (String element : messageContents) {
+            if(element.contains("Not all fields are required. Remember to only")) {
+                Assert.assertTrue("This piece of text was not found: " + element, infoBarExtraWording().getText().contains(element));
+            } else {
+                Assert.assertTrue("This piece of text was not found: " + element, infoBarMainWording().getText().contains(element));
+            }
+        }
+    }
+
+    public void goToPageFromSMMainMenu() {
+        waitUntilPageFinishLoading();
+        getMainMenuTab("Colleges").click();
+        button("Apply to College").click();
+        link("College Events").click();
+    }
+
+    public void gotToCollegesImThinkingAboutList() {
+        waitUntilPageFinishLoading();
+        getMainMenuTab("Colleges").click();
+        button("Research Colleges").click();
+        link("I'm Thinking About").click();
+    }
+
+    public void addCollegeToImThinkingAboutList(String collegeName) {
+        gotToCollegesImThinkingAboutList();
+        link("Add Colleges to List").click();
+        Select lookByDropdown = new Select(driver.findElement(By.xpath(lookByDropdownLocator)));
+        lookByDropdown.selectByVisibleText("Keyword");
+        lookupByNameField().sendKeys(collegeName);
+        button("Go").click();
+        if (heartIconInList(collegeName).getAttribute("aria-label").equals("Favorite")) {
+            heartIconInList(collegeName).click();
+            waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Unfavorite"));
+        }
+    }
+
+    public void goToCollegesLookingForStudentsLikeYou() {
+        link("/colleges").click();
+        button("Find Your Fit").click();
+        link("College Match").click();
+        waitUntilPageFinishLoading();
+        getCollegeMatchTab("Colleges Looking For Students Like You!").click();
+        waitUntilPageFinishLoading();
+    }
+
     // Locators Below
 
+    private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//span[@class='supermatch-footer-item-text'][text()='More']"));}
+    private WebElement footerUpcomingVisitsLink() {return getDriver().findElement(By.xpath("//a/span[text()='Upcoming Visits']"));}
+    private WebElement footerEventsAppLink() {return getDriver().findElement(By.xpath("//a/span[text()='Events']"));}
     private WebElement getDisableChosseOneDropdown(){return driver.findElement(By.xpath("//div[@class='ui disabled scrolling pointing dropdown']"));}
     private WebElement saveSearchDeletePopupHeaderText(){return driver.findElement(By.xpath("//div[@class='header']"));}
     private WebElement saveSearchDeleteIcon(String saveSearchName) { return driver.findElement(By.xpath("//span[text()='"+saveSearchName+"']/../i[//i[@class='trash large icon right floated']]"));}
@@ -640,4 +754,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
     private WebElement yesDeleteButton() { return driver.findElement(By.cssSelector("div.actions button.ui.teal.basic.button:nth-of-type(1)")); }
     private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true']";
+    private String letterGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(1)";
+    private String percentGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(2)";
+    private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";
+    private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
+    private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
+    private WebElement getMainMenuTab(String tabName) { return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
+    private String lookByDropdownLocator = "//label//select[contains(@id, 'checkbox')]";
+    private WebElement lookupByNameField() { return driver.findElement(By.cssSelector("input[name='name']")); }
+    private WebElement heartIconInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/preceding-sibling::button")); }
+    private WebElement getCollegeMatchTab(String tabName) { return driver.findElement(By.xpath("//div//a[text() = '" + tabName + "']")); }
 }

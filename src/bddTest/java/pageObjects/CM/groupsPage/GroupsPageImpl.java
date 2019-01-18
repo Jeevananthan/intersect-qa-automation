@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
@@ -246,7 +247,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void goToManageGroupMembersPage() {
         logger.info("Going to the Manage Group Members Page.");
         // Implementing Brian's fix from @MATCH-654
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
@@ -256,7 +257,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void goToSpecificManageGroupMembersPage(String group) {
         logger.info("Going to the Manage Group Members Page for group " + group);
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
@@ -480,6 +481,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkIfTextIsVisible(String item) {
+        waitUntilPageFinishLoading();
         logger.info("Searching for "+item+".");
         Assert.assertTrue("The "+item+" cannot be found on the page!", checkItemVisible(item));
     }

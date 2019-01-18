@@ -1,10 +1,10 @@
-@HS
-Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be able to modify my enrollment data via the Community.
+@HS @HS2
+Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be able to modify my enrollment data via the Community.
 
   @MATCH-811 @MATCH-814 @MATCH-815 @MATCH-1561
   Scenario: As an authorized HS User, I need to be able to update my contact information in the purple community.
   So I should be able to change my address, phone, fax, and website URL.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the CONTACT INFORMATION FIELDS exist
@@ -12,9 +12,9 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     And HS I enter the following CONTACT data on the Institution Profile page and click "Save"
       | Address     | 3480 DIXIE HWY    |
       | City        | Erlanger          |
-      | State       | Kentucky        |
+      | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | Kenton     |
+      | County      | Kenton            |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
@@ -26,22 +26,21 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       | City        | Erlanger          |
       | State       | Kentucky          |
       | Zip         | 41018             |
-      | County      | Kenton     |
+      | County      | Kenton            |
       | Country     | United States     |
       | Phone       | 859.432.3333      |
       | Fax         | 859.432.4899      |
       | Website URL | www.DIXIEHIGH.com |
     Then HS I re-enter original data and click "Save"
-      | Address     | 6840 LAKOTA LN   |
-      | City        | LIBERTY TOWNSHIP |
-      | State       | Ohio             |
-      | Zip         | 45044            |
-      | County      | BUTLER COUNTY    |
+      | Address     | 2621 McMenemy St |
+      | City        | Little Canada    |
+      | State       | Minnesota        |
+      | Zip         | 55117            |
+      | County      | Ramsey           |
       | Country     | United States    |
       | Phone       | 360.555.1212     |
       | Fax         | 360.123.4567     |
       | Website URL | www.hobsons.com  |
-    And HS I successfully sign out
 
 
 
@@ -54,7 +53,7 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     Then HS I make sure the ENROLLMENT INFORMATION FIELDS exist
       | Male | Female | Nonbinary | Asian or Asian/Pacific Islander | American Indian/Alaska Native | Hawaiian Native/Pacific Islander | Hispanic or Latino | Black/African American | White | Two or More Races | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Title I Status |
     And HS I enter the following ENROLLMENT data on the Institution Profile page and click "Save"
-      | Male                             | 600                                 |
+      | Male                             | 499                                 |
       | Female                           | 600                                 |
       | Nonbinary                        | 600                                 |
       | Asian or Asian/Pacific Islander  | 600                                 |
@@ -83,7 +82,7 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I verify updated data entered has successfully been saved
-      | Male                             | 600                                 |
+      | Male                             | 499                                 |
       | Female                           | 600                                 |
       | Nonbinary                        | 600                                 |
       | Asian or Asian/Pacific Islander  | 600                                 |
@@ -136,7 +135,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       | Grade 12                         | 280     |
       | Title I Eligible                 | Unknown |
       | Title I Status                   | Eligible for Title I SWP provides TAS program. |
-    And HS I successfully sign out
 
 
 
@@ -184,7 +182,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       | School Level                       | Secondary (7-12)                           |
       | School Type Options                | Regular school                             |
       | School Year of Last Reported Data  | 2015-2017                                  |
-    And HS I successfully sign out
 
 
 
@@ -204,7 +201,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I access the INSTITUTION page
     And HS I verify that I do not have access to the institution profile edit button
-    And HS I successfully sign out
 
 
 
@@ -219,7 +215,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Not specified |
     Then HS I make sure the HIGHEST GRADE LEVEL dropdown is complete and sorted correctly and "highestGrade"
       | Prekindergarten Students | Kindergarten Students | Grade 1 | Grade 2 | Grade 3 | Grade 4 | Grade 5 | Grade 6 | Grade 7 | Grade 8 | Grade 9 | Grade 10 | Grade 11 | Grade 12 | Not specified |
-    And HS I successfully sign out
 
 
   @MATCH-1563
@@ -229,7 +224,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I verify the header exist above Title I data entry boxes "Title I Information"
-    And HS I successfully sign out
 
   @MATCH-1562
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
@@ -239,7 +233,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure that no total fields exist
       | Total |
-    And HS I successfully sign out
 
   @MATCH-1564
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
@@ -255,7 +248,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       | Yes | No | Unknown |
     Then HS I make sure the Coeducational dropdown only displays appropriate options "coeducational"
       | Coed (school has male and female students) | All-male (school only has all-male students) | All-female (school only has all-female students) | Unknown |
-    And HS I successfully sign out
 
 
 
@@ -274,7 +266,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       |firstName |lastName |email                 |verifyEmail           |jobTitle |
       |mahi      |qateam   |kpmahi93+12@gmail.com |kpmahi93+12@gmail.com |test role|
 
-
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
   So there is less confusion on what to put in the field.
@@ -287,7 +278,6 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
       | websiteUrl  | Ex: www.yourschool.edu |
       | collegeRate | Ex: 78%                |
       | ratio       | Ex: 12 (for 12:1)      |
-    And HS I successfully sign out
 
   @MATCH-2052
   Scenario: As a HS user, I need to be able to request a new user account AND a new high school institution during the registration process.
@@ -296,3 +286,18 @@ Feature:  HS Community - EditInstitutionProfile - As an HS user, I should be abl
     And HS I search for "Request new institution" in the registration page
     Then HS I verify the Request New User page
       | firstName      | email  | verifyEmail  | institutionName  |  lastName  | jobTitle |
+
+
+  @MATCH-1781
+  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
+  so I can associate myself with the high school I work at
+    Given HS I am navigating to Intersect HS through Non naviance Url
+    Then HS I click the new user link in the login page
+    And HS I search for "Int Qa High School 4" in "High school" and verify the results
+
+  @MATCH-5276
+  Scenario: As a HS user, I want to see if high schools are displayed in the search results when SEARCH button is pressed
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Lakota" in High School Staff Member registration page
+    Then HS I verify the search results on the registration page contain "Lakota"
+

@@ -19,4 +19,3 @@ Feature: Community User - Core User Profile Fields Uneditable
     And I Save changes
     Then I click on Edit profile button
     And I check if privacy settings are saved properly
-    And HE I successfully sign out

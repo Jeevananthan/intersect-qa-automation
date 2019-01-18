@@ -101,19 +101,20 @@ public class NavBarImpl extends SeleniumBase {
     {
         Assert.assertTrue("Counselor Community is not displayed",getCommunityBtn().isDisplayed());
         getCommunityBtn().click();
-        WebElement element=driver.findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
-        driver.switchTo().frame(element);
-        driver.findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
-        driver.findElement(By.xpath("//input[@id='edit-save']")).click();
-        driver.switchTo().defaultContent();
+        WebElement element=getDriver().findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
+        getDriver().switchTo().frame(element);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@class='form-textarea']")));
+        getDriver().findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
+        getDriver().findElement(By.xpath("//input[@id='edit-save']")).click();
+        getDriver().switchTo().defaultContent();
     }
 
     public void verifyNotificationIconInHomePage(){
         String notificationCount;
         Assert.assertTrue("Notification Icon is not visible",notificationIcon().isDisplayed());
-        try{if(driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).isDisplayed())
+        try{if(getDriver().findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).isDisplayed())
         {
-            notificationCount=driver.findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).getText();
+            notificationCount=getDriver().findElement(By.xpath("//span[@class='_1LESaFFfI5r0qGbmkZ5l2I']")).getText();
             if(notificationCount.equals(""))
             {
                 logger.info("There is no notification");
@@ -201,12 +202,19 @@ public class NavBarImpl extends SeleniumBase {
         return link.getAttribute("class").contains("_28hxQ33nAx_7ae3SZ4XGnj");
     }
 
+    public void goToGraphiQL() {
+        if(!isLinkActive(getGraphiQLBtn()))
+            getGraphiQLBtn().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(graphiQLQueryVariablesHeaderLocator), 0));
+        Assert.assertTrue("Unable to navigate to GraphiQL page", isLinkActive(getGraphiQLBtn()));
+    }
+
     //Getters
     private WebElement notificationIcon()
-    {WebElement element=driver.findElement(By.xpath("//div[@id='notifications']"));
+    {WebElement element=getDriver().findElement(By.xpath("//div[@id='notifications']"));
     return  element;}
     private WebElement verifyGlobeIcon(){
-        WebElement element=driver.findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
+        WebElement element=getDriver().findElement(By.xpath("//div[@id='notifications']//div[@class='menu transition visible']"));
         waitUntilElementExists(element);
         return  element;
     }
@@ -237,7 +245,7 @@ public class NavBarImpl extends SeleniumBase {
     private WebElement getActiveMatchButton() { return link(By.id("js-main-nav-am-plus-menu-link")); }
 
     public WebElement getHeadingBreadcrumbs(){
-        List<WebElement> items = driver.findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
+        List<WebElement> items = getDriver().findElements(By.className("_2QGqPPgUAifsnRhFCwxMD7"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)
                 return item;
@@ -246,7 +254,7 @@ public class NavBarImpl extends SeleniumBase {
     }
 
     public WebElement getSubMenuBreadcrumbs() {
-        List<WebElement> items = driver.findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
+        List<WebElement> items = getDriver().findElements(By.className("UDWEBAWmyRe5Hb8kD2Yoc"));
         for (WebElement item : items) {
             if (item.getText().length() > 0)
                 return item;
@@ -267,7 +275,7 @@ public class NavBarImpl extends SeleniumBase {
      * @return WebElement
      */
     private WebElement getAdminDashboardLink(){
-        return driver.findElement(By.id("js-main-nav-admin-menu-link"));
+        return getDriver().findElement(By.id("js-main-nav-admin-menu-link"));
     }
 
     /**
@@ -275,6 +283,12 @@ public class NavBarImpl extends SeleniumBase {
      * @return WebElement
      */
     private WebElement getAdminDashboardLabel(){
-        return driver.findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
+        return getDriver().findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
     }
+
+    private WebElement getGraphiQLBtn() {
+        return driver.findElement(By.cssSelector("a#js-main-nav-graphiql-menu-link"));
+    }
+
+    private String graphiQLQueryVariablesHeaderLocator = "div.variable-editor-title";
 }

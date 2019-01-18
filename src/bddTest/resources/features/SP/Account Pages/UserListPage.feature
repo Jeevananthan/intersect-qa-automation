@@ -9,7 +9,6 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     Then SP I verify that the user account for "purpleheautomation+recruiter@gmail.com" is "inactive"
     And SP I "activate" the user account for "purpleheautomation+recruiter@gmail.com"
     Then SP I verify that the user account for "purpleheautomation+recruiter@gmail.com" is "active"
-    Then SP I successfully sign out
 
   @MATCH-129
   Scenario: As a Hobsons admin user, I can change the primary user of a premium institution.
@@ -21,7 +20,6 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     And SP I set the user "purpleheautomation@gmail.com" to be the new primary user
     Then SP I verify that the user account for "purpleheautomation@gmail.com" is the primary user
     Then SP I verify that the user account for "purpleheautomation+AssignasPrimary@gmail.com" is not the primary user
-    Then SP I successfully sign out
 
   @MATCH-1126
   Scenario: As a Hobsons support user, if I inactivate the primary account for a freemium institution,
@@ -35,7 +33,6 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
 
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I "activate" the user account for "purpleheautomation+12103@gmail.com"
-    Then SP I successfully sign out
 
     @MATCH-1783
     Scenario Outline: As a Support user with the Administrator or Support role I need to be able to create additional users
@@ -87,14 +84,15 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     And SP I successfully sign out
     Then HE I am logged in to Intersect HE as user type "locked"
     And HE I am able to successfully login
-    Then HE I successfully sign out
 
-  @MATCH-1553
+  @MATCH-1553 @MATCH-5502
   Scenario: As a Support user I can able to re-invite an user from the support app.
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "The University of Alabama" from the institution dashboard
-    And SP I "re-invite" the user account for "hobsons.purple+amorrison.AT.ua.edu@gmail.com"
-    Then SP I successfully sign out
+    And SP I "re-invite" the user account for "purpleheautomation+MATCH-1553@gmail.com"
+    Then SP I receive the Intersect Invitation email with the following data:
+      |Subject                    |To                                       |Messages |
+      |Your Intersect Invitation  |purpleheautomation+MATCH-1553@gmail.com  |1        |
 
   @MATCH-1793
   Scenario Outline: As a Support user with the Administrator or Support role I need to be able to create a non primary HE or HS user
@@ -109,7 +107,6 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     When SP I select "Alpena Community College" from the institution dashboard
     And SP I verify that I can create a new primary user using create new user button
     Then SP I add the user account "<First Name>","<Last Name>","<Email>","<Verify Email>" and set the user to be a new primary user "<Email>"
-    Then SP I successfully sign out
 
     Examples:
       |First Name|Last Name  |Email                         |Verify Email                       |
@@ -122,4 +119,21 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     When SP I search for "2400006"
     And SP I select the following institution "The University of Alabama" from the results
     Then SP I verify that I can edit the Primary User Details
-    Then SP I successfully sign out
+
+  @MATCH-5014
+  Scenario: As a Support User I should see the impersonator banner in HS project
+    When SP I am logged in to the Admin page as a Support user
+    And SP I go to the users list for "HS" user, institution "Int Qa High School 4" from the institution dashboard
+    And SP I "Login As" the user account for "hobsons.rrt+other16@gmail.com"
+    Then SP I verify the "You're currently logged in as IAM Purple from Int Qa High School 4. Changes you make will reflect in their account." message in the homepage
+
+  @MATCH-2863
+  Scenario: As a Hobsons Support user with the Administrator or Support role within the Support App I need to impersonate
+  nonNaviance HS users in order to troubleshot technical issues and tickets submitted to Hobsons Support.
+    When SP I am logged in to the Admin page as a Support user
+    And SP I go to the users list for "HS" user, institution "Homeconnection" from the institution dashboard
+    And SP I use "Login As" feature for login as "adminHS"
+    And SP I check the impersonated window ie "2"
+    And SP I use "Login As" feature for login as "admin"
+    And SP I check the impersonated window ie "2"
+    And SP I check the "Account Settings" option will be hidden for impersonation

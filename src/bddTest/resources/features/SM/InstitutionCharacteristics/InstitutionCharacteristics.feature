@@ -1,5 +1,6 @@
 @SM
-Feature: SM - Institution Characteristics - As a HS student, I need to be able to search for colleges based on the 'Institution Characteristics' fit criteria
+Feature: SM - Institution Characteristics - Institution Characteristics - As a HS student, I need to be able to search
+         for colleges based on the 'Institution Characteristics' fit criteria
 
   @MATCH-3342 @MATCH-3747
     Scenario Outline: As a HS student, I want to filter colleges I am searching for by Student Success fit criteria so
@@ -162,3 +163,42 @@ Feature: SM - Institution Characteristics - As a HS student, I need to be able t
     Then SM I press Why button for "Grambling State University" college
     Then I check if I can see "On-campus Housing > 66%" on the page
     Then I check if I can see "79% of students live on-campus" on the page
+
+  @MATCH-4781
+  Scenario: Adding tooltip to 'Average Class Size' fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I verify the tootip for "AVERAGE CLASS SIZE" in "Institution Characteristics"
+
+  @MATCH-3341 @MATCH-4105
+  Scenario: As a HS student, I want to filter colleges I am searching for by College Type within the Institution
+  Characteristics category so I can see relevant colleges that match my College Type requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I skip the onboarding modals
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that the "Public" check box is "selected" in Institution Characteristics
+    Then SM I verify that the "Private" check box is "selected" in Institution Characteristics
+    Then SM I verify that the "Show only non-profit" check box is "selected" in Institution Characteristics
+    And SM I unselect the "Show only non-profit" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that the Must Have box contains "Public or Private"
+    And SM I unselect the "Private" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that the Must Have box contains "Public"
+    And SM I select the "Private" checkbox from "Institution Characteristics" fit criteria
+    And SM I unselect the "Public" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that the Must Have box contains "Private (only non-profit)"
+    And SM I unselect the "Show only non-profit" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify that the Must Have box contains "Private"
+
+
+  @MATCH-3947
+  Scenario: As a HS student that is comparing my pinned schools, I want to see Institution Characteristics details about each college
+  side by side so I can determine which pinned college is a best fit for me based on their Institution Characteristics.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "Bennett College" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify all the below options available in IC fit criteria in IC expandable drawer
+      |Public or Private| Nonprofit| Average Class Size| Graduation Rate| Retention Rate| Job Placement Rate - 6 months| Job Placement Rate - 1 year|Campus Housing|Students Living on Campus|Number of Students|Undergraduate|Graduate|
+      |Private|Yes|14 Students|26%|54%|Unknown|Unknown|Yes|61%|583|583|0|
