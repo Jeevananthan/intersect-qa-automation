@@ -762,5 +762,17 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
 
+        Then("^HS I go to the Naviance Settings and submit the following details$",repVisits::submitTheValuesInNavianceSettings);
+
+        Then("^HS I verify the naviance college visit page using the following details \"([^\"]*)\"$",repVisits::verifyNavianceCollegeVisitPage);
+
+        Then("^HS I verify the naviance college visit page using the following details after Reschedule the Visits \"([^\"]*)\"$",repVisits::verifyNavianceCollegeVisitPageAfterReschedule);
+
+        Then("^HS I select \"([^\"]*)\" In Naviance college visit Page After Reschedule the visit using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewOptionInNavianceCollegeVisitPageAfterReschedule);
+
+        Then("^HS I select \"([^\"]*)\" In Naviance college visit Page using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewOptionInNavianceCollegeVisitPage);
+
+        Then("^HS I verify the Appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentCalendarPage);
+
     }
 }

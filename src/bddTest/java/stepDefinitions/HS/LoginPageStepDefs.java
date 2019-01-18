@@ -58,5 +58,7 @@ public class LoginPageStepDefs implements En {
 
         Then("^HS I verify the search results on the registration page contain \"([^\"]*)\"$", loginPage::verifySearchResultsOnRegistrationPage);
 
+        Then("^HS I go to the Naviance Page with user type \"([^\"]*)\"$",loginPage::loginToNaviancePage);
+
     }
 }

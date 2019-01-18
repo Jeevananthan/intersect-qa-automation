@@ -458,3 +458,4 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Examples:
       |user    |institution              |fairStartTime|College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool             |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE                   |
       |PurpleHE|The University of Alabama|9:00am       |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|
+
