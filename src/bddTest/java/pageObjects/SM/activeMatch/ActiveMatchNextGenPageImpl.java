@@ -29,6 +29,11 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(getAMNextGenMatches().isDisplayed());
     }
 
+    public void checkActiveMatchNextGenNumber(Integer number){
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        Assert.assertTrue(getAMNextGenMatches().findElements(By.className("ui card")).size() > number);
+    }
+
     public void checkLegacyAMAreDisplayed(){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         Assert.assertTrue(getLegacyMatches().isDisplayed());
