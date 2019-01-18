@@ -1809,6 +1809,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * verify the request subtab is enabled by default, after clicking notification and tasks
+     */
+    public void verifySubTabInNotifications() {
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        waitUntilElementExists(notificationsAndTasks());
+        notificationsAndTasks().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/rep-visits/notifications/requests']")));
+        String value=getDriver().findElement(By.cssSelector("a[href='/rep-visits/notifications/requests']")).getAttribute("class");
+        Assert.assertTrue("Request SubTab is not active",value.equals("menu-link active"));
+    }
+
     public void selectAndCleanVisits(String date) {
         WebElement visitInOverlay;
         while (driver.findElements(By.cssSelector(appointmentLocator)).size() > 0) {
@@ -5910,14 +5923,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    /**
+     * Verify no notification message in notification tab
+     * @param message : no notification message
+     *                ex : You currently have no notifications...
+     */
     public void verifynoNotificationMessage(String message) {
         getNavigationBar().goToRepVisits();
-        WebElement element = button("Notifications & Tasks");
-        waitUntilElementExists(element);
-        button("Notifications & Tasks").click();
-        waitForUITransition();
+        waitUntilElementExists(notificationsAndTasks());
+        notificationsAndTasks().click();
         removeNotificationRequestSubtab("QA Declined", "Yes, Decline");
-        waitForUITransition();
         Assert.assertTrue("'You currently have no notifications' is not displayed", text(message).isDisplayed());
     }
 
@@ -6540,21 +6555,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.id("webInstructions"));
     }
 
+    /**
+     * remove notification from request tab
+     * @param message : declined message
+     *
+     * @param submit : submit button name
+     */
     public void removeNotificationRequestSubtab(String message, String submit) {
-        List<WebElement> Notificationsize = driver.findElements(By.xpath("//button[@class='ui mini basic primary button _3wYCijG-cEpNomL_5h1LcD']"));
-        while (Notificationsize.size() > 0) {
-            WebElement button = driver.findElement(By.xpath("//button[1]/span[text()='Decline']"));
-            jsClick(button);
-            waitUntilPageFinishLoading();
-            jsClick(cancellationMessage());
-            cancellationMessage().sendKeys(message);
-            button(submit).click();
-            waitUntilPageFinishLoading();
-            waitForUITransition();
-            WebElement bt = getDriver().findElement(By.cssSelector("div[id='success-message-grid']>button>span"));
-            jsClick(bt);
-            Notificationsize = driver.findElements(By.xpath("//button[@class='ui mini basic primary button _3wYCijG-cEpNomL_5h1LcD']"));
-        }
+        try{
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui mini button _3wYCijG-cEpNomL_5h1LcD']")));
+            List<WebElement> Notificationsize = getDriver().findElements(By.cssSelector("button[class='ui mini button _3wYCijG-cEpNomL_5h1LcD']"));
+            while (Notificationsize.size() > 0) {
+                WebElement button = driver.findElement(By.xpath("//button[1]/span[text()='Decline']"));
+                jsClick(button);
+                waitUntilPageFinishLoading();
+                jsClick(cancellationMessage());
+                cancellationMessage().sendKeys(message);
+                button(submit).click();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='success-message-grid']>button>span")));
+                WebElement bt = getDriver().findElement(By.cssSelector("div[id='success-message-grid']>button>span"));
+                jsClick(bt);
+                Notificationsize = getDriver().findElements(By.cssSelector("button[class='ui mini button _3wYCijG-cEpNomL_5h1LcD']"));
+            }
+        }catch (Exception e){}
     }
 
     public void cancelRgisteredCollegeFair(String fairName) {

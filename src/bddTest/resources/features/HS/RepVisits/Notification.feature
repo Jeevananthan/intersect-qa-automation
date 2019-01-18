@@ -459,3 +459,77 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
       |user    |institution              |fairStartTime|College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool             |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE                   |
       |PurpleHE|The University of Alabama|9:00am       |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|
 
+  @MATCH-2091
+  Scenario: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page REQUESTS subtab
+  so I can efficiently find the updates I am looking for within RepVisits
+  #Activity subtab covered on MATCH-2093
+  #FOR VISITS
+    #precondition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the RepVisits Visits Confirmations option to "No, I want to manually review all incoming requests."
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I verify the Message "You currently have no notifications." is displayed in the Request Notification Tab
+
+    Then HS I set the date using "14" and "42"
+    And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "14" in Regular Weekly Hours Tab
+    Then HS I add the new time slot with "14","10:32am","11:25pm" and "3" with "1"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Standalone High School 2" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Standalone High School 2" using "14" and "10:32am"
+    And HE I verify the schedule pop_up for "Standalone High School 2" using "10:32am" and "11:25pm"
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "Standalone High School 2" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Standalone High School 2" using "14" and "10:32am"
+    And HE I verify the schedule pop_up for "Standalone High School 2" using "10:32am" and "11:25pm"
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page
+    Then HS I verify the Notification "PurpleHE","The University of Alabama","10:32am","14" in the Request Notification Tab
+    And HS I select "Confirm" option for the Notification using "PurpleHE","10:32am","The University of Alabama"
+
+    Then HS I verify the Notification "PurpleHE","The University of Alabama","10:32am","14" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "PurpleHE","10:32am","The University of Alabama"
+    Then HS I verify the Decline Pop-up in the Notification Tab "PurpleHE","The University of Alabama","10:32am","14"
+    Then HS I select the "No, go back" button by entering the message "" for "PurpleHE"
+    Then HS I verify the Notification "PurpleHE","The University of Alabama","10:32am","14" in the Request Notification Tab
+    And HS I select "Decline" option for the Notification using "PurpleHE","10:32am","The University of Alabama"
+    Then HS I verify the Decline Pop-up in the Notification Tab "PurpleHE","The University of Alabama","10:32am","14"
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "PurpleHE"
+    Then HS I remove the Time Slot created with "14","10:32am" in Regular Weekly Hours Tab
+
+  #FOR FAIRS
+    Then HS I set the following data to On the College Fair page "QAs Fairs tests", "14", "0900AM", "1000AM", "12", "$25", "25", "100", "Save"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Standalone High School 2" in RepVisits page
+    Then HE I register for the "QAs Fairs tests" college fair at "Standalone High School 2"
+    And HE I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "Standalone High School 2" in RepVisits page
+    Then HE I register for the "QAs Fairs tests" college fair at "Standalone High School 2"
+    And HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page
+    Then HS I verify the Notification "PurpleHE","The University of Alabama","9:00am","14" in the Request Notification Tab for Fairs
+    And HS I select "Confirm" option for the Notification using "PurpleHE","14","9:00am","The University of Alabama" for Fairs
+
+    Then HS I verify the Notification "PurpleHE","The University of Alabama","9:00am","14" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "PurpleHE","14","9:00am","The University of Alabama" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "PurpleHE","The University of Alabama","9:00am","14" for Fairs
+    Then HS I select the "No, go back" button by entering the message "" for "PurpleHE"
+    Then HS I verify the Notification "PurpleHE","The University of Alabama","9:00am","14" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "PurpleHE","14","9:00am","The University of Alabama" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "PurpleHE","The University of Alabama","9:00am","14" for Fairs
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "PurpleHE"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
+    And HS I successfully sign out
