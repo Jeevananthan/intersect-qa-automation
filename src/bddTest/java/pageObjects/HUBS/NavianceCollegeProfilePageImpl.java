@@ -19,14 +19,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void openHUBSEditorMode() {
-        navigationBar.goToCollegeProfile();
-        verifyVieworEditYourCollegeProfileinNaviance();
-        try {
-            getStartedButton().click();
-        } catch(WebDriverException e) {
-            navigationBar.navianceCollegeProfileMenuLink.sendKeys(Keys.ESCAPE);
-            getStartedButton().click();
-        }
+        getNavigationBar().goToCollegeProfile();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         verifyInstitutionalProfilePage();
@@ -45,7 +38,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
 
     public void verifyInstitutionalProfilePage(){
         WebDriverWait wait = new WebDriverWait(driver, 60);
-        wait.pollingEvery(500, TimeUnit.MILLISECONDS);
+        wait.pollingEvery(10000, TimeUnit.MILLISECONDS);
         wait.until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 return d.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed();
@@ -54,12 +47,12 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         Assert.assertTrue("'Edit your college profile' page title is not displayed",driver.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed());
         Assert.assertTrue("Text 'To get started – choose a category.'",driver.findElement(By.xpath("//div[text()='To get started – choose a category.']")).isDisplayed());
         Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience.']")).isDisplayed());
-        Assert.assertTrue("Button 'Publish' is not displayed",button("Publish").isDisplayed());
+        Assert.assertTrue("Button 'Publish' is not displayed",getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia ng-binding']")).isDisplayed());
     }
 
     public void navigateToInstitutionProfile(){
         waitUntilPageFinishLoading();
-        navigationBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         waitForUITransition();
         communityFrame();
         driver.findElement(By.xpath("//a[text()='Institution']")).click();

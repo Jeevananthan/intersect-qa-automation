@@ -1,6 +1,6 @@
 @SM
-Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search college based on
-  certain fit criteria
+Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Family Connection I need to be able to search
+         college based on certain fit criteria
 
   @MATCH-3592
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with an Student Body
@@ -269,7 +269,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Given SM I am logged in to SuperMatch through Family Connection
     Then SM I verify that tooltip icon is added to the include online learning opportunities fit criteria
 
-  @MATCH-3767
+  @MATCH-3767 @MATCH-3374
   Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % MALE VS. FEMALE
   in Diversity dropdown
     Given SM I am logged in to SuperMatch through Family Connection
@@ -304,15 +304,16 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4727
   Scenario: Load saved search which includes the NET family income
     Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I delete the saved search named "SSMATCH4727"
     Then SM I select the following data in the Cost Fit Criteria
       |Radio           |Maximum Total Cost (Tuition, Fees, Room & Board)|
       |Maximum Cost    |$10,000                                         |
       |Home State      |Ohio                                            |
       |Family Income   |$75,001 - $110,000                              |
     Then SM I open the Save Search popup
-    Then SM I save the search with the name "SS123"
+    Then SM I save the search with the name "SSMATCH4727"
     Then SM I remove the "Cost < $10000" fit criteria from the Must Have box or Nice to Have box
-    Then SM I select "SS123" in the Saved Searches dropdown
+    Then SM I select "SSMATCH4727" in the Saved Searches dropdown
     Then SM I verify the following data in the Cost Fit Criteria
       |Family Income|$75,001 - $110,000|
 
@@ -463,9 +464,623 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Maximum Cost    |$5,000                                          |
     Then SM I verify that the Must Have box contains "Cost < $5000"
 
-   @3447
+   @MATCH-4897
+   Scenario: When student performs Start Over action, the GPA and test scores data should revert to what is stored in
+   naviance student profile
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I start the search over
+     When I select the following data from the Admission Fit Criteria
+       | GPA (4.0 scale) | 3  |
+       | SAT Composite   | 1000 |
+       | ACT Composite   | 26   |
+     Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+     Then SM I verify if the GPA and test scores revert to those stored in naviance student profile when Start Over action is performed
+
+  @MATCH-3449
+  Scenario: As a HS student that is viewing my pinned schools, I want to see each college's fit score and academic match
+  so I can use these details when comparing all my pinned colleges.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 4 |
+      | SAT Composite   | 1200 |
+      | ACT Composite   | 36   |
+      | Acceptance Rate | 25% or Lower |
+    And SM I pin "Harvard University" if it is not pinned already
+    Then SM I open the Pinned Schools Compare screen
+    Then SM I verify that in the "" criteria table "Academic Match" criteria for the 1 college is "match"
+
+  @MATCH-4804
+  Scenario: When a HS student has pinned the max number of colleges (25), then clears all pinned schools, and then tries
+  to repin a new schools, they still receive the error message about they are at the max number of pinned schools.
+  This message only stops appearing if the user refreshes the page.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    Then SM I clear pinned schools list
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "25" colleges
+    Then SM I clear pinned schools list
+    Then SM I pin "1" colleges
+    Then SM I verify the pinned college count is "1" in footer
+
+  #Note: The second AC of this ticket is already implemented in MATCH-4897
+  @MATCH-5025
+  Scenario: When student refreshes the page, the GPA and test scores data should not revert to what is stored in
+  naviance student profile
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I select the "Counseling Services" checkbox from the Resources fit criteria
+    Then SM I verify if the GPA and test scores are not reverted to those stored in naviance student profile when page is refreshed
+
+  @MATCH-3445
+  Scenario: As a HS student using the SuperMatch tool I want to compare my pinned schools side by side so it is easier
+  to identify similarities and differences between the schools I have pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+    Then SM I verify that COMPARE PINNED COLLEGES is not clickable
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I pin "1" colleges
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify the header text in Compare Pinned Colleges page
+    And SM I click on the Back button in Compare Pinned Colleges page
+    And SM I verify that the Must Have box contains "Learning Differences Support"
+
+  @MATCH-3210
+  Scenario: As a HS student I want to know how many fit criteria I have selected when searching for colleges so I can quickly see how selective I am being.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I start the search over
+    When I select the following data from the Admission Fit Criteria
+      | Acceptance Rate | 25% or Lower |
+      | Acceptance Rate | 26%-50%      |
+    And SM I reload the page
+    Then SM I verify that the Must Have box contains "Acceptance Rate [2]"
+    When SM I unselect the "26%-50%" checkbox from the "Admission" fit criteria
+    Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
+    Then SM I verify that the text from "your.fit.criteria.instruction.text" is displayed in Your Fit Criteria screen
+    Then SM I verify that the button Select Criteria To Start is not displayed in the Your Fit Criteria screen
+
+  @MATCH-4473
+  Scenario: Verify the text 0-0 of 0 is displayed in Compare Pinned Colleges page when no colleges are pinned
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I clear pinned schools list
+    Then SM I navigate to page via URL path "colleges/supermatch-next/compare"
+    Then SM I verify that the pagination text displayed in Compare Pinned Colleges page is "Viewing 1 - 1 of 1"
+    Then SM I verify that the left pagination button is "disabled" and the right pagination button is "disabled" in Compare Pinned Colleges page
+
+  @MATCH-3444
+  Scenario: As a HS student using the SuperMatch tool, I want a way to view and manage all my pinned schools so that
+  list of schools is always up to date.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I verify that a PINNED dropdown is present in the footer
+    And SM I verify that a pink circle is displayed next to the pinned dropdown
+    And SM I verify the following options are displayed in the PINNED dropdown
+    |Compare Pinned Colleges|
+    |Clear Pinned List      |
+
+  @MATCH-4475
+  Scenario: We need the pinned college to stay in the student's view, and a copy of it to be disaplyed at the top
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    When SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin "Amherst College"
+    Then SM I verify that the college "Amherst College" is displayed in position "1" in the results table
+    Then SM I verify that the college in position "1" contains "inPinnedList" in its class
+
+  @MATCH-3370
+  Scenario: As a HS student, I want to filter colleges I am searching for by Diversity within the Diversity category so
+            I can see relevant colleges that match my Diversity requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
+    Then SM I verify the options displayed in the Specific Representation percent listbox
+      |Select %|
+      |10%     |
+      |20%     |
+      |30%     |
+      |40%     |
+      |50%     |
+    Then SM I verify the options displayed in the Specific Representation race and ethnicity listbox
+      |Select race or ethnicity                 |
+      |American Indian or Alaskan Native        |
+      |Asian                                    |
+      |Black or African-American                |
+      |Hispanic/Latin                           |
+      |Native Hawaiian or other Pacific Islander|
+    Then SM I select the option "10%" in the Specific Representation percent listbox
+    And SM I verify that the Must Have box does not contain "10%"
+    Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "At least 10% Asian"
+    And SM I move "At least 10% Asian" from the Must Have box to the Nice to Have box
+    And SM I verify that the Nice to Have box contains "At least 10% Asian"
+    Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
+    Then SM I select the option "Select %" in the Specific Representation percent listbox
+    Then SM I select the option "Select race or ethnicity" in the Specific Representation race and ethnicity listbox
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box does not contain "At least 10% Asian"
+    And SM I verify that Nice to Have box does not contain "At least 10% Asian"
+    Then SM I select the "Specific Representation" radio button in Diversity Fit Criteria
+    Then SM I select the option "10%" in the Specific Representation percent listbox
+    Then SM I select the option "Asian" in the Specific Representation race and ethnicity listbox
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "At least 10% Asian"
+
+  @MATCH-3376
+  Scenario: As a HS student accessing SuperMatch through Family Connection I need to be presented with % Out of State
+            students
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I verify the text displayed in the % Out of State Students Fit Criteria
+    Then SM I verify the options displayed in Out of State students Select % dropdown
+    |Select %|
+    |10%     |
+    |20%     |
+    |30%     |
+    |40%     |
+    |50%     |
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+    And SM I move "Out of State Students ≥ 10%" from the Must Have box to the Nice to Have box
+    Then SM I verify that the Nice to Have box contains "Out of State Students ≥ 10%"
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "Select %" from the dropdown "OutOfStateStudents-dropdown"
+    And SM I close the fit criteria selection window
+    Then SM I click "Diversity" filter criteria tab
+    And SM I pick "10%" from the dropdown "OutOfStateStudents-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
+
+  @MATCH-3555
+  Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
+            results table so I am reminded that those colleges were already pinned.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Virginia Union University"
+    Then SM I verify that the college "Virginia Union University" is displayed in position "1" in the results table
+    Then SM I verify that the match score for the college in position 1 is "<" 100
+    Then SM I verify that the match score for the college in position 2 is "=" 100
+
+  @MATCH-3263
+  Scenario: As a HS student who is interacting with the fit criteria and categories in College Search, I want to see
+            informational message letting me know when my search becomes too granular so I don't limit my results to too few
+            of colleges based on too many fit criteria being selected.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    Then SM I verify that the Informational Message contains the following texts:
+    | You’ve selected |
+    | –Your results include |
+    | institutions with a fit score of |
+    | Not all fields are required. Remember to only fill out the criteria that is most important to you. |
+
+  @MATCH-3440
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Institution Characteristics
+  details about each college in my results table so I can quickly see high level information about the college.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Institution Characteristics" in the editable column number 1
+    Then SM I verify that "Institution Characteristics" in column number 1 for college "Prairie View A & M University" contains the following data:
+      | Average Class Size | 32 |
+      | Undergrad Size     | 6925 Students |
+      | Job Placement Rate | 55%           |
+      | Graduation Rate    | 9%            |
+      | Retention Rate     | 66%           |
+      | Historically Black |               |
+
+  @MATCH-3436
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Admission Info details about each
+  college in my results table so I can quickly see information about the college's admission process.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Admission Info" in the editable column number 1
+    Then SM I verify that "Admission info" in column number 1 for college "Prairie View A & M University" contains the following data:
+      | Acceptance Rate 85% |
+      | App Fee $40         |
+
+  @MATCH-3344
+  Scenario: As a HS student, I want to filter colleges I am searching for by Student Body Size within the Institution
+            Characteristics category so I can see relevant colleges that match my Student Body Size requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that radio button with text "All students" is selected
+    Then SM I select the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "Student Body Size [1]"
+    Then SM I unselect the "Very large (Over 20,000 students)" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box does not contain "Student Body Size [1]"
+
+  @MATCH-3345
+  Scenario: As a HS student, I want to filter colleges I am searching for by Housing within the
+            Institution Characteristics category so I can see relevant colleges that match my Housing requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I click "Institution Characteristics" filter criteria tab
+    Then SM I verify that checkBox with text "On-Campus Housing" is not checked
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    Then SM I verify the options displayed in On-Campus Housing Select % dropdown
+    |Select %|
+    |33%     |
+    |66%     |
+    Then SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+
+  @MATCH-3546
+  Scenario: As a HS student, I want to fit criteria that I select to be added to the 'Must Have' box within SuperMatch
+            so I can see all the fit criteria I have selected easily and can manage them.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from the "Location" fit criteria
+    And SM I select the "Midwest" checkbox from the "Location" fit criteria
+    And SM I select the "Large City" checkbox from the "Location" fit criteria
+    And SM I select the "Small City" checkbox from the "Location" fit criteria
+    And SM I verify that the Must Have box contains "Location [14]"
+    And SM I verify that the Must Have box contains "Campus Surroundings [2]"
+
+  @MATCH-3438
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Student Life details about each
+  college in my results table so I can quickly see information about the college's social offerings.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I select the "Historically Black Institutions" checkbox from "Diversity" fit criteria
+    And SM I pin "Prairie View A & M University" if it is not pinned already
+    And SM I pick "Student Life" in the editable column number 1
+    Then SM I verify that "Student Life" in column number 1 for college "Prairie View A & M University" contains the following data:
+    | Greek Life |
+    | 22 Student Clubs |
+    | Offers Study Abroad |
+    | Offers Internships/Co-ops |
+    | Offers ROTC\n(Army, Navy, Air Force) |
+
+  @MATCH-3777
+  Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
+  update how we display these fit criteria within the boxes
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I select the "Large City" checkbox from "Location" fit criteria
+    And SM I select the "Very large (Over 20,000 students)" checkbox from "Institution Characteristics" fit criteria
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I click "Diversity" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Advent Christian Church" from the list "span.text"
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      |Accounting|
+    Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
+      |Acoustics|
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I close the fit criteria selection window
+    Then SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:
+      | Location [7] | Location |
+      | Campus Surroundings [1] | Location |
+      | Student Body Size [1]   | Institution Characteristics |
+      | Acceptance Rate [1]     | Admission                   |
+      | Religious Affiliation [1] | Diversity                 |
+      | Major [1]                 | Academics                 |
+      | Minor [1]                 | Academics                 |
+      | Gender Concentration [1]  | Diversity                 |
+      | Athletics [1]             | Athletics                 |
+    And SM I select the "Certificate" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Accounting" from the list "span.text"
+    And SM I close the fit criteria selection window
+    Then SM I verify that the corresponding fit criteria tab is opened after clicking the following items in the selected criteria box:
+      | Certificate [1] | Academics |
+
+  @MATCH-3741
+  Scenario: Certain fit criteria are too wordy/long when they display in the Must Have or Nice to Have box. We need to
+  update how we display these fit criteria within the boxes
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Central" checkbox from "Location" fit criteria
+    And SM I select the "Large City" checkbox from "Location" fit criteria
+    And SM I select the "Very large (Over 20,000 students)" checkbox from "Institution Characteristics" fit criteria
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I click "Diversity" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Advent Christian Church" from the list "span.text"
+    Then SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      |Accounting|
+    Then SM I select the following minors in the SEARCH MINORS multi-select combobox for Bachelor's degree type
+      |Acoustics|
+    And SM I select the "Coed" checkbox from "Diversity" fit criteria
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    Then SM I verify that the Must Have box contains "Location [7]"
+    Then SM I verify that the Must Have box contains "Campus Surroundings [1]"
+    Then SM I verify that the Must Have box contains "Student Body Size [1]"
+    Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
+    Then SM I verify that the Must Have box contains "Religious Affiliation [1]"
+    Then SM I verify that the Must Have box contains "Major [1]"
+    Then SM I verify that the Must Have box contains "Minor [1]"
+    Then SM I verify that the Must Have box contains "Gender Concentration [1]"
+    Then SM I verify that the Must Have box contains "Athletics [1]"
+    And SM I close the fit criteria selection window
+    And SM I select the "Certificate" radio button from the Academics fit criteria
+    And SM I click "Academics" filter criteria tab
+    And I click the dropdown "input.search + span + div"
+    And I select the option "Accounting" from the list "span.text"
+    Then SM I verify that the Must Have box contains "Certificate [1]"
+
+  @MATCH-4271
+  Scenario: The Academic Match values are displayed in the academic match cell after the user selects their first fit criteria.
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I select the "Coed" checkbox from the "Diversity" fit criteria
+    Then SM I verify that the student's scores for the college in position 1 are displayed in the Academic Match cell:
+    | 4   |
+    | N/A |
+    | N/A |
+
+  @MATCH-3425
+  Scenario: As a HS student searching for colleges within SuperMatch, I want to pin schools that I find in my search
+            results that are of interest to me so I can maintain a smaller list of schools that I am more interested in than others.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Massachusetts      |
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin the college "Williams College" from the why drawer
+    And SM I verify the college "Williams College" is "pinned" in the results table
+    And SM I unpin the college "Williams College" from the why drawer
+    And SM I verify the college "Williams College" is "unpinned" in the results table
+    And SM I pin "Williams College" if it is not pinned already
+    And SM I verify the college "Williams College" is "pinned" in the why drawer
+    And SM I unpin "Williams College"
+    And SM I verify the college "Williams College" is "unpinned" in the why drawer
+
+  @MATCH-4669
+  Scenario: The 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
+  , the bluepurple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
+  highest.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Massachusetts      |
+    When I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1600 |
+      | ACT Composite   | 36   |
+    And SM I select the "25% or Lower" checkbox from "Admission" fit criteria
+    And SM I pin "Williams College" if it is not pinned already
+    And SM I search for "Bennett College" college in search bar
+    And SM I clear pinned schools list
+    And SM I verify that "Williams College" college is present in search results
+    And SM I verify that "Bennett College" college is not present in search results
+
+  @MATCH-3634
+  Scenario: Verify options in Average Class Size List
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I verify the options displayed in the Average Class Size listbox
+    |Select|
+    |10    |
+    |20    |
+    |30    |
+    |40    |
+    |50    |
+    |100   |
+    Then SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "10" from the dropdown "classsize-dropdown"
+    And SM I close the fit criteria selection window
+    And SM I verify that the Must Have box contains "Class size < 10"
+
+  @MATCH-4051
+  Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
+  the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
+  next time I access SuperMatch and don't have to start my search over again.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+    Then SM I select the "Tutoring Services" checkbox from the Resources fit criteria
+    And SM I move "Tutoring Services" from the Must Have box to the Nice to Have box
+    And I select the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+    Then SM I log out of SuperMatch and close the browser
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    Then SM I verify that the Must Have box contains "Learning Differences Support"
+    Then SM I verify that the Nice to Have box contains "Tutoring Services"
+    Then I verify the following data from the Admission Fit Criteria
+      | GPA (4.0 scale) | 3  |
+      | SAT Composite   | 1000 |
+      | ACT Composite   | 26   |
+
+  @MATCH-3835
+  Scenario: As a HS student who has added more than one sport to my college search fit criteria, I want the ability to
+  control whether the SuperMatch component uses 'OR' versus 'AND' logic so I have the ability to be more strict about a
+  college meeting all of my athletic requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I click "Athletics" filter criteria tab
+    And SM I press button "ADD SPORT"
+    And SM I pick "Archery" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I press button "ADD SPORT"
+    And SM I pick "Badminton" from the dropdown "supermatch-athletics-search"
+    And SM I press button "ADD"
+    And SM I close the fit criteria selection window
+    And SM I verify that "Search for institutions that have ALL of my selected sports" checkbox is "unselected" in "Athletics" fit criteria
+    And SM I select the "Search for institutions that have ALL of my selected sports" checkbox from "Athletics" fit criteria
+
+   @MATCH-3470
+   Scenario: As a HS student that is on the Compare Pinned Schools page, I want to organize the order of my pinned
+   schools so I can control which schools are comparable side by side.
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I clear all pills from Must have  and Nice to have boxes
+     And SM I clear pinned schools list
+     Then SM I pin "Williams College" from the search box
+     Then SM I pin "Bennett College" from the search box
+     And SM I open the Pinned Schools Compare screen
+     And SM I verify that left and right arrow buttons are displayed on top of "Williams College" logo in Compare Pinned Schools page
+     And SM I verify that left and right arrow buttons are displayed on top of "Bennett College" logo in Compare Pinned Schools page
+     And SM I verify that the left arrow button should be disabled for the school "Williams College" since it is ordered #1
+     And SM I verify that the right arrow button should be disabled for the school "Bennett College" since it is ordered last
+     And SM I move "Williams College" to the "right" in Compare Pinned Schools page
+     And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
+     And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
+
+
+  @MATCH-3441 @MATCH-4896
+  Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
+    college in my results table so I can quickly see additional information about the college.
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    Then SM I pin "Adrian College" from the search box
+    Then SM I pin "The University of Alabama" from the search box
+    And SM I select the "Small City" checkbox from "Location" fit criteria
+    Then SM I verify that "Highlights" in column number 1 for college "Adrian College" contains the following data:
+    |Upcoming College Visits|
+    |Upcoming College Events|
+    Then SM I verify that "Highlights" in column number 1 for college "Washington State University" contains the following data:
+      |Photos/Videos on Profile|
+    Then SM I verify that "Highlights" in column number 1 for college "The University of Alabama" contains the following data:
+      |Profiles|
+    Then HE I click the link "Upcoming College Visits"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/fb6f5eeb-6ab7-4e31-9165-583562aa2f8c/Overview#visits" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then HE I click the link "Upcoming College Events"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/fb6f5eeb-6ab7-4e31-9165-583562aa2f8c/Overview#events" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then I scroll to "No Highlights Available"
+    Then HE I click the link "Photos/Videos on Profile"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Overview" finish loading
+    Then I close the current window
+    And I switch to the newly opened window
+    Then HE I click the link "Profiles"
+    And I switch to the newly opened window
+    Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Profiles" finish loading
+    Then I close the current window
+
+
+  @MATCH-3389
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by miscellaneous student life inputs so I
+  can see relevant colleges that match my student life requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption>"
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption>"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I move "<StudentLifeCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption>"
+    And SM I verify that Nice to Have box does not contain "<StudentLifeCheckboxOption>"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption>"
+    Examples: Each of the available options for the Student Life fit criteria
+      |StudentLifeCheckboxOption|
+      |Internships and Co-ops   |
+      |Offers Study Abroad      |
+
+  @MATCH-3390
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by ROTC details within the Student
+  Life category so I can see relevant colleges that match my ROTC requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption> ROTC"
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption> ROTC"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I move "<StudentLifeCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption>"
+    And SM I verify that Nice to Have box does not contain "<StudentLifeCheckboxOption>"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption> ROTC"
+    Examples: Each of the available options for the Student Life fit criteria
+      |StudentLifeCheckboxOption|
+      |Army                     |
+      |Navy                     |
+      |Air Force                |
+
+  @MATCH-4017
+  Scenario: As a HS student I want to search for colleges that offer housing in general OR specify the percentage of
+  student living on campus so I can perform the appropriate search based on my housing/students on campus needs.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I start the search over
+    Then SM I verify the text displayed in the On-campus housing section
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "On-campus Housing"
+    And SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+    And SM I pick "66%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 66%"
+
+   @MATCH-3447
    Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
-   manage my list.
+             manage my list.
      Given SM I am logged in to SuperMatch through Family Connection
      And I clear the onboarding popups if present
      Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria

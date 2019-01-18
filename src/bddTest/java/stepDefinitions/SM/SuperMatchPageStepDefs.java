@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 
@@ -75,5 +76,12 @@ public class SuperMatchPageStepDefs implements En {
 
         And("^SM I delete all the saved searches$", fcSuperMatch::deleteAllSavedSearches);
 
+        Then("^SM I verify the \"([^\"]*)\" link in the SuperMatch Footer$", fcSuperMatch::verifyFooterLink);
+
+        Then("^SM I verify that the Informational Message contains the following texts:$", fcSuperMatch::verifyInfoMessage);
+
+        And("^SM I go to College Events from the SuperMatch main menu$", fcSuperMatch::goToPageFromSMMainMenu);
+
+        And("^SM I navigate to the Colleges I'm thinking about list$", fcSuperMatch::gotToCollegesImThinkingAboutList);
     }
 }

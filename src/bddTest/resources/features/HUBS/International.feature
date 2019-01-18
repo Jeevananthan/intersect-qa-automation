@@ -1,5 +1,5 @@
 @HUBS @HUBS-945 @HUBS-1060
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs International Tab content so I can
+Feature: HBS - International - As a community user viewing College Hubs, I want to be able to view Hubs International Tab content so I can
   understand what Hubs offers students.
 
   Background:
@@ -10,7 +10,7 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
   @HUBS-946 @HUBS-992 @HUBS-803
   Scenario: All the elements of the page are displayed for HE users in International
     Then HUBS All the elements of the international tab should be displayed
-    And HE I successfully sign out
+
 
   Scenario: All the types of fields are editable in real time
     And HUBS I open "International" in the edit menu
@@ -22,9 +22,9 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Test Scores  | Michigan (MELAB) | Low;777 |
       | Qualifications | Ability to Finance | Recommended |
       | Accepted English Tests | TOEFL      | -           |
-    And HE I successfully sign out
-  @HUBS-803 @HUBS-1063 @HUBS-1024 @HUBS-1060 @HUBS-1024
-  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4651)
+
+  @HUBS-803 @HUBS-1063 @HUBS-1024 @HUBS-1060 @HUBS-1024 @Unstable
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4651 - MATCH-5464)
     When HUBS I open "International" in the edit menu
     And HUBS I take note of the values from the following fields in International:
       | Application Deadline | Day |
@@ -52,8 +52,8 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Fees | Application Fee     |
       | Test Requirements | SAT |
       | Applications | Received |
-      | Test Scores  | TOEFL (Paper);Low |
+      | Test Scores  | Michigan (MELAB);Low |
       | Qualifications | Ability to Finance |
       | Accepted English Tests | TOEFL      |
-    And HUBS I successfully sign out
+
 

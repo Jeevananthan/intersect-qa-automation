@@ -6,4 +6,3 @@ Feature: As a community user I want to see pagination on Institution's Followers
     When  I go to institution page
     And I click on Followers tab
     Then I see pagination on that page
-    And HE I successfully sign out

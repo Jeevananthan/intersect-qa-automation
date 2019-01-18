@@ -19,6 +19,8 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HE I search for \"([^\"]*)\" in RepVisits$", repVisits::searchforHighSchool);
 
+        Then("^HE I request an appointment with \"([^\"]*)\" for Visits with \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::selectVisitForHE);
+
         Then("^HE I select \"([^\"]*)\" in \"([^\"]*)\" from the RepVisits intermediate search results$", repVisits::selectHighSchoolFromIntermediateSearchResults);
 
         Then("^HE I view the map plugin on RepVisits Search & Schedule subtab$", repVisits::viewMapPlugin);
@@ -109,7 +111,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I select Visits to schedule the appointment for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::visitsSchedule);
 
-        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
+        Then("^HE I click Request button in visit schedule popup$",repVisits::clickRequestButton);
 
         Then("^HE I register for the \"([^\"]*)\" college fair at \"([^\"]*)\"$",repVisits::visitFairsToRegister);
 
@@ -209,7 +211,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" for Fairs$",repVisits::verifyCalendarPageforFairs);
 
-        Then("^HE I remove the Fair appointment from the calendar$",repVisits::removeFairAppointmentfromCalendar);
+        Then("^HE I cancel the Fair appointment from the calendar$",repVisits::cancelFairAppointmentfromCalendar);
 
         Then("HE verify the Pills got disappear for \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPills);
 
@@ -274,8 +276,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I search the \"([^\"]*)\" by \"([^\"]*)\"$",repVisits::searchSchoolbyLocation);
 
         Then("^HE I switch to the Support App$",repVisits::switchToSupportApp);
-
-        And("^HE I verify the \"([^\"]*)\" message in the homepage$",repVisits::verifyLoginMessageInHomPage);
 
         Then("^HE I post a \"([^\"]*)\" Message in the homepage$",repVisits::postMessageInHomePage);
 
@@ -390,12 +390,6 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the success message \"([^\"]*)\" after click Save button$",repVisits::verifySuccessMessageInYourNotification);
 
         Then("^HE I verify the saved changes after navigate away from Your Notifications subtab$",repVisits::verifySavedChangesInYourNotification);
-
-        Then("^HS I Click on the View Details button for the College Fair Event \"([^\"]*)\"$",repVisits::accessViewDetailsPageforFair);
-
-        When("^HS I go to re assign appointments$", repVisits::goToReassignAppointment);
-
-        Then("^HS I verify UI components with the option \"([^\"]*)\" in the drop down action$", repVisits::reassignAppointmentsVerification);
       
         Then("^HE I set the date using \"([^\"]*)\" and \"([^\"]*)\" in calendar \"([^\"]*)\" view$",repVisits::setDateInCalendarAgenda);
 
@@ -413,11 +407,40 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I set the value Alert me when high schools become available in RepVisits to selected$",repVisits::selectAlertBoxInYourNotification);
       
-        Then("^HE I verify the error Message \"([^\"]*)\" is displaying when \"([^\"]*)\" is not selected for \"([^\"]*)\"$",repVisits::verifyErrorMessageInReAssignAppointments);
-      
         Then("^HE I verify the disabled date \"([^\"]*)\" is not clickable in calendar Agenda view$",repVisits::verifyDisabledDateIsNotClickableInEndDate);
-      
-        Then("^HE I verify the error Message \"([^\"]*)\" is disappearing when the error message \"([^\"]*)\" is displayed for \"([^\"]*)\"$",repVisits::verifyDisappearingErrorMessageInReAssignAppointments);
 
+        Then("^HE I verify that Share Calendars Link is displayed in Calendar page$",repVisits::verifyShareCalendarsLinkIsDisplayed);
+
+        Then("^HE I verify that Share your calendar modal is opened when clicking the Share Calendars Link$",repVisits::verifyShareYourCalendarModalIsDisplayed);
+      
+        Then("^HE I verify the college fair is \"([^\"]*)\" in the calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyCollegeFairInHECalendar);
+
+        Then("^HE I verify default the HE user to see the REQUESTS subtab when they arrive on the Notifications page$",repVisits::verifyRequestsSubTabIsEnabled);
+
+        Then("^HE I verify the Sorting notification entries in the REQUESTS subtab by newest to oldest$",repVisits::verifySortingNotificationEntries);
+
+        Then("^HE I remove the appointment from the calendar for fairs$",repVisits::removeFairsAppointmentFromCalendar);
+
+        Then("^HE I verify the visit details are present in the your schedule section using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInYourSchedule);
+
+        Then("^HE I verify the visit details are present in the calendar using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyVisitDetailsInCalendar);
+
+        Then("^HE I verify and select an appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAndSelectAppointmentInCalendarPage);
+
+        Then("^HE I verify the announcement title \"([^\"]*)\" in the announcement details$",repVisits::verifyAnnouncementTitleIsDisplaying);
+
+        Then("^HE I verify the 'Read More' button is displaying for the content with more than 140 character limit$",repVisits::verifyReadMoreButtonIsDisplaying);
+
+        Then("^HE I verify the announcement details after the success toast message using \"([^\"]*)\"$",repVisits::verifyAnnouncementDetailsAfterSuccessMessage);
+
+        Then("^HE I verify the dismiss button is displaying in the announcement details$",repVisits::verifyDismissButtonInAnnouncementDetails);
+
+        Then("^HE I click the dismiss button$",repVisits::clickDismissButton);
+
+        Then("^HE I verify the announcement is not displaying after clicking dismiss button$",repVisits::verifyAnnouncementIsNotDisplaying);
+
+        Then("^HE I verify the content begins where title would begin in notification bar \"([^\"]*)\"$",repVisits::verifyProductAnnouncementContent);
+
+        Then("^HE I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
     }
 }

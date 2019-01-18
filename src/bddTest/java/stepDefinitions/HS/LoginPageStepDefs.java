@@ -1,5 +1,6 @@
 package stepDefinitions.HS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HS.loginPage.LoginPageImpl;
 import pageObjects.HS.homePage.HomePageImpl;
@@ -15,7 +16,7 @@ public class LoginPageStepDefs implements En {
 
         Given ("^HS I am logged in to Intersect HS through Naviance with account \"([^\"]*)\"$",loginPage::loginNaviance);
 
-        Given("^HS Iam navigating to Intersect HS through Non naviance Url$", loginPage::openNonNavianceLoginPage);
+        Given("^HS I am navigating to Intersect HS through Non naviance Url$", loginPage::openNonNavianceLoginPage);
 
         Then("^HS I click the new user link in the login page$",loginPage::clickNewUserBtn);
 
@@ -55,5 +56,10 @@ public class LoginPageStepDefs implements En {
 
         Then("^SP I am logged in to Support for Intersect$", loginPage::defaultLoginForSupport);
 
+        Then("^HS I verify the search results on the registration page contain \"([^\"]*)\"$", loginPage::verifySearchResultsOnRegistrationPage);
+
+        Then("^HS I go to the Naviance Page with user type \"([^\"]*)\"$",loginPage::loginToNaviancePage);
+
+        Then("^HS I select \"([^\"]*)\" from the registration page search results$", loginPage::selectInstitutionFromRegistration);
     }
 }

@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to be view feedback from HS on my institution's school visits
+Feature: HE - RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to be view feedback from HS on my institution's school visits
 
 
   @MATCH-2403
@@ -17,7 +17,6 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
-    Then SP I successfully sign out
 
   @MATCH-3076
   Scenario: As a HE user I do not want to see the word 'rating' or 'rate' when interacting with the RV Feedback functionality so I dont feel depressed if feedback isn't always positive from HSs.
@@ -25,7 +24,6 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     Then HE I navigate to the "Visit Feedback" page in RepVisits
     Then HE I verify that rate or rating text is not present on Visit Feedback Overview page
     Then HE I verify text displayed while viewing individual staff member feedback
-    Then HE I successfully sign out
 
   @MATCH-2404
   Scenario: As an HE user with the Administrator role I want to be presented with a Staff Ratings page
@@ -43,3 +41,21 @@ Feature: HE- RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want to
     Then HE I verify that number of comments submitted for the HE account for the current school year is displayed as a statistic on Overview area
     Then HE I verify the Feedback Breakdown for the HE account on Overview area
     Then HE I verify Top Areas To Improve Percentage Breakdown for the HE account on Overview area
+
+  @MATCH-2962
+  Scenario: As an HE user, I want to be able to opt out of RV Ratings so HS users don't spend their time submitting
+            ratings on my HE staff that I don't care about.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Visit Feedback" page in RepVisits
+    Then HE I "disable" RepVisits Feedback
+    And HE I verify that the Visit Feedback Toggle link displays as "Turn On?"
+    Then HE I "enable" RepVisits Feedback
+    And HE I verify that the Visit Feedback Toggle link displays as "Turn Off?"
+
+  @MATCH-2405
+  Scenario: As an HE user with the Administrator role I want to be presented with a Staff Ratings page so I can view information
+            about how an individual staff member is doing when visiting high schools.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to the "Visit Feedback" page in RepVisits
+    Then HE I select "Rosh Nag_HE01" from the RepVisits Feedback user list
+    And HE I verify the format of the user feedback page for user "Rosh Nag_HE01"

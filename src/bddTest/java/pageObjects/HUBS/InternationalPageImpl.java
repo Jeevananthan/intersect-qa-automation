@@ -96,32 +96,36 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Application Deadline" :
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(intAppDeadlineText().getText().split("-")[1]));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(intAppDeadlineText().getText().split("-")[1]);
                     break;
                 case "Fees" :
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(getInternationalFee(sections.get(1).get(1)).getText()));
+                    softly().assertThat(generatedValues.get(key)).as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(getInternationalFee(sections.get(1).get(1)).getText());
                     break;
                 case "Test Requirements" :
                     for (WebElement testReqElement : getIntTestReqs()) {
                         if (testReqElement.findElement(By.cssSelector("span:nth-of-type(1)")).getText().equals(sections.get(2).get(0))) {
-                            assertTrue("The value for " + key + " was not successfully generated",
-                                    testReqElement.findElement(By.cssSelector("span:nth-of-type(1)")).getText().equals(generatedValues.get(key)));
+                            softly().assertThat(testReqElement.findElement(By.cssSelector("span:nth-of-type(1)")).getText())
+                                    .as("The value for " + key + " was not successfully generated")
+                                    .isEqualTo(generatedValues.get(key));
                         }
                     }
                     break;
                 case "Applications" :
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            getIntApplication(sections.get(3).get(1).toUpperCase()).getText().equals(generatedValues.get(key)));
+                    softly().assertThat(getIntApplication(sections.get(3).get(1).toUpperCase()).getText())
+                            .as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(generatedValues.get(key));
                     break;
                 case "Test Scores" :
-                    assertTrue("The value for " + key + " was not successfully generated. UI: " + getIntTestScoresTableValue(sections.get(4).get(1).split(";")[0], sections.get(4).get(1).split(";")[1]).getText() + ". Data: " + generatedValues.get(key),
-                            getIntTestScoresTableValue(sections.get(4).get(1).split(";")[0], sections.get(4).get(1).split(";")[1]).getText().equals(generatedValues.get(key)));
+                    softly().assertThat(getIntTestScoresTableValue(sections.get(4).get(1).split(";")[0], sections.get(4).get(1).split(";")[1]).getText())
+                            .as("The value for " + key + " was not successfully generated. UI: " + getIntTestScoresTableValue(sections.get(4).get(1).split(";")[0], sections.get(4).get(1).split(";")[1]).getText() + ". Data: " + generatedValues.get(key))
+                            .isEqualTo(generatedValues.get(key));
                     break;
                 case "Qualifications" :
-                    assertTrue("The value for " + key + " was not successfully generated",
-                            getIntQualification(sections.get(5).get(1).replace("to", "To")).getText().equals(generatedValues.get(key).toUpperCase()));
+                    softly().assertThat(getIntQualification(sections.get(5).get(1).replace("to", "To")).getText())
+                            .as("The value for " + key + " was not successfully generated")
+                            .isEqualTo(generatedValues.get(key).toUpperCase());
                     break;
                 case "Accepted English Tests" :
                     List<String> englishTestsStrings = new ArrayList<>();
@@ -129,11 +133,11 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
                         englishTestsStrings.add(languageTestElement.getText());
                     }
                     if (generatedValues.get(key).equals("yes")) {
-                        assertTrue("The value for " + key + " was not successfully generated",
-                                englishTestsStrings.contains(sections.get(6).get(1)));
+                        softly().assertThat(englishTestsStrings).as("The value for " + key + " was not successfully generated")
+                                .contains(sections.get(6).get(1));
                     } else if (generatedValues.get(key).equals("no")) {
-                        assertTrue("The value for " + key + " was not successfully generated",
-                                !englishTestsStrings.contains(sections.get(6).get(1)));
+                        softly().assertThat(englishTestsStrings).as("The value for " + key + " was not successfully generated")
+                                .doesNotContain(sections.get(6).get(1));
                     }
                     break;
             }

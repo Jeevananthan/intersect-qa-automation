@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
-    private NavBarImpl navBar = new NavBarImpl();
 
     public HomePageImpl() {
         logger = Logger.getLogger(pageObjects.HE.homePage.HomePageImpl.class);
@@ -90,7 +89,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyUserIsLoggedIn() {
         waitUntilPageFinishLoading();
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         //Check if user Profile element is present
         Assert.assertTrue("User did not sign in successfully",link("Profile").isDisplayed());

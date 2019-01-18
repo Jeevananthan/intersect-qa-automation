@@ -49,7 +49,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         HashMap<String, String> fieldValues = new HashMap<String, String>();
         for (String field : fieldList) {
-            switch (field) {
+            switch (field.split(";")[0]) {
                 case "Opening Statement" :
                     fieldValues.put(field, openingStatement().getText());
                     break;
@@ -69,8 +69,8 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
                     fieldValues.put(field, getQuickFact(field).getText());
                     break;
                 case "Test Scores" :
-                    getTestScoresTableButton("SAT").click();
-                    fieldValues.put(field, getTestScoresTableValue("SAT 2400 Reading", "Low").getText());
+                    getTestScoresTableButton(field.split(";")[1]).click();
+                    fieldValues.put(field, getTestScoresTableValue(field.split(";")[2], field.split(";")[3]).getText());
                     break;
                 case "Average GPA" :
                     fieldValues.put(field, avgGPAText().getText());
@@ -90,7 +90,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
     private void verifyGeneratedValues(List<List<String>> sections, HashMap<String, String> generatedValues) {
         waitUntil(ExpectedConditions.textToBe(By.cssSelector("span[ng-if=\"vm.profile.displayUrl\"] + a"), getQuickFact("Website").getText()));
         for (String key : generatedValues.keySet()) {
-            switch (key) {
+            switch (key.split(";")[0]) {
                 case "Opening Statement" :
                     assertTrue("The value for " + key + " was not successfully generated",
                             generatedValues.get(key).equals(openingStatement().getText()));
@@ -122,14 +122,14 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
                     nationalRangesTab().sendKeys(Keys.RETURN);
                     for (int i = 0; i < 10; i++) {
                         try {
-                            getTestScoresTableButton("SAT").click();
+                            getTestScoresTableButton(key.split(";")[1]).click();
                             break;
                         } catch (WebDriverException e) {
                             getDriver().findElement(By.cssSelector("div.hub-links-bar__links a:nth-of-type(1)")).sendKeys(Keys.ARROW_DOWN);
                         }
                     }
                     assertTrue("The value for " + key + " was not successfully generated",
-                            generatedValues.get(key).equals(getTestScoresTableValue("SAT 2400 Reading", "Low").getText()));
+                            generatedValues.get(key).equals(getTestScoresTableValue(key.split(";")[2], key.split(";")[3]).getText()));
                     break;
                 case "Average GPA" :
                     nationalRangesTab().sendKeys(Keys.RETURN);
@@ -226,11 +226,11 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
     public WebElement getTestScoresTableValue(String section, String level) {
         String position = "";
         switch (level) {
-            case "Low" : position = "2";
+            case "25th Percentile" : position = "2";
                 break;
             case "Average" : position = "3";
                 break;
-            case "High" : position = "4";
+            case "75th Percentile" : position = "4";
                 break;
         }
         return getDriver().findElement(By.xpath("//span[text()='" + section + "']/../../div[" + position + "]"));

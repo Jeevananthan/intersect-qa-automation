@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -18,6 +19,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
     Logger logger = null;
     CostsPageImpl costsPreview = new CostsPageImpl();
     PublishPageImpl publish = new PublishPageImpl();
+    OverviewEditPageImpl overviewEditPage = new OverviewEditPageImpl();
 
     public CostsEditPageImpl() {
         logger = Logger.getLogger(CostsEditPageImpl.class);
@@ -89,7 +91,11 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                     generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",","")) + 1));
                     break;
                 case "% Receiving Aid" :
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    if (Integer.parseInt(fieldValues.get(key)) >= 100) {
+                        generatedValues.put(key, String.valueOf(1));
+                    } else {
+                        generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    }
                     break;
                 case "Average Amount of Aid" :
                     generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",","")) + 1));
@@ -111,7 +117,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(fieldsDetails.get(3).get(1));
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(overviewEditPage.loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 

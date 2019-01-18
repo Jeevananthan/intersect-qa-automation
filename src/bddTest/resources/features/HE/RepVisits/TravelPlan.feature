@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - TravelPlan - As an HE user, I can utilize the Travel plan to plan my visits
+Feature: HE - RepVisits - TravelPlan - As an HE user, I can utilize the Travel plan to plan my visits
 
 @MATCH-3573
 Scenario: As a HE premium user, I want the ability to remove any institution I add to my Travel Plan in RepVisits
@@ -16,7 +16,6 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
   And HE I successfully sign out
   Given HE I am logged in to Intersect HE as user type "limited"
   Then HE I verify travel plan is locked for non premium users
-  And HE I successfully sign out
 
   @MATCH-4016
   Scenario: As a HE premium user (any role), I want the ability to continue to manage my Travel Plan regardless of SY,
@@ -27,4 +26,3 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
     And HE I verify the "View Availability" button "is displayed" for schools with "Nothing scheduled yet"
     And HE I verify the "past" appointments for schools in travel plan
     And HE I verify the "upcoming" appointments for schools in travel plan
-    And HE I successfully sign out

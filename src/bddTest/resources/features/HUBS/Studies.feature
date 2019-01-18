@@ -1,5 +1,5 @@
 @HUBS @HUBS-915 @HUBSStudies
-Feature: As a community user viewing College Hubs, I want to be able to view Studies Tab content so I can
+Feature: HUBS - Studies - As a community user viewing College Hubs, I want to be able to view Studies Tab content so I can
   understand what Hubs offers students.
 
   Background:
@@ -9,7 +9,6 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
 
   Scenario: All the elements of the page are displayed for HE users in Studies
     Then HUBS All the elements of the studies tab should be displayed
-    And HE I successfully sign out
 
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Studies" in the edit menu
@@ -19,9 +18,8 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
       | Graduation Rate (%)  |64   |
       | Top Areas of Study   |1;test |
       | Study Options        |Study Abroad Credit;disabled |
-    And HE I successfully sign out
 
-  @HUBS-1043
+  @HUBS-1043 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Studies" in the edit menu
     And HUBS I take note of the values from the following fields:
@@ -41,5 +39,4 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
     Then HUBS I should be able to verify the changes published in HUBS, with the following credentials:
     #  The fourth parameter is the Study Option that will be evaluated.
     | benhubs | Hobsons!23 | The University of Alabama | Study Abroad Credit |
-    And HUBS I successfully sign out
 
