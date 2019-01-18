@@ -273,7 +273,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
      * This method will fill all the mandatory fields which require to activate community profile.
      * @param OfficePhone
      * @param JobTitle
-     * @param euCitizen
+     * @param euCitizen - valid values: Yes, No
      */
     public void fillCommunityWelcomeMandatoryFieldsForHS(String OfficePhone, String JobTitle, String euCitizen){
         driver.switchTo().frame(0);
