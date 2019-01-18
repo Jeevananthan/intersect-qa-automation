@@ -1022,3 +1022,46 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then I wait for the url "https://static.naviance.com/family-connection/colleges/index-qa.html#/hubs/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830/Profiles" finish loading
     Then I close the current window
 
+
+  @MATCH-3389
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by miscellaneous student life inputs so I
+  can see relevant colleges that match my student life requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption>"
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption>"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I move "<StudentLifeCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption>"
+    And SM I verify that Nice to Have box does not contain "<StudentLifeCheckboxOption>"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption>"
+    Examples: Each of the available options for the Student Life fit criteria
+      |StudentLifeCheckboxOption|
+      |Internships and Co-ops   |
+      |Offers Study Abroad      |
+
+  @MATCH-3390
+  Scenario Outline: As a HS student, I want to filter colleges I am searching for by ROTC details within the Student
+  Life category so I can see relevant colleges that match my ROTC requirements.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption> ROTC"
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption> ROTC"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I move "<StudentLifeCheckboxOption>" from the Must Have box to the Nice to Have box
+    Then SM I "unselect" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box does not contain "<StudentLifeCheckboxOption>"
+    And SM I verify that Nice to Have box does not contain "<StudentLifeCheckboxOption>"
+    Then SM I "select" the "<StudentLifeCheckboxOption>" checkbox from the Student Life fit criteria
+    And SM I verify that the Must Have box contains "<StudentLifeCheckboxOption> ROTC"
+    Examples: Each of the available options for the Student Life fit criteria
+      |StudentLifeCheckboxOption|
+      |Army                     |
+      |Navy                     |
+      |Air Force                |
+
+

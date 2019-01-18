@@ -58,6 +58,7 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private WebElement stepTitle2() { return driver.findElement(By.cssSelector("div.ui.header")); }
     public WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
     public WebElement yesIDoButton() { return driver.findElement(By.cssSelector("button#yesIDoButton")); }
+    public WebElement noThanksButton() { return driver.findElement(By.cssSelector("button#onCloseButton")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
     public WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";

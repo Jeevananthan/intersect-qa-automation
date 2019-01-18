@@ -18,7 +18,7 @@ Feature: HUBS - Costs - As a community user viewing College Hubs, I want to be a
       | % Receiving Aid    | Pell Grant        | 64    |
       | Average Amount of Aid | Grant          | 1111  |
 
-  @HUBS-1080
+  @HUBS-1080 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS
     When HUBS I open "Costs" in the edit menu
     And HUBS I take note of the values from the following fields in Costs:

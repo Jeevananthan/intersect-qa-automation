@@ -3902,7 +3902,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(getUnpublishButton());
         getUnpublishButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(closeButtonLocator()));
-        close().click();
+        jsClick(close());
     }
 
     public void addEmailInNotificationandPrimaryContactPage(String Email) {
@@ -4208,6 +4208,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyInputValidationsForStuRegDeadline(DataTable dataTable) {
         Map<String, String> data = dataTable.asMap(String.class, String.class);
         studentRegistrationDeadlineField().sendKeys(data.get("Registration will close"));
+        hoursDaysDropdown().click();
+        hoursDaysOption("days").click();
         hoursDaysDropdown().click();
         hoursDaysOption(data.get("Hours or Days option")).click();
         Assert.assertTrue("The value greater than 255 was not turned into 255", studentRegistrationDeadlineField().getAttribute("value").contains("255"));
@@ -9383,7 +9385,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private By eventLocationHsLocator(){
-        return By.id("eventLocation");
+        return By.name("locationWithinSchool");
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {

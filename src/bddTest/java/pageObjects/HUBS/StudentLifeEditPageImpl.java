@@ -436,5 +436,5 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return dropDown;
     }
     private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
-    private String loadingIconLeftMenuLocator = "div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary";
+    public String loadingIconLeftMenuLocator = "div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary";
 }

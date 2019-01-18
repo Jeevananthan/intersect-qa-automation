@@ -150,6 +150,12 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         collegesLookingForStudentsLikeYouPage.closeButton().click();
     }
 
+    public void verifyConnectorDialogInURL(String url) {
+        waitUntilElementExists(collegesLookingForStudentsLikeYouPage.yesIDoButton());
+        Assert.assertTrue("The connector dialog was opened in the incorrect page", driver.getCurrentUrl().equals(url));
+        collegesLookingForStudentsLikeYouPage.noThanksButton().click();
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";

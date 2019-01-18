@@ -30,4 +30,6 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that it is possible to submit the form with \"([^\"]*)\" as Birthday value$", connectorPage::verifyItsPossibleToSubmit);
 
+        Then("^SM I verify that the connector dialog is displayed in the page of URL \"([^\"]*)\"$", connectorPage::verifyConnectorDialogInURL);
+
     }}
