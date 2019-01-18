@@ -5,9 +5,12 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HS.RescheduleVisitForm.RescheduleVisitFormImpl;
 
 import java.io.File;
 import java.util.Calendar;
@@ -21,6 +24,7 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     public ScheduleNewVisitFormImpl() {
         logger = Logger.getLogger(pageObjects.HE.loginPage.LoginPageImpl.class);
     }
+    private RescheduleVisitFormImpl rescheduleVisitForm = new RescheduleVisitFormImpl();
 
     public void verifyInputValidationsInScheduleNewVisit(DataTable dataTable) {
         List<List<String>> details = dataTable.asLists(String.class);
@@ -46,10 +50,9 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
                     pickDateInDatePicker(calendarDate);
                     findRepresentativesTextBox().clear();
                     findRepresentativesTextBox().sendKeys("a");
-                    waitUntilPageFinishLoading();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(representativesListLocator)));
                     List<WebElement> representativesList = driver.findElements(By.cssSelector(representativesListLocator));
-                    waitUntilPageFinishLoading();
-                    representativesList.get(0).click();
+                    jsClick(representativesList.get(0));
                     getNameTextBox(row.get(1).split("/")[0]).sendKeys(row.get(2));
                     getNameTextBox(row.get(1).split("/")[1]).sendKeys(row.get(2));
                     addVisitButton().click();
@@ -83,7 +86,9 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     }
 
     private void setRegDeadline(String hoursOrDays, int numberToSelect) {
-        waitUntil(ExpectedConditions.elementToBeClickable(regDeadlineHoursOrDaysButton()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(dateButton()));
+        moveToElement(regDeadlineHoursOrDaysButton());
+        waitUntil(ExpectedConditions.visibilityOf(regDeadlineTextBox()));
         if(!regDeadlineHoursOrDaysButton().getText().equals(hoursOrDays)) {
             regDeadlineHoursOrDaysButton().click();
             regDeadlineOption(hoursOrDays).click();
@@ -93,8 +98,18 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     }
 
     public void openRescheduleVisitForm() {
-        waitUntil(ExpectedConditions.elementToBeClickable(rescheduleButton()));
+        waitUntilElementExists(rescheduleButton());
         rescheduleButton().click();
+        try {
+            rescheduleVisitForm.customTimeLink().isDisplayed();
+        } catch (NoSuchElementException e) {
+            rescheduleButton().click();
+        }
+    }
+
+    public void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
     }
 
     //Locators
@@ -121,4 +136,5 @@ public class ScheduleNewVisitFormImpl extends PageObjectFacadeImpl {
     private WebElement addRepresentativeManually() { return driver.findElement(By.xpath("//span[text() = 'Not in the list? Add them manually']")); }
     private WebElement selectDateButton() { return driver.findElement(By.cssSelector("button.ui.small.fluid.button")); }
     private WebElement rescheduleButton() { return driver.findElement(By.cssSelector("button[class *= 'ui button _3vZDfsYYTrAHlC39ZjUDHc']")); }
+    private By dateButton(){return By.cssSelector("button[class='ui tiny button _3GJIUrSQadO6hk9FZvH28D']");}
 }

@@ -140,15 +140,16 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         if (Character.valueOf(dateString.charAt(0)).equals('0')) {
             dateString = dateString.substring(1);
         }
-
-        if (date.before(todaysDate)) {
-            waitUntil(ExpectedConditions.visibilityOf(datePickerMonthYearText()));
-            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
-                datePickerPrevMonthButton().click();
-            }
-        } else if (date.after(todaysDate)) {
-            while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
-                datePickerNextMonthButton().click();
+        if(!getMonth(date).equals(getMonth(todaysDate))) {
+            if (date.before(todaysDate)) {
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(datePickerMonthYearTextLocator), 0));
+                while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                    datePickerPrevMonthButton().click();
+                }
+            } else if (date.after(todaysDate)) {
+                while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                    datePickerNextMonthButton().click();
+                }
             }
         }
         waitForUITransition();
@@ -308,7 +309,21 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return GlobalSteps.softly;
     }
 
-    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector("div.DayPicker-Caption")); }
+    public long getEpochTime(int delta) {
+        Date date =  null;
+        Calendar calendarDate = getDeltaDate(delta);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
+        String dateString = dateFormat.format(calendarDate.getTime());
+        try {
+            date = dateFormat.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
+    protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(datePickerMonthYearTextLocator)); }
+    private String datePickerMonthYearTextLocator = "div.DayPicker-Caption";
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
     protected WebElement datePickerPrevMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--prev")); }
 

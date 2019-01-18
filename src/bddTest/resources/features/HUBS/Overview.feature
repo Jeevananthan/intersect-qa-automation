@@ -27,6 +27,7 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
       #MATCH-3780: Contact Information is not editable
       #| Contact Information      | Application Mailing Address;ZIP;777           |
 
+  @HUBS-913 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-3957 - MATCH-4652)
     When HUBS I open "Overview" in the edit menu
     And HUBS I take note of the values from the following fields in Overview:

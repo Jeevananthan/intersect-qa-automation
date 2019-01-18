@@ -46,8 +46,7 @@ Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of R
     And HS I successfully sign out
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I request an appointment with "Int Qa High School 4" for College Fair "Email Scenario 2"
-    And HE I successfully sign out
-    Then HE I verify that the Email Notification Message says: "(.*)You are all set! Int Qa High School 4 in Liberty Township, Ohio has added you to their list of college fair registrants for the event on(.*) from 8:00am to 8:00pm.(.*)"
+    Then HE I verify that the Email Notification Message says: "(.*)You are all set! Int Qa High School 4 in Liberty Township, Ohio has added you to their list of college fair registrants for the event on(.*)from 8:00am to 8:00pm.(.*)"
       |Subject                                                        |To                            |Messages |
       |College fair request confirmed for Int Qa High School 4 (OH)   |purpleheautomation@gmail.com  |1        |
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
@@ -71,7 +70,6 @@ Feature: HS - RepVisits - CollegeFairsEmailNotifications - As an HE/HS user of R
     And HS I successfully sign out
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I request an appointment with "Homeconnection" for College Fair "Email Scenario 3"
-    And HE I successfully sign out
     Then HE I verify that the Email Notification Message says: "(.*)The University of Alabama (AL) just registered for the Homeconnection college fair on(.*)The contact information for the representative who will be attending is below:(.*)"
       |Subject                                                        |To                            |Messages |
       |Request to attend college fair: The University of Alabama (AL) |	purplehsautomations@gmail.com|1        |

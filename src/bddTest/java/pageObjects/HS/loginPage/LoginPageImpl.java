@@ -40,7 +40,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
-        button("Sign In").click();
+        button("Log In").click();
 
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         // Necessary to handle the announcements overlay.
@@ -90,7 +90,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
-        button("Sign In").click();
+        button("Log In").click();
         waitForUITransition();
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         // Necessary to handle the announcements overlay.
@@ -197,7 +197,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if(navianceOrNonnaviance.equalsIgnoreCase("naviance")){
             Assert.assertTrue("'access counselor community' text is not displayed for naviance HS", driver.findElement(By.xpath("//span[contains(text(),'Please access the Counselor Community via')]")).isDisplayed());
             Assert.assertTrue("'naviance' link is not displayed for naviance HS", link("Naviance").isDisplayed());
-            Assert.assertTrue("'sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
+            Assert.assertTrue("'log in ' button is displayed for naviance HS", !button("Log In").isDisplayed());
             Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='Back to search']")).isDisplayed());
             try{
                 setImplicitWaitTimeout(2);
@@ -211,7 +211,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
             }
         }
         else{
-            Assert.assertTrue("'sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
+            Assert.assertTrue("'log in ' button is not displayed for non-naviance HS", button("Log In").isDisplayed());
             Assert.assertTrue("'Already have an account? ' text is not displayed for non-naviance HS", text("Already have an account?").isDisplayed());
             Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
             Assert.assertTrue("Back to search is not displayed",link("Back to search").isDisplayed());
@@ -242,7 +242,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(highSchoolButton());
         Assert.assertTrue("High School Staff Member is not displayed",button("High School Staff Member").isDisplayed());
         Assert.assertTrue("Higher Education Staff Member is not displayed",button("Higher Education Staff Member").isDisplayed());
-        Assert.assertTrue("Sign In button is not displayed",button("Sign In").isDisplayed());
+        Assert.assertTrue("Log In button is not displayed",button("Log In").isDisplayed());
         Assert.assertTrue("text is not displayed",text("New User? Find Your Institution").isDisplayed());
         Assert.assertTrue("textbox is not displayed",driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).isDisplayed());
 
@@ -263,6 +263,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void selectInstitutionFromRegistration(String school)
     {
         registrationPageResultsTable().findElement(By.xpath("//a[text()='"+school+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     *
+     * Login to the naviance page
+     */
+
+    public void loginToNaviancePage(String usertype){
+        driver.manage().deleteAllCookies();
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        textbox(By.name("password")).sendKeys(password);
+        button("Log In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
         waitUntilPageFinishLoading();
     }
 

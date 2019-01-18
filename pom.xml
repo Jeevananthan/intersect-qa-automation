@@ -272,11 +272,11 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
-                                    <forkCount>12</forkCount>
+                                    <forkCount>15</forkCount>
                                     <parallel>classes</parallel>
                                     <useSystemClassLoader>false</useSystemClassLoader>
                                     <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>12</threadCount>
+                                    <threadCount>15</threadCount>
                                     <reuseForks>true</reuseForks>
                                     <useUnlimitedThreads>false</useUnlimitedThreads>
                                     <includes>
@@ -466,11 +466,11 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
-                                    <forkCount>10</forkCount>
+                                    <forkCount>1</forkCount>
                                     <parallel>classes</parallel>
                                     <useSystemClassLoader>false</useSystemClassLoader>
                                     <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>10</threadCount>
+                                    <threadCount>1</threadCount>
                                     <reuseForks>true</reuseForks>
                                     <useUnlimitedThreads>false</useUnlimitedThreads>
                                     <includes>

@@ -28,7 +28,7 @@ Feature: HUBS - StudentLife - As a community user viewing College Hubs, I want t
       | Organizations       | Academic Clubs               | yes |
       | Athletics           | Men                     | Track And Field;Association;NWAACC |
 
-  @HUBS-1044 @HUBS-1023
+  @HUBS-1044 @HUBS-1023 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4055)
     When HUBS I open "Student Life" in the edit menu
     And HUBS I take note of the values from the following fields in Student Life:
