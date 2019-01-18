@@ -416,6 +416,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
         openFitCriteria("Academics");
+        waitUntil(ExpectedConditions.elementToBeClickable(academicsRadioButton("Bachelor's")));
         academicsRadioButton("Bachelor's").click();
 
         List<List<String>> itemsToSelect = items.raw();
@@ -1063,6 +1064,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * The below method is to clear all the pills present in Must Have & Nice to Have box.
+     */
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
         List<WebElement> allPills = getAllPillsCloseIcon();
         for (WebElement singlePill :
@@ -1476,6 +1480,17 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 driver.findElements(By.xpath("saveSearchPopupCancelLinkLocator")).size() < 1);
     }
 
+    public void selectOrUnselectStudentLifeCriteria(String selectOrUnselect, String option)
+    {
+        switch (selectOrUnselect.toUpperCase())
+        {
+            case "SELECT": selectCheckBox(option, "Student Life");
+                break;
+            case "UNSELECT": unselectCheckbox(option, "Student Life");
+                break;
+        }
+
+    }
     public void verifyTextInsideSaveSearchBox() {
         Assert.assertTrue("The text in the Save Search popup header is not correct",
                 saveSearchPopupHeader().getText().equals(getStringFromPropFile(propertiesFilePath, "save.search.header")));
@@ -1998,7 +2013,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-
+    /**
+     * The method will clear all the pinned college.
+     */
     public void verifyPinnedCollegesClearedWhenYesClearButtonIsClicked()
     {
         boolean isPinnedListCleared = true;
@@ -2219,11 +2236,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             waitUntilPageFinishLoading();
             button(text).click();
-            waitUntilPageFinishLoading();
+            //Commenting the below line to increase the performance
+           // waitUntilPageFinishLoading();
         } catch (Exception e) {
             waitUntilPageFinishLoading();
             driver.findElement(By.xpath("//*[text()='" + text + "']")).click();
-            waitUntilPageFinishLoading();
+            //Commenting the below line to increase the performance
+            //waitUntilPageFinishLoading();
         }
     }
 
@@ -2765,6 +2784,18 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         } catch (Exception e) {
             logger.info("Why drawer close button was not found.");
         }
+    }
+
+    public void verifyCollegeIsPresentInSearchResults(String collegeName) {
+        Assert.assertTrue("The college " + collegeName + " is not present in search results", resultsTable().getText().contains(collegeName));
+    }
+
+    public void verifyCollegeIsNotPresentInSearchResults(String collegeName) {
+        Assert.assertFalse("The college " + collegeName + " is present in search results", resultsTable().getText().contains(collegeName));
+    }
+
+    private WebElement resultsTable() {
+        return driver.findElement(By.xpath("(//table[contains(@class, 'csr-results-table')])[2]"));
     }
 
     /**
