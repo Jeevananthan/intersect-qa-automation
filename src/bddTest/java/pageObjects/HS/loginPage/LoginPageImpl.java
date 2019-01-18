@@ -254,6 +254,25 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     *
+     * Login to the naviance page
+     */
+
+    public void loginToNaviancePage(String usertype){
+        driver.manage().deleteAllCookies();
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        textbox(By.name("password")).sendKeys(password);
+        button("Log In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
+        waitUntilPageFinishLoading();
+    }
+
     public void verifySearchResultsOnRegistrationPage(String school)
     {
         List<WebElement> links = registrationPageResultsTable().findElements(By.tagName("a"));
@@ -434,6 +453,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         signInForSupport().sendKeys(Keys.ENTER);
         yesButtonForSupport().sendKeys(Keys.ENTER);
     }
+
+
 
 
     //Locators

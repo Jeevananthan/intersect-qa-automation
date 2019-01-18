@@ -166,7 +166,6 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     Then HS I verify and select an appointment in calendar page using "<institution>","<StartTime>","<StartDate>","Scheduled"
     Then HS I remove the appointment from the calendar
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
 
     Examples:
       |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                            |School              |heStartTime|heTime | option|
