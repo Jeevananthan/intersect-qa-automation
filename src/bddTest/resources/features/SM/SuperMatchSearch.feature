@@ -1064,4 +1064,28 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       |Navy                     |
       |Air Force                |
 
+  @MATCH-4017
+  Scenario: As a HS student I want to search for colleges that offer housing in general OR specify the percentage of
+  student living on campus so I can perform the appropriate search based on my housing/students on campus needs.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I start the search over
+    Then SM I verify the text displayed in the On-campus housing section
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "On-campus Housing"
+    And SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+    And SM I pick "66%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 66%"
 
+   @MATCH-3447
+   Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
+             manage my list.
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+     Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+     Then SM I pin "1" colleges
+     And SM I open the Pinned Schools Compare screen
+     Then SM I verify the text displayed in Compare Pinned Colleges page
+     Then SM I verify if pagination buttons are displayed in Compare Pinned Colleges page
