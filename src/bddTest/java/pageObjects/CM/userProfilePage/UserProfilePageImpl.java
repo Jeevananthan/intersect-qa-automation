@@ -607,7 +607,18 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * The below method will Inactivate Account for the user.
+     * Author : Arun
+     */
+    public void clickOnInactivateAccount(){
+        inactivateAccountButton().click();
+        inactivateAccountConfirmationConfirmButton().click();
+    }
 
+    //Locators
+    private WebElement inactivateAccountButton(){ return driver.findElement(By.id("edit-cancel"));}
+    private WebElement inactivateAccountConfirmationConfirmButton(){return driver.findElement(By.id("edit-submit"));}
     private WebElement newPostTextbox() {
         return driver.findElement(By.id("edit-body"));
     }
