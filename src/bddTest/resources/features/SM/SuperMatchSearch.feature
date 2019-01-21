@@ -983,6 +983,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
      And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
 
+   @MATCH-5419
+   Scenario: Verify that a recently pinned college is displayed in position 1 in Compare Pinned Schools page
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I clear all pills from Must have  and Nice to have boxes
+     And SM I clear pinned schools list
+     Then SM I pin "Williams College" from the search box
+     Then SM I pin "Bennett College" from the search box
+     And SM I open the Pinned Schools Compare screen
+     And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
+     And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
 
   @MATCH-3441 @MATCH-4896
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
@@ -1089,3 +1100,4 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I open the Pinned Schools Compare screen
      Then SM I verify the text displayed in Compare Pinned Colleges page
      Then SM I verify if pagination buttons are displayed in Compare Pinned Colleges page
+
