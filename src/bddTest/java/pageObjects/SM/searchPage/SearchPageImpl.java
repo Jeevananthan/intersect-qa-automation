@@ -2874,6 +2874,29 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    /**
+     * The below method will check the changes of 'Pin' & 'Pinned' text while pinning a college.
+     * @param collegeName
+     */
+    public void checkCollegeCanBePinnedUnpinnedFromSearchBoxResults(String collegeName) {
+        getSearchByCollegeNameTextBox().sendKeys(collegeName);
+        WebElement pinLink = getSearchByCollegeResultList().findElement(By.xpath(".//a[text()='" + collegeName + "']//ancestor::div[1]//following-sibling::div//span[1]"));
+        WebElement pinIcon = pinLink.findElement(By.xpath(".//i[@class='pin icon']"));
+
+        Assert.assertTrue("Pin icon not displayed next to the search result", pinIcon.isDisplayed());
+        Assert.assertTrue("The text 'PIN' is not displayed next to the search result", pinLink.getText().contains("PIN"));
+
+        pinLink.click();
+        waitForUITransition();
+        Assert.assertTrue("Pin icon not displayed next to the search result", pinIcon.isDisplayed());
+        Assert.assertTrue("The text 'PINNED' is not displayed next to the search result", pinLink.getText().contains("PINNED"));
+
+        pinLink.click();
+        waitForUITransition();
+        Assert.assertTrue("Pin icon not displayed next to the search result", pinIcon.isDisplayed());
+        Assert.assertTrue("The text 'PIN' is not displayed next to the search result", pinLink.getText().contains("PIN"));
+    }
+
     // Locators Below
     private WebElement leftCompareMoveButton(String collegeName) {
         return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
