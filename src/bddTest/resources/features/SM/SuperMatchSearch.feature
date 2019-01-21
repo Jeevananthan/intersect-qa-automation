@@ -983,6 +983,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
     And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
 
+   @MATCH-5419
+   Scenario: Verify that a recently pinned college is displayed in position 1 in Compare Pinned Schools page
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     And SM I clear all pills from Must have  and Nice to have boxes
+     And SM I clear pinned schools list
+     Then SM I pin "Williams College" from the search box
+     Then SM I pin "Bennett College" from the search box
+     And SM I open the Pinned Schools Compare screen
+     And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
+     And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
 
   @MATCH-3441 @MATCH-4896
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
@@ -1071,4 +1082,29 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And I clear the onboarding popups if present
     Then SM I check if I can pin or unpin "Harvard University" from the search box results
 
+  @MATCH-4017
+  Scenario: As a HS student I want to search for colleges that offer housing in general OR specify the percentage of
+  student living on campus so I can perform the appropriate search based on my housing/students on campus needs.
+    Given SM I am logged in to SuperMatch through Family Connection
+    Then SM I start the search over
+    Then SM I verify the text displayed in the On-campus housing section
+    Then SM I select the "On-Campus Housing" checkbox from the "Institution Characteristics" fit criteria
+    And SM I verify that the Must Have box contains "On-campus Housing"
+    And SM I click "Institution Characteristics" filter criteria tab
+    And SM I pick "33%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 33%"
+    And SM I pick "66%" from the dropdown "on-campus-housing-dropdown"
+    And SM I verify that the Must Have box contains "On-campus Housing > 66%"
+
+   @MATCH-3447
+   Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
+             manage my list.
+     Given SM I am logged in to SuperMatch through Family Connection
+     And I clear the onboarding popups if present
+     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
+     Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+     Then SM I pin "1" colleges
+     And SM I open the Pinned Schools Compare screen
+     Then SM I verify the text displayed in Compare Pinned Colleges page
+     Then SM I verify if pagination buttons are displayed in Compare Pinned Colleges page
 
