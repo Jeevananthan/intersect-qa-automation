@@ -10989,21 +10989,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> completeWizardActiveStep() {
         return getDriver().findElements(By.xpath("//div[@class='active step' and @name='Complete!']"));
     }
-    private List<WebElement> availabilityActiveStep() {
-        return getDriver().findElements(By.xpath("//div[@name='Availability' and @class='active step']"));
-    }
-    private List<WebElement> messagingOptionsActiveStep() {
-        return getDriver().findElements(By.xpath("//div[@name='Messaging Options' and @class='active step']"));
-    }
-    private List<WebElement> highSchoolInformationActiveStep() {
-        return getDriver().findElements(By.xpath("//div[@name='High School Information' and @class='active step']"));
-    }
-    private List<WebElement> notificationsPrimaryContactActiveStep() {
-        return getDriver().findElements(By.xpath("//div[@name='Notifications & Primary Contact' and @class='active step']"));
-    }
-    private List<WebElement> calendarSyncActiveStep() {
-        return getDriver().findElements(By.xpath("//div[@name='Calendar Sync' and @class='active step']"));
-    }
+
     private List<WebElement> navianceSettingsActiveStep() {
         return getDriver().findElements(By.xpath("//div[@name='Naviance Settings' and @class='active step']"));
     }
