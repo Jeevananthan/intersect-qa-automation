@@ -6073,7 +6073,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 waitUntilPageFinishLoading();
             }
         } else {
-            Assert.fail("Time Slot is not displayed in the Regular weekly hours ");
+            logger.info("Time Slot is not displayed in the Regular weekly hours ");
         }
     }
 
@@ -7420,11 +7420,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Opt In was not activated ", optInNoRadioButton().isDisplayed());
 
         //cancelling created appointment
-        verifyAndSelectAppointmentInCalendarPage(attendee, startTime, date, "Scheduled");
+        verifyAndSelectAppointmentInCalendarPage(college, startTime, date, "Scheduled");
         removeAppointmentfromCalendar();
 
         /*Events can be added/edited/cancelled separately in both Naviance and RepVisits*/
-        addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location);
+        addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, college, location);
         getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntilPageFinishLoading();

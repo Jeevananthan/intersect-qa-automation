@@ -8,13 +8,13 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
 #Precondition
     Then HS I complete the setupWizard
     Then HS I clean the visits for particular Month "14"
-    Then HS I create a new visit to verify the details in naviance with "14","10:30am","12:30pm","2","PurpleHE Automation" and "Cbba"
+    Then HS I create a new visit to verify the details in naviance with "14","10:30am","12:30pm","2","Bowling Green State University-Main Campus" and "Cbba"
     Then HS I navigate to naviance settings page
     And HS I click on Disconnect RepVisits from Naviance button
     And HS I verify the Cancel on the disconnect confirmation popup
     And HS I click on Disconnect RepVisits from Naviance button
-    And HS I verify the Yes on the disconnect confirmation popup with "14","10:30am","12:30pm","2","PurpleHE Automation","The University of Alabama" and "Cbba"
-    Then HS I verify and select an appointment in calendar page using "The University of Alabama","10:30am","14","Scheduled"
+    And HS I verify the Yes on the disconnect confirmation popup with "14","10:30am","12:30pm","2","PurpleHE Automation","Bowling Green State University-Main Campus" and "Cbba"
+    Then HS I verify and select an appointment in calendar page using "Bowling Green State University-Main Campus","10:30am","14","Scheduled"
     Then HS I remove the appointment from the calendar
     Then HS I remove the Time Slot created with "14","10:30am" in Regular Weekly Hours Tab
 
@@ -25,7 +25,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   and a College Rep reschedules a visit after the HS previously confirmed the visit (resulting in it previously syncing to Naviance)
   They will not get synced back into Naviance with the updated date/time..
     #Setup environment
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I complete the setupWizard
     Then HS I clean the visits for particular Month "21"
     Then HS I clean the college fairs created
@@ -40,11 +40,11 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
 
     #Request and verifications
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I search for "Standalone High School 6" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "Standalone High School 6" using "21" and "10:31am"
+    And HE I search for "Standalone High School 7" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Standalone High School 7" using "21" and "10:31am"
     And HE I verify the schedule pop_up for "Standalone High School 6" using "10:31am" and "12:40pm"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I verify the Notification "PurpleHE","The University of Alabama","10:31am","21" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "PurpleHE","10:31am","The University of Alabama"
 
@@ -182,7 +182,6 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I verify and select an appointment in calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
     Then HS I remove the appointment from the calendar
     And HS I successfully sign out
-    And HE I successfully sign out
 
     Examples:
       |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|option|
