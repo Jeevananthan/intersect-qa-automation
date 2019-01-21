@@ -19,4 +19,6 @@ public class CollegesLookingForStudentsLikeYouStepDefs implements En {
 
         Then("^SM I verify a matching card is \"([^\"]*)\" for \"([^\"]*)\"$", collegesLookingForStudentsLikeYouPage::verifyIfMatchingCardIsDisplayed);
 
+        Then("^SM I verify that the connector dialog is NOT displayed$", collegesLookingForStudentsLikeYouPage::verifyConnectorNotDisplayed);
+
     }}
