@@ -31,6 +31,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(createNewUserButtonLocator), 0));
         if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
@@ -39,7 +40,6 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         try {
             driver.wait(2000);
         } catch (Exception e) {}
-        waitUntilPageFinishLoading();
     }
 
     public void verifyUserStatus(String userName, String activeOrInactive) {
@@ -335,6 +335,22 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
     }
 
+    public void verifyUpgradeButtonInHomPage(String message){
+        waitUntil(ExpectedConditions.numberOfWindowsToBe(2));
+        waitUntilPageFinishLoading();
+        String supportWindow = driver.getWindowHandle();
+        String HEWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for(String thisWindow : windows){
+            if(!thisWindow.equals(supportWindow)){
+                HEWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(HEWindow);
+        softly().assertThat(getUpgradeButton().isDisplayed());
+        softly().assertThat(getUpgradeButton().getText().contains(message));
+    }
+
     public void verifyInviteEmail(DataTable dataTable) {
         waitForUITransition();
         String emailBody = "";
@@ -355,9 +371,34 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(emailBody).as("Seven day expiration reminder").contains("Note, this password will expire in seven days. Contact your Intersect Administrator or");
     }
 
+    public void checkImpersonatedWindow(String expWinCount){
+        int winCount = driver.getWindowHandles().size();
+        softly().assertThat(Integer.parseInt(expWinCount)).as("TotalWindowCount").isEqualTo(winCount);
+    }
+
+    public void checkImpersonationAccountSettings(String option){
+        Set<String> winHandles = driver.getWindowHandles();
+        String firstWinHandle = driver.getWindowHandle();
+        winHandles.remove(firstWinHandle);
+        String secondWinHandle=winHandles.iterator().next();
+        driver.switchTo().window(firstWinHandle);
+        driver.switchTo().window(secondWinHandle);
+        softly().assertThat(accountSettingOptionInHomePageForNonNaviance().size()).as("Account Setting Option is visible in Home Page").isEqualTo(0);
+        userDropDown().click();
+        softly().assertThat(accountSettingOptionInUserDD(option).size()).as("Account Setting Option is visible in User DropDown").isEqualTo(0);
+    }
+
+    public void loginAsWithNonNavianceUser(String feature, String user){
+        String username = GetProperties.get("hs."+ user + ".username");
+        setUserStatus(feature, username);
+    }
+
 
     //Locators
-    
+
+    private List accountSettingOptionInHomePageForNonNaviance(){return driver.findElements(By.xpath("//h2[text()='Your settings']"));}
+    private WebElement userDropDown(){ return driver.findElement(By.id("user-dropdown"));}
+    private List accountSettingOptionInUserDD(String option){return driver.findElements(By.xpath("//span[text()='"+option+"']"));}
     private WebElement saveButtonInCreateUser(){
         return getDriver().findElement(By.xpath("//button/span[text()='Save']"));
     }
@@ -365,6 +406,9 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//button/span[text()='Cancel']"));
     }
     private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
+
+    private WebElement getUpgradeButton() { return driver.findElement(By.cssSelector("button[class='ui secondary button _2gMolwx9EDCmPkEu5Kjlaw']")); }
+
 
     private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
     /**
@@ -377,4 +421,5 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+    private String createNewUserButtonLocator = "//span[text() = 'Create New User']";
 }

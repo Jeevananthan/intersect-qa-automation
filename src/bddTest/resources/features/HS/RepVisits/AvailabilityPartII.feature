@@ -8,7 +8,6 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     And HS I verify the UI of the Messaging Options Page
     And HS I set the Special Instructions Text as "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allowed are 250 . This text contains more than 250 characters";
     And HS I verify the Special Instructions are "AUTOMATION Welcome message. This message is to test the maximum limit of characters in messages. As a HS Repvisits user We will add this message. Ans same message will be displayed in HE for Repvisits to schedule their visits. Maximum characters allo"
-    And HS I successfully sign out
     And HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "Int Qa High School 4" in RepVisits
     And HE I select "Int Qa High School 4" in "Liberty Township, OH" from the RepVisits intermediate search results
@@ -33,14 +32,13 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
   Instead they're changed / set each time that availability is set. This ticket is to persist the first and last dates
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
-#    And HS I verify the update button appears and I click update button
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I go to the Counselor Community
     Then HS I verify the StartDate is set to "<verifyStartDate>" and EndDate is set to "<verifyEndDate>"
 
     Examples:
       |StartDate     |EndDate        |verifyStartDate  |verifyEndDate   |
-      |June 14 2018  |July 14 2018   |06/14/2018       |07/14/2018      |
+      |June 14 2019  |July 14 2019   |06/14/2019       |07/14/2019      |
 
   @MATCH-1584
   Scenario Outline: As a high school user, when I confirm an appointment I need to email colleges with specific details
@@ -56,9 +54,9 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
 
   @MATCH-2111 @MATCH-2124
   Scenario: As a RepVisits High School user who works in multiple schools,
-  I want to be able to enter a primary contact number for my school,
-  So that Colleges trying to schedule visits have the correct contact number for me.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
+            I want to be able to enter a primary contact number for my school,
+            So that Colleges trying to schedule visits have the correct contact number for me.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
@@ -81,8 +79,9 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
       |Appointment scheduled   | rgba(233, 238, 245, 1) |
 
   @MATCH-1812 @MATCH-2124
-  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools who have made their RepVisits availability publicly available
-  so HE users are not presented with high schools in the search results that don't use RepVisits.
+  Scenario Outline: As a RepVisits product I want to limit the high schools returned in RepVisits searches to only include those high schools
+                    who have made their RepVisits availability publicly available
+                    so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
@@ -95,50 +94,50 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
-
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
-    And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
 #by SchoolLocation
-    Then HE I search the "<School>" by "<location>"
+    And HE I search a school by "City" using "<location>"
+    Then HE I select "<School>" from the RepVisits search result
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-#by SchoolName
+  #by SchoolName
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-    Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
-    And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "administrator"
 #by SchoolLocation
-    Then HE I search the "<School>" by "<location>"
+    And HE I search a school by "City" using "<location>"
+    Then HE I select "<School>" from the RepVisits search result
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-#by SchoolName
+ #by SchoolName
+    Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-    Then HE I successfully sign out
 #Post-Condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
-    Then HS I verify the success Message "Great! You've updated your settings." in Availability Settings page
+    Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
 
-    Examples:
-      |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         | option |
-      |15  |10:32am  |11:25pm |3        |15       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |15  |Int Qa High School | 1|
+  Examples:
+   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location               |option |
+   |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |Liberty Township       |1      |
 
 
   @MATCH-1583
@@ -163,11 +162,9 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
   for the upcoming school year (e.g. 2018-2019), so that I can begin allowing reps to start
   scheduling visits accordingly for the new school year.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    Then HS I verify that availability dates are from "<StartDate>" to "<EndDate>" for visits the days "<days>" in the calendar
+    Then HS I verify that availability dates are from "<StartDate>" to "<EndDate>" for visits the days "<startDay>","<endDay>" in the calendar
 
     Examples:
-      | StartDate      | EndDate    | days |
-      | April 2018     | July 2019  |   1  |
-      | April 2018     | July 2019  |   14 |
-#      | April 2018     | July 2019  |   30 |
+      | StartDate      | EndDate    | startDay |endDay|
+      | July 2018      | July 2019  |  15      | 14   |
 

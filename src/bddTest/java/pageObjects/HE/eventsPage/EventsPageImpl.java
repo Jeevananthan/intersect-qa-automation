@@ -419,6 +419,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillEventStartDateTimeFields(minutesFromNow);
         fillCreateEventForm(eventDetails);
         publishNowButton().sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLocator), 1));
     }
 
     public void EditAndPublishEventWithGenDate (String minutesFromNow, DataTable eventDetailsData) {
@@ -429,7 +430,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void fillEventStartDateTimeFields(String minutesFromNow) {
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(createEventButton());
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
         createEventButton().click();
@@ -480,32 +481,35 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
             FCCollegeEventsPage.welcomeTooltipCloseButton.click();
         }
-        List<WebElement> listOfEventNames = new ArrayList<>();
+        List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
 
-        WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
-
-        listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
-        for (WebElement eventNameElement : listOfEventNames) {
-            listOfEventNamesStrings.add(eventNameElement.getText());
-        }
-
-        while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            waitForUITransition();
-            waitUntilPageFinishLoading();
-            waitUntilElementExists(upperNextArrow);
-            upperNextArrow.click();
-            waitForUITransition();
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                waitForUITransition();
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(collegeNameHeader), 0));
+                listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+                for (WebElement eventNameElement : listOfEventNames) {
+                    listOfEventNamesStrings.add(eventNameElement.getText());
+                }
+                if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                    Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                                    cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                            cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                    break;
+                }
+                driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0).click();
+            }
+        } else {
             listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
             for (WebElement eventNameElement : listOfEventNames) {
                 listOfEventNamesStrings.add(eventNameElement.getText());
             }
-        }
-
-        if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                            cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                    cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+            if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                                cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                        cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+            }
         }
         waitForUITransition();
     }
@@ -517,7 +521,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitForUITransition();
+        waitUntilElementExists(getEventsTab(tabName));
         try {
             getEventsTab(tabName).click();
         } catch(WebDriverException e) {
@@ -525,7 +529,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             waitUntilPageFinishLoading();
             getEventsTab(tabName).click();
         }
-        waitForUITransition();
+
+         //added below wait instead of waitForUITransition
+         waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitForUITransition();
     }
 
     public void verifyFilterIsPresentInList(String eventName) {
@@ -703,6 +711,16 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Status of the Event is set to Draft under Unpublished tab",unpublishedStatus().getText().status(statusDraft));
     }*/
 
+    public void deleteAllUnpublishedEventsOfName(String eventName) {
+        List<WebElement> eventsToDeleteList = driver.findElements(By.xpath(unpublishedEventsEllipsisLocator(eventName)));
+        for (WebElement eventEllipsis : eventsToDeleteList) {
+            eventEllipsis.click();
+            getMenuButton("Delete").click();
+            deleteYesButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(progressBarLocator), 0));
+        }
+    }
+
     //locators
 //    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
     private WebElement eventsTitle() { return driver.findElement(By.xpath("//span[text()='Events']")); }
@@ -733,7 +751,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     public WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
+        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]/.."));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
@@ -806,4 +824,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement attendeeDataStatus(String Status){return driver.findElement(By.xpath("//Div[text()='" + Status + "']"));}
     private WebElement getEventsInternalTab(String tabName) { return  driver.findElement(By.xpath("//h2[contains(text(), '" + tabName + "')]")); }
     private WebElement editEventClick (String nameOfEvent){return driver.findElement(By.xpath("//h3[text()='" +nameOfEvent+ "']"));}
+    private String unpublishedEventsEllipsisLocator(String eventName) { return "//h3[text() = '" + eventName + "']/../../../..//i"; }
+    private String progressBarLocator = "div[role='progressbar']";
+    private String collegeNameHeader = "div.events-list__column-head.events-list__column-head--name";
+    private String loadingIconLocator = "div.ui.active.loader";
 }

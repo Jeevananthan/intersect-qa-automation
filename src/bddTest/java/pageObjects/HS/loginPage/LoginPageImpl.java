@@ -40,7 +40,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         textbox(By.name("password")).sendKeys(password);
         logger.info("Sending credentials - "+ hsid +":"+ username + ":" + password);
-        button("Sign In").click();
+        button("Log In").click();
 
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         // Necessary to handle the announcements overlay.
@@ -90,7 +90,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         textbox(By.name("username")).sendKeys(username);
         String password = GetProperties.get("hs."+ usertype + ".password");
         textbox(By.name("password")).sendKeys(password);
-        button("Sign In").click();
+        button("Log In").click();
         waitForUITransition();
         waitUntilElementExists(link(By.xpath("//li/a[@title='Counselor Community']")));
         // Necessary to handle the announcements overlay.
@@ -132,11 +132,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void searchForHSInstitution(String institutionName,String institutionType){
         if(institutionType.equalsIgnoreCase("High school"))
         highSchoolStaffMember().click();
-        inputTextBox().click();
-        inputTextBox().clear();
-        inputTextBox().sendKeys(institutionName);
-        searchButton().click();
-        waitUntilPageFinishLoading();
+        searchInstitution(institutionName);
         while (showMore().size()==1){
             showMoreButton().click();
             waitUntilPageFinishLoading();
@@ -201,26 +197,34 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if(navianceOrNonnaviance.equalsIgnoreCase("naviance")){
             Assert.assertTrue("'access counselor community' text is not displayed for naviance HS", driver.findElement(By.xpath("//span[contains(text(),'Please access the Counselor Community via')]")).isDisplayed());
             Assert.assertTrue("'naviance' link is not displayed for naviance HS", link("Naviance").isDisplayed());
-            Assert.assertTrue("'sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
+            Assert.assertTrue("'Sign in ' button is displayed for naviance HS", !button("Sign In").isDisplayed());
             Assert.assertTrue("",driver.findElement(By.xpath("//span[text()='Back to search']")).isDisplayed());
             try{
+                setImplicitWaitTimeout(2);
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
                 {
                     logger.info("Primary user details is not displayed");
                 }else{logger.info("Primary user details is displayed");}
-            }catch(Exception e){}
+                resetImplicitWaitTimeout();
+            }catch(Exception e){
+                resetImplicitWaitTimeout();
+            }
         }
         else{
-            Assert.assertTrue("'sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
+            Assert.assertTrue("'Sign in ' button is not displayed for non-naviance HS", button("Sign In").isDisplayed());
             Assert.assertTrue("'Already have an account? ' text is not displayed for non-naviance HS", text("Already have an account?").isDisplayed());
             Assert.assertTrue("'please complete this form' link is not displayed for non-naviance HS", link("please complete this form.").isDisplayed());
             Assert.assertTrue("Back to search is not displayed",link("Back to search").isDisplayed());
             try{
+                setImplicitWaitTimeout(2);
                 if(!driver.findElement(By.xpath("//span[contains(text(),'Primary User')]")).isDisplayed())
                 {
                     logger.info("Primary user details is not displayed");
                 }else{logger.info("Primary user details is displayed");}
-            }catch(Exception e){}
+                resetImplicitWaitTimeout();
+            }catch(Exception e){
+                resetImplicitWaitTimeout();
+            }
 
         }
 
@@ -245,12 +249,39 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
     public void searchInstitution(String school)
     {
-        waitUntilElementExists(highSchoolButton());
-        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).clear();
-        driver.findElement(By.xpath("//input[@placeholder='Search Institutions...']")).sendKeys(school);
+        waitUntilElementExists(inputTextBox());
+        // .clear() doesn't work for this control, so we need to manually clear with backspace.
+        int oldLength = inputTextBox().getAttribute("value").length();
+        for (int i = 0; i<oldLength; i++) {
+            inputTextBox().sendKeys(Keys.BACK_SPACE);
+        }
+        inputTextBox().sendKeys(school);
         button("Search").click();
-        //Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-        //driver.findElement(By.xpath("//a[text()='"+school+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void selectInstitutionFromRegistration(String school)
+    {
+        registrationPageResultsTable().findElement(By.xpath("//a[text()='"+school+"']")).click();
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     *
+     * Login to the naviance page
+     */
+
+    public void loginToNaviancePage(String usertype){
+        driver.manage().deleteAllCookies();
+        openNavianceLoginPage();
+        String hsid = GetProperties.get("hs."+ usertype + ".hsid");
+        textbox(By.name("hsid")).sendKeys(hsid);
+        String username = GetProperties.get("hs."+ usertype + ".username");
+        textbox(By.name("username")).sendKeys(username);
+        String password = GetProperties.get("hs."+ usertype + ".password");
+        textbox(By.name("password")).sendKeys(password);
+        button("Log In").click();
+        waitUntilElementExists(link(By.cssSelector("[title='Counselor Community']")));
         waitUntilPageFinishLoading();
     }
 
@@ -270,7 +301,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if (navianceORnonNavianceLink.equalsIgnoreCase("please complete this form.")) {
             Assert.assertTrue("New user request form was not displayed!", text("Request User Account").isDisplayed());
         } else if (navianceORnonNavianceLink.equalsIgnoreCase("Naviance")) {
-            Assert.assertTrue("Error:  Naviance login page was not displayed!", textbox(By.name("hsid")).isDisplayed());
+            Assert.assertTrue("Error:  User was not taken to naviance.com!", getDriver().getCurrentUrl().contains("naviance.com"));
         }
     }
 
@@ -351,6 +382,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void verifyLinks(DataTable linksAndDetails) {
         openHSLoginPage();
+        waitUntil(ExpectedConditions.elementToBeClickable(button("Login")));
         List<List<String>> links = linksAndDetails.asLists(String.class);
         for (List<String> link : links) {
             getDriver().findElement(By.xpath("//span[text()='" + link.get(0) + "']")).click();
@@ -433,6 +465,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         signInForSupport().sendKeys(Keys.ENTER);
         yesButtonForSupport().sendKeys(Keys.ENTER);
     }
+
+
 
 
     //Locators

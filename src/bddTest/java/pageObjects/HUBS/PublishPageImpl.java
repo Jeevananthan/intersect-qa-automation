@@ -21,15 +21,10 @@ public class PublishPageImpl extends PageObjectFacadeImpl {
 
     public void clickSubmitChangesButton() {
         submitChangesButton().click();
-        new WebDriverWait(getDriver(), 40).until(ExpectedConditions.elementToBeClickable(By.linkText("Continue editing")));
     }
 
     public void enterPublishReasonsText(String publishReason) {
         publishReasonsTextArea().sendKeys(publishReason);
-    }
-
-    public void clickContinueEditingLink() {
-        continueEditingLink().click();
     }
 
     //Locators
@@ -44,6 +39,6 @@ public class PublishPageImpl extends PageObjectFacadeImpl {
         return link("Continue editing");
     }
     private WebElement publishButton() {
-        return getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia']"));
+        return getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia ng-binding']"));
     }
 }

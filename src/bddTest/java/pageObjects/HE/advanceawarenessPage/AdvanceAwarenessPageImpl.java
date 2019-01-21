@@ -103,7 +103,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectCheckbox(String option){
-       waitForUITransition();
+        waitUntilPageFinishLoading();
         getCompetitors().get(0).findElement(getOption(option)).click();
     }
 
@@ -111,7 +111,41 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         getCompetitors().get(0).findElement(textFieldForCOmpatitorMessage()).sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END),message);
     }
 
+    public void clickOnSaveButton(){
+        waitUntil(ExpectedConditions.visibilityOf(saveButton()));
+        saveButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+    }
 
+    public void cleanAllMajorsMessages() {
+        waitUntilPageFinishLoading();
+        List<WebElement> majorsMessagesFields = driver.findElements(By.xpath(majorsMessagesFieldsLocator));
+        for (WebElement majorMessageField : majorsMessagesFields) {
+            while (majorMessageField.getText().length() > 0) {
+                majorMessageField.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+                majorMessageField.sendKeys(Keys.BACK_SPACE);
+            }
+        }
+        saveButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+    }
+
+    public void setMajorsMessages(DataTable dataTable) {
+        List<List<String>> details = dataTable.asLists(String.class);
+        for (List<String> row : details) {
+            majorMessageField(row.get(0)).sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END), row.get(1));
+        }
+    }
+
+    public void verifyStringInCard(String searchedString, String collegeName) {
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("div.ui.card"), 0));
+        List<WebElement> majorsInCard = driver.findElements(By.xpath(majorsInCardLocator(collegeName)));
+        Assert.assertTrue("The string: " + searchedString + " was not found in the card.",
+                majorsInCard.get(majorsInCard.size() - 1).getText().contains(searchedString));
+    }
 
     //locators
 
@@ -154,4 +188,17 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     private By textFieldForCOmpatitorMessage(){
        return By.xpath("..//textarea");
     }
+
+    private WebElement saveButton(){
+        return getDriver().findElement(By.xpath("//button[@class='ui primary button'] | //button[@class='ui teal primary button']"));
+    }
+
+    private String majorsMessagesFieldsLocator = "//textarea[contains(@id, 'message')]";
+
+    private WebElement majorMessageField(String majorName) { return driver.findElement(By.xpath("//label[text() = '" + majorName + "']/..//textarea")); }
+
+    private String majorsInCardLocator(String collegeName) { return "//div[@id = 'activematch-app']/div[1]//a[text() = " +
+            "'" + collegeName + "']/../../..//div[@class = 'item custom-bulleted-list']/a"; }
+
+    private String majorsSavedConfirmationMessageLocator = "//span[text() = 'Major messages have been successfully updated.']";
 }

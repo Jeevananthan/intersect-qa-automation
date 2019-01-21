@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -16,6 +17,8 @@ import pageObjects.SM.searchPage.SearchPageImpl;
 import utilities.HUBSEditMode.Navigation;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
@@ -242,7 +245,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private String getDataForSpecificFilter(String fitTab, String criteriaName, int collegPosition) {
         if (fitTab.trim().length() != 0) {
             return driver.findElement(By.xpath("//table[caption='" + fitTab + "']//div[text()='" +
-                    criteriaName + "']/../../td[" + (collegPosition + 1) + "]/span")).getText();
+                    criteriaName + "']/../../td[" + (collegPosition + 1) + "]")).getText();
         } else {
             return driver.findElement(By.xpath("//table//div[text()='" +
                     criteriaName + "']/../../td[" + (collegPosition + 1) + "]")).getText();
@@ -286,7 +289,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     public void pinCollegeFromBottomSearchResult(String collegeName){
         searchBar().clear();
         searchBar().sendKeys(collegeName);
-        String searchedCollegePinString = "//a[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
+        String searchedCollegePinString = "//*[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
         WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
         searchedCollegePinButton.click();
     }
@@ -366,7 +369,137 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAdmissionInfoDrawerOptions(DataTable dataTable) {
+        List<Map<String,String>> data = dataTable.asMaps(String.class,String.class);
+        Map<String,String> expectedResults = data.get(0);
+        // Iterate through all of the rows in the "Admission Info" table.
+        for (WebElement entry : admissionInfoOptions()) {
+            String heading = entry.getText();
+            String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
+            // Both ACT and SAT have a "Math" entry, so we need to do something to differentiate them.
+            if (heading.equals("Math")) {
+                if (getParent(entry).getAttribute("aria-label").contains("SAT")) {
+                    heading = "Math1";
+                }
+            }
+            softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
+        }
+    }
+
+    public void verifyInstitutionHighlightsDrawerOptionsMaps(DataTable dataTable){
+        List<Map<String,String>> data = dataTable.asMaps(String.class,String.class);
+        Map<String,String> expectedResults = data.get(0);
+        for (WebElement entry : institutionHighlightsOptions()) {
+            String heading = entry.getText();
+            String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
+            if (heading.equals("Profiles")) {
+                //Actions action = new Actions(driver);
+                //action.moveToElement(institutionHighlightsViewProfilesLink()).build().perform();
+                //for(int ii=0;ii<3;ii++){
+                //    institutionHighlightsViewProfilesLink().sendKeys(Keys.ARROW_DOWN);
+                //}
+                //waitForUITransition();
+                waitUntil(ExpectedConditions.elementToBeClickable(institutionHighlightsViewProfilesLink()));
+                //waitForElementTextToEqual(institutionHighlightsViewProfilesLink(), "View Profiles");
+                institutionHighlightsViewProfilesLink().click();
+                waitUntilPageFinishLoading();
+                Set<String> winHandles = driver.getWindowHandles();
+                String firstWinHandle = driver.getWindowHandle();
+                winHandles.remove(firstWinHandle);
+                String secondWinHandle=winHandles.iterator().next();
+                driver.switchTo().window(firstWinHandle);
+                driver.switchTo().window(secondWinHandle);
+                setImplicitWaitTimeout(10);
+                Assert.assertTrue("View Profiles link is not working.", universityOfAlabamaTextInSecondWin().isDisplayed());
+                driver.switchTo().window(firstWinHandle);
+            }
+            softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
+        }
+    }
+
+    public void verifyLocationExpandableDrawerOptions(DataTable dataTable){
+        List<Map<String,String>> data = dataTable.asMaps(String.class, String.class);
+        Map<String,String> expectedResults = data.get(0);
+        // Iterate through all of the rows in the "Locations" table.
+        for (WebElement entry : locationOptions()){
+            String heading = entry.getText();
+            String value = entry.findElement(By.xpath("../following-sibling::td")).getText();
+            softly().assertThat(value).as(heading).isEqualTo(expectedResults.get(heading));
+        }
+    }
+
+    /**
+     * This method will verify the Pinned College Page functionality like Pinned/Un-Pinned, Favorited/Not Favorited
+     * Name of College, website etc.
+     * @param table
+     */
+    public void verifyPinnedCollege(DataTable table){
+        List<String> list = table.asList(String.class);
+        Assert.assertTrue("College image is not displaying.", grayBox().findElement(By.tagName("img")).isDisplayed());
+        for (String itemDetail : list) {
+            switch (itemDetail){
+                case "FAVORITE" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath("//span[text()='"+itemDetail+"']")).isDisplayed());
+                    break;
+                case "The University of Alabama" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//p[text()='"+itemDetail+"']")).isDisplayed());
+                    break;
+                case "this.is.yet.another.testing6,14:02" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//a[text()='"+itemDetail+"']")).isDisplayed());
+                    break;
+                case "PINNED" :
+                    Assert.assertTrue(itemDetail+" text is not displaying.", onlyOnePinnedCollege(itemDetail).isDisplayed());
+                    driver.findElement(By.tagName("button")).sendKeys(Keys.PAGE_DOWN);
+                    waitForElementTextToEqual(onlyOnePinnedCollege(itemDetail), "PINNED");
+                    onlyOnePinnedCollege(itemDetail).click();
+                    Assert.assertTrue("Un-Pinning is not working in Compare Pinned College page.", grayBox().findElements(By.xpath(".//span[text()='"+itemDetail+"']")).size()<=0);
+                    break;
+            }
+        }
+    }
+
+    /**
+     *This method will verify left & Right arrow sign to move other colleges in Compare Pinned College page and also
+     * Viewing college number
+     */
+    public void verifyPinnedCollegesFunctionality(){
+        String actualDisableArrow = leftArrowInComparePage().getAttribute("class");
+        String expectedDisableArrow = "ui teal basic icon disabled button";
+        softly().assertThat(actualDisableArrow).as("Left arrow is not disable.").isEqualTo(expectedDisableArrow);
+
+        String actualEnableArrow = rightArrowInComparePage().getAttribute("class");
+        String expectedEnableArrow = "ui teal basic icon button";
+        softly().assertThat(actualEnableArrow).as("Right arrow is not disable.").isEqualTo(expectedEnableArrow);
+
+        rightArrowInComparePage().click();
+        String actualDisplayBarText = numberOfCollegeDisplayBar().getText();
+        String expectedDisplayBarText = "Viewing 5 - 5 of 5";
+        Assert.assertTrue("Fifth pinned college display bar ie "+expectedDisplayBarText+" is not displaying.", actualDisplayBarText.equals(expectedDisplayBarText));
+    }
+
     // Locators Below
+    private WebElement numberOfCollegeDisplayBar(){ return driver.findElement(By.xpath("//strong[text()='Viewing 5 - 5 of 5']"));}
+    private WebElement rightArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Next Items']"));}
+    private WebElement leftArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Prior Items']"));}
+    private WebElement grayBox() { return driver.findElement(By.className("supermatch-compare-data-header"));}
+    private WebElement onlyOnePinnedCollege(String itemDetail){ return grayBox().findElement(By.xpath(".//span[text()='"+itemDetail+"']"));}
+    private WebElement locationDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Location']/.."));
+    }
+    private List<WebElement> locationOptions(){ return locationDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement universityOfAlabamaTextInSecondWin(){ return driver.findElement(By.xpath("//h1[contains(text(),'The University of Alabama')]")); }
+    private WebElement institutionHighlightsViewProfilesLink(){  return driver.findElement(By.xpath("//a[text()='View Profiles']")); }
+    private WebElement institutionHighlightsDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Institution Highlights']/.."));
+    }
+    private List<WebElement> institutionHighlightsOptions(){ return institutionHighlightsDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
+    private WebElement admissionInfoDrawerTable() {
+        return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Admission Info']/.."));
+    }
+    private List<WebElement> admissionInfoOptions(){ return admissionInfoDrawerTable().findElements(By.xpath(".//div[@class='supermatch-expanded-table-label']"));}
+
     private WebElement institutionCharacteristicsDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Institution Characteristics']/.."));
     }

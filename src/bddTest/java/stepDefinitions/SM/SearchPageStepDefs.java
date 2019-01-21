@@ -311,11 +311,11 @@ public class SearchPageStepDefs implements En {
 
         And("^I select the radio button \"([^\"]*)\"$", searchPage::selectRadioButton);
 
-        Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
-
         And("^SM I pick \"([^\"]*)\" in the editable column number (\\d+)$", searchPage::pickColumnHeader);
 
         Then("^SM I verify that \"([^\"]*)\" in column number (\\d+) for college \"([^\"]*)\" contains the following data:$", searchPage::verifyDataInEditableColumn);
+
+        Then("^SM I verify that the match score for the college in position (\\d+) is \"([^\"]*)\" (\\d+)$", searchPage::verifyMatchScoreByPosition);
 
         And("^SM I verify that radio button with text \"([^\"]*)\" is selected$", searchPage::verifyRadioButtonIsSelected);
 
@@ -351,6 +351,10 @@ public class SearchPageStepDefs implements En {
 
         And("^SM I verify the college \"([^\"]*)\" is \"([^\"]*)\" in the why drawer$", searchPage::verifyCollegeIsPinnedORUnpinnedInWhyDrawer);
 
+        And("^SM I verify that \"([^\"]*)\" college is present in search results$", searchPage::verifyCollegeIsPresentInSearchResults);
+
+        And("^SM I verify that \"([^\"]*)\" college is not present in search results$", searchPage::verifyCollegeIsNotPresentInSearchResults);
+
         And("^SM I verify that left and right arrow buttons are displayed on top of \"([^\"]*)\" logo in Compare Pinned Schools page$", searchPage::verifyLeftAndRightCompareMoveButtonsAreDisplayed);
 
         And("^SM I verify that the left arrow button should be disabled for the school \"([^\"]*)\" since it is ordered #1$", searchPage::verifyThatCollegeHasLeftMoveButtonDisabledSinceItIsOrderedNumber1);
@@ -360,5 +364,13 @@ public class SearchPageStepDefs implements En {
         And("^SM I move \"([^\"]*)\" to the \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::moveCollegeToLeftOrRightInComparePinnedSchoolsPage);
 
         And("^SM I verify that position of \"([^\"]*)\" is \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::verifyPositionOfCollegeInComparePinnedSchoolsPage);
+
+        Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Student Life fit criteria$",searchPage::selectOrUnselectStudentLifeCriteria);
+
+        Then("^SM I verify the text displayed in the On-campus housing section$", searchPage::verifyTextDisplayedInOnCampusHousingSection);
+
+        Then("^SM I verify the text displayed in Compare Pinned Colleges page$", searchPage::verifyTextInComparePinnedCollegesPage);
+
+        Then("^SM I verify if pagination buttons are displayed in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsInComparePinnedCollegesPage);
     }
 }

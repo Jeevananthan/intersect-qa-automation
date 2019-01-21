@@ -19,6 +19,7 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
 
     Logger logger = null;
     StudiesPageImpl studiesPreview = new StudiesPageImpl();
+    StudentLifeEditPageImpl studentLifeEditPage = new StudentLifeEditPageImpl();
 
     public StudiesEditPageImpl() {
         logger = Logger.getLogger(StudiesEditPageImpl.class);
@@ -171,7 +172,6 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
 
     private void clickSubmitChangesButton() {
         submitChangesButton().click();
-        new WebDriverWait(getDriver(), 40).until(ExpectedConditions.elementToBeClickable(By.linkText("Continue editing")));
     }
 
     private void clickContinueEditingLink() {
@@ -190,7 +190,7 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
         clickPublishButton();
         enterPublishReasonsText(topAreasOfStudyAndStudyOptions.get(2).get(1));
         clickSubmitChangesButton();
-        clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(studentLifeEditPage.loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 
@@ -229,7 +229,7 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
         return link("Continue editing");
     }
     private WebElement publishButton() {
-        return getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia']"));
+        return getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia ng-binding']"));
     }
     private WebElement studyOptionCheckbox(String label) {
         return getDriver().findElement(By.xpath("//label[@class='hem-checkbox-label ng-binding'][text()='" + label + "']"));
