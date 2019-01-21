@@ -27,10 +27,6 @@ public class PublishPageImpl extends PageObjectFacadeImpl {
         publishReasonsTextArea().sendKeys(publishReason);
     }
 
-    public void clickContinueEditingLink() {
-        continueEditingLink().click();
-    }
-
     //Locators
 
     private WebElement publishReasonsTextArea() {

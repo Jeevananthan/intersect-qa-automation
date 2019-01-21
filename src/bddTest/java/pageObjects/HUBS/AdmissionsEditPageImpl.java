@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -17,6 +18,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     Logger logger = null;
     AdmissionsPageImpl admissionsPreview = new AdmissionsPageImpl();
     PublishPageImpl publish = new PublishPageImpl();
+    OverviewEditPageImpl overviewEditPage = new OverviewEditPageImpl();
 
     public AdmissionsEditPageImpl() {
         logger = Logger.getLogger(AdmissionsEditPageImpl.class);
@@ -265,7 +267,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(fieldsDetails.get(0).get(1));
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(overviewEditPage.loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 

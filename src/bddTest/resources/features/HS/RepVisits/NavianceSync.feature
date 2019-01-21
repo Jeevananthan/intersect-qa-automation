@@ -182,12 +182,70 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I verify and select an appointment in calendar page using "<University>","<heCalendarTime>","<Date>","ReScheduled"
     Then HS I remove the appointment from the calendar
     And HS I successfully sign out
+    And HE I successfully sign out
 
     Examples:
       |StartTime|EndTime |NumVisits|Option                            |hsEndTime|School                   |University                |heStartTime   |heTime   |Day|Date|StartDate|EndDate|StartTimefornewVisit|User     |reason   |heTimefornewVisit|heCalendarTime|option|
       |10:34am  |12:59pm |3        |Yes, accept all incoming requests.|12:59pm  |Standalone High School 7 |The University of Alabama |10:34am       |10:34am  |21 |21  |21       |35     |10:28am             |PurpleHE |by QA    |10:28am          |10:33AM       |1     |
 
-
+  @MATCH-1639
+  Scenario: As a high school RepVisits user, I want Naviance to send visit information to Naviance when I create or modify a visit
+  So that Naviance accurately reflects my visits.
+  #pre-condition
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I go to the Naviance Settings and submit the following details
+      |option                 |Automatically publish confirmed visits.|
+      |NumVisits              |3                                      |
+      |Location               |Cbba                                   |
+      |studentsCount          |30                                     |
+      |DeadlineValue          |2                                      |
+      |Notes                  |sss-testing from HS                    |
+      |deadlineOption         |hours                                  |
+  #create new visit for Reschedule
+    Then HS I set a date using "21" and "42"
+    Then HS I clear the time slot for the particular day "21" in Regular Weekly Hours Tab
+    Then HS I add the new time slot with "21","10:34am","12:33pm" and "3" with "1"
+    Then HS I set the value for Reschedule the visit
+  #create Visit
+    Then HS I set a date using "14" and "35"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "14","10:58am","12:59pm" and "3" with "1"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
+    And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    And HS I successfully sign out
+  #schedule Visit
+    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Int Qa High School 4" using "14" and "10:58am"
+    And HE I verify the schedule pop_up for "Int Qa High School 4" using "10:58am" and "12:59pm"
+  #verify Newly created visit is present In Naviance
+    Given HS I go to the Naviance Page with user type "navianceAdmin"
+    Then HS I select "view" In Naviance college visit Page using "14","10:58 AM"
+    And HS I verify the naviance college visit page using the following details "14"
+      |Alpena Community College|N/A|Purple HE|Cbba|sss-testing from HS|30|no later than 2 hours prior|N/A|
+    And HS I successfully sign out from the Naviance
+  #reschedule visit
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I reschedule the visit for the following data "Alpena Community College","10:58AM","14" in calendar
+    Then HS I verify reschedule pop-up for the following data "Purple HE","Alpena Community College","10:58AM","14"
+    Then HS I reschedule a visit for the following details "10:34am","by QA","21"
+    Then HS I remove the Time Slot created with "14","10:58am" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+  #verify updated visit Details In Naviance
+    Given HS I go to the Naviance Page with user type "navianceAdmin"
+    Then HS I select "view" In Naviance college visit Page After Reschedule the visit using "21","10:34 AM"
+    And HS I verify the naviance college visit page using the following details after Reschedule the Visits "21"
+      |Alpena Community College|N/A|Purple HE|Cbba|sss-testing from HS|30|no later than 2 hours prior|N/A|
+    And HS I successfully sign out from the Naviance
+  #Remove the appointment from Calendar
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    And HS I select calendar in RepVisits
+    Then HS I verify and select an appointment in calendar page using "Alpena Community College","10:58AM","14","ReScheduled"
+    Then HS I remove the appointment from the calendar
+    And HS I successfully sign out
 
 
 
