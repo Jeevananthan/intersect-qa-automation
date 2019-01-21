@@ -1229,6 +1229,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         setTimeZoneValue(timeZone);
         button("Update time zone").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='content']")));
     }
 
     public void verifyHolidayCheckBoxStatus(Boolean holidayStatus, String holiday, int index) {
@@ -2688,6 +2689,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void addTimeSlot(DataTable timeSlotData) {
         waitUntil(ExpectedConditions.elementToBeClickable(newTimeSlotStartTime()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(timeSlotStartTime()));
         List<List<String>> slotData = timeSlotData.asLists(String.class);
         newTimeSlotStartTime().sendKeys(slotData.get(0).get(1));
         newTimeSlotEndTime().sendKeys(slotData.get(1).get(1));
@@ -11530,4 +11532,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return startTime;
     }
 
+   private By timeSlotStartTime() {
+        return By.cssSelector("input[title=\"start time\"]");
+    }
 }
