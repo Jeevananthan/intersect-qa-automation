@@ -449,8 +449,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I click the View Availability for \"([^\"]*)\" and verify the close button$",repVisits::verifyViewAvailabilityCloseButton);
 
-        Then("^HE I verify the details of Recommendation result for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyRecommendationResult);
-
         Then("^HE I verify \"([^\"]*)\" for \"([^\"]*)\"$",repVisits::verifyAvailability);
 
         Then("^HE I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);

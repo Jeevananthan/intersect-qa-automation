@@ -3581,69 +3581,68 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    /**
+     *
+     * navigate to recommendations page
+     */
     public void verifyRecommendatiosPage(){
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("",getRecommendationsBtn().isDisplayed());
         getRecommendationsBtn().click();
     }
 
+    /**
+     * search school in recommendation page
+     * @param County : ex - West
+     */
     public void searchforRecommendationsPage(String County) {
-        navigationBar.goToRepVisits();
+        getNavigationBar().goToRepVisits();
         getRecommendationsBtn().click();
         getRecommendationsSearchbox().sendKeys(County);
     }
 
-    public void verifyDetailsofRecommendation(String schoolName,DataTable dataTable){
-        WebElement label = driver.findElement(By.xpath("//a[contains(text(),'"+schoolName+"')]//ancestor::tr"));
+    /**
+     *
+     * verifying school details in recommendation tab
+     * @param schoolName : passing school name ex: Lakota West High School
+     * @param dataTable : dataTable values : High School Name, Recommendation Score, High School Type, College Going Rate, Senior Class Size
+     */
+    public void verifyDetailsofRecommendation(String schoolName,DataTable dataTable) {
         List<Map<String, String>> entities = dataTable.asMaps(String.class, String.class);
-        for (Map<String,String> school : entities){
+        for (Map<String, String> school : entities) {
             for (String key : school.keySet()) {
                 switch (key) {
                     case "High School Name":
-                        label = driver.findElement(By.xpath("//a[contains(text(),'"+ key + "')]//ancestor::tr"));
-                        String header = driver.findElement(By.xpath("//a[contains(text(),'"+key+"')]//ancestor::tr//td[@class='_1uwakdynj-8Qwxsrr6Pi4E']//span")).getText();
+                        String header = getDriver().findElement(By.xpath("//a[contains(text(),'" + school.get(key) + "')]//ancestor::tr//td[@class='four wide']//a")).getText();
                         Assert.assertTrue("High School name was not found in header.", header.contains(school.get(key)));
                         break;
                     case "Recommendation Score":
-                        String recommendation_score = label.findElement(By.xpath("//td[@class='_1uwakdynj-8Qwxsrr6Pi4E']//span")).getText();
-                        Assert.assertTrue("Recommendation Score was not found in header.",recommendation_score.contains(school.get(key)));
+                        String recommendation_score = getDriver().findElement(By.xpath("//td/a[text()='" + schoolName + "']/ancestor::tr/td//div[@class='_8vbyq71MPONij-xyBJp-w']/span")).getText();
+                        Assert.assertTrue("Recommendation Score was not found in header.", recommendation_score.contains(school.get(key)));
                         break;
                     case "High School Type":
-                        String school_type = label.findElement(By.xpath("//td[@class='one wide']//div[@class='_1az38UH6Zn-lk--8jTDv2w']")).getText();
-                        Assert.assertTrue("High School Type was not found in header.",school_type.contains(school.get(key)));
+                        String school_type = getDriver().findElement(By.xpath("//td/a[text()='" + schoolName + "']/ancestor::tr/td[@class='one wide']/div")).getText();
+                        Assert.assertTrue("High School Type was not found in header.", school_type.contains(school.get(key)));
                         break;
                     case "College Going Rate":
-                        String college_rate = label.findElement(By.xpath("//td[@class='three wide']//div[@class='_1az38UH6Zn-lk--8jTDv2w']")).getText();
-                        Assert.assertTrue("College Going Rate was not found in header.",college_rate.contains(school.get(key)));
+                        String college_rate = getDriver().findElement(By.xpath("//td/a[text()='" + schoolName + "']/ancestor::tr/td[@class='three wide']/div")).getText();
+                        Assert.assertTrue("College Going Rate was not found in header.", college_rate.contains(school.get(key)));
                         break;
                     case "Senior Class Size":
-                        String class_size = label.findElement(By.xpath("//td[@class='_1uwakdynj-8Qwxsrr6Pi4E']//span")).getText();
-                        Assert.assertTrue("Senior Class Size was not found in header.",class_size.contains(school.get(key)));
+                        String class_size = getDriver().findElement(By.xpath("//td/a[text()='" + schoolName + "']/ancestor::tr/td[5]/div")).getText();
+                        Assert.assertTrue("Senior Class Size was not found in header.", class_size.contains(school.get(key)));
                         break;
                 }
             }
         }
-        label.findElement(By.id("Add to travel plan")).click();
-        Assert.assertTrue("travel plan is not added",text("Added to Travel Plan").isDisplayed());
-        label.findElement(By.className("ui button _27YJVs7aqQ7XcUocgNzRRH")).click();
-        Assert.assertTrue("View Availabilty is not displayed",text("View Availability").isDisplayed());
     }
 
-    public void verifyRecommendationResult(String school,String score,String type,String rate,String size,String County) {
-        if(!driver.findElement(By.xpath("//span[text()='"+score+"']")).isDisplayed()){
-            while(button("More Results").isDisplayed())
-            {
-                button("More Results").click();
-                waitUntilPageFinishLoading();
-            }}else{
-            Assert.assertTrue("county is not displayed",driver.findElement(By.xpath("//table[@class='ui very basic table']//tr//td/div[contains(text(),'"+County+"')]")).isDisplayed());
-            Assert.assertTrue("Recommendation score is not displayed",driver.findElement(By.xpath("//span[text()='"+score+"']")).isDisplayed());
-            Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']")).isDisplayed());
-            Assert.assertTrue("type is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div[text()='"+type+"']")).isDisplayed());
-            Assert.assertTrue("rate is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div[text()='"+rate+"']")).isDisplayed());
-            Assert.assertTrue("size is not displayed",driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div[text()='"+size+"']")).isDisplayed());
-        }
-    }
-
+    /**
+     *
+     * @param option : ex - Add To Travel Plan
+     * @param school : ex - Lakota West High School
+     */
     public void verifyAvailability(String option,String school) {
         Assert.assertTrue("school is not displayed",driver.findElement(By.xpath("//a[text()='Lakota West High School']")).isDisplayed());
         if(option.equals("Add To Travel Plan")) {
@@ -3663,6 +3662,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * verifying view availability close button
+     * @param school : school name (ex: Lakota West High School)
+     */
     public void verifyViewAvailabilityCloseButton(String school){
         driver.findElement(By.xpath("//a[text()='"+school+"']/../following-sibling::td/div/button/span[text()='View Availability']")).click();
         Assert.assertTrue("Repvisits Availability popup is not displayed",viewAvailabilityPopUp().isDisplayed());
@@ -3870,6 +3873,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactsBtn() {
         return getDriver().findElement(By.xpath("//div[contains(@class,'pusher dimmed-opacity')]//span[text()='Contacts']"));
     }
+
+    /**
+     *
+     * @return : recommendation button in repvisits page
+     */
     private WebElement getRecommendationsBtn() {return driver.findElement(By.xpath("//ul[@class='ui huge pointing secondary stackable hidden-mobile hidden-tablet _3k81ACwPvWfJIsP_32h5Yh menu']/li//span[text()='Recommendations']"));}
     private WebElement getNotificationsBtn() {
         return link("Notifications");
@@ -4640,13 +4648,28 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
 
     private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
-  
-      private WebElement viewAvailabilityPopUp(){
+
+    /**
+     *
+     * @return : view availability popup class name
+     */
+
+    private WebElement viewAvailabilityPopUp(){
         return driver.findElement(By.xpath("//aside[@class='ui overlay right very wide visible sidebar _4OZUXsPPiZy6Cfo7xMfVx']"));
     }
+
+    /**
+     *
+     * @return close button in view availability popup
+     */
     private WebElement closeButtonRepvisistsAvailability(){
         return driver.findElement(By.xpath("//div[@class='ui padded grid _3emfXzaryr93-lK5HisTL2']/div/div/i[@class='close large circular fitted link icon']"));
     }
+
+    /**
+     *
+     * @return recommendation search text box text
+     */
     private WebElement getRecommendationsSearchbox(){
         return  textbox("Search by location...");
     }

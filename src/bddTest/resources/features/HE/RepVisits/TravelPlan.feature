@@ -29,7 +29,7 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
     And HE I successfully sign out
     
   @MATCH-1620 @MATCH-1715 @MATCH-3021
-  Scenario Outline: As an HE user of an HE institution with a Presence subscription active, I want to view recommendations for other high schools to potentially visit,
+  Scenario: As an HE user of an HE institution with a Presence subscription active, I want to view recommendations for other high schools to potentially visit,
   so I can visit high schools I might not have otherwise considered.
     Given SP I am logged in to the Admin page as an Admin user
     When SP I search for "2400006"
@@ -38,21 +38,20 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
     And SP I Click the Save Changes button
     And SP I successfully sign out
 
-    Given HS I want to login to the HS app using "purpleheautomation+lakotawest@gmail.com" as username and "Password!1" as password
+    Given HS I am logged in to Intersect HS as user type "HSadmin4"
     Then HS I go to the repvisits page
     Then HS I select "All RepVisits Users" to show view availability
     And HS I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the Recommendation tab of the RepVisits page
-    Then HE I search "<County>" in Recommendation tab of the RepVisits page
-    Then HE I verify the details of Recommendation result for "<school>" using "<Recommendation Score>","<High School Type>","<College Going Rate>","<Senior Class Size>","<County>"
-    Then HE I verify "Add To Travel Plan" for "<school>"
-    Then HE I verify "This school isnt using RepVisits yet" for "<school>"
-    Then HE I verify "View Availability" for "<school>"
-    Then HE I click the View Availability for "<school>" and verify the close button
+    Then HE I search "West" in Recommendation tab of the RepVisits page
+    Then HE I verify the Details of Recommendation result for "Lakota West High School"
+    |High School Name        |Recommendation Score|High School Type |College Going Rate|Senior Class Size|
+    |Lakota West High School |80                  |PUBLIC           |85%               |524              |
+    Then HE I verify "Add To Travel Plan" for "Lakota West High School"
+    Then HE I verify "This school isnt using RepVisits yet" for "Lakota West High School"
+    Then HE I verify "View Availability" for "Lakota West High School"
+    Then HE I click the View Availability for "Lakota West High School" and verify the close button
+    When HE I remove "Lakota West High School" high school from the travel plan
     And HE I successfully sign out
-
-    Examples:
-      |Recommendation Score |High School Type |College Going Rate |Senior Class Size |County   |school                    |
-      |80                   |PUBLIC           |85%                |524               |West     |Lakota West High School   |
