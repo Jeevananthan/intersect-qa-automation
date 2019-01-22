@@ -2006,7 +2006,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void loadSetupWizardPage() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
             if(completeWizardActiveStep().size() == 1){
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
@@ -2107,7 +2107,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String timeZoneToSet;
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         doubleClick(visitsAndFairsRadioButton());
         waitUntilPageFinishLoading();
         nextButton().click();
@@ -2569,7 +2569,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToVisitsAndFairsWizard() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         Assert.assertTrue("welcome wizard is not displayed", welcomeWizardText().isDisplayed());
         visitAndFairsButton().click();
 
