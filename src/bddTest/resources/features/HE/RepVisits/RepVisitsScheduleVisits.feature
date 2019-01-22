@@ -1,5 +1,5 @@
 @HE
-Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be able to search and schedule visits with HS
+Feature: HE - RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be able to search and schedule visits with high schools
 
   @MATCH-1602 @MATCH-1958 @MATCH-1729
   Scenario: As an HE user I want to be able to use the Search and Schedule tab of RepVisits to browse HS availability.
@@ -9,7 +9,6 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
       | City     | State    | State Abbreviation | County | Postal Code |
       | new york | Kentucky | KY                 | Bronx  | 45044       |
     #And HE I verify the Coming Soon message on the RepVisits Overview page
-    And HE I successfully sign out
 
   @MATCH-1476 @MATCH-1902 @MATCH-1903 @MATCH-1774
   Scenario: As an HE user with the Intersect Presence Subscription active I want to see
@@ -49,9 +48,33 @@ Feature: HE- RepVisits - RepVisitsScheduleVisits - As an HE user, I want to be a
     And HS I remove the time slot with day "Wed" and time "<heStartTime>"
     And HS I remove the time slot with day "Thu" and time "<heStartTime>"
     And HS I remove the time slot with day "Fri" and time "<heStartTime>"
-    And HS I successfully sign out
 
     Examples:
       |hsEndTime|heStartTime  |heTime  |SchoolName             |Date    |userType       |HourStartTime|HourEndTime|MinuteStartTime|MinuteEndTime|MeridianStartTime|MeridianEndTime|NumVisits|StartDate  |EndDate  |Option                                              |
       |01:30am  |1:29am       |01:29   |Int Qa High School 4   |7       |administrator  |1            |1          |29             |30           |am               |am             |3        |0          |10       |No, I want to manually review all incoming requests.|
       |01:30am  |1:29am       |01:29   |Int Qa High School 4   |7       |community      |1            |1          |29             |30           |am               |am             |3        |0          |10       |No, I want to manually review all incoming requests.|
+
+  @MATCH-5061
+  Scenario Outline: As an HE user I want to be able to see the visit details on the "Your Schedule" section in search and schedule page.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I click Request button in visit schedule popup
+    Then HE I verify the visit details are present in the your schedule section using "<StartTime>","<School>","<Date>"
+    Then HE I verify the visit details are present in the calendar using "<School>","<Date>","<StartTime>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heStartTime>","<Date>","Scheduled"
+    Then HE I remove the appointment from the calendar
+
+    Examples:
+      |StartTime|EndTime |NumVisits|School                   |heStartTime  |Day|Date|StartDate|EndDate|option|
+      |10:34am  |12:59pm |3        |Standalone High School 2 |10:34am      |21 |21  |21       |35     |1     |

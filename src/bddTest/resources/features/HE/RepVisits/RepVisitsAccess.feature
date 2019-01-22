@@ -1,12 +1,11 @@
 @HE
-Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features based on my role/subscription
+Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to access the RepVisits features based on my role,subscription
 
   @MATCH-1697
   Scenario: As an HE user I want to be able to access RepVisit functionality within Intersect so I can find value from this new module and its features
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the following tabs exist on the RepVisits page
       |Overview |Search and Schedule |Calendar |Travel Plan |Contacts |Recommendations |Notifications|
-    And HE I successfully sign out
 
   @MATCH-1667
   Scenario: As an HE user, I should be able to see Check RepVisits Availability button and Availablity sidebar from HS instituion profile
@@ -14,14 +13,12 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     And HE I search for "Int QA High School 4" in "Institutions"
     And HE I select "Int QA High School 4" from the results
     Then HE I verify the Check RepVisits Availability button
-    And HE I successfully sign out
 
   @MATCH-1610
   Scenario: As an HE Community member,I need to view a calendar of my appointments
             so that I can easily see what my day/week/month schedule looks like.
     Given HE I am logged in to Intersect HE as user type "community"
     And HE I verify the calendar view in repvisits
-    And HE I successfully sign out
 
   @MATCH-1935 @MATCH-1934 @MATCH-1936 @MATCH-2274
   Scenario: As an HE user tied to an HE account that DOES NOT have the Intersect Presence Subscription activated,
@@ -41,14 +38,12 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the upgrade messaging on the Travel Plan page in RepVisits
     And HE I navigate to the "Visit Feedback" page in RepVisits
     Then HE I verify the freemium messaging on the Visits Feedback page
-    Then HE I successfully sign out
 
   @MATCH-2274
   Scenario: As a HE non-Administrator user, I want to ensure the no access messaging on the Visit Feedback section of the RepVisits page.
     Given HE I am logged in to Intersect HE as user type "community"
     Then HE I navigate to the "Visit Feedback" page in RepVisits
     And HE I verify the non-administrator messaging on the Visits Feedback page
-    And HE I successfully sign out
 
   @MATCH-1989
   Scenario: As an HE user tied to an HE account that has not paid for the Intersect Presence Subscription.
@@ -82,7 +77,6 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the Upgrade popup and the details displayed in the popup
       |First Name |Last Name  |Work Email Address                   |
       |PurpleHE   |Limited    |purpleheautomation+limited@gmail.com |
-    Then HE I successfully sign out
 
   Scenario: As an HE User, I want to be able to view the weekly recurring time slots and able to view the UI for the "Search and Schedule" Page
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -99,11 +93,10 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HE I verify the Your Schedule Text in Search and Schedule Page
     And HE I search for "Mays High School" in RepVisits page
     Then HE I verify the Map in SearchAndSchedule Page
-    Then HE I successfully sign out
 
   @MATCH-2485
   Scenario: Issue: For HE users viewing their travel plan, the "see details" link for college fairs
-  opens the HS in the visits view.
+  opens the HS in the visits view.ass
     Given SP I am logged in to the Admin page as an Admin user
     When SP I search for "2400006"
     And SP I select "The University of Alabama" from the global search results
@@ -117,40 +110,31 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the see details link in RepVisits
-    And HE I successfully sign out
     
-  @MATCH-3065
-  Scenario: As a RepVisits Admin User
-  I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch Events Reports
-  So that I can keep non RV Using members of my school staff informed
+  @MATCH-3065 @MATCH-3407
+  Scenario: As a RepVisits Admin User I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch
+            Events Reports So that I can keep non RV Using members of my school staff informed
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I navigate to the Institution Notification page
     Then HE I verify the Institution Notification page
     Then HE I validate the Checkbox in the Institution Notification page using "purple HEadmin"
     Then HE I validate the Email in the Institution Notification page using "purpleheautomation@gmail.com","purpleheautomation+admin@gmail.com",",purpleheautomation+admin@gmail.com"
     Then HE I successfully sign out
-
+    #Check access for non-admins
     Given HE I am logged in to Intersect HE as user type "community"
     Then HE I verify the Non-admins do not have the tab in navigation
     Then HE I verify the Non-admins cannot reach the page directly by URL
-    Then HE I successfully sign out
 
   @MATCH-2238
   Scenario: Verify Overview page when HE user DOES NOT have Intersect subscription activated
     Given SP I am logged in to the Admin page as an Admin user
-    Then SP I select "The University of Alabama" from the institution dashboard
+    Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
     Then SP I successfully sign out
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the "Overview" page in RepVisits
     Then HE I verify the Repvisits Overview Upgrade Subscription page
-    Then HE I successfully sign out
-    Given SP I am logged in to the Admin page as an Admin user
-    Then SP I select "The University of Alabama" from the institution dashboard
-    And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
-    And SP I Click the Save Changes button
-    Then SP I successfully sign out
     
     @MATCH-1604
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
@@ -170,7 +154,7 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
 #Creating Visits and Fairs
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register a Fair
@@ -205,11 +189,10 @@ Feature: HE- RepVisits - RepVisitsAccess - As an HE user, I want to be able to a
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
-    And HS I successfully sign out
 
 Examples:
-      |School                  |address                                             |college going rate|senior class size|primary POC      |stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   |
-      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |QAs Fairs tests       |14  |0900AM    |1000AM  |12           |$25 |25                    |100                        | Save          |Butler     |
+      |School                  |address                                             |college going rate|senior class size|primary POC      |stateName |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |location   | option |
+      |Lakota East High School |6840 Lakota Ln Liberty township, Ohio, Butler, 45044|83                |554              |Intersect QA     |OHIO      |2   |10:25am  |11:25pm |3        |2        |30      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |QAs Fairs tests       |2   |0900AM    |1000AM  |1            |$25 |25                    |100                        | Save          |Butler     |1       |
 
   @MATCH-1603
   Scenario Outline: As an HE user I need to be able to view the scheduling results of my Visits search AFTER I have
@@ -242,7 +225,7 @@ Examples:
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
   #Log back into HE and make sure that the visit popups work as expected
     Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
@@ -251,8 +234,8 @@ Examples:
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
     Examples:
-     |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime |
-     |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|
+     |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                              |hsEndTime|Option                             |School               |heStartTime|heTime | option |
+     |14 |10:25am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests.|11:25pm  |Yes, accept all incoming requests. |Int Qa High School 4 |10:25am    |10:25am|1       |
 
  @MATCH-4260 @MATCH-3730
   Scenario Outline: As an HE Freemium user I can not be able to view Your Notifications stub menu in Account settings page
@@ -275,7 +258,6 @@ Examples:
 
     Given HE I am logged in to Intersect HE as user type "<heFreemiumUser>"
     Then HE I verify "<yourNotifications>" stub menu is not present in Account settings page for Freemium
-    Then HE I successfully sign out
 
     Examples:
       |hePremiumUser|heFreemiumUser    |yourNotifications |university                                |module                          |activeOrInactive|
@@ -293,7 +275,6 @@ Examples:
   #Non-Naviance
     Given HS I am logged in to Intersect HS as user type "<non-NavianceUser>"
     Then HS I verify "<yourNotifications>" stub menu is not present in Account settings page for "non-Naviance"
-    And HS I successfully sign out
 
     Examples:
       |non-NavianceUser |navianceUser  |yourNotifications |
@@ -313,7 +294,7 @@ Examples:
 #Create a Visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
-    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>"
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     And HS I successfully sign out
 #Register a Visit
     Given HE I want to login to the HE app using "purpleheautomation+4224@gmail.com" as username and "Password!1" as password
@@ -323,16 +304,15 @@ Examples:
     And HE I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the error Message "Please select a Staff Member" is displaying when "Select staff member" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select a New Assignee" is displaying when "Select new assignee" is not selected for "4224, Automation"
-    Then HE I verify the error Message "Please select at least one appointment" is displaying when "No appointments" is not selected for "4224, Automation"
-    Then HE I verify the error Message "doesn't have any appointments scheduled." is displaying when "Select staff member, no associated visits or fairs" is not selected for "Fresh, PurpleHE"
+    Then HE I verify the error Message "Please select a Staff Member" is displaying when Select staff member is not selected
+    Then HE I verify the error Message "Please select a New Assignee" is displaying when Select new assignee is not selected using "4224, Automation"
+    Then HE I verify the error Message "Please select at least one appointment" is displaying when appointments is not selected using "4224, Automation","Community, PurpleHE"
+    Then HE I verify the error Message "have any appointments scheduled." is displaying when the user "Fresh, PurpleHE" is selected
     Then HE I verify the error Message "Please select a Staff Member" is disappearing when the error message "doesn't have any appointments scheduled." is displayed for "Fresh, PurpleHE"
-    And HE I successfully sign out
 
   Examples:
-  |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date|
-  |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |
+  |School               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                                |heStartTime |heTime  |Date| option |
+  |Int Qa High School 4 |14  |10:25am  |11:25pm |3        |14       |42      |11:25pm      |No, I want to manually review all incoming requests.  |10:25am     |10:25am |14  |1       |
 
   @MATCH-3631
   Scenario Outline: As a HE and HS user in RVs viewing my calendar in Agenda view,
@@ -347,7 +327,6 @@ Examples:
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I set the date using "<StartDate>" and "<EndDate>" in calendar "Agenda" view
     Then HE I verify the disabled date "<disabledDate>" is not clickable in calendar Agenda view
-    And HE I successfully sign out
 
     Examples:
        |StartDate|EndDate|disabledDate|

@@ -1,24 +1,26 @@
 @HE @ActiveMatch
-Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user with an ActiveMatch product, I need the ability to access the ActiveMatch+ product in Intersect.
+Feature: HE - ActiveMatch - ActiveMatchAccess - As an HE Admin user with active ActiveMatch subscription, I can access the ActiveMatch product
 
   @MATCH-3010
   Scenario: Active Match section is displayed for Admin users in Intersect HE (MATCH-3109)
-    Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I verify the "ActiveMatch" nav link is displaying for this user
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I set the "ActiveMatch Plus" module to "active" in the institution page
+    And SP I Click the Save Changes button
+    When HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I verify the "Connection" nav link is displaying for this user
     And HE I open the Active Match section
-    And HE I successfully sign out
 
   @MATCH-3010
   Scenario: Active Match section is not displayed for Publishing users in Intersect HE
     Given HE I am logged in to Intersect HE as user type "publishing"
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
-    And HE I successfully sign out
 
   @MATCH-3010
   Scenario: Active Match section is not displayed for Community users in Intersect HE
     Given HE I am logged in to Intersect HE as user type "community"
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
-    And HE I successfully sign out
 
   @MATCH-3010 @MATCH-3023
   Scenario: As a HE User with Administrator role with no ActiveMatch Plus subscription, I can not access Active Match module
@@ -30,40 +32,42 @@ Feature: HE - ActiveMatch - ActiveMatchAccess - As a HE Intersect ADMIN user wit
     Then SP I successfully sign out
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I verify the "ActiveMatch" nav link is not displaying for this user
-    And HE I successfully sign out
 
-
-  @MATCH-3016
-  Scenario:  As an HE intersect user, I need the ability to view my student connections from AM so I can see who has made a connection
+  @MATCH-3519
+  Scenario: As an Active Match user,
+  I want additional drop-down menu options to filter my Connections to include additional date ranges, easier access to the default view on various devices, and a cl
+  so that I don't miss any new or modified connections associated with my institution and so that I have greater flexibility to view additional date ranges that are smaller than a full school year but potentially greater than the "Since Last Export" options.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And SP I set the "Connection" module to "inactive" in the institution page
+    And SP I set the "ActiveMatch Plus" module to "active" in the institution page
     Given HE I am logged in to Intersect HE as user type "administrator"
-    And HE I open the Active Match section
+    Then HE I navigate to the ActiveMatch Tab
     And HE I verify the ActiveMatch page
-    Then HE I verify the Headers are present in the Active Match Connections
-      |Name|Gender / Ethnicity|Birth Date|Grad Year / GPA|School Name / CEEB|Contact|Address|Created / Modified|
     And HE I verify the following details are present under the new header of "Historical" in the ActiveMatch export connections dropdown Menu
-      |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
-    And HE I verify the following details are present under the header of "By School Year" in the ActiveMatch export connections dropdown Menu
-      |2017-2018|2016-2017|2015-2016|2014-2015|
+    |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
     And HE I verify the following headers are present in the ActiveMatch export connections dropdown Menu in the following order
-      |Since Last Export|Historical|By School Year|
+    |Since Last Export|Historical|By School Year|
+    And HE I verify the Header after selecting "Historical" for the following selection in the ActiveMatch export connections
+    |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
+    And HE I verify the Header "Since Last Export"
     And HE I verify the Default drop-down Menu selection to remain "Since Last Export" after all connections are modified
       |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
-    And HE I successfully sign out
 
+  @MATCH-5754
+  Scenario Outline: HE Admin users are not seeing the 'Connections' home page tile with the lock icon/upgrade form hyperlink when
+  their HE institution does not have an active 'ActiveMatch Plus' module subscription.
 
-    @MATCH-3012 @ignore
-    Scenario: As an HE intersect user, I need the ability to export my student connections from AM so I can import them
-              into my own system.
-      Given HE I am logged in to Intersect HE as user type "administrator"
-      When HE I navigate to the ActiveMatch Tab
-      Then HE I verify the following details are present under the new header of "Historical" in the ActiveMatch export connections dropdown Menu
-        |Last 7 days|Last 14 days|Last 30 days|Last 60 days|Last 90 days|
-      And HE I verify the following details are present under the new header of "By School Year" in the ActiveMatch export connections dropdown Menu
-        |2017-2018|2016-2017|2015-2016|2014-2015|
-      And HE I verify the following details are present under the new header of "Since Last Export" in the ActiveMatch export connections dropdown Menu
-        |connections since last export on|
-      When HE I export the ActiveMatchConnections for the current year
-      Then HE I verify the downloaded ActiveMatch Cvs file "student-connections.csv" contains the following headers
-        |First Name|Last Name|Email|Phone|Address|City|State|Zip|Ethnicity|Gender|BirthDate|SchoolName|Ceeb|Graduation Year|Gpa|Created/Modified Date|Connection Status|
-      Then HE I delete the downloaded ActiveMatch Cvs file "student-connections.csv"
-      Then HE I successfully sign out
+  #precondition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "Alpena Community College" from the institution dashboard
+    Then SP I set the "ActiveMatch Plus" module to "inactive" in the institution page
+  #Find an HE institution that does not have the 'ActiveMatch Plus' module subscription active
+    Then SP I go to the users list for "<institution>" from the institution dashboard
+    And SP I "Login As" the user account for "<user>"
+  #verify upgrade button in home Page - HE
+    Then SP I verify the "Upgrade" button in Home Page
+    And SP I successfully sign out
+    Examples:
+      |user                                   |institution              |
+      |purpleheautomation+LogHistory@gmail.com|Alpena Community College |

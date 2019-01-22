@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 
@@ -65,9 +66,22 @@ public class SuperMatchPageStepDefs implements En {
 
         And("^SM I delete the save search \"([^\"]*)\" and verify it$",fcSuperMatch::deleteSaveSearch);
 
+        And("^SM I delete the saved search named \"([^\"]*)\"$",fcSuperMatch::deleteSavedSearchByName);
+
+        And("^SM I cancel the Save Search popup$",fcSuperMatch::cancelSaveSearchPopup);
+
         Then("^SM I verify that no tooltip icon is displayed for GPA in the results table$", fcSuperMatch::verifyNoGPATooltipIcon);
 
         Then("^I verify that there is not text \"([^\"]*)\" on the page$", fcSuperMatch::verifyThereIsNoTextOnThePage);
 
+        And("^SM I delete all the saved searches$", fcSuperMatch::deleteAllSavedSearches);
+
+        Then("^SM I verify the \"([^\"]*)\" link in the SuperMatch Footer$", fcSuperMatch::verifyFooterLink);
+
+        Then("^SM I verify that the Informational Message contains the following texts:$", fcSuperMatch::verifyInfoMessage);
+
+        And("^SM I go to College Events from the SuperMatch main menu$", fcSuperMatch::goToPageFromSMMainMenu);
+
+        And("^SM I navigate to the Colleges I'm thinking about list$", fcSuperMatch::gotToCollegesImThinkingAboutList);
     }
 }

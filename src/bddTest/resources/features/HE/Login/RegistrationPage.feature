@@ -1,5 +1,5 @@
 @HE
-Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be able to request a new user account for a new/existing institution
+Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be able to request a new user account for a new,existing institution
 
   @MATCH-202
   Scenario: As a new freemium user, I want to utilize the Request User page to request a new user account when a Primary User already exists for my institution
@@ -17,6 +17,7 @@ Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be ab
       |Email        |Success@simulator.amazonses.com |
       |Verify Email |Success@simulator.amazonses.com |
       |Job Title    |The boss                        |
+      |EU Citizen   |Yes                             |
 
 
   @MATCH-203 @MATCH-1514 @MATCH-1856 @MATCH-1857
@@ -32,6 +33,7 @@ Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be ab
       |Job Title                                                           |The boss                        |
       |Are you authorized to post public information about your institution?| No |
       |Do you schedule visits to high schools?                              | Yes |
+      |EU Citizen   |Yes                             |
 
 
   @MATCH-204
@@ -57,6 +59,7 @@ Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be ab
       |Job Title            |The boss                        |
       |Are you authorized to post public information about your institution?| Yes |
       |Do you schedule visits to high schools?                              | No |
+      |EU Citizen   |Yes                             |
 
 
   @MATCH-2053 @MATCH-2092

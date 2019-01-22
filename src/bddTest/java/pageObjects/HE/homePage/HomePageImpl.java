@@ -16,6 +16,8 @@ import pageObjects.HE.accountSettingsPage.AccountSettingsPageImpl;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +42,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void logout() {
+        waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class,'ui small icon success message toast')]")));
         userDropdown().click();
         button(By.id("user-dropdown-signout")).click();
         driver.manage().deleteAllCookies();
@@ -55,7 +59,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void updateProfile() {
         // This line should not be needed.  Current flow is broken.
-        navigationBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         userDropdown().click();
         button(By.id("user-dropdown-update-profile")).click();
         ensureWeAreOnUpdateProfilePage();
@@ -115,7 +119,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCommunityUpgradeMessage() {
-        navigationBar.goToHome();
+        getNavigationBar().goToHome();
         try {
             Assert.assertTrue(driver.findElement(By.id("upgrade-message")).isDisplayed());
             Assert.assertTrue("Expected message for the new widget was not found!"
@@ -226,15 +230,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     }
 
-    public void verifyCommunityActivationForRepVisits(){
-        navigationBar.goToRepVisits();
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
-        waitForUITransition();
-        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
-        driver.switchTo().defaultContent();
-    }
-
     public void verifyWidgetIsVisible(String widgetName){
         waitForUITransition();
         Assert.assertTrue(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
@@ -245,70 +240,120 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         Assert.assertFalse(widgetName+"Widget is not visible",text(widgetName).isDisplayed());
     }
 
-    public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle, String euCitizen){
-        driver.switchTo().frame(0);
-        getofficePhone().sendKeys(OfficePhone);
-        getJobTitle().sendKeys(JobTitle);
-        driver.findElement(By.xpath(String.format(
-                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
-                euCitizen))).click();
-        getTermsAndConditionCheckBox().click();
-        driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
-        button("Save").click();
-        waitUntilPageFinishLoading();
-        driver.switchTo().defaultContent();
-        navigationBar.goToRepVisits();
-    }
-
     public void verifyRepVisitsLandingPage(){
-        navigationBar.goToRepVisits();
-        waitForUITransition();
+        getNavigationBar().goToRepVisits();
+        waitUntilElementExists(getSearchAndScheduleHeading());
         Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
     }
 
-    //Below method is for clearing the community account to get the Community Welcome Paga.
-    public void clearCommunityProfile(){
-        load(GetProperties.get("he.community.clear"));
-        waitUntilPageFinishLoading();
-    }
 
     public void clickEvents() {
-        navigationBar.goToEvents();
+        getNavigationBar().goToEvents();
     }
 
     public void openEventList() {
+        waitUntilPageFinishLoading();
         clickEvents();
     }
 
-    public void clickEventsTab() {
-        eventsTab().click();
-    }
 
     public void verifyTextInButtonFromModule(String moduleName, String buttonText) {
         Assert.assertTrue("The text in the button is incorrect. UI: " + moduleButton(moduleName).getText(), moduleButton(moduleName).getText().equals(buttonText));
     }
 
-    public void verifyScreenIsOpenFromModule(String expectedPage, String moduleName) {
+    public void verifyScreenIsOpenFromModule(String expectedUrl, String moduleName) {
+        waitUntilElementExists(moduleButton(moduleName));
         moduleButton(moduleName).click();
-        switch (expectedPage) {
-            case "Introduction College Profile" :
-                Assert.assertTrue("The page " + expectedPage + " is not displayed", navianceCollegeProfilePage.getStartedButton().isDisplayed());
-        }
+        String expectedURL = GetProperties.get("he.app.url") + expectedUrl;
+        String actualURL = driver.getCurrentUrl();
+        Assert.assertEquals(actualURL, expectedURL);
     }
+
+    public void verifyHeaderInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMore()));
+        productAnnouncementsReadMoreButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsHeader()));
+        Assert.assertTrue("Product announcements 'header' is not displayed",productAnnouncementsReadMoreHeader().isDisplayed());
+    }
+
+    public void verifyCloseButtonInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMoreClose()));
+        Assert.assertTrue("Product announcements 'Close' button is not displayed",productAnnouncementsReadMoreCloseButton().isDisplayed());
+    }
+
+    public void verifyTitleInProductAnnouncementsReadMoreDrawer(String productAnnouncementsTitle){
+        Assert.assertTrue("Product announcements 'Title' is not displayed",productAnnouncementsReadMoreTitle(productAnnouncementsTitle).isDisplayed());
+    }
+
+    public void verifyDateFormatInProductAnnouncementsReadMoreDrawer(String productAnnouncementsTitle,String dateFormat){
+        String date = selectDateForProductAnnouncements("0",dateFormat);
+        Assert.assertTrue("Product announcements 'Date' is not displayed",productAnnouncementsReadMoreDate(productAnnouncementsTitle,date).isDisplayed());
+    }
+
+    public void verifyContentInProductAnnouncementsReadMoreDrawer(String content){
+        String actualContent = getProductAnnouncementsContent().getText();
+        Assert.assertTrue("Product announcements 'content' is not equal",actualContent.equals(content));
+    }
+
+    public void clickCloseButtonInProductAnnouncementsReadMoreDrawer(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMoreClose()));
+        productAnnouncementsReadMoreCloseButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(productAnnouncementsReadMore()));
+    }
+
+    public String selectDateForProductAnnouncements(String addDays,String format) {
+        String DATE_FORMAT_NOW = format;
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
+
+    public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        getNavigationBar().verifyLeftNavAndBreadcrumbs(dataTable);
+    }
+
+    public void verifySubMenuIsVisible(String string){
+        getNavigationBar().verifySubMenuIsVisible(string);
+    }
+
+    public void verifySubMenuIsNotVisible(String submenu){
+        getNavigationBar().verifySubMenuIsNotVisible(submenu);
+    }
+
+    public void goToCommunity(){
+        getNavigationBar().goToCommunity();
+    }
+
+    public void goToActiveMatch(){
+        getNavigationBar().goToActiveMatch();
+    }
+
+    public void goToEvents(){
+        getNavigationBar().goToEvents();
+    }
+
+    public void verifyNotificationIconInHomePage(){
+        getNavigationBar().verifyNotificationIconInHomePage();
+    }
+
+    public void clickNotificationsDropdown(){
+        getNavigationBar().clickNotificationsDropdown();
+    }
+
 
     //locators
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
     private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
-    private WebElement getRepVisitsBtn() { return link(By.id("js-main-nav-rep-visits-menu-link")); }
     private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
     private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
     private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
     private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
-    private WebElement eventsButton() { return driver.findElement(By.cssSelector("a#js-main-nav-am-events-menu-link span")); }
     private WebElement eventsTab() { return driver.findElement(By.xpath("//a[@class='_32YTxE8-igE6Tjpe2vRTtL _1NJbR9iqg-0K_JDhsKdO1B']/span[text()='Events']")); }
-    private WebElement changeProfileLabel(){return text("Change Profile");}
 
     /**
      * Gets the consent to creation and maintenance check box
@@ -320,5 +365,34 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     private String loginButtonLocator = "button.ui.primary.button";
 
-    private WebElement moduleButton(String moduleName) { return driver.findElement(By.xpath("//div[text() = '" + moduleName + "']/../div/a")); }
+    private WebElement moduleButton(String moduleName) {
+        return getDriver().findElement(By.xpath(String.format("//h2[text()='%s']/parent::div/div/a[@role='button']",
+                moduleName)));
+    }
+
+    private WebElement saveButton(){
+        return button("Save");
+    }
+
+    private WebElement productAnnouncementsReadMoreButton(){
+        return getDriver().findElement(By.xpath("//button[text()='Read More']"));
+    }
+    private WebElement productAnnouncementsReadMoreHeader() {
+        return getDriver().findElement(By.xpath("//div[text()='Product Announcement']"));
+    }
+    private WebElement productAnnouncementsReadMoreCloseButton(){
+        return getDriver().findElement(By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"));
+    }
+    private WebElement productAnnouncementsReadMoreTitle(String title){
+        return getDriver().findElement(By.xpath("//div[text()='"+title+"']"));
+    }
+    private WebElement productAnnouncementsReadMoreDate(String title,String date){
+        return getDriver().findElement(By.xpath("//div[text()='"+title+"']/span[text()='"+date+"']"));
+    }
+    private WebElement getProductAnnouncementsContent(){
+        return getDriver().findElement(By.cssSelector("div[class='_15nVgLN5TXRcsMm5l81wvA']"));
+    }
+    private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
+    private By productAnnouncementsReadMore(){return By.xpath("//button[text()='Read More']");}
+    private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
 }

@@ -14,7 +14,6 @@ import static org.junit.Assert.fail;
 public class HomePageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
-    private NavBarImpl navBar = new NavBarImpl();
 
     public HomePageImpl() {
         logger = Logger.getLogger(pageObjects.HE.homePage.HomePageImpl.class);
@@ -90,7 +89,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyUserIsLoggedIn() {
         waitUntilPageFinishLoading();
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         //Check if user Profile element is present
         Assert.assertTrue("User did not sign in successfully",link("Profile").isDisplayed());
@@ -227,6 +226,35 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 //        driver.findElement(By.id("edit-delete--3")).click();
     }
 
+    public void verifyHeaderTagsInPage(String headerText, String tabName, String hTagType) {
+
+        iframeExit();
+        communityFrame();
+
+        String[] tabs = tabName.split(">");
+        for(int i = 0; i < tabs.length; i++)
+        {
+            driver.findElement(By.xpath("//a[text()=\"" + tabs[i].trim() + "\"]")).click();
+        }
+
+        Assert.assertTrue(driver.findElement(By.xpath("//" + hTagType + "[contains(text(),'" + headerText + "')]")).isDisplayed());
+    }
+
+    public void navigateToCounselorCommunityPage() {
+      participateButton().click();
+    }
+
+    public void verifyInstructionalTextInPostBox() {
+        iframeExit();
+        communityFrame();
+
+        Assert.assertTrue("Post box instructional text is not displayed correctly", postBoxInstructionalMessage().getText().contains("This post will be visible to your connections on the Counselor" +
+                " Community homepage and to anyone that visits your profile. " +
+                "Looking to post in a group instead? Go to Your Groups"));
+
+        Assert.assertTrue("'Your Groups' link is not displayed in the post boc instructional text", yourGroupsLink().isDisplayed());
+    }
+
     private WebElement getLearnMoreLink(){ return button ("Learn More"); }
     private WebElement getRequestInformationButton(){ return driver.findElement(By.cssSelector("[class='ui pink button']")); }
     private WebElement userDropdown() {return driver.findElement(By.id("user-dropdown"));}
@@ -234,6 +262,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement signOutBtnHS() {return driver.findElement(By.cssSelector("i[class='sign out icon']"));}
     private WebElement profilePicOnPostsFeed() {return driver.findElement(By.xpath("//img[contains(@src, 'https://qa.community.hobsons.com/sites/default/files/styles/post_thumbnail/public/')]"));}
     private WebElement likeHobsonsPostBtn() {return  driver.findElement(By.xpath("//*[@id='like-node-841']/a[1]"));}
+    private WebElement participateButton() {return driver.findElement(By.xpath("//a[text()='Participate']"));}
+    private WebElement postBoxInstructionalMessage() {return driver.findElement(By.xpath("//div[@id='edit-post-instructions']"));}
+    private WebElement yourGroupsLink() {return driver.findElement(By.xpath("//a[text()='Your Groups']"));}
 
 
 }

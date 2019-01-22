@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
@@ -30,6 +31,7 @@ public class GlobalSearch extends SeleniumBase {
 
         setSearchCategory(category);
         doSearch(searchTerms);
+        waitUntilPageFinishLoading();
     }
 
     public void searchForHEInstitutions(String searchTerm) {
@@ -66,10 +68,11 @@ public class GlobalSearch extends SeleniumBase {
 
 
     public void setSearchCategory(String searchCategory) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
-        waitUntilPageFinishLoading();
+        //waitUntilPageFinishLoading();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
@@ -88,19 +91,27 @@ public class GlobalSearch extends SeleniumBase {
                 break;
             case "People":
                 //getDriver().findElement(By.xpath("//*[@id=\"global-search-box-filter\"]/div/div[contains(text(), 'People')]")).click();
-                getSearchSwitcher().findElement(By.id("global-search-box-filter")).findElement(By.xpath("//div/div/span[contains(text(), 'People')]")).click();
+                getDriver().findElement(By.xpath("//span[contains(text(), 'People')]")).click();
+
                 break;
             case "Groups":
-                getSearchSwitcher().findElement(By.className("comments")).click();
+                getDriver().findElement(By.className("comments")).click();
+                break;
+            case "HS Accounts":
+                getSearchSwitcher().findElement(By.xpath("//i[@class='university icon']/following-sibling::span[text()='HS Accounts']")).click();
                 break;
             default:
                 Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, HE Accounts, College Core, Institutions, Users, People, Groups");
         }
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
     }
     private void doSearch(String searchTerm) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         getSearchBox().click();
+        getSearchBox().sendKeys(Keys.chord(Keys.CONTROL,"a"));
+        getSearchBox().sendKeys(Keys.DELETE);
         getSearchBox().clear();
         getSearchBox().sendKeys(searchTerm);
     }
@@ -143,9 +154,33 @@ public class GlobalSearch extends SeleniumBase {
         Assert.assertTrue("No HE Accounts or Institutions whee returned in the search", institutionsReturned);
     }
 
-    public void selectResult(String optionToSelect) {
+    public void verifyHSSchoolResults(String schoolHSResults){
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-results")));
+
+        List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
+        boolean institutionsReturned = false;
+        boolean itemFound = false;
+        for (WebElement category : categories) {
+            if (category.findElement(By.className("name")).getText().equalsIgnoreCase("HS Accounts")) {
+                institutionsReturned = true;
+                List<WebElement> options = category.findElements(By.className("title"));
+                for (WebElement option : options) {
+                    if (option.getText().toLowerCase().contains(schoolHSResults.toLowerCase())) {
+                        itemFound = true;                    }
+                }
+            }
+        }
+        Assert.assertTrue("Search term was not found in the search results",itemFound);
+        Assert.assertTrue("No HS Accounts or Institutions whee returned in the search", institutionsReturned);
+
+
+
+    }
+
+    public void selectResult(String optionToSelect) {
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
@@ -156,7 +191,7 @@ public class GlobalSearch extends SeleniumBase {
                 institutionsReturned = true;
                 List<WebElement> options = category.findElements(By.className("result"));
                 for (WebElement option : options) {
-                    if (option.findElement(By.className("title")).getText().toLowerCase().equals(optionToSelect.toLowerCase())) {
+                    if (option.findElement(By.className("title")).getText().toLowerCase().contains(optionToSelect.toLowerCase())) {
                         option.click();
                         institutionClickedOn = true;
                         waitUntilPageFinishLoading();
@@ -205,10 +240,11 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         setSearchCategory(category);
         waitUntilPageFinishLoading();
+        getSearchBox().clear();
         doSearch("t ");
-        waitUntilPageFinishLoading();
+        waitUntilElementExists( link("More..."));
         link("More...").click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(button("UPDATE SEARCH"));
         Assert.assertTrue("Did not end on Advanced Search page!  No Update Search buttons is present!", button("UPDATE SEARCH").isDisplayed());
     }
 
@@ -246,6 +282,12 @@ public class GlobalSearch extends SeleniumBase {
         doSearch(searchTerm);
     }
 
+    public void searchHSAccounts(String searchTerm){
+        setSearchCategory("HS Accounts");
+        searchTerm = "\""+searchTerm+"\"";
+        doSearch(searchTerm);
+    }
+
     public void selectRepvisitsAvialability() {
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
@@ -254,16 +296,14 @@ public class GlobalSearch extends SeleniumBase {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
-        WebElement frameClass=driver.findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
-        driver.switchTo().frame(frameClass);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/a[text()='Check RepVisits Availability']"),1));
+        WebElement frameClass=getDriver().findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
+        getDriver().switchTo().frame(frameClass);
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div/a[text()='Check RepVisits Availability']")));
         waitUntilElementExists(RepvisitsAvailabilityButton());
         Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());
         RepvisitsAvailabilityButton().click();
         waitUntilPageFinishLoading();
-        driver.switchTo().defaultContent();
+        getDriver().switchTo().defaultContent();
     }
 
     public void verifyblockedAvaialbility(String date,String time) {
@@ -276,7 +316,7 @@ public class GlobalSearch extends SeleniumBase {
         setSpecificDate(date);
         String dateResult=getMonthandDate(date);
         String Time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
-        List<WebElement> availabilitySlot = driver.findElements(By.xpath("//span[text()='" + dateResult + "']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/button[text()='" + Time + "']"));
+        List<WebElement> availabilitySlot = getDriver().findElements(By.xpath("//span[text()='" + dateResult + "']/ancestor::th/ancestor::thead/following-sibling::tbody/tr/td/button[text()='" + Time + "']"));
         if(availabilitySlot.size()==0){
             logger.info("Availability is displayed");
         }else {
@@ -311,19 +351,19 @@ public class GlobalSearch extends SeleniumBase {
 
     public void findMonth(String month) {
 
-        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+        String DayPickerCaption = getDriver().findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
 
         try{
             int i = 0;
             while (!DayPickerCaption.contains(month) && i < 12) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                getDriver().findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
                 i++;
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                DayPickerCaption = getDriver().findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
             }
             while (!DayPickerCaption.contains(month) && i > -12) {
-                driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                getDriver().findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
                 i--;
-                DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                DayPickerCaption = getDriver().findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
             }
         }
         catch (Exception e) {
@@ -334,7 +374,7 @@ public class GlobalSearch extends SeleniumBase {
     public void clickOnDay(String date) {
         try {
 
-            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
+            getDriver().findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()="+date+"]")).click();
 
         } catch (Exception e) {
             Assert.fail("The Date selected is out of RANGE.");
@@ -349,14 +389,14 @@ public class GlobalSearch extends SeleniumBase {
             case "Users":
                 return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest);
             case "People":
-                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
-                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='user']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='user']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
             case "HE Accounts":
                 return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
                         getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
             case "Institutions":
-                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
-                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
+                return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='university']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
+                        getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='university']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
             case "Groups":
                 return getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class = 'title']")).getText().contains(searchRequest) ||
                         getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class = 'description']")).getText().contains(searchRequest);
@@ -376,9 +416,9 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
         waitUntilPageFinishLoading();
-        driver.findElement(By.id("global-search-box-input")).sendKeys(Keys.ENTER);
+        getDriver().findElement(By.id("global-search-box-input")).sendKeys(Keys.ENTER);
         waitUntilPageFinishLoading();
-        Assert.assertEquals("Did not end on Advanced Search page utilizing the enter/return key!  Original search data not entered in Keyword textBox!", searchRequest, driver.findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
+        Assert.assertEquals("Did not end on Advanced Search page utilizing the enter/return key!  Original search data not entered in Keyword textBox!", searchRequest, getDriver().findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
     }
 
     public void verifyAdvanceSearchByIcon(String searchRequest) {
@@ -388,7 +428,7 @@ public class GlobalSearch extends SeleniumBase {
         waitUntilPageFinishLoading();
         clickSearchIcon();
         waitUntilPageFinishLoading();
-        Assert.assertEquals("Did not end on Advanced Search page utilizing the search icon button!  Original search data not entered in Keyword textBox!", searchRequest, driver.findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
+        Assert.assertEquals("Did not end on Advanced Search page utilizing the search icon button!  Original search data not entered in Keyword textBox!", searchRequest, getDriver().findElement(By.cssSelector("input[id='keyword']")).getAttribute("value"));
     }
 
     public void verifyRealTimeSearchCategorized(DataTable dataTable) {
@@ -434,12 +474,12 @@ public class GlobalSearch extends SeleniumBase {
     public void verifySearchDropBoxResultsActionable(String searchRequest){
         waitUntilPageFinishLoading();
         logger.info("Verifying search dropdown results are clickable/actionable.");
-        String searchPageURL = driver.getCurrentUrl();
+        String searchPageURL = getDriver().getCurrentUrl();
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
         selectResult(searchRequest);
         waitUntilPageFinishLoading();
-        String searchResultsURL = driver.getCurrentUrl();
+        String searchResultsURL = getDriver().getCurrentUrl();
         Assert.assertNotEquals("Real-time search option was not clickable/actionable",searchPageURL,searchResultsURL);
     }
 
@@ -493,23 +533,25 @@ public class GlobalSearch extends SeleniumBase {
             boolean iconExist;
             switch (opt) {
                 case "People":
-                    iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/i")).size() != 0;
+                    iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='user']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='user']/div/i")).size() != 0;
                     Assert.assertTrue("Avatar is not displayed for People in real-time search.", iconExist);
-                    Assert.assertTrue("Name is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class='title'][1]")).isDisplayed());
-                    Assert.assertTrue("Institution is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='user']/div/div/div[@class='description']")).isDisplayed());
+                    Assert.assertTrue("Name is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='user']/div/div/div[@class='title'][1]")).isDisplayed());
+                    Assert.assertTrue("Institution is not displayed for People in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='user']/div/div/div[@class='description']")).isDisplayed());
                     break;
                 case "Institutions":
-                    iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/i")).size() != 0;
+                    iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='university']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']//div[@icon='university']/div/i")).size() != 0;
                     Assert.assertTrue("Avatar/icon is not displayed for Institutions in real-time search.", iconExist);
-                    Assert.assertTrue("Name is not displayed for Institutions in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class='title']")).isDisplayed());
-                    Assert.assertTrue("Location is not displayed for Institutions in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='university']/div/div/div[@class='description']")).isDisplayed());
+                    Assert.assertTrue("Name is not displayed for Institutions in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='university']/div/div/div[@class='title']")).isDisplayed());
+                    Assert.assertTrue("Location is not displayed for Institutions in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@class='results']/div[@icon='university']/div/div/div[@class='description']")).isDisplayed());
                     break;
                 case "Groups":
                     iconExist = getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/span/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/i")).size() != 0;
                     /*Icon does not exist currently - This is a bug - MATCH-3452*/
 //                    Assert.assertTrue("Icon is not displayed for Groups in real-time search.", iconExist);
-                    Assert.assertTrue("Group title is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class='title']")).isDisplayed());
-                    Assert.assertTrue("Description is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']/div[@icon='comments outline']/div/div/div[@class='description']")).isDisplayed());
+                    Assert.assertTrue("Group title is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']//div[@icon='comments outline']/div/div/div[@class='title']")).isDisplayed());
+                    WebElement elementToMove = driver.findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']//div[@icon='comments outline']/div/div/div[@class='description']"));
+                    moveToElement(elementToMove);
+                    Assert.assertTrue("Description is not displayed for Groups in real-time search.", getDriver().findElement(By.xpath("//div[@id='global-search-box-results']/div[@class='category']//div[@icon='comments outline']/div/div/div[@class='description']")).isDisplayed());
                     break;
                 default:
                     Assert.fail(opt + " is not a valid search tab.  Valid categories: People, Institutions, or Groups");
@@ -559,22 +601,32 @@ public class GlobalSearch extends SeleniumBase {
                 case("Legacy: Hub page management"):
                     WebElement hub = getDriver().findElement(By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/i"));
                     hub.click();
-                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(hub.findElement((By.xpath("//span[contains(text(), 'Hub')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Legacy: Community"):
                     WebElement community = getDriver().findElement(By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/i"));
                     community.click();
-                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(community.findElement((By.xpath("//span[contains(text(), 'Community')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Intersect Awareness Subscription"):
                     WebElement awareness = getDriver().findElement(By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/i"));
                     awareness.click();
-                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(awareness.findElement((By.xpath("//span[contains(text(), 'Awareness')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
                 case("Intersect Presence Subscription"):
                     WebElement presence = getDriver().findElement(By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/i"));
                     presence.click();
-                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following-sibling::td/div/div[@class='menu transition visible']/div/span[contains(text(), '" + data.get(subscriptionType) + "')]"))));
+                    jsClick(presence.findElement((By.xpath("//span[contains(text(), 'Presence')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
+                    break;
+                case("Legacy: ActiveMatch Events"):
+                    WebElement events = getDriver().findElement(By.xpath("//span[contains(text(), 'Events')]/../following-sibling::td/div/i"));
+                    events.click();
+                    jsClick(events.findElement((By.xpath("//span[contains(text(), 'Events')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
+                    break;
+                case("ActiveMatch Plus"):
+                    WebElement plus = getDriver().findElement(By.xpath("//span[contains(text(), 'Plus')]/../following-sibling::td/div/i"));
+                    plus.click();
+                    jsClick(plus.findElement((By.xpath("//span[contains(text(), 'Plus')]/../following::td//span[text()='"+data.get(subscriptionType)+"']"))));
                     break;
             }
         }
@@ -605,9 +657,10 @@ public class GlobalSearch extends SeleniumBase {
         }
 
         for (String key : textBoxData.keySet()) {
+            List<WebElement> closedArrows;
             switch (key) {
                 case "Advises Students on Admissions Process":
-                    WebElement advisesStudents = driver.findElement(By.id("advise_students"));
+                    WebElement advisesStudents = getDriver().findElement(By.id("advise_students"));
                     Boolean isChecked = advisesStudents.findElement(By.id("advise_students")).isSelected();
                     if(textBoxData.get(key).equalsIgnoreCase("Yes") && !isChecked || textBoxData.get(key).equalsIgnoreCase("No") && isChecked){
                         advisesStudents.click();
@@ -615,10 +668,10 @@ public class GlobalSearch extends SeleniumBase {
                     waitUntilPageFinishLoading();
                     break;
                 case "Charter School":
-                    WebElement drpCharterSchool = driver.findElement(By.id("hs-charter-school"));
+                    WebElement drpCharterSchool = getDriver().findElement(By.id("hs-charter-school"));
                     drpCharterSchool.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpCharterSchool.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpCharterSchool.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
@@ -631,53 +684,47 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "College Type":
-                    WebElement drpCollegeType = driver.findElement(By.id("he-type"));
+                    WebElement drpCollegeType = getDriver().findElement(By.id("he-type"));
                     drpCollegeType.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpCollegeType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpCollegeType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "County Served":
-                    WebElement drpCountyServed = driver.findElement(By.cssSelector("div[id='field_population_served_name_COUNTY']"));
+                    WebElement drpCountyServed = getDriver().findElement(By.cssSelector("div[id='field_population_served_name_COUNTY']"));
                     drpCountyServed.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpCountyServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpCountyServed.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "Institution State":
-                    WebElement drpInstitutionState = driver.findElement(By.id("institutionState"));
+                    WebElement drpInstitutionState = getDriver().findElement(By.id("institutionState"));
                     drpInstitutionState.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpInstitutionState.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpInstitutionState.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "Institution Type":
                     if(categorySearch.equalsIgnoreCase("People")){
-                        WebElement drpInstitutionType = driver.findElement(By.id("field_institution_type_name"));
+                        WebElement drpInstitutionType = getDriver().findElement(By.id("field_institution_type_name"));
                         drpInstitutionType.click();
                         waitUntilPageFinishLoading();
-                        jsClick(drpInstitutionType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
+                        jsClick(drpInstitutionType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("//div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
                         waitUntilPageFinishLoading();
                     }else {
-                        WebElement drpInstitutionType = driver.findElement(By.id("institution-type"));
+                        WebElement drpInstitutionType = getDriver().findElement(By.id("institution-type"));
                         drpInstitutionType.click();
                         waitUntilPageFinishLoading();
-                        jsClick(drpInstitutionType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
+                        jsClick(drpInstitutionType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key) + "')]")));
                         waitUntilPageFinishLoading();
-                        if (categorySearch.equalsIgnoreCase("Higher Education")) {
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        }else {
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                            getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']")).click();
-                        }
                     }
                     break;
 
                 case "Schedules College Visits":
-                    WebElement schedulesVisits = driver.findElement(By.id("college_visits"));
+                    WebElement schedulesVisits = getDriver().findElement(By.id("college_visits"));
                     Boolean isSelected = schedulesVisits.findElement(By.id("college_visits")).isSelected();
                     if(textBoxData.get(key).equalsIgnoreCase("Yes") && !isSelected || textBoxData.get(key).equalsIgnoreCase("No") && isSelected){
                         schedulesVisits.click();
@@ -686,68 +733,74 @@ public class GlobalSearch extends SeleniumBase {
                     break;
 
                 case "School Type":
-                    WebElement drpSchoolType = driver.findElement(By.id("he-control"));
+                    WebElement drpSchoolType = getDriver().findElement(By.id("he-control"));
                     drpSchoolType.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpSchoolType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpSchoolType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "State":
+                    closedArrows = driver.findElements(By.cssSelector(locationArrowClosedLocator));
+                    if(closedArrows.size() > 0) {
+                        for (WebElement closedArrow : closedArrows) {
+                            closedArrow.click();
+                        }
+                    }
                     WebElement drpState;
                     if(categorySearch.equalsIgnoreCase("Higher Education")) {
-                        drpState = driver.findElement(By.id("he-state"));
+                        drpState = getDriver().findElement(By.id("he-state"));
                     }else {
-                        drpState = driver.findElement(By.id("hs-state"));
+                        drpState = getDriver().findElement(By.id("hs-state"));
                     }
                     drpState.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpState.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpState.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("//span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "State Served":
-                    WebElement drpStateServed = driver.findElement(By.id("field_population_served_name_STATE"));
+                    WebElement drpStateServed = getDriver().findElement(By.id("field_population_served_name_STATE"));
                     drpStateServed.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpStateServed.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpStateServed.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "Title I Eligible":
-                    WebElement drpTitleEligible = driver.findElement(By.id("hs-title-i-eligible"));
+                    WebElement drpTitleEligible = getDriver().findElement(By.id("hs-title-i-eligible"));
                     drpTitleEligible.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpTitleEligible.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                    jsClick(drpTitleEligible.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                     waitUntilPageFinishLoading();
                     break;
 
                 case "Type":
                     if(categorySearch.equalsIgnoreCase("Groups")) {
-                        WebElement typeRadio = driver.findElement(By.id(textBoxData.get(key).toLowerCase()));
-                        typeRadio.click();
+                         WebElement typeRadio = getDriver().findElement(By.xpath("//label/span[text()='"+textBoxData.get(key)+"']"));
+                         typeRadio.click();
                     }else {
-                        WebElement drpType = driver.findElement(By.id("hs-type"));
+                        WebElement drpType = getDriver().findElement(By.id("hs-type"));
                         drpType.click();
                         waitUntilPageFinishLoading();
-                        jsClick(drpType.findElement((By.cssSelector("[class='menu transition visible']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
+                        jsClick(drpType.findElement((By.cssSelector("[class='visible menu transition']"))).findElement(By.xpath("div/span[contains(text(),'" + textBoxData.get(key)+"')]")));
                         waitUntilPageFinishLoading();
                     }
                     break;
 
                 case "Institution":
-                    driver.findElement(By.id("institutionTitle")).sendKeys(textBoxData.get(key));
+                    getDriver().findElement(By.id("institutionTitle")).sendKeys(textBoxData.get(key));
                     break;
 
                 case "Degree":
-                    driver.findElement(By.id("he-degree")).sendKeys(textBoxData.get(key));
+                    getDriver().findElement(By.id("he-degree")).sendKeys(textBoxData.get(key));
                     break;
 
                 case "Postal Code":
-                    if (driver.findElements(By.id("he-postalCode")).size() > 0) {
-                        driver.findElement(By.id("he-postalCode")).sendKeys(textBoxData.get(key));
+                    if (getDriver().findElements(By.id("he-postalCode")).size() > 0) {
+                        getDriver().findElement(By.id("he-postalCode")).sendKeys(textBoxData.get(key));
                     }else {
-                        driver.findElement(By.id("hs-postalCode")).sendKeys(textBoxData.get(key));
+                        getDriver().findElement(By.id("hs-postalCode")).sendKeys(textBoxData.get(key));
                     }
                     break;
 
@@ -756,11 +809,22 @@ public class GlobalSearch extends SeleniumBase {
                     getParent(getParent(text(key))).findElement(By.tagName("input")).sendKeys(textBoxData.get(key));
                     break;
             }
+            closedArrows = driver.findElements(By.cssSelector(locationArrowClosedLocator));
+            if(closedArrows.size() > 0) {
+                for (WebElement closedArrow : closedArrows) {
+                    closedArrow.click();
+                }
+            }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
             waitUntilPageFinishLoading();
             Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size()!=0);
             System.out.println(key + " field updated search.");
         }
+    }
+
+    public void moveToElement(WebElement element){
+        Actions action = new Actions(driver);
+        action.moveToElement(element).build().perform();
     }
 
     //Getters
@@ -771,7 +835,7 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.id("app"));
     }
     private void jsClick(WebElement element) {
-        driver.executeScript("arguments[0].click();",element);
+        getDriver().executeScript("arguments[0].click();",element);
     }
     private WebElement getSearchBox() {
         waitUntilPageFinishLoading();
@@ -782,10 +846,10 @@ public class GlobalSearch extends SeleniumBase {
         return getDriver().findElement(By.id("global-search-box-filter"));
     }
     private void clickSearchIcon(){
-        driver.findElement(By.xpath("//div[@class='ui icon input']/i")).click();
+        getDriver().findElement(By.xpath("//div[@class='ui icon input']/i")).click();
     }
     private void clickAdvancedSearchLink(){
-        navigationBar.clickAdvancedSearchLink();
+        new NavigationBarImpl().clickAdvancedSearchLink();
     }
     private WebElement RepvisitsAvailabilityButton()
     {
@@ -794,7 +858,7 @@ public class GlobalSearch extends SeleniumBase {
     }
     private WebElement visit()
     {
-        WebElement visit=driver.findElement(By.xpath("//span[text()='Visits']"));
+        WebElement visit=getDriver().findElement(By.xpath("//span[text()='Visits']"));
         return  visit;
     }
     private WebElement dateInRepVisitsAvailability()
@@ -802,5 +866,5 @@ public class GlobalSearch extends SeleniumBase {
         WebElement date=button("Go to date");
         return date;
     }
-
+    private String locationArrowClosedLocator = "div.accordion.ui div.title:not(.active)";
 }

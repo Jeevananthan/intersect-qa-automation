@@ -9,4 +9,3 @@ Feature: Community User - View Additional Information on HS Institutions
     And I go to HS institution page
     And I click on Additional Info
     Then I check items on the Lebanon High School institution additional info
-    And HE I successfully sign out

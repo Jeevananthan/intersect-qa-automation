@@ -1,5 +1,6 @@
 package stepDefinitions.HUBS;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.HUBS.*;
 
@@ -13,6 +14,7 @@ public class HUBSLoginStepDefs implements En{
         OverviewPageImpl overview = new OverviewPageImpl();
         InternationalPageImpl international = new InternationalPageImpl();
         AdmissionsPageImpl admissions = new AdmissionsPageImpl();
+        HUBSLoginPageImpl hubsLogin = new HUBSLoginPageImpl();
 
         Then("^HUBS I should be able to verify the changes published in HUBS, with the following credentials:$", studies::verifyChangesPublishedInHUBS);
 
@@ -25,5 +27,18 @@ public class HUBSLoginStepDefs implements En{
         Then("^HUBS I should be able to verify the changes for International published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", international::verifyChangesPublishedInHUBS);
 
         Then("^HUBS I should be able to verify the changes for admissions published in HUBS, with username \"([^\"]*)\", password \"([^\"]*)\" and college \"([^\"]*)\", in the following sections$", admissions::verifyChangesPublishedInHUBS);
+
+        Given("^HUBS I am logged to Naviance Student as user \"([^\"]*)\", with password \"([^\"]*)\" from school \"([^\"]*)\"$", hubsLogin::loginNavianceStudent);
+
+        When("^HUBS I search for the college \"([^\"]*)\"$", hubsLogin::searchCollege);
+
+        And("^HUBS I open the HUBS page for \"([^\"]*)\"$", hubsLogin::openHUBSPage);
+
+        And("^HUBS I enable AM Next Gen using the URL part \"([^\"]*)\"$", hubsLogin::enableAMNextGenByURL);
+
+        And("^HUBS I verify the dark blue footer$", hubsLogin::verifyDarkBlueFooter);
+
+        Then("^HUBS I verify the \"([^\"]*)\" link in the SuperMatch Footer$", hubsLogin::verifyFooterLink);
+
     }
 }

@@ -52,8 +52,7 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="js-main-nav-am-plus-menu-link")
     private WebElement activeMatchMenuLink;
 
-    @FindBy(xpath = "//div[@class='hidden-mobile yBsrTFLn1W-1lYcbX39B6']|" +
-            "//span[@class='hidden-mobile hidden-tablet _3zP6971BAXkchn_VGmJPZr VdkH6dltNSvmQo2ObYzwJ']")
+    @FindBy(css = "a[name='mainmenu'] div.hidden-mobile")
     private  WebElement selectedNavigationMenu;
 
     //Header Bar Search Box Controls
@@ -76,25 +75,28 @@ public class NavigationBarImpl extends SeleniumBase {
     @FindBy(id="helpNav-dropdown")
     private WebElement helpDropdown;
 
-    @FindBy(css = "i[class='globe big icon WwLybVz7icbheav6VG-r5']")
+    @FindBy(xpath = "//i[@class[contains(.,'globe big icon')]]")
     private WebElement notificationsDropdown;
 
-    @FindBy(css = "div[class='menu transition visible']")
+    @FindBy(xpath = "//div[@class[contains(.,'menu') and contains(.,'transition') and contains(.,'visible')]]")
     private WebElement notificationList;
 
     @FindBy(css = "i[class='user circle big icon _2zVyfrnly39K0rqwywYZo8']")
     private WebElement userDropdown;
 
+    @FindBy(xpath = "//i[@class[contains(.,'pink') and contains(.,'circle')]]")
+    private WebElement notificationsCounter;
+
     public NavigationBarImpl(){
 
         logger = Logger.getLogger(NavBarImpl.class);
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(getDriver(), this);
     }
 
     public void goToHome() {
         waitUntilElementExists(navigationDropDown);
         navigationDropDown.click();
-        waitUntil(ExpectedConditions.visibilityOf(homeMenuLink));
+        waitUntilPageFinishLoading();
         homeMenuLink.click();
         waitUntilElementExists(selectedNavigationMenu);
         Assert.assertTrue("The Home menu was not selected",
@@ -130,32 +132,29 @@ public class NavigationBarImpl extends SeleniumBase {
         navianceCollegeProfileMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Naviance College Profile menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Naviance College Profile"));
+                selectedNavigationMenu.getAttribute("innerText").contains("College Profile"));
     }
 
     public void goToRepVisits() {
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-        FluentWait<WebDriver> wait = new WebDriverWait(driver, 5);
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 5);
         wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
         waitUntilElementExists(navigationDropDown);
+        waitUntilPageFinishLoading();
         navigationDropDown.sendKeys(Keys.ENTER);
         waitUntilElementExists(repVisitsMenuLink);
         repVisitsMenuLink.sendKeys(Keys.ENTER);
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
-//        Assert.assertTrue("The RepVisits menu was not selected",
-//                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
-//        Assert.assertTrue("The RepVisits menu was not selected",
-//                selectedNavigationMenu.getAttribute("innerText").contains("RepVisits"));
     }
 
     public void goToEvents() {
-        waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
+        waitUntilPageFinishLoading();
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOf(eventsMenuLink));
         eventsMenuLink.click();
         waitUntil(ExpectedConditions.visibilityOf(selectedNavigationMenu));
         Assert.assertTrue("The Events menu was not selected",
-                selectedNavigationMenu.getAttribute("innerText").contains("Events"));
+                selectedNavigationMenu.getText().contains("Events"));
     }
 
     public void goToActiveMatch() {
@@ -194,7 +193,7 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(searchFilterDropdown));
         searchFilterDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']",filter))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']",filter))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']",filter))).click();
         waitUntil(ExpectedConditions.visibilityOf(searchSesultsListBox));
     }
 
@@ -215,16 +214,24 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(helpDropdown));
         helpDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", helpOption))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']", helpOption))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", helpOption))).click();
         waitUntilPageFinishLoading();
     }
 
     /**
-     * Clicks on the notification dwopdown
+     * Clicks on the notification dropdown
      */
     public void clickNotificationsDropdown(){
         waitUntil(ExpectedConditions.visibilityOf(notificationsDropdown));
-        notificationsDropdown.click();
+        try {
+            notificationsDropdown.click();
+        } catch (Exception e) {
+            if (notificationsCounter.isDisplayed()) {
+                notificationsCounter.click();
+            } else {
+                throw e;
+            }
+        }
         waitUntil(ExpectedConditions.visibilityOf(notificationList));
     }
 
@@ -233,10 +240,10 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param option to be selected
      */
     public void selectUserOption(String option){
-        waitUntil(ExpectedConditions.visibilityOf(userDropdown));
-        userDropdown.click();
+        waitUntil(ExpectedConditions.visibilityOf(this.userDropdown));
+        this.userDropdown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", option))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -248,7 +255,7 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//span[text()='%s']", menu))));
-        driver.findElement(By.xpath(String.format("//span[text()='%s']", menu))).click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", menu))).click();
         waitUntilPageFinishLoading();
     }
 
@@ -260,14 +267,14 @@ public class NavigationBarImpl extends SeleniumBase {
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
         Assert.assertTrue(String.format("The sub menu: %s is not displayed",submenu),
-                driver.findElement(By.xpath(String.format("//span[text()='%s']",submenu))).isDisplayed());
+                getDriver().findElement(By.xpath(String.format("//span[text()='%s']",submenu))).isDisplayed());
         navigationDropDown.click();
     }
     public void verifySubMenuIsNotVisible(String submenu){
         waitUntil(ExpectedConditions.visibilityOf(navigationDropDown));
         navigationDropDown.click();
         Assert.assertTrue(String.format("The sub menu: %s is displayed",submenu),
-                driver.findElements(By.xpath(String.format("//span[text()='%s']",submenu))).size()==0);
+                getDriver().findElements(By.xpath(String.format("//span[text()='%s']",submenu))).size()==0);
         navigationDropDown.click();
     }
 
@@ -275,7 +282,7 @@ public class NavigationBarImpl extends SeleniumBase {
      *Selects the logout option in the user menu
      */
     public void logout(){
-        driver.switchTo().defaultContent();
+        getDriver().switchTo().defaultContent();
         goToHome();
         selectUserOption("Sign Out");
         waitUntilPageFinishLoading();
@@ -286,10 +293,12 @@ public class NavigationBarImpl extends SeleniumBase {
      * @param dataTable
      */
     public void verifyLeftNavAndBreadcrumbs(DataTable dataTable){
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='_3xvPKh2BtfX3PytW8GQpO3']")));
+        waitUntilPageFinishLoading();
         navigationDropDown.click();
         List<List<String>> data = dataTable.raw();
         for(List<String> row : data){
-            WebElement menu = driver.findElement(By.xpath(String.format(
+            WebElement menu = getDriver().findElement(By.xpath(String.format(
                     "//dt[@class='header _1ojTdlgPNhtH4N-__uiqvu']/span[text()='%s']", row.get(0).trim())));
             String[] subMenusText = row.get(1).split(",");
             Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
@@ -309,9 +318,9 @@ public class NavigationBarImpl extends SeleniumBase {
     public void verifyNotificationIconInHomePage(){
         String notificationCount;
         Assert.assertTrue("Notification Icon is not visible",notificationsDropdown.isDisplayed());
-        try{if(driver.findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).isDisplayed())
+        try{if(getDriver().findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).isDisplayed())
         {
-            notificationCount=driver.findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).getText();
+            notificationCount=getDriver().findElement(By.xpath("_2F8dw7IguhNBAlCKQDVrcl")).getText();
             if(notificationCount.equals(""))
             {
                 logger.info("There is no notification");
@@ -325,9 +334,64 @@ public class NavigationBarImpl extends SeleniumBase {
         }}catch(Exception e){}
     }
 
+    /**
+     * Verifies the breadcrumbs with its respective header
+     * @param dataTable
+     */
+    public void verifyLeftNavAndBreadcrumbsForHS(DataTable dataTable){
+        waitUntilPageFinishLoading();
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        FluentWait<WebDriver> wait = new WebDriverWait(getDriver(), 10);
+        wait.until(presenceOfElementLocated(By.className("_3ygB2WO7tlKf42qb0NrjA3")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[name='mainmenu']")));
+        mainMenu().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-rep-visits-menu-link")));
+        List<List<String>> data = dataTable.raw();
+        for(List<String> row : data){
+            WebElement menu = getDriver().findElement(By.xpath(String.format(
+                    "//dt[@class='header _3zoxpD-z3dk4-NIOb73TRl _384bOUKpp0wQluMQzJZp0P']/span[text()='%s']", row.get(0).trim())));
+            String[] subMenusText = row.get(1).split(",");
+            Assert.assertTrue(String.format("The menu: %s is not displayed",row.get(0).trim()),menu.isDisplayed());
+            for(String subMenuText : subMenusText){
+                WebElement subMenu = menu.findElement(By.xpath(String.format(
+                        "parent::dt/parent::dl/dt/a/span[text()='%s']"
+                        ,subMenuText.trim())));
+                Assert.assertTrue(String.format("The submenu: %s is not displayed",subMenuText.trim()),subMenu.isDisplayed());
+            }
+        }
+        getDriver().navigate().refresh();
+    }
+
+    /**
+     * Goes to the Admin Dashboard menu
+     */
+    public void goToAdminDashboard(){
+        getAdminDashboardLink().click();
+        waitUntil(ExpectedConditions.visibilityOf(getAdminDashboardLabel()));
+    }
+
+    /**
+     * Gets the Admin Dashboard link
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLink(){
+        return getDriver().findElement(By.id("js-main-nav-admin-menu-link"));
+    }
+
+    /**
+     * Gets the Admin Dashboard label
+     * @return WebElement
+     */
+    private WebElement getAdminDashboardLabel(){
+        return getDriver().findElement(By.cssSelector("h1._2uZ_hMKXaU0AzfCZMfjh1t"));
+    }
+
     //That set is just to put a limit in the wait until element exists, not is a hardcoded time.
     //Read more information here: https://imalittletester.com/2016/05/11/selenium-how-to-wait-for-an-element-to-be-displayed-not-displayed/
     private void waitForElementSetMaxTimeout() {
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+        getDriver().manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+    }
+    private WebElement mainMenu(){
+        return getDriver().findElement(By.cssSelector("a[name='mainmenu']"));
     }
 }

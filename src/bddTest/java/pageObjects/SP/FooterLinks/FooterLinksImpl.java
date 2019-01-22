@@ -3,8 +3,11 @@ package pageObjects.SP.FooterLinks;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
+import java.util.Calendar;
 import java.util.Set;
 
 public class FooterLinksImpl extends PageObjectFacadeImpl {
@@ -70,6 +73,14 @@ public class FooterLinksImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyYearInHomePage(){
+        String currentYear = getCurrentYear();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
 
-
+    public String getCurrentYear(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        String currentYear=Integer.toString(year);
+        return currentYear;
+    }
 }

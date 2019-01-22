@@ -7,8 +7,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 public class HomePageImpl extends PageObjectFacadeImpl {
 
@@ -78,8 +81,82 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         table(By.id("he-account-dashboard")).findElement(By.cssSelector("[aria-label=\"" + institutionName + "\"]")).click();*/
     }
 
+    public void goToAccount(String accountType, String accountName) {
+        navBar.goToHome();
+        globalSearch.setSearchCategory("All");
+        switch (accountType.toLowerCase()){
+            case "he":
+                globalSearch.searchForHEInstitutions(accountName);
+                break;
+            case "hs":
+                globalSearch.searchHSAccounts(accountName);
+                break;
+                default: Assert.fail("The Account type to search is incorrect");
+                    break;
+        }
+        globalSearch.selectResult(accountName);
+    }
+
+    public void verifyYearInLoginPage(){
+        String currentYear = getCurrentYear();
+        driver.manage().deleteAllCookies();
+        load(GetProperties.get("he.app.url"));
+        waitUntilPageFinishLoading();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+
+    public void verifyYearInRegistrationPage(){
+        load(GetProperties.get("he.registration.url"));
+        String currentYear = getCurrentYear();
+        Assert.assertTrue("Registration page is not displayed",text("New User? Find Your Institution").isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+    public void verifyYearInHomePage(){
+        String currentYear = getCurrentYear();
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © ']/parent::div/div[text()='"+currentYear+"']/parent::div/div[text()=', Hobsons Inc.']")).isDisplayed());
+    }
+    public void verifyHelpCentre() {
+        Assert.assertTrue("notifications icon is not displayed",notificationIconInHelpCentre().isDisplayed());
+        Assert.assertTrue("helpNav-dropdown icon is not displayed",helpNavDropdown().isDisplayed());
+        helpNavDropdown().click();
+        Assert.assertTrue("Help Center is not displayed",helpCentre().isDisplayed());
+        Assert.assertTrue("Contact Support is not displayed",contactSupport().isDisplayed());
+        helpCentre().click();
+        waitUntilPageFinishLoading();
+        String navianceWindow = driver.getWindowHandle();
+        String intersectWindow = null;
+        Set<String> windows = driver.getWindowHandles();
+        for (String thisWindow : windows) {
+            if (!thisWindow.equals(navianceWindow)){
+                intersectWindow = thisWindow;
+            }
+        }
+        driver.switchTo().window(intersectWindow);
+        waitUntilPageFinishLoading();
+        String currentYear=getCurrentYear();
+        Assert.assertTrue("hobsons logo is not displayed",logo().isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//span[text()='Copyright © "+currentYear+" ']/parent::span/following-sibling::span[text()='Hobsons']")).isDisplayed());
+        driver.close();
+        driver.switchTo().window(navianceWindow);
+        waitUntilPageFinishLoading();
+    }
+    public String getCurrentYear(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        String currentYear=Integer.toString(year);
+        return currentYear;
+    }
+
     public void goToUsersList(String institutionName) {
         goToInstitution(institutionName);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("See All Users")));
+        link("See All Users").click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(userListTable()));
+    }
+
+    public void goToAccountUsersList(String accountType, String accountName) {
+        goToAccount(accountType, accountName);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("See All Users")));
         link("See All Users").click();
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOf(userListTable()));
@@ -99,6 +176,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void goToLogHistory(String institutionName) {
         goToInstitution(institutionName);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.linkText("View Log History"),1));
         link("View Log History").click();
         Assert.assertTrue(textbox("Search...").isDisplayed());
     }
@@ -115,6 +193,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void navigateToGraphiQL() {
+        navBar.goToGraphiQL();
+        waitUntilPageFinishLoading();
+    }
+
+    //Locators
     private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
@@ -122,5 +206,25 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement userListTable() {
         return button(By.cssSelector("[class='ui table']"));
     }
-    private WebElement signoutButtonForNoRole(){return driver.findElement(By.cssSelector("button[class='ui mini button']")); }
+    private WebElement signoutButtonForNoRole(){return driver.findElement(By.xpath("//button[text()='Sign Out']")); }
+    private WebElement notificationIconInHelpCentre() {
+        WebElement notificationIcon=driver.findElement(By.id("notificationsNav"));
+        return notificationIcon;
+    }
+    private WebElement helpNavDropdown() {
+        WebElement help=driver.findElement(By.id("helpNav-dropdown"));
+        return  help;
+    }
+    private  WebElement logo() {
+        WebElement Logo=driver.findElement(By.xpath("//div/a[@class='logo']"));
+        return Logo;
+    }
+    private WebElement contactSupport()  {
+        WebElement contactSupport= text("Contact Support");
+        return  contactSupport;
+    }
+    private WebElement helpCentre()    {
+        WebElement helpCentre=driver.findElement(By.xpath("//span[text()='Help Center']"));
+        return  helpCentre;
+    }
 }

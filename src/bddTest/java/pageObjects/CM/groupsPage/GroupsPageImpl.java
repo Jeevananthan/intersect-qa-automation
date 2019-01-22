@@ -5,12 +5,12 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
 import pageObjects.CM.userProfilePage.UserProfilePageImpl;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.Objects;
 
@@ -247,7 +247,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void goToManageGroupMembersPage() {
         logger.info("Going to the Manage Group Members Page.");
         // Implementing Brian's fix from @MATCH-654
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
@@ -257,7 +257,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void goToSpecificManageGroupMembersPage(String group) {
         logger.info("Going to the Manage Group Members Page for group " + group);
-        navBar.goToCommunity();
+        getNavigationBar().goToCommunity();
         communityFrame();
         link("Groups").click();
         waitUntilPageFinishLoading();
@@ -271,7 +271,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         goToManageGroupMembersPage();
         driver.findElement(By.className("accept-link")).click();
         //homePage.logoutSupport();
-        // loginPage.defaultLoginHE();
+        // LoginLogout.defaultLoginHE();
       //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
     }
 
@@ -481,6 +481,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkIfTextIsVisible(String item) {
+        waitUntilPageFinishLoading();
         logger.info("Searching for "+item+".");
         Assert.assertTrue("The "+item+" cannot be found on the page!", checkItemVisible(item));
     }

@@ -1,20 +1,22 @@
 package pageObjects.HE.accountSettingsPage;
 
 import cucumber.api.DataTable;
-import cucumber.api.java.cs.A;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
+    public static String generatedFirstName;
+    public static String oldValueFirstName;
 
     public AccountSettingsPageImpl() {
         logger = Logger.getLogger(AccountSettingsPageImpl.class);
@@ -28,7 +30,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         }
         switch (action) {
             case "Home":
-                navigationBar.goToHome();
+                getNavigationBar().goToHome();
                 waitUntilPageFinishLoading();
                 break;
             case "Save":
@@ -66,7 +68,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(By.
                         xpath("//h1[text()='Something unexpected happened. Please, try again.']")),10);
                 //driver.navigate().refresh();
-                navigationBar.goToHome();
+                getNavigationBar().goToHome();
                 waitUntilPageFinishLoading();
                 userDropdown().click();
                 Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
@@ -88,22 +90,37 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         jsClick(driver.findElement(By.xpath("//div/span[text()='"+option+"']")));
     }
 
-    private WebElement currentPasswordBox() {
-        return textbox("Current Password");
+    public void addStringToCurrentFirstName() {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss");
+        oldValueFirstName = firstNameField().getAttribute("value");
+        firstNameField().clear();
+        generatedFirstName = oldValueFirstName + dateFormat.format(date);
+        firstNameField().sendKeys(generatedFirstName);
+        Assert.assertTrue("The value was not correctly set", firstNameField().getAttribute("value").equals(generatedFirstName));
     }
 
-    private WebElement newPasswordBox() {
-        return textbox("New Password");
+    public void clickSaveChanges() {
+        saveChanges().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']"),1));
     }
 
-    private WebElement confirmPasswordBox() {
-        return textbox("Confirm Password");
+    public void setFirstNameToOriginalValue(String firstName) {
+        firstNameField().clear();
+        firstNameField().sendKeys(firstName);
     }
 
+    /**
+     * Verifies if a given account settings tab is not displayed
+     */
+    public void verifyAccountSettingsTabIsNotDisplayed(String tab){
+        getNavigationBar().selectUserOption("Account Settings");
+        Assert.assertFalse(String.format("The tab: %s is displayed",tab),
+                getDriver().findElements(accountSettingsTabLocator(tab)).size()>0);
+    }
+
+    //Locators
     private WebElement saveChanges() { return driver.findElement(By.xpath("//span[text()='SAVE']")); }
-
-    private WebElement cancelButton() { return button("CANCEL"); }
-
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));
     }
@@ -116,6 +133,17 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     {
     WebElement option=driver.findElement(By.xpath("//span[text()='"+value+"']"));
     return option;
+    }
+
+    private WebElement firstNameField() { return driver.findElement(By.cssSelector("input#user-form-first-name")); }
+
+    /**
+     * Gets the account settings tabs
+     * @param tab
+     * @return
+     */
+    private By accountSettingsTabLocator(String tab){
+        return By.xpath(String.format("//span[text()='%s']",tab));
     }
 
 }

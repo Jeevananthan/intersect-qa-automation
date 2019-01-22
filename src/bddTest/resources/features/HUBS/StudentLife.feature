@@ -1,5 +1,5 @@
 @HUBS @HUBSStudentLife @HUBS-942
-Feature: As a community user viewing College Hubs, I want to be able to view Student Life Tab content so I can
+Feature: HUBS - StudentLife - As a community user viewing College Hubs, I want to be able to view Student Life Tab content so I can
   understand what Hubs offers students.
 
   Background:
@@ -9,7 +9,6 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
 
   Scenario: All the elements of the page are displayed for HE users in Student Life
     Then HUBS All the elements of the student life tab should be displayed
-    And HE I successfully sign out
 
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Student Life" in the edit menu
@@ -28,9 +27,8 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
       | Computing Resources | # of PCs in Computer Centers | 111 |
       | Organizations       | Academic Clubs               | yes |
       | Athletics           | Men                     | Track And Field;Association;NWAACC |
-    And HE I successfully sign out
 
-  @HUBS-1044 @HUBS-1023
+  @HUBS-1044 @HUBS-1023 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4055)
     When HUBS I open "Student Life" in the edit menu
     And HUBS I take note of the values from the following fields in Student Life:
@@ -74,5 +72,4 @@ Feature: As a community user viewing College Hubs, I want to be able to view Stu
       | Computing Resources | Library;pc |
       | Organizations       | Academic Clubs |
       | Athletics           | Men;Track And Field;Division |
-    And HUBS I successfully sign out
 

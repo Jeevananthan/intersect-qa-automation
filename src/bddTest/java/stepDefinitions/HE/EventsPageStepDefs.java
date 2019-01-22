@@ -2,6 +2,7 @@ package stepDefinitions.HE;
 
 import cucumber.api.PendingException;
 import cucumber.api.java8.En;
+import pageObjects.HE.editEventPage.EditEventPageImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
 
 public class EventsPageStepDefs implements En {
@@ -9,6 +10,7 @@ public class EventsPageStepDefs implements En {
     public EventsPageStepDefs() {
 
         EventsPageImpl eventsPage = new EventsPageImpl();
+        EditEventPageImpl editEventPage = new EditEventPageImpl();
 
         Then("^HE The Events page is displayed$", eventsPage::verifyTitleIsPresent);
 
@@ -92,12 +94,24 @@ public class EventsPageStepDefs implements En {
 
         Then("^HE I verify status \"([^\"]*)\" for the event of name \"([^\"]*)\"$", eventsPage::verifyEventStatus);
 
-        Then("^HE I verify status \"([^\"]*)\" for the event of generated name$", eventsPage::verifyEventWithGenNameStatus);
-
         Then("^HE I verify that the filter of name \"([^\"]*)\" is displayed by default in the Event Audience field$", eventsPage::verifyDefaultFilter);
 
         Then("^HE I verify that the events' names are clickable and they open the Edit Event screen$", eventsPage::verifyEventsNamesClickable);
-        //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);
 
+        And("^HE I open the event of generated name$", eventsPage::openEventOfGeneratedName);
+
+        And("^HE I open the \"([^\"]*)\" tab in the Edit Event screen$", eventsPage::openTabInEditEvent);
+
+        Then("^HE I verify in \"([^\"]*)\" tries that the Export Attendees button exports a document of name \"([^\"]*)\" with the following headers:$", editEventPage::verifyExportAction);
+
+        Then("^HE I verify that the following error message is displayed when the Attendees section for the generated event is open:$", eventsPage::verifyAttendeesErrorMessage);
+
+        And("^HE I create and save a new event \"([^\"]*)\" minutes ahead from now with a unique name and the following details:$", eventsPage::createAndSaveEventWithGenDateAndName);
+        //Then("^HE I verify status \"([^\"]*)\" under Unpublished tab$",eventsPage:: statusDraft);
+        And("^HE I verify Attendee Data Details on Edit Events attendee screen$",eventsPage::VerifyAttendeeData);
+        And("^HE click on Event Name \"([^\"]*)\" to edit$", eventsPage :: editEventToPublish);
+        And("^HE I edit and publish a new event \"([^\"]*)\" minutes ahead from now with the following details:$", eventsPage::EditAndPublishEventWithGenDate );
+
+        And("^HE I delete all unpublished events of name \"([^\"]*)\"$", eventsPage::deleteAllUnpublishedEventsOfName);
     }
 }

@@ -1,5 +1,5 @@
 @HUBS
-Feature: As a community user viewing College Hubs, I want to be able to view Hubs Admissions Tab content so I can understand
+Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to be able to view Hubs Admissions Tab content so I can understand
   what Hubs offers students.
 
   Background:
@@ -21,10 +21,9 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Application Requirements | Freshman       | Campus Visit;Optional    |
       | Recommended Courses      | Science        | Years Required;7         |
       | Application Factors      | Ethnicity | Considered |
-    And HE I successfully sign out
 
-  @HUBS-1052
-  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022)
+  @HUBS-1052 @Unstable
+  Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022 - MATCH-5459 - MATCH-5459 - MATCH-5461)
     When HUBS I open "Admissions" in the edit menu
     And HUBS I take note of the values from the following fields in Admissions:
       | Acceptance Rate |
@@ -49,4 +48,3 @@ Feature: As a community user viewing College Hubs, I want to be able to view Hub
       | Application Requirements;Required;Campus Visit |
       | Recommended Courses;Math;Years Required |
       | Application Factors;Class Rank;Important      |
-    And HUBS I successfully sign out

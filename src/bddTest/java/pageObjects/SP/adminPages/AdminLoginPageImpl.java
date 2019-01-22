@@ -29,6 +29,8 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             driver.manage().deleteAllCookies();
         } catch (NoSuchSessionException nsse) {
             load("http://www.google.com");
+        } catch (org.openqa.selenium.WebDriverException wde) {
+            load("http://www.google.com");
         }
         openAdminPage();
         // Make sure our previous session ended.
@@ -43,6 +45,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
             userAnotherAccount.click();
         }
         logger.info("Login in to the admin page");
+        waitUntilPageFinishLoading();
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
         button("Next").click();
@@ -86,8 +89,8 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("sp.app.url"));
     }
 
-    public void loginAsAViewOnlyUser() {
-        login(GetProperties.get("sp.viewOnly.username"), GetProperties.get("sp.viewOnly.password"));
+    public void loginAsASuperAdminUser() {
+        login(GetProperties.get("sp.superAdmin.username"), GetProperties.get("sp.superAdmin.password"));
         adminPage.verifyUserIsLoggedIn();
     }
 

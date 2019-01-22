@@ -55,12 +55,11 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 getHelpLink().click();
                 windows = new ArrayList<>(driver.getWindowHandles());
                 driver.switchTo().window(windows.get(1));
-                waitUntilPageFinishLoading();
-                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class='navigation-wrapper']"), 1));
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("input[placeholder='Search']"), 1));
                 url = driver.getCurrentUrl();
                 driver.close();
                 driver.switchTo().window(windows.get(0));
-                waitForUITransition();
+                waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[aria-label='User Dropdown']"),1));
                 Assert.assertEquals("The Help link is not secure or is not the correct web address.", "https://helpsite.hobsons.com/Intersect/Content/Getting%20Started%20HE.htm", url);
                 break;
         }
@@ -121,7 +120,7 @@ public class HelpImpl extends PageObjectFacadeImpl {
                 }
             }
             driver.switchTo().window(communityGuidelinesWindow);
-            waitForUITransition();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span/a[text()='Hobsons Counselor Community']")));
             driver.findElement(By.xpath("//span/a[text()='Hobsons Counselor Community']")).click();
             String communityGuidelinesURL = link("Counselor Community Guidelines").getUrl();
             link("Counselor Community Guidelines").click();

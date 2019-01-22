@@ -30,12 +30,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     public void goToUserProfilePage() {
         logger.info("Going to user profile page.");
         iframeExit();
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         communityFrame();
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a[href='/profile']")));
-        link(By.cssSelector("a[href='/profile']")).click();
-        waitUntilPageFinishLoading();
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
@@ -612,7 +607,18 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * The below method will Inactivate Account for the user.
+     * Author : Arun
+     */
+    public void clickOnInactivateAccount(){
+        inactivateAccountButton().click();
+        inactivateAccountConfirmationConfirmButton().click();
+    }
 
+    //Locators
+    private WebElement inactivateAccountButton(){ return driver.findElement(By.id("edit-cancel"));}
+    private WebElement inactivateAccountConfirmationConfirmButton(){return driver.findElement(By.id("edit-submit"));}
     private WebElement newPostTextbox() {
         return driver.findElement(By.id("edit-body"));
     }
