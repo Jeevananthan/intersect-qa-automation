@@ -7424,7 +7424,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         removeAppointmentfromCalendar();
 
         /*Events can be added/edited/cancelled separately in both Naviance and RepVisits*/
-        addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, college, location);
+        addNewTimeSlotAndAddVisit(date, startTime, endTime, numVisits, attendee, location);
         getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntilPageFinishLoading();
