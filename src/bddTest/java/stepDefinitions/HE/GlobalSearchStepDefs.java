@@ -1,5 +1,6 @@
 package stepDefinitions.HE;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.COMMON.GlobalSearch;
 
@@ -30,5 +31,9 @@ public class GlobalSearchStepDefs implements En {
         Then("^HE I type into the global search box and select the result using \"([^\"]*)\"$",globalSearch::searchandSelectInGlobalSearch);
         Then("^HE I select Check RepVisits Availability in the community page$",globalSearch::selectRepvisitsAvialability);
         Then("^HE I select Visits to verify the appointment is not present using \"([^\"]*)\" and \"([^\"]*)\" in the RepvisitsAvailability$",globalSearch::verifyblockedAvaialbility);
+        Then("^HE I click on \"([^\"]*)\" in search result$", globalSearch::selectSearchResult);
+
+        Then("^HE I select the search category as \"([^\"]*)\"$", globalSearch::searchForHSInstitutions);
+        Then("^HE I select the search result \"([^\"]*)\"$", globalSearch::selectResult);
     }
 }

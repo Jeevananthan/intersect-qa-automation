@@ -453,5 +453,6 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
 
+        Then("^HE I verify the \"([^\"]*)\" button$",repVisits::verifyAddToTravelPlanButtonInHSPage);
     }
 }

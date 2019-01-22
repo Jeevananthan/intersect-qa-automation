@@ -4171,10 +4171,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return startTime;
     }
 
+    public void verifyAddToTravelPlanButtonInHSPage(String option){
+        communityFrame();
+        Assert.assertTrue(option+" is not displaying.", getAddToTravelPlanButtonInHSPage().isDisplayed());
+    }
+
     /**
      * Gets the searchByLocation textbox in the repvisits>recommendations page
      * @return WebElement
      */
+    private WebElement getAddToTravelPlanButtonInHSPage(){ return driver.findElement(By.className("travel-plan-link"));}
     private WebElement getSearchByLocationTextBox(){
         return textbox("Search by location...");
     }
