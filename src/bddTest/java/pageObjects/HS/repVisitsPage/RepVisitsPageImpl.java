@@ -2006,34 +2006,49 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void loadSetupWizardPage() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
-        List<WebElement> navianceSettings = getDriver().findElements(By.xpath("//h1/span[text()='Connecting Naviance and RepVisits']"));
-        if (navianceSettings.size() == 1) {
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
-            WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
-            jsClick(yesOption);
-            nextButton().click();
-            waitUntilPageFinishLoading();
-            while (completeWizardActiveStep().size() == 0) {
+            if(completeWizardActiveStep().size() == 1){
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                jsClick(allRepVisitsUsersRadioButton());
                 nextButton().click();
                 waitUntilPageFinishLoading();
+                takeMeToMyVisitsButton().click();
+                waitUntilPageFinishLoading();
+                load(GetProperties.get("hs.WizardAppSelect.url"));
+                waitUntilPageFinishLoading();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+            }else if(welcomeWizard.size() == 0) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                while (navianceSettingsActiveStep().size() == 0) {
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                    nextButton().click();
+                    waitUntilPageFinishLoading();
+                }
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
+                jsClick(yesOption);
+                nextButton().click();
+                waitUntilPageFinishLoading();
+                while (completeWizardActiveStep().size() == 0) {
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                    nextButton().click();
+                    waitUntilPageFinishLoading();
+                }
+                jsClick(allRepVisitsUsersRadioButton());
+                nextButton().click();
+                waitUntilPageFinishLoading();
+                takeMeToMyVisitsButton().click();
+                waitUntilPageFinishLoading();
+                load(GetProperties.get("hs.WizardAppSelect.url"));
+                waitUntilPageFinishLoading();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+            } else if(welcomeWizard.size() == 1) {
+                logger.info("The Setup Wizard Welcome page is displayed");
+            } else {
+                Assert.fail("Error in the Setup Wizard page");
             }
-            jsClick(allRepVisitsUsersRadioButton());
-            nextButton().click();
-            waitUntilPageFinishLoading();
-            takeMeToMyVisitsButton().click();
-            waitUntilPageFinishLoading();
-            load(GetProperties.get("hs.WizardAppSelect.url"));
-            waitUntilPageFinishLoading();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
-        } else if (welcomeWizard.size() == 1) {
-            logger.info("The Setup Wizard Starts as expected");
-        } else {
-            Assert.fail("Error in the Setup Wizard page");
         }
-    }
 
 
     public void verifyRepvisitsSetupWizardTimeZoneMilestones() {
@@ -2092,7 +2107,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String timeZoneToSet;
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         doubleClick(visitsAndFairsRadioButton());
         waitUntilPageFinishLoading();
         nextButton().click();
@@ -2175,8 +2190,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         List<WebElement> welcomeWizardPage = getDriver().findElements(By.xpath("//h1/span[text()='Welcome to RepVisits']"));
-        List<WebElement> navianceSettings = getDriver().findElements(By.xpath("//h1/span[text()='Connecting Naviance and RepVisits']"));
-        if (navianceSettings.size() == 1) {
+        if(completeWizardActiveStep().size() == 1){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+            jsClick(allRepVisitsUsersRadioButton());
+            nextButton().click();
+            waitUntilPageFinishLoading();
+            takeMeToMyVisitsButton().click();
+            waitUntilPageFinishLoading();
+            load(GetProperties.get("hs.WizardAppWelcome.url"));
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardWelcomePageText()));
+        }else if(welcomeWizardPage.size() == 0) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+            while (navianceSettingsActiveStep().size() == 0) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                nextButton().click();
+                waitUntilPageFinishLoading();
+            }
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
             jsClick(yesOption);
@@ -2195,7 +2225,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             load(GetProperties.get("hs.WizardAppWelcome.url"));
             waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardWelcomePageText()));
-        } else if (welcomeWizardPage.size() == 1) {
+        } else if(welcomeWizardPage.size() == 1) {
             logger.info("The Setup Wizard Welcome page is displayed");
         } else {
             Assert.fail("Error in the Setup Wizard page");
@@ -2539,7 +2569,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void navigateToVisitsAndFairsWizard() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
         waitUntilPageFinishLoading();
-
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         Assert.assertTrue("welcome wizard is not displayed", welcomeWizardText().isDisplayed());
         visitAndFairsButton().click();
 
@@ -10960,6 +10990,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> completeWizardActiveStep() {
         return getDriver().findElements(By.xpath("//div[@class='active step' and @name='Complete!']"));
+    }
+
+    private List<WebElement> navianceSettingsActiveStep() {
+        return getDriver().findElements(By.xpath("//div[@name='Naviance Settings' and @class='active step']"));
     }
 
     private WebElement visitAvailabilityText() {
