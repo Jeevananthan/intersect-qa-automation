@@ -1,7 +1,7 @@
 @SM
 Feature: AMNG - AM NextGen Connector
 
-  @MATCH-5151 @MATCH-5488 @ignore
+  @MATCH-5151 @MATCH-5455 @MATCH-5488 @ignore
   Scenario: As a student using Naviance Student, when I match with an AM NextGen Connection client, I would like to see
   a connector form that would allow me to connect with that college so that I can send my information to them.
 
@@ -121,7 +121,7 @@ Feature: AMNG - AM NextGen Connector
   Scenario: The workflow is changed to display the single Connector on the College Match Colleges Looking For Students
   Like You page as soon as the student click on the heart icon and NOT redirect the student to Colleges I'm Thinking About page.
 
-  #Clean existing subscriptions and create a new one
+   #Clean existing subscriptions and create a new one
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
@@ -132,7 +132,7 @@ Feature: AMNG - AM NextGen Connector
       | endDate   | 2 days after now  |
     And SP I successfully sign out
 
-  #Make the connector verifications
+   #Make the connector verifications
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
     When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
@@ -142,11 +142,41 @@ Feature: AMNG - AM NextGen Connector
     And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
     And SM I remove "Babson College" from the I'm thinking about list if it is added in the list
 
-  #Clean subscriptions
+   #Clean subscriptions
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
+  @MATCH-5455 @ignore
+  Scenario: As a Naviance Student student user, I would like to be able to connect with an HE Connection client when
+  I have met the match criteria, elected to connect with the college and visit the Colleges Other Students Like page,
+  so that I can send my information to the college. (MATCH-5856)
 
+    #Clean existing subscriptions and create a new one
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5151SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
 
+    #Make the connector verifications
+    Given SM I am logged in to SuperMatch through Family Connection as user "davidsupermatch" with password "Hobsons!23" from school "blue4hs"
+    When SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SP I successfully sign out
+    Given SM I am logged in to SuperMatch through Family Connection as user "davidparentsupermatch" with password "Hobsons!23" from school "blue4hs"
+    And SM I go to Colleges Looking for Students Like You list
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    Then SM I verify that the connector dialog is NOT displayed
+    And HE I click the button "No, Thanks" in the connector dialog
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
