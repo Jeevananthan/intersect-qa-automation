@@ -65,5 +65,17 @@ public class HomePageStepDefs implements En {
 
         Then("^HE I verify that \"([^\"]*)\" is opened from the \"([^\"]*)\" module$", homePage::verifyScreenIsOpenFromModule);
 
+        Then("^HE I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer$",homePage::verifyHeaderInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HE I verify the close button is displaying in the product announcements 'Read More' drawer$",homePage::verifyCloseButtonInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HE I verify the title \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyTitleInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HE I verify the date is displaying next to the title \"([^\"]*)\" with \"([^\"]*)\" format in the product announcements 'Read More' drawer$",homePage::verifyDateFormatInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HE I verify the content \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyContentInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HE I click close button in the product announcements 'Read More' drawer$",homePage::clickCloseButtonInProductAnnouncementsReadMoreDrawer);
+
     }
 }

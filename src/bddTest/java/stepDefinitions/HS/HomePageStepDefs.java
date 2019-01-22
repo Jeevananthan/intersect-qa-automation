@@ -51,11 +51,34 @@ public class HomePageStepDefs implements En {
 
         And("^HS I verify the items are present in the help center dropdown$",homePage::verifyHelpCentre);
 
-        Then("^HS I verify the current year is displayed at the bottom of the window in the Naviance page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",homePage::verifyYearInNaviancePage);
-
         Then("^HS I verify the current year is displayed at the bottom of the window in the RepVisits Page$",homePage::verifyYearInRepVisitsPage);
 
         Then("^HS I verify the current year is displayed at the bottom of the window in the login page for Naviance$",homePage::verifyYearInNavianceLoginPage);
 
+        Then("^HS I verify the header 'Product Announcement' is displaying in the product announcements 'Read More' drawer$",homePage::verifyHeaderInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the close button is displaying in the product announcements 'Read More' drawer$",homePage::verifyCloseButtonInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the title \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyTitleInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the date is displaying next to the title \"([^\"]*)\" with \"([^\"]*)\" format in the product announcements 'Read More' drawer$",homePage::verifyDateFormatInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I verify the content \"([^\"]*)\" is displaying in the product announcements 'Read More' drawer$",homePage::verifyContentInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I click close button in the product announcements 'Read More' drawer$",homePage::clickCloseButtonInProductAnnouncementsReadMoreDrawer);
+
+        Then("^HS I successfully sign out from the Naviance$",homePage::logoutFromNaviance);
+
+        And("^HS I clear the account to get the community welcome page again$",homePage::clearHSCommunityProfile);
+
+        When("^HS I verify that I am redirected to the Community activate profile page when accessing RepVisits$", homePage::verifyHSCommunityActivationForRepVisits);
+
+        Then("^HS I verify the new user required to complete the Counselor Community profile form before they can access the following fields$",homePage::verifyRequiredPageforNewUser);
+
+        Then("^HS I verify the following fields are required fields in the Counselor Community profile form$",homePage::verifyRequiredFieldsInCCProfileFormForHS);
+
+        And("^HS I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$", homePage::fillCommunityWelcomeMandatoryFieldsForHS);
+
+        And("^HS I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits$", homePage::verifyRepVisitsLandingPageForHS);
     }
 }

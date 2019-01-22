@@ -9,7 +9,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the text 'Showing all' is displaying in reassignAppointments Page for the user "Publishing, PurpleHE"
     Then HE I click Go Back button
     When HE I go to re assign appointments
-    Then HE I verify Select All check box in reAssignAppointments page using "Publishing, PurpleHE"
+    Then HE I verify Select all check box in reAssignAppointments page using "Publishing, PurpleHE"
     Then HE I verify the appointments count in reAssignAppointments page for the user "Publishing, PurpleHE"
     Then HE I verify the appointments displaying in agenda view
     Then HE I verify show more button displaying when 26 or more appointments are returned for the user "Publishing, PurpleHE" in reassignAppointments Page
@@ -157,7 +157,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
-    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    Then HS I remove the Time Slot created with "<Day>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|option|
@@ -201,3 +201,59 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |reAssignedAttendee |appointmentsCount|
       |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 6|PurpleHE Publishing   |PurpleHE Community |1                |
 
+  @MATCH-1762 @MATCH-2124
+  Scenario Outline: As an HE Community member,
+  I need to be able to view appointment details in my calendar of my appointments
+  so that I can easily get address/contact/additional info on the scheduled visit.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the RepVisits Visits Confirmations option to "<Option>"
+    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
+    And HS I verify the update button appears and I click update button
+    Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
+    And HS I successfully sign out
+
+#premium
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I click Request button in visit schedule popup
+
+    And HE I select calendar in RepVisits
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
+    Then HE I remove the appointment from the calendar
+
+#community
+    Then HE I am logged in to Intersect HE as user type "community"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
+    And HE I click Request button in visit schedule popup
+
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>"
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
+    Then HE I remove the appointment from the calendar
+
+#freemium
+    Then HE I am logged in to Intersect HE as user type "limited"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>" in freemium
+    And HE I click Request button in visit schedule popup
+
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
+    Then HE I verify the popup for "<School>" using "<Date>","<heCST>","<heCET>","<hsAddress>","<contactPhNo>","<user>","<eMail>" for freemium
+    Then HE I verify and select an appointment in calendar page using "<School>","<heCT>","<Date>","Scheduled"
+    Then HE I remove the appointment from the calendar
+
+#Remove the time slot in Regular Weekly Hours Tab
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
+    Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+    Examples:
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|Option                                              |School                  |heStartTime|heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
+      |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |5555555      |School Manager|school_user_61024USPU@localhost.naviance.com|1     |

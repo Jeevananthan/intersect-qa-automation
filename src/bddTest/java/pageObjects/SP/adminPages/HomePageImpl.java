@@ -193,6 +193,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void navigateToGraphiQL() {
+        navBar.goToGraphiQL();
+        waitUntilPageFinishLoading();
+    }
+
+    //Locators
     private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
         return button(By.id("user-dropdown"));

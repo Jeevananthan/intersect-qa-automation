@@ -68,10 +68,11 @@ public class GlobalSearch extends SeleniumBase {
 
 
     public void setSearchCategory(String searchCategory) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(By.id("global-search-box-filter")));
         getSearchSwitcher().click();
-        waitUntilPageFinishLoading();
+        //waitUntilPageFinishLoading();
         switch(searchCategory) {
             case "All":
                 getSearchSwitcher().findElement(By.className("search")).click();
@@ -102,10 +103,12 @@ public class GlobalSearch extends SeleniumBase {
             default:
                 Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, HE Accounts, College Core, Institutions, Users, People, Groups");
         }
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
     }
     private void doSearch(String searchTerm) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         getSearchBox().click();
         getSearchBox().sendKeys(Keys.chord(Keys.CONTROL,"a"));
         getSearchBox().sendKeys(Keys.DELETE);
@@ -175,7 +178,8 @@ public class GlobalSearch extends SeleniumBase {
     }
 
     public void selectResult(String optionToSelect) {
-        waitUntilPageFinishLoading();
+        //Commenting the below line to increase the performance
+        //waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;

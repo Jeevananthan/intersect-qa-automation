@@ -25,9 +25,18 @@ public class UserListPageStepDefs implements En  {
 
         And("^SP I Login as the user \"([^\"]*)\"$", userListPage::loginAs);
 
+        And("^SP I verify the \"([^\"]*)\" button in Home Page$",userListPage::verifyUpgradeButtonInHomPage);
+
         And("^SP I verify the \"([^\"]*)\" message in the homepage$",userListPage::verifyLoginMessageInHomPage);
 
         Then("^SP I receive the Intersect Invitation email with the following data:$", userListPage::verifyInviteEmail);
+
+        And("^SP I check the impersonated window ie \"([^\"]*)\"$",userListPage::checkImpersonatedWindow);
+
+        And("^SP I check the \"([^\"]*)\" option will be hidden for impersonation$",userListPage::checkImpersonationAccountSettings);
+
+        And("^SP I use \"([^\"]*)\" feature for login as \"([^\"]*)\"$",userListPage::loginAsWithNonNavianceUser);
+
     }
 
 }

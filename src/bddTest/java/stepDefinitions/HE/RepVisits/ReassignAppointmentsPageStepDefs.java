@@ -45,7 +45,7 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I verify the appointments count in reAssignAppointments page for the user \"([^\"]*)\"$",reassignAppointmentsPage::verifyAppointmentsCount);
 
-        Then("^HE I verify the user \"([^\"]*)\" is displaying in Select staff member dropdown$",reassignAppointmentsPage::verifyUserInSelectStaffMemberDropdown);
+        Then("^HE I verify the user \"([^\"]*)\" is displaying in select staff member dropdown$",reassignAppointmentsPage::verifyUserInSelectStaffMemberDropdown);
 
         Then("^HE I verify the text 'Showing all' is displaying in reassignAppointments Page for the user \"([^\"]*)\"$",reassignAppointmentsPage::verifyShowingAllText);
 

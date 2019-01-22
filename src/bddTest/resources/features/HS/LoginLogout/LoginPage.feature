@@ -35,3 +35,26 @@ Feature: HS - LoginLogout - LoginPage - As an HS user I can login with appropria
     When HS I verify the Intersect Logo present in the Login Page
     When HS I want to login to the HS app using "purpleheautomation+admin@gmail.com" as username and "Password!1" as password
     And HS I verify the Intersect Logo present in the Home Page
+
+  @MATCH-1781
+  Scenario: As a HS user, I need to be able to search for high schools during the registration process.
+    so I can associate myself with45 the high school I work at
+    Given HS I am navigating to Intersect HS through Non naviance Url
+    Then HS I click the new user link in the login page
+    When HS I click on HIGHER EDUCATION STAFF MEMBER
+    And HS I search for "Acs Abu Dhabi" in "High school" and verify the results
+
+  @MATCH-1848
+  Scenario: As a HS user, I need to see particular information and instructions on a HS Reg Institution Page.
+            So I can verify the institution is my high school and request a user account.
+    Given HS I navigate to Registration Intersect url
+    Then HS I verify the Institution page
+    And HS I search for "Homeconnection" in High School Staff Member registration page
+    Then HS I select "Homeconnection" from the registration page search results
+    Then HS I verify the address page of "Homeconnection" which is a "non-naviance" school in "Washington"
+    And HS I verify the link "please complete this form."
+    Given HS I navigate to Registration Intersect url
+    And HS I search for "Int QA High School 3" in High School Staff Member registration page
+    Then HS I select "Int QA High School 3" from the registration page search results
+    Then HS I verify the address page of "Int QA High School 3" which is a "naviance" school in "Arlington"
+    And HS I verify the link "Naviance"

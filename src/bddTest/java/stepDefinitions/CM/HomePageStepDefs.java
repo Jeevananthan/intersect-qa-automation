@@ -44,5 +44,6 @@ public class HomePageStepDefs implements En {
         When("^HS I click on HIGHER EDUCATION STAFF MEMBER$", homePage::clickOnHighEducationTab);
         Then("^I navigate to Counselor Community page$", homePage::navigateToCounselorCommunityPage);
         Then("^I verify the instruction text in the post box$", homePage::verifyInstructionalTextInPostBox);
+        And("^I verify that the \"([^\"]*)\" header in \"([^\"]*)\" tab is \"([^\"]*)\"$", homePage::verifyHeaderTagsInPage);
     }
 }

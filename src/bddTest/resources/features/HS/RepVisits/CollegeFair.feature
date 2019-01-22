@@ -205,7 +205,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I verify that a banner appears letting me know that College Fair settings were saved
     And HS I successfully sign out
 
-  @MATCH-2202
+  @MATCH-2202 @MATCH-2372
   Scenario Outline: As a HS RepVisits user who has canceled an HE attendee at a college fair
   I want to be able to re-add that attendee to the fair
   So that I can optimize fair attendance.

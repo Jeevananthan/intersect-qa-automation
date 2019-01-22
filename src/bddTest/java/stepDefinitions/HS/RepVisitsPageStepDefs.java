@@ -60,7 +60,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I set the date using \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::setStartandEndDates);
 
-        Then("^HS I verify that availability dates are from \"([^\"]*)\" to \"([^\"]*)\" for visits the days \"([^\"]*)\" in the calendar$", repVisits::verifyAvaliabilityDates);
+        Then("^HS I verify that availability dates are from \"([^\"]*)\" to \"([^\"]*)\" for visits the days \"([^\"]*)\",\"([^\"]*)\" in the calendar$", repVisits::verifyAvaliabilityDates);
 
         Then("HS I remove the Time Slot created with \"([^\"]*)\", \"([^\"]*)\" and \"([^\"]*)\"$", repVisits::removeTimeSlotAdded);
 
@@ -741,5 +741,39 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I create a new visit to verify the details in naviance with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and \"([^\"]*)\"$",repVisits::createVisitForNaviance);
 
         And("^HS I cancel the college fairs created$", repVisits::cancelCollegeFairs);
+
+        And("^HS I clean the visits for particular Month \"([^\"]*)\"$", repVisits::cleanVisitsForParticularMonth);
+
+        Then("^HS I verify the announcement title \"([^\"]*)\" in the announcement details$",repVisits::verifyAnnouncementTitleIsDisplaying);
+
+        Then("^HS I verify the 'Read More' button is displaying for the content with more than 140 character limit$",repVisits::verifyReadMoreButtonIsDisplaying);
+
+        Then("^HS I verify the announcement details after the success toast message using \"([^\"]*)\"$",repVisits::verifyAnnouncementDetailsAfterSuccessMessage);
+
+        Then("^HS I verify the dismiss button is displaying in the announcement details$",repVisits::verifyDismissButtonInAnnouncementDetails);
+
+        Then("^HS I click the dismiss button$",repVisits::clickDismissButton);
+
+        Then("^HS I verify the announcement is not displaying after clicking dismiss button$",repVisits::verifyAnnouncementIsNotDisplaying);
+
+        Then("^HS I verify the content begins where title would begin in notification bar \"([^\"]*)\"$",repVisits::verifyProductAnnouncementContent);
+
+        Then("^HS I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
+
+        Then("^HS I verify the time slot is added with \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" in Regular Weekly Hours Tab$",repVisits::verifyTimeSlotIsDisplayedInRegularWeeklyHoursTab);
+
+        Then("^HS I go to the Naviance Settings and submit the following details$",repVisits::submitTheValuesInNavianceSettings);
+
+        Then("^HS I verify the naviance college visit page using the following details \"([^\"]*)\"$",repVisits::verifyNavianceCollegeVisitPage);
+
+        Then("^HS I verify the naviance college visit page using the following details after Reschedule the Visits \"([^\"]*)\"$",repVisits::verifyNavianceCollegeVisitPageAfterReschedule);
+
+        Then("^HS I select \"([^\"]*)\" In Naviance college visit Page After Reschedule the visit using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewOptionInNavianceCollegeVisitPageAfterReschedule);
+
+        Then("^HS I select \"([^\"]*)\" In Naviance college visit Page using \"([^\"]*)\",\"([^\"]*)\"$",repVisits::selectViewOptionInNavianceCollegeVisitPage);
+
+        Then("^HS I verify the Appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentCalendarPage);
+
+        Then("^HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page$",repVisits::verifySubTabInNotifications);
     }
 }

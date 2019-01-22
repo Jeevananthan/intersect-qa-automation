@@ -36,6 +36,7 @@ import utilities.GetProperties;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.fail;
 import static pageObjects.HS.repVisitsPage.RepVisitsPageImpl.FairName;
+import static pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
 
 public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
@@ -293,7 +294,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void postMessageInHomePage(String message){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a/img[@alt='Intersect Logo']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[name='mainmenu']")));
         getNavigationBar().goToCommunity();
         waitUntilPageFinishLoading();
         WebElement element=getDriver().findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
@@ -436,7 +437,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectHighSchoolFromResults(String schoolName) {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td/h3/a[text()='"+schoolName+"']")));
         getDriver().findElement(By.xpath("//td/h3/a[text()='"+schoolName+"']")).click();
         waitUntilPageFinishLoading();
     }
@@ -782,7 +783,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getSearchBox().sendKeys(school);
         waitUntilElementExists(search());
         getSearchButton().click();
-        WebElement schoolName=getDriver().findElement(By.xpath("//td/h3/a[contains(text(),'"+school+"')]"));
+        WebElement schoolName=getDriver().findElement(By.xpath("//td//a[contains(text(),'"+school+"')]"));
         waitUntilElementExists(schoolName);
         Assert.assertTrue("school is not displayed",getDriver().findElement(By.xpath("//a[contains(text(),'"+school+"')]")).isDisplayed());
         getDriver().findElement(By.xpath("//a[contains(text(),'"+school+"')]")).click();
@@ -1226,6 +1227,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyDateAndCalenderIconOverAvailabilityTable(){
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//thead/tr[@class='_27onojIbT_EM64h57k6Mee']/ancestor::table/ancestor::div/div/button[text()='Go To Date']")));
         Assert.assertTrue("Calendar icon is not displayed over the Availability Table",getDriver().findElement(By.xpath("//thead/tr[@class='_27onojIbT_EM64h57k6Mee']/ancestor::table/ancestor::div/div/button[text()='Go To Date']")).isDisplayed());
     }
 
@@ -1506,7 +1509,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-   public void searchSchool(String school){
+    public void searchSchool(String school){
         waitUntilPageFinishLoading();
         navigateToRepVisitsSection("Search and Schedule");
         waitUntilPageFinishLoading();
@@ -1519,7 +1522,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         verifySchool(school).click();
         waitUntilPageFinishLoading();
     }
-
     public void visitsSchedule(String school,String startDate,String time){
         if(getDay(startDate).equalsIgnoreCase("Sat")){
             startDate = Integer.toString(Integer.parseInt(startDate)+2);
@@ -1546,7 +1548,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
         }
         setDate(gotoDate, "Go To Date");
-        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime==null?time:pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(availabilityButtonLocator(visitDate,time)));
         Assert.assertTrue("Availability is not displayed",avialabilityButton(visitDate,time).isDisplayed());
         avialabilityButton(visitDate,time).click();
@@ -1653,8 +1655,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyNotification(String school,String date,String time) {
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+school+"']")));
         Assert.assertTrue("school is not displayed",verifySchoolInNotificationTab(school).isDisplayed());
         String Date = selectdate(date);
+        clickShowMoreButton();
         String visitTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         Assert.assertTrue("date and time are not displayed",verifyDateAndTimeInNotificationTab(school,Date,visitTime).isDisplayed());
     }
@@ -1665,7 +1669,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilElementExists(requestsubtab());
         Assert.assertTrue("Requests is not displayed",requestsubtab().isDisplayed());
         requestsubtab().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='"+school+"']")));
         Assert.assertTrue("school is not displayed",verifySchoolInNotificationTab(school).isDisplayed());
+        clickShowMoreButton();
         String Date = selectdate(date);
         Assert.assertTrue("date and time is not displayed",verifyDateAndTimeInNotificationTab(school,Date,time).isDisplayed());
     }
@@ -2127,7 +2133,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyTravelPlanIsLocked(){
         navigateToRepVisitsSection("Travel Plan");
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='_2A5hjEmVP0BipO_WsFslGI']/span[text()='Travel Plan']")));
         Assert.assertTrue("Travel Plan is not locked",text("Unlock Travel Plan").isDisplayed());
     }
      public void navigateToInstitutionNotificationPage(){
@@ -2168,7 +2174,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         emailTextBox().sendKeys(ValidEmail);
         saveButton().click();
         waitUntilPageFinishLoading();
-        String ExactMessage=getDriver().findElement(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")).getText();
+        String ExactMessage=getDriver().findElement(By.xpath("//span/div[@class='aIt5aCQ6cGJhCVYB9NA02']")).getText();
         String SuccessMessage="Success! You've updated your notifications settings.";
         Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
         setImplicitWaitTimeout(7);
@@ -2354,51 +2360,103 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             Month = selectMonth[0];
         }
         String startTime=getCalendarVisitTime().toUpperCase();
-        WebElement appointmentSlot = getDriver().findElement(By.xpath("//span[text()='"+startTime+"']/following-sibling::span[text()='"+school+"']"));
-        Assert.assertTrue("Appointment Slot time and university is not displayed",appointmentSlot.isDisplayed());
-        jsClick(appointmentSlot);
+        if (calendarAppointments(startTime,school).size() == 1) {
+            selectAppointmentInCalendar(startTime, school);
+        } else if (calendarAppointments(startTime,school).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, school);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime,school).size() == 1) {
+                    selectAppointmentInCalendar(startTime, school);
+                } else if (calendarAppointments(startTime,school).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, school);
+                    if(appointment==1){
+                        selectAppointmentInCalendar(startTime, school);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            }else if(appointment == 1){
+                selectAppointmentInCalendar(startTime, school);
+            }
+        }else {
+            Assert.fail("Appointment is not displayed");
+        }
+    }
+
+    public int getAppointmentFromCalendar(String startTime,String school){
+        if(getMonthRow().size()>0){
+            outerloop:
+            for(int i=1;i<=getMonthRow().size();i++){
+                for (int j = 1; j <= 7; j++) {
+                    int rowCount =  getShowMoreRowCount(i,j);
+                    if(rowCount>0) {
+                        jsClick(selectShowMoreButton(i, j, rowCount));
+                        waitUntilPageFinishLoading();
+                        if (calendarAppointments(startTime, school).size() == 1) {
+                            break outerloop;
+                        } else {
+                            jsClick(selectShowMoreButton(i, j, rowCount));
+                            waitUntilPageFinishLoading();
+                        }
+                    }
+                }
+            }
+        }
+        return calendarAppointments(startTime,school).size();
+    }
+
+    public void selectAppointmentInCalendar(String startTime,String school){
+        Assert.assertTrue("Appointment is not displayed", calendarAppointments(startTime,school).size() == 1);
+        jsClick(calendarAppointment(startTime,school));
         waitUntilPageFinishLoading();
     }
 
+    private int getShowMoreRowCount(int firstIndex,int secondIndex){
+        int count = 0,i;
+        for(i=3;i<=7;i++){
+            if(showMoreButton(firstIndex,secondIndex,i).size()==1){
+                count = i;
+                break;
+            }
+        }
+        return count;
+    }
+
     public void verifyCalendarPopup(String school,String date,String startTime,String endTime,String hsAddress,String contactPhoneNo,String user,String eMail) {
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(visitDetailsText()));
         Assert.assertTrue("Visit Details is not displayed",visitDetailsLabel().isDisplayed());
         Assert.assertTrue("Contact is not displayed",contactLabel().isDisplayed());
-        Assert.assertTrue("user is not displayed",getDriver().findElement(By.xpath("//div[text()='"+user+"']")).isDisplayed());
-        Assert.assertTrue("email id is not displayed",getDriver().findElement(By.xpath("//div[text()='"+eMail+"']")).isDisplayed());
-        Assert.assertTrue("contact no is not displayed",getDriver().findElement(By.xpath("//div[text()='"+contactPhoneNo+"']")).isDisplayed());
-        Assert.assertTrue("school name is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]")).isDisplayed());
-        Assert.assertTrue("address is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]/following-sibling::div[contains(text(),'"+hsAddress+"')]")).isDisplayed());
+        Assert.assertTrue("user is not displayed",userText(user).isDisplayed());
+        Assert.assertTrue("email id is not displayed",eMail(eMail).isDisplayed());
+        Assert.assertTrue("contact no is not displayed",contactNo(contactPhoneNo).isDisplayed());
+        Assert.assertTrue("school name is not displayed",schoolNameText(school).isDisplayed());
+        Assert.assertTrue("address is not displayed",address(school,hsAddress).isDisplayed());
         String Date = getSpecificDateforCalendar(date);
-        Assert.assertTrue("date is not displayed",getDriver().findElement(By.xpath("//span[text()='"+Date+"']")).isDisplayed());
+        Assert.assertTrue("date is not displayed",date(Date).isDisplayed());
         startTime = getCalendarPopupVisitTime().toUpperCase();
-        Assert.assertTrue("Time is not displayed",getDriver().findElement(By.xpath("//div/span[contains(text(),'"+startTime+"')]/following-sibling::span[contains(text(),'"+endTime+"')]")).isDisplayed());
+        Assert.assertTrue("Time is not displayed",time(startTime, endTime).isDisplayed());
         Assert.assertTrue("Instructions from High School option is not displayed",instructions().isDisplayed());
 
         try{
-            if(rescheduleVisit().isDisplayed()&&cancelVisit().isDisplayed()) {
-                logger.info("Reschedule this visit and cancel visit option is displayed");
-            }else{
-                logger.info("Reschedule and cancel option is not displayed");
-            }
+            Assert.assertTrue("Reschedule and cancel option is not displayed",rescheduleVisit().isDisplayed()&&cancelVisit().isDisplayed());
         }catch (Exception e){}
-        saveButton().click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        saveButtonInCalendarPopup().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
     public void verifyCalendarPopupforfreemium$(String school,String date,String startTime,String endTime,String hsAddress,String contactPhoneNo,String user,String eMail) {
         waitForUITransition();
         Assert.assertTrue("Visit Details is not displayed",visitDetailsLabel().isDisplayed());
         Assert.assertTrue("Contact is not displayed",contactLabel().isDisplayed());
-        Assert.assertTrue("user is not displayed",getDriver().findElement(By.xpath("//div[text()='"+user+"']")).isDisplayed());
-        Assert.assertTrue("email id is not displayed",getDriver().findElement(By.xpath("//div[text()='"+eMail+"']")).isDisplayed());
-        Assert.assertTrue("contact no is not displayed",getDriver().findElement(By.xpath("//div[text()='"+contactPhoneNo+"']")).isDisplayed());
-        Assert.assertTrue("school name is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]")).isDisplayed());
-        Assert.assertTrue("address is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]/following-sibling::div[contains(text(),'"+hsAddress+"')]")).isDisplayed());
+        Assert.assertTrue("user is not displayed",userText(user).isDisplayed());
+        Assert.assertTrue("email id is not displayed",eMail(eMail).isDisplayed());
+        Assert.assertTrue("contact no is not displayed",contactNo(contactPhoneNo).isDisplayed());
+        Assert.assertTrue("school name is not displayed",schoolNameText(school).isDisplayed());
+        Assert.assertTrue("address is not displayed",address(school,hsAddress).isDisplayed());
         String Date=getSpecificDateforCalendar(date);
-        Assert.assertTrue("date is not displayed",getDriver().findElement(By.xpath("//span[text()='"+Date+"']")).isDisplayed());
+        Assert.assertTrue("date is not displayed",date(Date).isDisplayed());
         startTime=getCalendarPopupVisitTime().toUpperCase();
-        Assert.assertTrue("Time is not displayed",getDriver().findElement(By.xpath("//div/span[contains(text(),'"+startTime+"')]/following-sibling::span[contains(text(),'"+endTime+"')]")).isDisplayed());
+        Assert.assertTrue("Time is not displayed",time(startTime, endTime).isDisplayed());
         Assert.assertTrue("Instructions from High School option is not displayed",instructions().isDisplayed());
         Assert.assertTrue("InternalNotes is enabled",verifyInternalNotes().isDisplayed());
 
@@ -2411,14 +2469,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 logger.info("Reschedule and cancel option is not displayed");
             }
         }catch (Exception e){}
+        jsClick(circularIconCloseButton());
+        waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()));
     }
 
     public void visitsScheduleInFreemium(String school,String startDate,String time){
         visit().click();
-        WebElement schoolName=getDriver().findElement(By.xpath("//h3[text()='"+school+"']"));
-        waitUntil(ExpectedConditions.visibilityOf(schoolName),10);
-        Assert.assertTrue("school is not displayed",schoolName.isDisplayed());
-        waitUntil(ExpectedConditions.visibilityOf(goToDate()),10);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(schoolInFreemium(school)));
+        Assert.assertTrue("school is not displayed",verifySchoolInFreemium(school).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOf(goToDate()));
         String gotoDate = getSpecificDate(startDate);
         setDate(gotoDate, "Go To Date");
         String date=getMonthandDate(startDate);
@@ -2429,16 +2488,15 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeAppointmentfromCalendar(){
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Cancel This Visit']"),1));
-        Assert.assertTrue("Cancel This Visit is not displayed",getDriver().findElement(By.xpath("//button/span[text()='Cancel This Visit']")).isDisplayed());
-        getDriver().findElement(By.xpath("//button/span[text()='Cancel This Visit']")).click();
-        waitForUITransition();
-        getDriver().findElement(By.id("cancel-message")).click();
-        getDriver().findElement(By.id("cancel-message")).sendKeys(Keys.PAGE_DOWN);
-        getDriver().findElement(By.id("cancel-message")).sendKeys("by QA");
-        button("Yes, Cancel Visit").click();
-        waitUntilPageFinishLoading();
-        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelVisitButton()));
+        Assert.assertTrue("Cancel This Visit is not displayed",cancelThisVisitButton().isDisplayed());
+        cancelThisVisitButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelMessageText()));
+        cancelMessageTextBox().click();
+        cancelMessageTextBox().sendKeys(Keys.PAGE_DOWN);
+        cancelMessageTextBox().sendKeys("by QA");
+        visitCancelButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successmessage()));
     }
 
     public String getSpecificDateforCalendar(String addDays) {
@@ -2488,6 +2546,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
+        waitUntil(ExpectedConditions.visibilityOf(link(schoolName)));
         link(schoolName).click();
         waitForUITransition();
         waitUntilElementExists(getFairsButton());
@@ -2671,7 +2730,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyInActiveSubscription(String schoolName){
         waitForUITransition();
         waitUntilElementExists(goToDate());
-        Assert.assertTrue("Searched school is not displayed",getDriver().findElement(By.xpath("//a[text()='"+schoolName+"']")).isDisplayed());
+        Assert.assertTrue("Searched school is not displayed",getDriver().findElement(By.xpath("//a[text()='"+schoolName+"'] | //div[text()='"+schoolName+"']")).isDisplayed());
         try {
             Assert.assertTrue("High school name scheduling results is not a hyperlink", link(schoolName).isEnabled());
         }
@@ -2733,9 +2792,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private void verifyAndClickShowMoreButton(String option,String time,String city,String state,String school){
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         try{
             if(option.equals("Activity")){
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
                 if(cityAndStateInActivityTab(time, city, state, school).size()==0) {
                     if (showMore().size() == 1) {
                         while (cityAndStateInActivityTab(time, city, state, school).size() == 1) {
@@ -2748,6 +2807,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     }
                 }
             }else if(option.equals("Request")){
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
                 if(cityAndStateInRequestTab(time, city, state, school).size()==0){
                     if (showMore().size() == 1) {
                         while (cityAndStateInRequestTab(time, city, state, school).size() == 0) { if (showMore().size() == 1) {
@@ -2766,9 +2826,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     private void verifyAndClickShowMoreButtonforFairs(String option,String city,String state,String school) {
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
         try {
             if (option.equals("Request")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='View Full Details']")));
                 if (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
                     if (showMore().size() == 1) {
                         while (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
@@ -2781,6 +2841,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     }
                 }
             } else if (option.equals("Activity")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
                 if (cityAndStateInActivityTabforFairs(city, state, school).size() == 0) {
                     if (showMore().size() == 1) {
                         while (cityAndStateInRequestTabforFairs(city, state, school).size() == 0) {
@@ -3339,6 +3400,66 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setDate(StartDate, "FirstDate");
     }
 
+    public void verifyVisitDetailsInYourSchedule(String startTime,String school,String startDate){
+        getDriver().navigate().refresh();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(schoolInVisitsLocator(school)));
+        waitUntil(ExpectedConditions.visibilityOf(goToDate()));
+        String gotoDate;
+        int date = Integer.parseInt(startDate);
+        gotoDate = getSpecificDate(date,"MMMM d yyyy");
+        setDate(gotoDate, "Go To Date");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(visitDetails(school)));
+        Assert.assertTrue("Visit details is not displayed in Your schedule page",verifyVisitDetails(school).isDisplayed());
+    }
+
+    public void verifyVisitDetailsInCalendar(String school,String date,String startTime){
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        getCalendarBtn().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarDayButton()));
+        collegeFairTextBoxInCalendarPage().click();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitForUITransition();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()));
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        startTime=getCalendarVisitTime().toUpperCase();
+        if (calendarAppointments(startTime,school).size() == 1) {
+            verifyAppointmentInCalendar(startTime, school);
+        } else if (calendarAppointments(startTime,school).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, school);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime,school).size() == 1) {
+                    verifyAppointmentInCalendar(startTime, school);
+                } else if (calendarAppointments(startTime,school).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, school);
+                    if(appointment==1){
+                        verifyAppointmentInCalendar(startTime, school);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            }else if(appointment == 1){
+                verifyAppointmentInCalendar(startTime, school);
+            }
+        }else {
+            Assert.fail("Appointment is not displayed");
+        }
+    }
+
+    public void verifyAppointmentInCalendar(String startTime,String school){
+        Assert.assertTrue("Appointment is not displayed", calendarAppointments(startTime,school).size()==1);
+    }
 
     /**
      * Select Visit in HE
@@ -3363,6 +3484,43 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         findHEButton(time).click();
         findHEButton("Yes, Request this time").click();
+    }
+
+    public void verifyAnnouncementTitleIsDisplaying(String announcementTitle){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcementTitle)));
+        Assert.assertTrue("Announcement title is not displayed",verifyAnnouncementTitle(announcementTitle).isDisplayed());
+    }
+
+    public void verifyReadMoreButtonIsDisplaying(){
+        Assert.assertTrue("Read more button is not displayed",readMoreButton().isDisplayed());
+    }
+
+    public void verifyAnnouncementDetailsAfterSuccessMessage(String announcement){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(announcementTitle(announcement)));
+        Assert.assertTrue("Announcement is not displayed",verifyAnnouncementTitle(announcement).isDisplayed());
+    }
+
+    public void verifyDismissButtonInAnnouncementDetails(){
+        Assert.assertTrue("Dismiss button is not displayed",announcementDismissButton().isDisplayed());
+    }
+
+    public void clickDismissButton(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(dismissButton()));
+        waitUntil(ExpectedConditions.elementToBeClickable(dismissButton()));
+        jsClick(announcementDismissButton());
+    }
+
+    public void verifyAnnouncementIsNotDisplaying(){
+        waitForUITransition();
+        Assert.assertTrue("Announcement is displayed",announcementsDismissButton().size()==0);
+    }
+
+    public void verifyProductAnnouncementContent(String content){
+        Assert.assertTrue("Content is not displaying",announcementContent(content).isDisplayed());
+    }
+
+    public void verifyReadMoreButtonIsNotDisplaying(){
+        Assert.assertTrue("Read more button is displayed",readMorebutton().size()==0);
     }
 
     /**
@@ -3428,6 +3586,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             getMoreResultsButton().click();
             waitUntilPageFinishLoading();
         }
+        waitUntilPageFinishLoading();
     }
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
@@ -3528,7 +3687,62 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public WebElement avialabilityButton(String visitDate,String time){
         return getDriver().findElement(availabilityButtonLocator(visitDate, time));
     }
+  
+    public void verifyAndSelectAppointmentInCalendarPage(String school,String time,String date,String option){
+        String startTime = "";
+        if(option.equals("Scheduled")) {
+            startTime = getVisitStartTimeInCalendar();
+        }else if(option.equals("ReScheduled")){
+            startTime = getRescheduledVisitStartTimeInCalendar();
+        }
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        calendar().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()),10);
+        collegeFairTextBoxInCalendarPage().click();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()),10);
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
+        if (calendarAppointments(startTime,school).size() == 1) {
+            selectAppointmentInCalendar(startTime, school);
+        } else if (calendarAppointments(startTime,school).size() == 0) {
+            int appointment = getAppointmentFromCalendar(startTime, school);
+            if (appointment == 0) {
+                startTime = getCalendarStartTime();
+                if (calendarAppointments(startTime,school).size() == 1) {
+                    selectAppointmentInCalendar(startTime, school);
+                } else if (calendarAppointments(startTime,school).size() == 0) {
+                    appointment = getAppointmentFromCalendar(startTime, school);
+                    if(appointment==1){
+                        selectAppointmentInCalendar(startTime, school);
+                    }else {
+                        Assert.fail("Appointment is not displayed");
+                    }
+                }
+            }else if(appointment == 1){
+                selectAppointmentInCalendar(startTime, school);
+            }
+        }else {
+            Assert.fail("Appointment is not displayed");
+        }
+    }
 
+    private void clickShowMoreButton(){
+        if(showMore().size()==1){
+            showMoreButton().click();
+            waitForUITransition();
+        }
+    }
     //Locators
     private WebElement staffForReassign(){
         waitUntilPageFinishLoading();
@@ -3566,7 +3780,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getContactsBtn() {
-        return getDriver().findElement(By.xpath("//a[@class='menu-link']/span[text()='Contacts']"));
+        return getDriver().findElement(By.xpath("//div[contains(@class,'pusher dimmed-opacity')]//span[text()='Contacts']"));
     }
     private WebElement getRecommendationsBtn() {return link("Recommendations");}
     private WebElement getNotificationsBtn() {
@@ -3770,7 +3984,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return school;
     }
     private WebElement saveButton() {
-        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='SAVE']"));
+        WebElement button=getDriver().findElement(By.xpath("//button/span[text()='Save']"));
         return button;
     }
     private WebElement yesButton() {
@@ -3810,7 +4024,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return  currentMonth;
     }
     private WebElement verifyInternalNotes() {
-        WebElement message=getDriver().findElement(By.xpath("//input[@placeholder='Upgrade your account to add custom notes to this visit.']"));
+        WebElement message=getDriver().findElement(By.cssSelector("input[placeholder='Upgrade your account to add custom notes to this visit.']"));
         return message;
     }
     private WebElement visitDetailsLabel() {
@@ -3826,7 +4040,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private WebElement rescheduleVisit() {
-        WebElement reschedule=getDriver().findElement(By.xpath("//a[@class='_2SlRxBknbetA9qpiUnR4Pb']"));
+        WebElement reschedule=getDriver().findElement(By.cssSelector("a[class='_2SlRxBknbetA9qpiUnR4Pb']"));
         return reschedule;
     }
     private WebElement cancelVisit() {
@@ -4119,7 +4333,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public WebElement verifySchoolInNotificationTab(String school){
-        return driver.findElement(By.xpath("//span[text()='"+school+"']"));
+        return getDriver().findElement(By.xpath("//span[text()='"+school+"']"));
     }
 
     public WebElement verifyDateAndTimeInNotificationTab(String school,String date,String time){
@@ -4151,14 +4365,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return text;
     }
     private List<WebElement> getDateInRequestTab(){return driver.findElements(By.cssSelector("div[class='row _7a-AX8OE6ILreCgE8P27C']+div>div>div+div>span"));}
+  
+    private String getCalendarStartTime(){
+        String startTime = "";
+        String[] time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime.split("am");
+        String hour[]=time[0].split(":");
+        if(hour[0].equals("12"))
+            startTime = "00"+":"+hour[1];
+        return startTime;
+    }
+    private By cancelVisitButton(){return By.xpath("//button/span[text()='Cancel This Visit']");}
+    private WebElement cancelThisVisitButton(){return getDriver().findElement( By.xpath("//button/span[text()='Cancel This Visit']"));}
+    private WebElement visitCancelButton(){return button("Yes, Cancel Visit");}
+    private WebElement cancelMessageTextBox(){return getDriver().findElement(By.id("cancel-message"));}
+    private By cancelMessageText(){return By.id("cancel-message");}
+    private WebElement saveButtonInCalendarPopup(){return getDriver().findElement(By.xpath("//button/span[text()='Save']"));}
+    public List<WebElement> calendarAppointments(String startTime,String school){return getDriver().findElements(By.xpath("//span[text()='" + school + "']/following-sibling::span[text()='" + startTime + "']"));}
+    public WebElement calendarAppointment(String startTime,String school){return getDriver().findElement(By.xpath("//span[text()='" + school + "']/following-sibling::span[text()='" + startTime + "']"));}
+    public By visitDetailsText(){return By.xpath("//span[text()='Visit Details']");}
+    public WebElement userText(String user){return getDriver().findElement(By.xpath("//div[text()='"+user+"']"));}
+    public WebElement eMail(String eMail){return getDriver().findElement(By.xpath("//div[text()='"+eMail+"']"));}
+    public WebElement contactNo(String contactNo){return getDriver().findElement(By.xpath("//div[text()='"+contactNo+"']"));}
+    public WebElement schoolNameText(String school){return getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]"));}
+    public WebElement address(String school,String hsAddress){return getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]/following-sibling::div[contains(text(),'"+hsAddress+"')]"));}
+    public WebElement date(String date){return getDriver().findElement(By.xpath("//span[text()='"+date+"']"));}
+    public WebElement time(String startTime,String endTime){return getDriver().findElement(By.xpath("//div/span[contains(text(),'"+startTime+"')]/following-sibling::span[contains(text(),'"+endTime+"')]"));}
+    private By schoolNameTextInSchedule(String school){
+        return By.xpath("//td/a[contains(text(),'"+school+"')]");
+    }
+    private WebElement readyToScheduleText(){
+        return getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]"));
+    }
+    private WebElement scheduleTextWithSchool(String school){
+        return getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]"));
+    }
+    private WebElement scheduleTextWithTime(String school,String startTime,String endTime){
+        return getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]"));
+    }
+    private List<WebElement> getMonthRow(){return getDriver().findElements(By.cssSelector("div.rbc-month-row"));}
+    private List<WebElement> showMore(int index){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+index+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div>a"));}
+    private List<WebElement> showMoreButton(int firstIndex,int secondIndex){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
+    private WebElement selectShowMoreButton(int firstIndex,int secondIndex) {return getDriver().findElement(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type(4)>div:nth-of-type("+secondIndex+")>a"));}
 
     private WebElement getActivityTab(){return link("Activity");}
 
     private By cityAndStateInRequest(String visitTime,String city,String state,String school){return By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
 
     private By cityAndStateInActivity(String visitTime,String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         By element = null;
         if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
             element = By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']");
@@ -4171,8 +4425,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifyCityAndStateInRequest(String visitTime,String city,String state,String school){return getDriver().findElement(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
     private WebElement verifyCityAndStateInActivity(String visitTime,String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         WebElement element = null;
         if(getDriver().findElements(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
             element = getDriver().findElement(By.xpath("//div/span[contains(text(),'"+visitTime+"')]/parent::div/preceding-sibling::div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']"));
@@ -4185,8 +4438,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private By cityAndStateInRequestforFairs(String city,String state,String school){return By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']");}
 
     private By cityAndStateInActivityforFairs(String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         By element = null;
         if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']")).size()>0){
             element = By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/span[text()='"+school+"']");
@@ -4199,8 +4451,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement verifyCityAndStateInRequestforFairs(String city,String state,String school){return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
     private WebElement verifyCityAndStateInActivityforFairs(String city,String state,String school){
-        waitForUITransition();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='View Full Details']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='_3d9aL7nr2h8RrqrSAC7mMk _1JTfN0oSkdjnUDHbAdVRl9']")));
         WebElement element = null;
         if(getDriver().findElements(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']")).size()>0){
             element = getDriver().findElement(By.xpath("//div[contains(text(),'"+city+"')]/self::div[contains(text(),'"+state+"')]/preceding-sibling::div/b[text()='"+school+"']"));
@@ -4223,15 +4474,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement internalNotesTextBox(){return driver.findElement(By.cssSelector("input[aria-label = 'Internal Notes']"));}
     private By cancelThisFair(){return By.xpath("//button/span[text()='Cancel This Fair']");}
     private WebElement cancelThisFairButton(){return getDriver().findElement(By.xpath("//button/span[text()='Cancel This Fair']"));}
-    private By cancelMessageText(){ return By.id("cancel-message");}
-    private WebElement cancelMessageTextBox(){return getDriver().findElement(By.id("cancel-message"));}
     private WebElement cancelFairButton(){return button("Yes, Cancel Fair");}
     private By todayButtonInCalendar(){return By.cssSelector("button[title='Today']");}
 
     private WebElement appointmentSlot(String time,String school){return getDriver().findElement(By.xpath("//span[text()='"+time+"']/preceding-sibling::span[text()='"+school+"']"));}
   
-      private By successMessage(){
-        return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']>span");
+    private By successMessage(){
+        return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']");
     }
     private List<WebElement> negativeMessage(){
         return getDriver().findElements(By.cssSelector("div[class='ui negative message']>div>span"));
@@ -4266,6 +4515,50 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> cityAndStateInRequestTab(String visitTime,String city,String state,String school){return getDriver().findElements(By.xpath("//div[text()='"+visitTime+"']/preceding-sibling::div[normalize-space(text())='"+city+","+state+"']/preceding-sibling::div/span[text()='"+school+"']"));}
 
     private By fairsButton(){return By.xpath("//button/span[text()='Fairs']");}
+
+    private WebElement selectShowMoreButton(int firstIndex,int secondIndex,int rowCount) {return getDriver().findElement(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type("+rowCount+")>div:nth-of-type("+secondIndex+")>a.rbc-show-more"));}
+
+    private List<WebElement> showMoreButton(int firstIndex,int secondIndex,int rowCount){return getDriver().findElements(By.cssSelector("div[class='rbc-month-row']:nth-of-type("+firstIndex+")>div[class='rbc-row-content']>div[class='rbc-row']:nth-of-type("+rowCount+")>div:nth-of-type("+secondIndex+")>a.rbc-show-more"));}
+
+    private WebElement verifyVisitDetails(String school){return getDriver().findElement(By.xpath("//div/span[text()='"+StartTime+"']/following-sibling::h3/a[text()='"+school+"']"));}
+
+    private By visitDetails(String school){return By.xpath("//div/span[text()='"+StartTime+"']/following-sibling::h3/a[text()='"+school+"']");}
+
+    private String getVisitStartTimeInCalendar(){
+        String[] time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime.split("am");
+        String startTime=time[0]+"AM";
+        return startTime;
+    }
+    private String getRescheduledVisitStartTimeInCalendar(){
+        String[] time=pageObjects.HS.repVisitsPage.RepVisitsPageImpl.RescheduleStartTimeforNewVisit.split("am");
+        String startTime=time[0]+"AM";
+        return startTime;
+    }
+
+    private By schoolInFreemium(String school){return By.xpath("//div[text()='"+school+"']");}
+
+    private WebElement verifySchoolInFreemium(String school){return getDriver().findElement(By.xpath("//div[text()='"+school+"']"));}
+
+    private WebElement circularIconCloseButton(){  return getDriver().findElement(By.xpath("//button[@class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']")); }
+
+    private By successmessage(){return By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/parent::div"); }
+  
+    private WebElement verifyAnnouncementTitle(String announcementTitle){return getDriver().findElement(By.xpath("//div/b[text()='"+announcementTitle+"']"));}
+
+    private By announcementTitle(String announcementTitle){return By.xpath("//div/b[text()='"+announcementTitle+"']");}
+
+    private WebElement readMoreButton(){return button("Read More");}
+
+    private WebElement announcementDismissButton(){return getDriver().findElement(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private WebElement announcementContent(String content){return getDriver().findElement(By.xpath("//span[text()='"+content+"']"));}
+
+    private List<WebElement> announcementsDismissButton(){return getDriver().findElements(By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']"));}
+
+    private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
+
+    private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
+
 }
 
 
