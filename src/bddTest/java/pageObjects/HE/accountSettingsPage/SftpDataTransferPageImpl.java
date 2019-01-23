@@ -755,6 +755,6 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return
      */
     private WebElement saveFailedMessageBox(){
-        return getDriver().findElement(By.cssSelector("div[class='content _3mk-peHwINmRrC00Aa1rDo']"));
+        return getDriver().findElement(By.cssSelector("div[class='ui icon warning message']"));
     }
 }
