@@ -827,6 +827,10 @@ public class GlobalSearch extends SeleniumBase {
         action.moveToElement(element).build().perform();
     }
 
+    public void selectSearchResult(String searchString){
+        button(searchString).click();
+    }
+
     //Getters
     private WebElement openSearchOptionsDropdowns(){
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));

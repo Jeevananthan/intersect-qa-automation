@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -220,23 +221,6 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return generatedValues;
     }
 
-    //    private void enterPublishReasonsText(String publishReason) {
-//        publishReasonsTextArea().sendKeys(publishReason);
-//    }
-//
-//    private void clickSubmitChangesButton() {
-//        submitChangesButton().click();
-//        new WebDriverWait(getDriver(), 40).until(ExpectedConditions.elementToBeClickable(By.linkText("Continue editing")));
-//    }
-//
-//    private void clickContinueEditingLink() {
-//        continueEditingLink().click();
-//    }
-//
-//    private void clickPublishButton() {
-//        publishButton().click();
-//    }
-//
     public void editAllFieldsBasedOnGatheredValues(String publishReason, HashMap<String, String> originalValues) {
         HashMap<String, String> newValues = generateValues(originalValues);
         OverviewPageImpl.generatedValues = newValues;
@@ -244,7 +228,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(publishReason);
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 
@@ -350,4 +334,5 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         }
         return result;
     }
+    public String loadingIconLeftMenuLocator = "div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary";
 }

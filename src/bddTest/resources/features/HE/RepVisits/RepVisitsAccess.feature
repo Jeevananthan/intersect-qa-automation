@@ -7,7 +7,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Then HE I verify the following tabs exist on the RepVisits page
       |Overview |Search and Schedule |Calendar |Travel Plan |Contacts |Recommendations |Notifications|
 
-  @MATCH-1667
+  @MATCH-1667 @MATCH-2075
   Scenario: As an HE user, I should be able to see Check RepVisits Availability button and Availablity sidebar from HS instituion profile
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "Int QA High School 4" in "Institutions"
@@ -345,3 +345,12 @@ Examples:
     Examples:
       |Date|newVisitSTime|newVisitETime|Attendees           |visitLocation|
       |14  |11:02am      |10:58pm      |PurpleHE Automation |Cbba         |
+
+  @MATCH-2075
+  Scenario: As an HE user of the Counselor Community who is viewing a HS profile, I want to quickly find an action to view
+  that high school's visit and fair availability if they are using RepVisits so I can plan my seasonal travel plan.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then I navigate to Counselor Community page
+    Then HE I select the search category as "Int QA Combined School 2"
+    Then HE I select the search result "Int QA Combined School 2"
+    Then HE I verify the "Add to Travel Plan" button
