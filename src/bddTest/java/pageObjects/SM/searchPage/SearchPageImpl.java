@@ -3516,5 +3516,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement academicsRadioButton(String optionName) { return driver.findElement(By.xpath("//div[@class = 'ui radio checkbox supermatch-academics-radio-left']/label[text() = \"" + optionName + "\"]")); }
     private WebElement majorsDropdownArrow() { return driver.findElement(By.cssSelector("div[categorysuffix='majors'] i.chevron")); }
+    private WebElement addSportButton() {
+        return driver.findElement(By.xpath("//button[text()='ADD SPORT']"));
+    }
 }
 
