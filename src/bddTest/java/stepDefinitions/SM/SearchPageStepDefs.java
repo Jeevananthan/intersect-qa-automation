@@ -366,6 +366,8 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify that position of \"([^\"]*)\" is \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::verifyPositionOfCollegeInComparePinnedSchoolsPage);
 
         Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Student Life fit criteria$",searchPage::selectOrUnselectStudentLifeCriteria);
+      
+        Then("^SM I verify the Add Sports workflow$", searchPage::verifyAddSportsWorkflow);
 
         Then("^SM I check if I can pin or unpin \"([^\"]*)\" from the search box results$", searchPage::checkCollegeCanBePinnedUnpinnedFromSearchBoxResults);
 

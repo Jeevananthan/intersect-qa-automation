@@ -1096,6 +1096,17 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pick "66%" from the dropdown "on-campus-housing-dropdown"
     And SM I verify that the Must Have box contains "On-campus Housing > 66%"
 
+  @MATCH-3378
+  Scenario:As a HS student, I want to see an Add Sport button within the Athletics category so I can walk through a
+  workflow that allows me to specify my Sport requirements during my search for colleges in SuperMatch.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I verify the Add Sports workflow
+      |GENDER|SPORT      |LEVEL     |ASSOCIATION|DIVISION|TEXT DISPLAYED IN PILL                      |
+      |Female|Spring Golf|Varsity   |NCAA       |Div I   |Spring Golf ( Female, Varsity, NCAA, Div I )|
+      |Male  |Badminton  |Intramural|           |        |Badminton ( Male, Intramural )              |
+      |Coed  |Soccer     |Varsity   |NJCAA      |        |Soccer ( Coed, Varsity, NJCAA )             |
+
    @MATCH-3447
    Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
              manage my list.
