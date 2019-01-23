@@ -202,9 +202,15 @@ Feature: SM - ActiveMatch Next Gen
   @MATCH-5707
   Scenario: Naviance Student users are able to see more than 10 AMNG cards on the college match page
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I select "The University of Alabama" from the institution dashboard
-    And HE I click the link "Advanced Awareness"
-    And SP I delete all the subscriptions for school
+#    When SP I select "The University of Alabama" from the institution dashboard
+#    And HE I click the link "Advanced Awareness"
+#    And SP I delete all the subscriptions for school
+#    When SP I select "Auburn University" from the institution dashboard
+#    And HE I click the link "Advanced Awareness"
+#    And SP I delete all the subscriptions for school
+#    When SP I select "Assumption College" from the institution dashboard
+#    And HE I click the link "Advanced Awareness"
+#    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
       | startDate | 0 days before now |

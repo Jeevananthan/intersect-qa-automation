@@ -1,6 +1,7 @@
 package pageObjects.SP.graphiQLPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.gl.E;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -33,7 +34,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
             switch (row.get(0)) {
-                case "startDate" :
+                case "startDate":
                     long startDateEpochTime = 0;
                     if (row.get(1).contains("before")) {
                         startDateEpochTime = getEpochTime(-Integer.parseInt(row.get(1).split(" ")[0]));
@@ -42,7 +43,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     }
                     variables = variables.replaceAll("(\"startDate\")\\:[0-9]+", "$1:" + startDateEpochTime);
                     break;
-                case "endDate" :
+                case "endDate":
                     long endDateEpochTime = 0;
                     if (row.get(1).contains("before")) {
                         endDateEpochTime = getEpochTime(-Integer.parseInt(row.get(1).split(" ")[0]));
@@ -53,11 +54,63 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-        enterTextInGraphiQLField(query, "query");
-        if (graphiQLQueryVariablesHeaderLocator().getAttribute("style").equals("cursor: n-resize;")) {
+//        getDriver().manage().deleteAllCookies();
+//        getDriver().navigate().refresh();
+//        waitUntilPageFinishLoading();
+//       List<WebElement> codeElements = getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span"));
+//               for(WebElement element:codeElements){
+//        while (getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).size() > 1) {
+            Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0));
+        actions.click();
+        actions.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
+        actions.sendKeys(Keys.DELETE);
+        actions.build().perform();
+//        Actions actions2 = new Actions(getDriver());
+//        actions2.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(0).findElements(By.cssSelector("span > span")).get(0));
+//        actions2.click();
+//        actions2.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
+//        actions2.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
+//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
+
+
+
+//            actions2.build().perform();
+//            getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0).clear();
+
+//            getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(1).clear();
+//        }
+
+//try {
+//    Actions actions = new Actions(getDriver());
+//    actions.moveToElement(element);
+//    actions.click();
+//    actions.sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT, Keys.END), "");
+//    actions.build().perform();
+//}
+//catch (Exception e){}
+//               }
+
+        WebElement firstQueryLine = getDriver().findElements(By.cssSelector(queryLinesListLocator)).get(0);
+        enterTextInGraphiQLField(firstQueryLine, query);
+
+        if(getDriver().findElement(By.className("variable-editor")).getSize().height < 30 ) {
             graphiQLQueryVariablesHeaderLocator().click();
         }
-        enterTextInGraphiQLField(variables, "variables");
+        WebElement firstVariablesLine = getDriver().findElements(By.cssSelector(variablesLinesListLocator)).get(0);
+        enterTextInGraphiQLField(firstVariablesLine, variables);
         executeButton().click();
         Assert.assertFalse("There were errors when creating the subscription", isPresentInResults("errors"));
     }
@@ -75,18 +128,11 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
         return result;
     }
 
-    public void enterTextInGraphiQLField(String jsonText, String window) {
+    public void enterTextInGraphiQLField(WebElement fieldFirstLine, String jsonText) {
         Actions actions = new Actions(driver);
-        if (window.equals("query")) {
-            queryFirstNonEditableLine().click();
-        } else if (window.equals("variables")) {
-            variablesFirstNonEditableLine().click();
-        }
-        actions.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-        actions.build().perform();
-        actions.sendKeys(Keys.BACK_SPACE);
-        actions.build().perform();
-        actions.sendKeys(jsonText);
+        actions.moveToElement(fieldFirstLine);
+        actions.click();
+        actions.sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT, Keys.END), jsonText);
         actions.build().perform();
     }
 
@@ -117,9 +163,9 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
     }
 
     //Locators
+    private String queryLinesListLocator = "div.query-editor div.CodeMirror-code div[style='position: relative;'] span[role='presentation']";
     private WebElement executeButton() { return driver.findElement(By.cssSelector("button.execute-button")); }
+    private String variablesLinesListLocator = "div.variable-editor div.CodeMirror-code div[style='position: relative;'] span[role='presentation']";
     private WebElement graphiQLQueryVariablesHeaderLocator() { return driver.findElement(By.cssSelector("div.variable-editor-title")); }
     private String resultsLinesListLocatorssSelector = "div.result-window pre.CodeMirror-line span[role='presentation']";
-    private WebElement queryFirstNonEditableLine() { return driver.findElement(By.xpath("//div[@class = 'query-editor']//div[@class = 'CodeMirror-lines']")); }
-    private WebElement variablesFirstNonEditableLine() { return driver.findElement(By.xpath("//div[@class = 'variable-editor']//div[@class = 'CodeMirror-lines']")); }
 }

@@ -105,17 +105,11 @@ public class GlobalSearch extends SeleniumBase {
             default:
                 Assert.fail(searchCategory + " is not a valid search category.  Valid categories: All, HE Accounts, College Core, Institutions, Users, People, Groups");
         }
-        //Commenting the below line to increase the performance
-        //waitUntilPageFinishLoading();
     }
+
     private void doSearch(String searchTerm) {
-        //Commenting the below line to increase the performance
-        //waitUntilPageFinishLoading();
         getSearchBox().click();
-        getSearchBox().sendKeys(Keys.chord(Keys.CONTROL,"a"));
-        getSearchBox().sendKeys(Keys.DELETE);
-        getSearchBox().clear();
-        getSearchBox().sendKeys(searchTerm);
+        getSearchBox().sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT,Keys.END),searchTerm);
     }
 
     public void clickAdvancedSearchTabCategory(String tab){
