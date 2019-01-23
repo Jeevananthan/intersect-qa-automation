@@ -2786,6 +2786,61 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyAddSportsWorkflow(DataTable dataTable) {
+
+        String gender, sport, level, association, division, textToBeDisplayedInPill;
+
+        chooseFitCriteriaTab("Athletics");
+
+        List<List<String>> rows = dataTable.asLists(String.class);
+
+        for(int index = 1; index < rows.size(); index++)
+        {
+            addSportButton().click();
+
+            gender = rows.get(index).get(0);
+            if(gender != null && gender.trim().length() != 0)
+                selectRadioButton(gender);
+
+            sport = rows.get(index).get(1);
+            if(sport != null && sport.trim().length() != 0)
+                selectOptionFromAthleticsListBox(sport);
+
+            level = rows.get(index).get(2);
+            if(level != null && level.trim().length() != 0)
+                selectRadioButton(level);
+
+            association = rows.get(index).get(3);
+            if(association != null && association.trim().length() != 0)
+                selectRadioButton(association);
+
+            division = rows.get(index).get(4);
+            if(division != null && division.trim().length() != 0)
+                selectRadioButton(division);
+
+            addButton().click();
+
+            textToBeDisplayedInPill = rows.get(index).get(5);
+
+            Assert.assertTrue("Text displayed in the selected sport pill is not correct. Expected: " +
+                            textToBeDisplayedInPill + ", Actual: " + getContentInTheSelectedSportPill(index),
+                    getContentInTheSelectedSportPill(index).equals(textToBeDisplayedInPill));
+
+        }
+    }
+
+    public void selectOptionFromAthleticsListBox(String optionText) {
+        WebElement listBoxInput = driver.findElement(By.xpath("//div[@class='supermatch-athletics-search']//input"));
+        listBoxInput.click();
+        WebElement optionToSelect = driver.findElement(By.xpath("//div[@class='supermatch-athletics-search']//span[text()='"+ optionText + "']"));
+        optionToSelect.click();
+    }
+
+
+
+
+
+
     public void verifyCollegeIsPresentInSearchResults(String collegeName) {
         Assert.assertTrue("The college " + collegeName + " is not present in search results", resultsTable().getText().contains(collegeName));
     }
@@ -3450,6 +3505,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private String studentScoresInAcademicMatchLocator(int rowPosition) {
         return "//table[contains(@class, 'csr-results-table')]/tbody/tr[" + rowPosition + "]//tr[contains(@class, 'aligned')]/td[@class = 'you-column']";
+    }
+    private WebElement addButton() {
+        return driver.findElement(By.xpath("//button[text()='ADD']"));
+    }
+
+    private String getContentInTheSelectedSportPill(int index) {
+        return driver.findElement(By.xpath("(//div[contains(@class, 'supermatch-athletics-button-group') " +
+                "and not(contains(@class, 'row'))])[" + index + "]//p")).getText();
     }
     private WebElement academicsRadioButton(String optionName) { return driver.findElement(By.xpath("//div[@class = 'ui radio checkbox supermatch-academics-radio-left']/label[text() = \"" + optionName + "\"]")); }
     private WebElement majorsDropdownArrow() { return driver.findElement(By.cssSelector("div[categorysuffix='majors'] i.chevron")); }
