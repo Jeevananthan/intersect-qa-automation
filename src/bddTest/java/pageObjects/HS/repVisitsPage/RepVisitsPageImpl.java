@@ -2005,7 +2005,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void loadSetupWizardPage() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(getDriver().findElement(By.xpath("//h1/span[text()='Tell us about your High School']")));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
             if(completeWizardActiveStep().size() == 1){
