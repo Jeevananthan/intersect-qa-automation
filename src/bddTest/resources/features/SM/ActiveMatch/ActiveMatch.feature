@@ -202,15 +202,18 @@ Feature: SM - ActiveMatch Next Gen
   @MATCH-5707
   Scenario: Naviance Student users are able to see more than 10 AMNG cards on the college match page
     Given SP I am logged in to the Admin page as an Admin user
-#    When SP I select "The University of Alabama" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
-#    When SP I select "Auburn University" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
-#    When SP I select "Assumption College" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Assumption College" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Art Academy of Cincinnati" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
       | startDate | 0 days before now |
@@ -250,26 +253,17 @@ Feature: SM - ActiveMatch Next Gen
     And I clear the onboarding popups if present
     And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
     And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
-
+    And SM I go to Colleges Looking for Students Like You list
   Then SM I verify there are more than 10 AM cards
-#    Then SM I verify the card for "The University of Alabama" contains:
-#      | Babson College                |
-#      | Auburn University |
-#      | Assumption College            |
-#      | Art Academy of Cincinnati     |
-#      | Anna Maria College            |
-#    And SM I navigate to the Colleges I'm thinking about list
-#    And SM I add "American University" to the Colleges I'm thinking about list if it is not already there
-#    And SM I go to Colleges Looking for Students Like You list
-#    Then SM I verify the card for "The University of Alabama" contains:
-#      | & more... |
-#    Then SM I remove "Babson College" from the I'm thinking about list if it is added in the list
-#    Then SM I remove "Auburn University" from the I'm thinking about list if it is added in the list
-#    Then SM I remove "Assumption College" from the I'm thinking about list if it is added in the list
-#    Then SM I remove "Art Academy of Cincinnati" from the I'm thinking about list if it is added in the list
-#    Then SM I remove "Anna Maria College" from the I'm thinking about list if it is added in the list
-#    Then SM I remove "American University" from the I'm thinking about list if it is added in the list
-#    Given SP I am logged in to the Admin page as an Admin user
-#    When SP I select "The University of Alabama" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Assumption College" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Art Academy of Cincinnati" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
