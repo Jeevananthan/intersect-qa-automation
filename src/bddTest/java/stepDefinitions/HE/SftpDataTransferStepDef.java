@@ -44,5 +44,6 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I go to the Main Sftp Connection page$",sftpDataTransferPage::goToSftpConnectionMainPageThroughTitleLink);
         And("^HE fill the sftp connection form with the following data$",sftpDataTransferPage::fillSftpConnectionData);
         And("^HE I verify that the warning toast that says \"([^\"]*)\" is displayed$", sftpDataTransferPage::verifyWarningToastText);
+        And("^HE I verify that the message that says \"([^\"]*)\" is displayed when saving fails$", sftpDataTransferPage::verifyFailedSaveMessage);
     }
 }
