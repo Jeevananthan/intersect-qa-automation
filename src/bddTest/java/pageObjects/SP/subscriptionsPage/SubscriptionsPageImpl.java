@@ -358,15 +358,28 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
     }
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
-
+    /**
+     *
+     * @param checkboxText : element to verify(ex: Majors )
+     * @return : checkbox element
+     */
     private WebElement getCheckBoxLabelByText(String checkboxText) {
         return getDriver().findElement(By.xpath("//label[text()='" + checkboxText + "']/../input"));
     }
 
+    /**
+     *
+     * @param checkboxText : element to check(ex: Majors )
+     * @return : checkbox element
+     */
     private WebElement getCheckBoxElementByText(String checkboxText) {
         return getDriver().findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
     }
 
+    /**
+     * Move to the given element using javascript
+     * @param element : get the element to move
+     */
     public void moveToElement(WebElement element) {
         Actions builder = new Actions(driver);
         builder.moveToElement(element).build().perform();

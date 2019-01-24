@@ -711,6 +711,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * select date by given value
+     * @param addDays : number of days to add (ex 10 )
+     * @param format : date format
+     */
     public void setSpecificDate(String addDays,String format) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         if (format != null)
@@ -733,6 +738,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * select the month by given value
+     * @param month Ex : july
+     */
     public void findMonth(String month) {
         waitUntilPageFinishLoading();
         boolean monthStatus = compareDate(month);
@@ -756,6 +765,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     *
+     * @param month : compare month by given value
+     * @return
+     */
     public Boolean compareDate(String month) {
 
         String dateCaption = null;
@@ -783,6 +797,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    /**
+     * click the day in the month
+     * @param date : date to click
+     */
     public void clickOnDay(String date) {
 
         try {

@@ -2383,6 +2383,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         setDate(date);
     }
 
+    /**
+     * select the date from the given value
+     * @param delta : date to select
+     */
     public void setDate(String delta){
         Calendar cal = getDeltaDate(Integer.parseInt(delta));
 
