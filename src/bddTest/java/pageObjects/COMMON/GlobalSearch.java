@@ -660,9 +660,9 @@ public class GlobalSearch extends SeleniumBase {
             List<WebElement> closedArrows;
             switch (key) {
                 case "Advises Students on Admissions Process":
-                    WebElement advisesStudents = getDriver().findElement(By.id("advise_students"));
-                    Boolean isChecked = advisesStudents.findElement(By.id("advise_students")).isSelected();
-                    if(textBoxData.get(key).equalsIgnoreCase("Yes") && !isChecked || textBoxData.get(key).equalsIgnoreCase("No") && isChecked){
+                    WebElement advisesStudents =  getDriver().findElement(By.xpath("//input[@id='advise_students']"));
+                    int isChecked = advisesStudents.findElements(By.id("advise_students")).size();
+                    if(textBoxData.get(key).equalsIgnoreCase("Yes") && isChecked != 0 || textBoxData.get(key).equalsIgnoreCase("No") && isChecked == 1){
                         advisesStudents.click();
                     }
                     waitUntilPageFinishLoading();
@@ -725,8 +725,8 @@ public class GlobalSearch extends SeleniumBase {
 
                 case "Schedules College Visits":
                     WebElement schedulesVisits = getDriver().findElement(By.id("college_visits"));
-                    Boolean isSelected = schedulesVisits.findElement(By.id("college_visits")).isSelected();
-                    if(textBoxData.get(key).equalsIgnoreCase("Yes") && !isSelected || textBoxData.get(key).equalsIgnoreCase("No") && isSelected){
+                    Integer isSelected = schedulesVisits.findElements(By.id("college_visits")).size();
+                    if(textBoxData.get(key).equalsIgnoreCase("Yes") && isSelected != 0 || textBoxData.get(key).equalsIgnoreCase("No") && isSelected == 1){
                         schedulesVisits.click();
                     }
                     waitUntilPageFinishLoading();
@@ -817,7 +817,7 @@ public class GlobalSearch extends SeleniumBase {
             }
             getDriver().findElement(By.xpath("//span[contains(text(),'Update Search')]")).click();
             waitUntilPageFinishLoading();
-            Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found')]")).size()!=0);
+            Assert.assertFalse("The advanced search option " + key + "field did not work properly", getDriver().findElements(By.xpath("//span[contains(text(), 'No results found.')]")).size()!=0);
             System.out.println(key + " field updated search.");
         }
     }
