@@ -2005,8 +2005,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void loadSetupWizardPage() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.presenceOfElementLocated(setUpWizardText()));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
             if(completeWizardActiveStep().size() == 1){
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
@@ -8029,7 +8029,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         declineMsgTextBox().sendKeys(msg);
         Assert.assertTrue("Decline button is not displayed", declineButton().isDisplayed());
         declineButton().click();
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(close());
         Assert.assertTrue("Close button is not displayed", close().isDisplayed());
         waitUntilElementExists(closeButton());
         closeButton();

@@ -273,6 +273,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyHSCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitUntilElementExists(communityWelcomeForm());
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
