@@ -31,7 +31,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(createNewUserButtonLocator), 0));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(backButton)));
         if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
@@ -421,5 +421,5 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
-    private String createNewUserButtonLocator = "//span[text() = 'Create New User']";
+    private String backButton = "i[class='angle left icon']";
 }

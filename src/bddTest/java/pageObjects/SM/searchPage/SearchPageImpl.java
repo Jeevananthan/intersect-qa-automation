@@ -11,6 +11,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
@@ -18,6 +19,9 @@ import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -2375,21 +2379,26 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      *
      * @param date - Calendar object with the desired date
      */
-    public void pickDateInDatePickerSM(Calendar date) {
+    public void pickDateInDatePickerSM(String date) {
+        setDate(date);
+    }
 
-        String dateString = getDay(date);
-        if (Character.valueOf(dateString.charAt(0)).equals('0')) {
-            dateString = dateString.substring(1);
-        }
-        while (!driver.findElement(By.xpath("//option[text()='"+getMonth(date)+"']")).isSelected()) {
+    public void setDate(String delta){
+        Calendar cal = getDeltaDate(Integer.parseInt(delta));
 
-            datePickerNextMonthButton().click();
+        String month = getMonth(cal);
+        String dateNo = getDay(cal);
+        if (dateNo.startsWith("0"))
+            dateNo = dateNo.substring(1);
+        String year = getYear(cal);
+        Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        selectYear.selectByVisibleText(year);
 
-        }
-        waitForUITransition();
-        driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
-                "or @class='DayPicker-Day DayPicker-Day--selected' or @class = 'DayPicker-Day DayPicker-Day--selected " +
-                "DayPicker-Day--today'][text()='" + dateString + "']")).click();
+        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getDriver().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        dateTemp.click();
     }
 
     public void clickClearCalendarIcon() {
