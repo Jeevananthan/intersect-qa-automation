@@ -317,7 +317,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 #precondition
     Given HS I am logged in to Intersect HS as user type "Exceptions"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
-    And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
+    And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..."
 
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
@@ -337,17 +337,19 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 #NumofVisits from 2 to 1
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours to "1"
-
-#NumVisits-1
-    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>",""
-    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
     And HS I successfully sign out
+
+#/*That needs create a new appointment as prerequisite*/
+  ##NumVisits-1
+#    Then HS I go to the Exception tab to verify the visits using "Fully booked","<heStartTime>","<StartDate>",""
+#    Then HS I verify the pills "<StartDate>","<StartTime>" is not displayed in the schedule new visit popup
+##    And HS I successfully sign out
 
 #verify the pills in search and schedule page
     Then HE I am logged in to Intersect HE as user type "marketing"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the pills is not displayed in the search and schedule page using "<School>","<Date>" and "<heStartTime>"
-    And HE I successfully sign out
+#    And HE I successfully sign out
 
 #edit regular weekly hours
     Given HS I am logged in to Intersect HS as user type "Exceptions"
@@ -372,7 +374,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|School          |heStartTime|heTime | option |
-      |7   |7   |10:55am  |12:11pm|2        |7        |14     |12:11pm  |Iowa High School|10:55am    |10:55am| 1       |
+      |7   |7   |10:55am  |12:11pm|2        |7      |14     |12:11pm  |Iowa High School|10:55am    |10:55am| 1       |
 
 
   @MATCH-3701
@@ -406,4 +408,3 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     Examples:
       |Day |StartTime|EndTime|NumVisits|StartDate|EndDate|StartDateException|option |
       |0   |10:55am  |12:11pm|2        |1        |7    |6                 |1      |
-      |1   |10:56am  |12:12pm|2        |1        |9     |7                 |2      |
