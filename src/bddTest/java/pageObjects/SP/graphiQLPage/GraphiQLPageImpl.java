@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,11 +25,11 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
     }
 
     private static String fs = File.separator;
-    private static String partialFilePath = String.format(".%ssrc%sbddTest%sresources%sJSON%s",fs ,fs ,fs ,fs ,fs);
+    private static String propJsonFile = String.format(".%ssrc%sbddTest%sresources%sJSON%sSubscriptions",fs ,fs ,fs ,fs ,fs);
 
     public void createSubscriptionViaGraphiQL(String jsonFileName, DataTable dataTable) {
-        String query = readWholeJSONFile(partialFilePath + "CreateSubscriptionQuery.json");
-        String variables = readWholeJSONFile(partialFilePath + jsonFileName);
+        String query = getStringFromPropFile(propJsonFile,"createSubscriptionQuery");
+        String variables = getStringFromPropFile(propJsonFile,jsonFileName);
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
             switch (row.get(0)) {
