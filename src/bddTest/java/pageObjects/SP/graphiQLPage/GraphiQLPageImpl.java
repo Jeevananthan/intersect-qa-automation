@@ -106,7 +106,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
         WebElement firstQueryLine = getDriver().findElements(By.cssSelector(queryLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstQueryLine, query);
 
-        if(getDriver().findElement(By.className("variable-editor")).getSize().height < 30 ) {
+        if(getDriver().findElement(By.className("variable-editor")).getSize().height < 70 ) {
             graphiQLQueryVariablesHeaderLocator().click();
         }
         WebElement firstVariablesLine = getDriver().findElements(By.cssSelector(variablesLinesListLocator)).get(0);
