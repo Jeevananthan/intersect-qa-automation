@@ -1,6 +1,22 @@
 @HS @HS2
 Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set up Visit availability using the setup wizard
 
+  @MATCH-2436
+  Scenario: As a HS user, I want to be taken to the Calendar page (month view) after my school's RepVisits' wizard has been completed
+  so I don't see the Overview page as my first experience with RepVisits.
+   #Naviance
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+#Pre condition
+    Then HS I complete the setup wizard
+    And HS I navigate to the college visits page
+    Then HS I verify the default calendar page present after the Wizard completion
+    And HS I successfully sign out
+   #Non-Naviance
+    Given HS I am logged in to Intersect HS as user type "admin"
+    Then HS I complete the setup wizard
+    And HS I navigate to the college visits page
+    Then HS I verify the default calendar page present after the Wizard completion
+
   @MATCH-1945
   Scenario: As a new RepVisits user,I want the setup wizard to confirm my school's timezone
             So that I can be sure my appointments will be scheduled at the right time.
@@ -106,21 +122,6 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
       |                           |                                        |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next                |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User  |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back                |
 
 
-  @MATCH-2436
-  Scenario: As a HS user, I want to be taken to the Calendar page (month view) after my school's RepVisits' wizard has been completed
-            so I don't see the Overview page as my first experience with RepVisits.
-   #Naviance
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-#Pre condition
-    Then HS I complete the setup wizard
-    And HS I navigate to the college visits page
-    Then HS I verify the default calendar page present after the Wizard completion
-    And HS I successfully sign out
-   #Non-Naviance
-    Given HS I am logged in to Intersect HS as user type "admin"
-    Then HS I complete the setup wizard
-    And HS I navigate to the college visits page
-    Then HS I verify the default calendar page present after the Wizard completion
 
   @MATCH-2294
   Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
