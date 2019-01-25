@@ -385,7 +385,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setAcceptInVisitSchedulingToFullyBooked(String accept) {
-        setAcceptinAvailabilitySettings(accept, "1");
+        setAcceptinAvailabilitySettings(accept, "2");
     }
 
     public void setAcceptinAvailabilitySettings(String accept, String visitsPerDay) {
@@ -4926,13 +4926,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigateToException();
         waitUntilPageFinishLoading();
         nextWeekException().click();
-
-        //Remove Time slot
-        WebElement removeIcon = removeSingleTimeSlot();
-        jsClick(removeIcon);
-        waitUntilPageFinishLoading();
-        acceptButton().click();
-        waitUntilPageFinishLoading();
     }
 
     /**
@@ -5642,12 +5635,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             ignoreTimeSlotOption().click();
             addRegularHoursButton().click();
             waitUntilPageFinishLoading();
-        } else if (option.contains("2")) {
-            /*No sure about the below instruction but commented that it's working OK*/
-//            addTimeSlot().click();
-            ignoreTimeSlotOption().click();
-            addRegularHoursButton().click();
-
         } else if (duplicateTimeSlot.size() == 1) {
             addnewTimeSlot(day, startTime, endTime, numVisits, option);
         }
@@ -6006,6 +5993,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 logger.info("More than one time slots are there");
             }
         } else {
+            saveButton().click();
             Assert.assertTrue(option + " are not displayed", driver.findElement(By.xpath("//span[text()='" + date + "']/ancestor::th/ancestor::thead/following-sibling::tbody//tr//td//div//span[text()='" + option + "']")).isDisplayed());
         }
     }
