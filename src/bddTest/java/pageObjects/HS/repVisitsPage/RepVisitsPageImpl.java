@@ -867,7 +867,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessWelcomeSetupWizard(String optionToSelect) {
-        waitForUITransition();
         loadSetupWizardPage();
         if (!optionToSelect.equals("")) {
             if (optionToSelect.equalsIgnoreCase("VISITS")) {
@@ -1250,7 +1249,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCalendarSyncMilestoneInSetupWizard() {
-        loadSetupWizardPage();
         doubleClick(visitsAndFairsRadioButton());
         while (calendarSyncActiveInSetupWizard().size() == 0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
@@ -2005,8 +2003,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void loadSetupWizardPage() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
-        WebDriverWait wait = new WebDriverWait(driver, 50);
-        wait.until(ExpectedConditions.presenceOfElementLocated(setUpWizardText()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
             if(completeWizardActiveStep().size() == 1){
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
@@ -2052,9 +2049,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyRepvisitsSetupWizardTimeZoneMilestones() {
-        loadSetupWizardPage();
         while (highSchoolInformation().size() == 0) {
-            waitUntilElementExists(nextButton());
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             nextButton().click();
             waitUntilPageFinishLoading();
         }
@@ -3063,8 +3059,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyNotificationAndPrimaryContactInSetupWizard(String primaryUser, String changeNewUser) {
         String userTochange;
-        waitForUITransition();
-        loadSetupWizardPage();
         while (notificationAndPrimaryContactActiveInSetupWizard().size() == 0) {
             waitUntilElementExists(nextButton());
             nextButton().click();
@@ -3341,11 +3335,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         while (messageOptionsActiveStep().size() == 0) {
             if (setupWizardAvailabilitySettings().size() == 1) {
                 if (getParent(availabilitysettings()).getAttribute("class").equalsIgnoreCase("_1gXbsnbxcvr12eMqyC1xjb")) {
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
                     nextButton().click();
                     // The Messaging Options page takes a really long time to load, for some reason, so we need to wait.
                     waitForUITransition();
                     waitForUITransition();
                 } else {
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
                     nextButton().click();
                     waitUntilPageFinishLoading();
                 }
@@ -4092,9 +4088,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToVisitPage() {
-        waitUntilPageFinishLoading();
-        waitForUITransition();
-        loadSetupWizardPage();
         jsClick(visitsAndFairsRadioButton());
         while (completeWizardActiveStep().size() == 0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Next']")));
@@ -4221,8 +4214,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void navigateToNavianceSettingsPage() {
-        waitForUITransition();
-        loadSetupWizardPage();
         while (activeStepNavianceSettings().size() == 0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             nextButton().click();

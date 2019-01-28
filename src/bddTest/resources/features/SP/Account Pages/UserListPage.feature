@@ -133,7 +133,5 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     When SP I am logged in to the Admin page as a Support user
     And SP I go to the users list for "HS" user, institution "Homeconnection" from the institution dashboard
     And SP I use "Login As" feature for login as "adminHS"
-    And SP I check the impersonated window ie "2"
-    And SP I use "Login As" feature for login as "admin"
-    And SP I check the impersonated window ie "2"
+    Then SP I verify the "You're currently logged in as PurpleHS Automation from HOMECONNECTION. Changes you make will reflect in their account." message in the homepage
     And SP I check the "Account Settings" option will be hidden for impersonation

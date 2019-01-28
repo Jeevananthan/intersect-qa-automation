@@ -775,5 +775,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentCalendarPage);
 
         Then("^HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page$",repVisits::verifySubTabInNotifications);
+
+        Then("^HS I complete the setup wizard$",repVisits::loadSetupWizardPage);
     }
 }

@@ -31,7 +31,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(backButton)));
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(userListTable), 0));
         if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
@@ -332,7 +332,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(HEWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
         String originalMessage = getLoginMessageInHomePage().getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
+        softly().assertThat(originalMessage).as("Impersonation Banner Message").isEqualTo(message);
     }
 
     public void verifyUpgradeButtonInHomPage(String message){
@@ -422,4 +422,5 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
     private String backButton = "i[class='angle left icon']";
+    private String userListTable = "//table/caption/span[contains(text(),'User List')]";
 }
