@@ -56,7 +56,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public static String generatedDateForExceptions;
     public static String ManualStartTime;
     public static String RescheduleStartTimeforNewVisit;
-
+    public static String CollegeFairName;
     public static String generatedDate;
     public static String generatedDateDayOfWeek;
     public static String time;
@@ -2085,25 +2085,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     /*
        Verifying the text after Un publishing it
      */
-    public void assertUnpublish(){
-        String  unpublishMsg =UnpublishedTextEle().getText();
-        String successTxt=CollegeFairName;
-        successTxt.concat(" has been unpublished.");
-        Assert.assertTrue("FAIL:Unable to Unpublish the Fair:"+CollegeFairName,unpublishMsg.contains(successTxt));
-    }
-
-    /*
-       Verifying the text after Un publishing it
-     */
-    public void assertUnpublish(){
-        String  unpublishMsg =UnpublishedTextEle().getText();
-        String successTxt=CollegeFairName;
-        successTxt.concat(" has been unpublished.");
-        Assert.assertTrue("FAIL:Unable to Unpublish the Fair:"+CollegeFairName,unpublishMsg.contains(successTxt));
-    }
-    /*
-           Verifying the text after Un publishing it
-         */
     public void assertUnpublish(){
         String  unpublishMsg =UnpublishedTextEle().getText();
         String successTxt=CollegeFairName;
