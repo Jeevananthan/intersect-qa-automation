@@ -242,5 +242,4 @@ public class RepvisitsSideBarPage extends PageObjectFacadeImpl {
     private WebElement addToTravelPlan(){
         return  driver.findElement(By.xpath("//span[contains(text(),'Add school to travel plan')]"));
     }
-    public  static String CollegeFairName="";
 }
