@@ -80,19 +80,19 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
 
   @MATCH-4305
   Scenario: We should add a message into the audit log history whenever we update a user in community.
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "profiletest"
     When HE I access the Account Settings page
     And HE I add a random suffix to the First Name value
     And HE I save the changes
 
     Given SP I am logged in to the Admin page as an Admin user
     When SP I go to the Log History for "The University of Alabama" from the institution dashboard
-    Then SP I verify the user update details are present in the Log History page using "PurpleHE","Today"
+    Then SP I verify the user update details are present in the Log History page using "Mark","Today"
 
     #Set the user name back to the original value
-    When HE I am logged in to Intersect HE as user type "administrator"
+    When HE I am logged in to Intersect HE as user type "profiletest"
     And HE I access the Account Settings page
-    And HE I set the First Name field to the original value "PurpleHE"
+    And HE I set the First Name field to the original value "Mark"
     And HE I save the changes
 
 

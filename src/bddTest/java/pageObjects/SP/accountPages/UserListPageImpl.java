@@ -287,7 +287,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String date = getSpecificDate(0,"M/d/yyyy");
         String firstNameValue = AccountSettingsPageImpl.generatedFirstName;
-        Assert.assertTrue("The user account was not successfully updated.",driver.findElement(By.xpath("//td/span[text()='"+date+"']/../following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td//div/span[text()='firstName:']/following-sibling::span[text()='\""+firstNameValue+"\"']")).isDisplayed());
+        softly().assertThat(ExpectedConditions.visibilityOf(firstNameValue(date, firstNameValue))).as("The user account was not successfully updated.");
     }
 
     public String getSpecificDate(int addDays, String format) {
@@ -422,4 +422,8 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
     private String userListTable = "//table/caption/span[contains(text(),'User List')]";
+    private WebElement firstNameValue(String date, String newName) {
+        return driver.findElement(By.xpath("//td/span[text()='" + date + "']/../following-sibling::td/following-sibling::" +
+                "td//span[@class = 'json-markup-key']/following-sibling::span[text() = '\""+ newName + "\"']"));
+    }
 }
