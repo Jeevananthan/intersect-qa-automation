@@ -777,5 +777,8 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page$",repVisits::verifySubTabInNotifications);
 
         Then("^HS I complete the setup wizard$",repVisits::loadSetupWizardPage);
+        And("^HS  I Store the college Fair Name created$", repVisits::storeCollegeFairName);
+        And("^HS I click on Unpublish option on repvisits sidebar$", repVisits::chooseUnpublish);
+        Then("^HS I verify Fair unpublished message on the repvisits sidebar$", repVisits::assertUnpublish);
     }
 }

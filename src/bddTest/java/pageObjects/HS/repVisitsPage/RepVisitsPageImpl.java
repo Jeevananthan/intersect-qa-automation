@@ -2062,7 +2062,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(nextButton().isDisplayed());
 
     }
+    /*
+       Fetching the college Fair and storing
+        */
+    public String storeCollegeFairName(){
+        CollegeFairName= collegeFair().getText();
+        return CollegeFairName;
+    }
 
+    private WebElement collegeFair(){
+        return getDriver().findElement(By.className("_3y2dJIL3bALBmrjH1BQ_yy"));
+    }
+    /*
+      Performing click on Unpublish in College Fairs
+     */
+    public void chooseUnpublish(){
+        WebElement ele=UnpublishOption();
+        scrollDown(ele);
+        ele.click();
+
+    }
+    /*
+       Verifying the text after Un publishing it
+     */
+    public void assertUnpublish(){
+        String  unpublishMsg =UnpublishedTextEle().getText();
+        String successTxt=CollegeFairName;
+        successTxt.concat(" has been unpublished.");
+        Assert.assertTrue("FAIL:Unable to Unpublish the Fair:"+CollegeFairName,unpublishMsg.contains(successTxt));
+    }
+
+    /*
+       Verifying the text after Un publishing it
+     */
+    public void assertUnpublish(){
+        String  unpublishMsg =UnpublishedTextEle().getText();
+        String successTxt=CollegeFairName;
+        successTxt.concat(" has been unpublished.");
+        Assert.assertTrue("FAIL:Unable to Unpublish the Fair:"+CollegeFairName,unpublishMsg.contains(successTxt));
+    }
+    /*
+           Verifying the text after Un publishing it
+         */
+    public void assertUnpublish(){
+        String  unpublishMsg =UnpublishedTextEle().getText();
+        String successTxt=CollegeFairName;
+        successTxt.concat(" has been unpublished.");
+        Assert.assertTrue("FAIL:Unable to Unpublish the Fair:"+CollegeFairName,unpublishMsg.contains(successTxt));
+    }
 
     public void navigateToFairsAndVisistsAndVerifyEachScreen() {
 
@@ -11514,4 +11561,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
    private By timeSlotStartTime() {
         return By.cssSelector("input[title=\"start time\"]");
     }
+    private  WebElement UnpublishedTextEle(){
+        return driver.findElement(By.xpath("//div[contains(@id,'success-message-grid')]//p"));
+    }
+
+    private  WebElement UnpublishOption(){
+        return   driver.findElement(By.xpath("//button[contains(@class,'ui button')]"));
+    }
+
+
 }
