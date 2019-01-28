@@ -228,3 +228,4 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
     When HE I verify that we can able to navigate to the edit connection page
     Then HE I verify " Configuration Issues " link still appears on the SFTP main page
     And HE I delete the SFTP Data Transfer connection
+    And HE I successfully sign out
