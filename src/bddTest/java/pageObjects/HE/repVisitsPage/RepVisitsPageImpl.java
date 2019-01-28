@@ -3378,12 +3378,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         internalNotesTextBox().sendKeys(Keys.PAGE_DOWN);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelThisFair()));
         Assert.assertTrue("Cancel This Visit is not displayed",cancelThisFairButton().isDisplayed());
-        cancelThisFairButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelMessageText()));
-        cancelMessageTextBox().click();
-        cancelMessageTextBox().sendKeys(Keys.PAGE_DOWN);
-        cancelMessageTextBox().sendKeys("by QA");
-        cancelFairButton().click();
+        cancelFairAppointmentfromCalendar();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(todayButtonInCalendar()));
     }
 
