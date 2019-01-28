@@ -215,3 +215,16 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
            And HE I verify that the message that says "Connection test failed" is displayed when saving fails
            And HE I verify that the message that says "Port was refused. Check that the port number is correct." is displayed when saving fails
 
+  @MATCH-5407
+  Scenario: As an HE user that has somehow managed to attempt to save a configuration but there is some missing data somewhere
+            I want to be able to create and edit SFTP Settings without errors
+            so that I can have transfer data
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I delete the SFTP Data Transfer connection
+    When HE I setup a SFTP connection with the following data
+      |host          |port|path    |userName          |password                |transferFrequency   |checkFingerPrintToVerifyServer|
+      |209.97.159.244|23  |/uploads|bruh-you-can-SFTP |foo-bar-biz-bat-4442332 |mon,tue,wed,thu,fri |no                            |
+    And HE I verify that the message that says "Connection test failed" is displayed when saving fails
+    When HE I verify that we can able to navigate to the edit connection page
+    Then HE I verify " Configuration Issues " link still appears on the SFTP main page
+    And HE I delete the SFTP Data Transfer connection

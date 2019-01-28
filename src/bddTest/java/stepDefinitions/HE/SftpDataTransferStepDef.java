@@ -45,5 +45,7 @@ public class SftpDataTransferStepDef implements En {
         And("^HE fill the sftp connection form with the following data$",sftpDataTransferPage::fillSftpConnectionData);
         And("^HE I verify that the warning toast that says \"([^\"]*)\" is displayed$", sftpDataTransferPage::verifyWarningToastText);
         And("^HE I verify that the message that says \"([^\"]*)\" is displayed when saving fails$", sftpDataTransferPage::verifyFailedSaveMessage);
+        When("^HE I verify that we can able to navigate to the edit connection page$",sftpDataTransferPage::verifyEditConnectionNavigation);
+        Then("^HE I verify \"([^\"]*)\" link still appears on the SFTP main page$",sftpDataTransferPage::verifyConfigurationIssuesLink);
     }
 }
