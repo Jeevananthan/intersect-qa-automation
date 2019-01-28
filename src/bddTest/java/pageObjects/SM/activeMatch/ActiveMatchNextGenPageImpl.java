@@ -30,8 +30,10 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
     }
 
     public void checkActiveMatchNextGenNumber(Integer number){
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
-        Assert.assertTrue(getAMNextGenMatches().findElements(By.className("ui card")).size() > number);
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".ui.card")));
+        Assert.assertTrue(getAMNextGenMatches().findElements(By.cssSelector(".ui.card")).size() > number);
     }
 
     public void checkLegacyAMAreDisplayed(){
