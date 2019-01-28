@@ -4574,7 +4574,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
     public List<WebElement> allSchools(String schoolName){
-        return driver.findElements(By.xpath("//h3[contains(text(),'\"+schoolName+\"')]\""));
+        return driver.findElements(By.xpath("//h3[contains(text(),'"+schoolName+"')]\""));
     }
 
 }
