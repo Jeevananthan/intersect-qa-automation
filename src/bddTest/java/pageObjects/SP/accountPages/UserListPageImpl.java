@@ -421,6 +421,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
+    private String backButton = "i[class='angle left icon']";
     private String userListTable = "//table/caption/span[contains(text(),'User List')]";
     private WebElement firstNameValue(String date, String newName) {
         return driver.findElement(By.xpath("//td/span[text()='" + date + "']/../following-sibling::td/following-sibling::" +
