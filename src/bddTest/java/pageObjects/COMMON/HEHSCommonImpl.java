@@ -43,7 +43,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
     public void navigateToURL(String URL){
         //Commenting the below line to increase the performance
-        //waitUntilPageFinishLoading();
+        waitUntilPageFinishLoading();
         load(GetProperties.get("he.app.url")+ URL);
         waitUntilPageFinishLoading();
     }

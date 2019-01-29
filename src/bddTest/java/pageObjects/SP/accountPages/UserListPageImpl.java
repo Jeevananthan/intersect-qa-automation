@@ -347,6 +347,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
             }
         }
         driver.switchTo().window(HEWindow);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getUpgrateButtonLocator()));
         softly().assertThat(getUpgradeButton().isDisplayed());
         softly().assertThat(getUpgradeButton().getText().contains(message));
     }
@@ -407,7 +408,11 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
 
-    private WebElement getUpgradeButton() { return driver.findElement(By.cssSelector("button[class='ui secondary button _2gMolwx9EDCmPkEu5Kjlaw']")); }
+    private WebElement getUpgradeButton() { return driver.findElement(getUpgrateButtonLocator()); }
+
+    private By getUpgrateButtonLocator(){
+        return By.cssSelector("button[class='ui secondary button _2gMolwx9EDCmPkEu5Kjlaw']");
+    }
 
 
     private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
