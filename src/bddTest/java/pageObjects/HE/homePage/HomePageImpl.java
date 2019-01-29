@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.HelpImpl;
@@ -86,10 +87,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         communityFrame();
         waitForUITransition();
         // This line should not be needed.  Current flow is broken.
-        waitUntil(ExpectedConditions.visibilityOf( link("Edit Profile")));
-        link("Edit Profile").click();
-
-        Assert.assertTrue("User was not taken to Update Profile screen",link("Back to Profile").isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(editProfileLinkLocator()));
+        getEditProfileLink().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(backToProfileLinkLocator()));
+        Assert.assertTrue("User was not taken to Update Profile screen",getBackToProfileLink().isDisplayed());
     }
 
     public void verifyUpdateProfile(DataTable data) {
@@ -341,6 +342,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void clickNotificationsDropdown(){
         getNavigationBar().clickNotificationsDropdown();
+        Actions action = new Actions(getDriver());
+        action.sendKeys(Keys.ESCAPE).build().perform();
     }
 
 
@@ -395,4 +398,20 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
     private By productAnnouncementsReadMore(){return By.xpath("//button[text()='Read More']");}
     private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
+
+    private By editProfileLinkLocator(){
+        return By.xpath("//a[text()='Edit Profile']");
+    }
+
+    private WebElement getEditProfileLink(){
+        return getDriver().findElement(editProfileLinkLocator());
+    }
+
+    private By backToProfileLinkLocator(){
+        return By.cssSelector("a[class='back-to-profile-link']");
+    }
+
+    private WebElement getBackToProfileLink(){
+        return getDriver().findElement(backToProfileLinkLocator());
+    }
 }

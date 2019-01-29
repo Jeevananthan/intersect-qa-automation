@@ -458,7 +458,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyCheckRepVisitsAvailabilityButton(){
         waitForUITransition();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(0));
-        waitUntil(ExpectedConditions.visibilityOf(getCheckRepVisitsAvailabilityButton()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(checkVisitAvailabilityButtonLocator()));
         Assert.assertTrue("Check RepVisits Availability Button is not present", getCheckRepVisitsAvailabilityButton().isDisplayed());
         waitUntil(ExpectedConditions.visibilityOf(getCheckRepVisitsAvailabilityButton()));
         JavascriptExecutor executor = getDriver();
@@ -3790,7 +3790,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getSearchButton() { return getDriver().findElement(By.xpath("//button[@class='ui icon button _3pWea2IV4hoAzTQ12mEux-']"));}
     private WebElement getMapButton() { return getDriver().findElement(By.cssSelector("[class='map outline icon']"));}
     private WebElement getComingSoonMessageInOverviewPage(){ return getDriver().findElement(By.className("_9SnX9M6C12WsFrvkMMEZR")); }
-    private WebElement getCheckRepVisitsAvailabilityButton(){ return getDriver().findElement(By.xpath("//a[text() = 'Check RepVisits Availability']")); }
+    private By checkVisitAvailabilityButtonLocator(){return By.xpath("//a[text() = 'Check RepVisits Availability']");}
+    private WebElement getCheckRepVisitsAvailabilityButton(){ return getDriver().findElement(checkVisitAvailabilityButtonLocator()); }
     private WebElement getRepVisitsAvailabilitySidebar(){ return getDriver().findElement(By.className("_36B3QS_3-4bR8tfro5jydy")); }
     private By getRepVisitsAvailabilityLabeLocator(){
         return By.xpath("//span[text()='Repvisits Availability']");
