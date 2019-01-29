@@ -98,6 +98,7 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
     public void verifyCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomeFormLocator()));
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
@@ -160,7 +161,11 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    private WebElement communityWelcomeForm(){ return driver.findElement(communityWelcomeFormLocator()); }
+
+    private By communityWelcomeFormLocator(){
+        return By.id("user-profile-form");
+    }
 
     private WebElement saveBtn() {return driver.findElement(By.id("edit-submit"));}
    private WebElement navigationDropDown(){
