@@ -93,7 +93,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           When SP I select "The University of Alabama" from the institution dashboard
           And SP I go to the log history page
           Then SP I verify that it is displayed an entry with action "PurpleHE Automation Deleted AMExportConfig" and the following keys
-          |id:|scid:|modifiedBy:|secretName:|createdDate:|lastModified:|
+          |"id":|"scid":|"modifiedBy":|"secretName":|"createdDate":|"lastModified":|
 
 
         @MATCH-4973 @MATCH-4947
@@ -123,11 +123,10 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And SP I select "The University of Alabama" from the institution dashboard
           And SP I go to the log history page
           Then SP I verify that it is displayed an entry with action "PurpleHE Automation Edited AMExportConfig" and the following keys
-            |confirmedServerFingerprint:|
+            |"confirmedServerFingerprint":|
 
         @MATCH-4875
-        Scenario:
-        As an HE admin associated with an HE account that has an active AMPLUS subscription, I want the ability to edit
+        Scenario: As an HE admin associated with an HE account that has an active AMPLUS subscription, I want the ability to edit
         a previously saved Active Match Connections SFTP set-up, so that if anything changes regarding my connection
         details, I can update it accordingly to maintain a successful connection for file transfer.
           Given HE I am logged in to Intersect HE as user type "administrator"
@@ -193,7 +192,7 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
           And SP I select "The University of Alabama" from the institution dashboard
           And SP I go to the log history page
           Then SP I verify that it is displayed an entry with action "PurpleHE Automation Edited AMExportConfig" and the following keys
-            |institutionId:|connectionTestSuccess:|serverFingerprintMismatch:|serverFingerprintEnabled:|
+            |"institutionId":|"connectionTestSuccess":|"serverFingerprintMismatch":|"serverFingerprintEnabled":|
 
          @MATCH-5128 @MATCH-4947 @MATCH-5087
          Scenario: As an HE admin associated with an HE account that has an active AMPLUS subscription, I want to be
