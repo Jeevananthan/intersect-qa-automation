@@ -831,6 +831,31 @@ public class GlobalSearch extends SeleniumBase {
         button(searchString).click();
     }
 
+    /**
+     * verify high school details in support page
+     * @param dataTable - Valid sections:  NID, NGUID, Client
+     */
+    public void verifyHighSchoolDetails(DataTable dataTable) {
+        Map<String, String> details = dataTable.asMap(String.class, String.class);
+        for (String key : details.keySet()) {
+            switch (key) {
+                case "NID":
+                    String nid = getDriver().findElement(By.xpath("//div[@class='fn org']/parent::div/following-sibling::div[4]")).getText().split(" ")[1];
+                    Assert.assertTrue("NID is not displayed", nid.equals(details.get(key)));
+                    break;
+                case "NGUID":
+                    String nguid = getDriver().findElement(By.xpath("//div[@class='fn org']/parent::div/following-sibling::div[3]")).getText().split(" ")[1];
+                    Assert.assertTrue("NGUID is not displayed", nguid.equals(details.get(key)));
+                    break;
+                case "Client":
+                    String client = getDriver().findElement(By.cssSelector("div[class='fn org']")).getText();
+                    Assert.assertTrue("Client name is not displayed", client.equals(details.get(key)));
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+            }
+        }
+    }
     //Getters
     private WebElement openSearchOptionsDropdowns(){
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
