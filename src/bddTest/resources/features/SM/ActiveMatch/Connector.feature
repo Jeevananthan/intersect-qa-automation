@@ -227,7 +227,6 @@ Feature: AMNG - AM NextGen Connector
       | Birthday  |
       | Your GPA  |
       | Ethnicity |
-    Then SM I verify that it is possible to select the value "Accounting" in the Majors dropdown
     And HE I click the button "Submit" in the connector dialog
     Then SM I verify that the Successfully Submitted! screen is displayed
     And HE I click the button "Close" in the connector dialog

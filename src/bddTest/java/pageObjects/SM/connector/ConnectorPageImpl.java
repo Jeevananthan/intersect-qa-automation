@@ -179,7 +179,6 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         actions.moveToElement(majorsDropdownValue(value));
         actions.click();
         actions.build().perform();
-//        majorsDropdownValue(value).sendKeys(Keys.RETURN);
         Assert.assertTrue("The major was not selected.", majorsPill(value).isDisplayed());
     }
 
