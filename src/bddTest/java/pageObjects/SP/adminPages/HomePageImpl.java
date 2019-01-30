@@ -9,6 +9,7 @@ import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -198,6 +199,62 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * verify log history details
+     */
+    public void verifyLogHistory(String option, String day,String user){
+        selectDate().click();
+        selectDay(day).click();
+        String visitDate = getDate("0");
+        switch (option){
+           case "Declined":
+               String id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'id')]")).getText();
+               String actualValue = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'DECLINED')]")).getText();
+               String startTime  = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'startTime')]")).getText();
+               String endTime = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'endTime')]")).getText();
+               softly().assertThat(option).as("DECLINED").isEqualTo(actualValue);
+               Assert.assertTrue("StartTime is not displayed",!startTime.equals(""));
+               Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           case "Approved":
+               id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'id')]")).getText();
+               actualValue = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'APPROVED')]")).getText();
+               startTime  = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'startTime')]")).getText();
+               endTime = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'endTime')]")).getText();
+               softly().assertThat(option).as("APPROVED").isEqualTo(actualValue);
+               Assert.assertTrue("StartTime is not displayed",!startTime.equals(""));
+               Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           case "Cancel":
+               Assert.assertTrue("Cancelled visit details is not displayed",getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='cancelled RSVP']")).isDisplayed());
+               id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='cancelled RSVP']/following-sibling::td/div/div/span[contains(text(),'id')]")).getText();
+               startTime  = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='cancelled RSVP']/following-sibling::td/div/div/span[contains(text(),'startTime')]")).getText();
+               endTime = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='cancelled RSVP']/following-sibling::td/div/div/span[contains(text(),'endTime')]")).getText();
+               Assert.assertTrue("StartTime is not displayed",!startTime.equals(""));
+               Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           case "Reschedule":
+               id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='Reschedule RSVP']/following-sibling::td/div/div/span[contains(text(),'endTime')]")).getText();;
+               Assert.assertTrue("Reschedule details is not displayed in log history",getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='Reschedule RSVP']")).isDisplayed());
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           default:
+               Assert.fail("Invalid option");
+        }
+    }
+
+    public String getDate(String addDays){
+        String DATE_FORMAT_NOW = "M/d/yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
     //Locators
     private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
@@ -226,5 +283,22 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement helpCentre()    {
         WebElement helpCentre=driver.findElement(By.xpath("//span[text()='Help Center']"));
         return  helpCentre;
+    }
+
+    /**
+     *
+     * @return Web element
+     */
+    private WebElement selectDate(){
+        return getDriver().findElement(By.cssSelector("div[class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']>i[class='dropdown icon']"));
+    }
+
+    /**
+     * select day from the dropdown
+     * @param day
+     * @return
+     */
+    private WebElement selectDay(String day){
+        return getDriver().findElement(By.xpath("//span [text()='"+day+"']"));
     }
 }

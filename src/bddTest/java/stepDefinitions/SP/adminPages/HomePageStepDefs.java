@@ -69,5 +69,7 @@ public class HomePageStepDefs implements En {
         Then("^SP I go to the users list for \"([^\"]*)\" user, institution \"([^\"]*)\" from the institution dashboard$",homePage::goToAccountUsersList);
 
         When("^SP I navigate to the GraphiQL page$", homePage::navigateToGraphiQL);
+
+        Then("^SP I verify visit details in Log History for \"([^\"]*)\" using \"([^\"]*)\",\"([^\"]*)\"$",homePage::verifyLogHistory);
     }
 }
