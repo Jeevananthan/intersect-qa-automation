@@ -62,6 +62,40 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     And HE I enter message on request information page "message.sent.to.Hobsons"
     And HE I Request Information to Upgrade Subscription
 
+  @MATCH-4946
+  Scenario: The Counselor Community upgrade forms that allow HE users can to submit to indicate they are interested in paying for an
+  Intersect subscription they currently don't have need a few changes.
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I navigate to the community page
+    Then HE I click upgrade button in community page
+    Then HE I verify the following fields are required in the upgrade form
+      |First Name|Last Name|Email|Institution|
+    Then HE I verify the check box is changed to "Receive Hobsons communications related to product news, promotions, event updates, and company announcements." in the upgrade form
+    Then HE I verify the note "Note: Upgrades are available for U.S. and Canadian based institutions only." is displaying in the upgrade form
+    Then HE I verify the privacy policy link navigate to the URL "https://static.intersect.hobsons.com/privacy.html" in the upgrade form
+    Then HE I close upgrade form
+    Then HE I successfully sign out
 
+  @MATCH-4946
+  Scenario Outline: The RepVisits upgrade forms that allow HE users can to submit to indicate they are interested in paying for an
+  Intersect subscription they currently don't have need a few changes.
+    Given HE I am logged in to Intersect HE as user type "limited"
+    Then HE I navigate to the Fields "<Fields>" in repvisits page
+    Then HE I click upgrade button in repVisits
+    Then HE I verify the following fields are required in the upgrade form
+      |First Name|Last Name|Email|Institution|
+    Then HE I verify the check box is changed to "Receive Hobsons communications related to product news, promotions, event updates, and company announcements." in the upgrade form
+    Then HE I verify the note "Note: Upgrades are available for U.S. and Canadian based institutions only." is displaying in the upgrade form
+    Then HE I verify the updated text "Manage your RepVisits contacts in one place with Contacts" is displaying in the upgrade form
+    Then HE I verify the updated text "A representative will walk you through everything you want to know and discuss pricing." is displaying in the upgrade form
+    Then HE I verify the privacy policy link navigate to the URL "https://static.intersect.hobsons.com/privacy.html" in the upgrade form
+    Then HE I close upgrade form
+    Then HE I successfully sign out
 
-
+    Examples:
+      |Fields         |
+      |Agenda         |
+      |Travel Plan    |
+      |Contacts       |
+      |Recommendations|
+      |Visit Feedback |
