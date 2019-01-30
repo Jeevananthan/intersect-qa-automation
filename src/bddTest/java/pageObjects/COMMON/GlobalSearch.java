@@ -3,6 +3,7 @@ package pageObjects.COMMON;
 import cucumber.api.DataTable;
 import junit.framework.AssertionFailedError;
 import org.apache.log4j.Logger;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.SeleniumBase;
+import stepDefinitions.GlobalSteps;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -831,6 +833,31 @@ public class GlobalSearch extends SeleniumBase {
         button(searchString).click();
     }
 
+    /**
+     * verify high school details in support page
+     * @param dataTable - Valid sections:  NID, NGUID, Client
+     */
+    public void verifyHighSchoolDetails(DataTable dataTable) {
+        Map<String, String> clientDetails = dataTable.asMap(String.class, String.class);
+        for (String key : clientDetails.keySet()) {
+            switch (key) {
+                case "NID":
+                    String nid = getDriver().findElement(By.xpath("//div[@class='fn org']/parent::div/following-sibling::div[4]")).getText().split(" ")[1];
+                    softly().assertThat(nid).as("NID of the client").isEqualTo(clientDetails.get(key));
+                    break;
+                case "NGUID":
+                    String nguid = getDriver().findElement(By.xpath("//div[@class='fn org']/parent::div/following-sibling::div[3]")).getText().split(" ")[1];
+                    softly().assertThat(nguid).as("NGUID of the client").isEqualTo(clientDetails.get(key));
+                    break;
+                case "Client":
+                    String client = getDriver().findElement(By.cssSelector("div[class='fn org']")).getText();
+                    softly().assertThat(client).as("Client name").isEqualTo(clientDetails.get(key));
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+            }
+        }
+    }
     //Getters
     private WebElement openSearchOptionsDropdowns(){
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
@@ -871,4 +898,14 @@ public class GlobalSearch extends SeleniumBase {
         return date;
     }
     private String locationArrowClosedLocator = "div.accordion.ui div.title:not(.active)";
+    /**
+     * Returns a SoftAssertions object to check things that you care about, but don't want to stop test
+     *      execution over if the assertion fails.
+     *
+     * @return The static SoftAssertions object from GlobalSteps to be checked on Scenario teardown.
+     */
+    public SoftAssertions softly() {
+        return GlobalSteps.softly;
+    }
+
 }
