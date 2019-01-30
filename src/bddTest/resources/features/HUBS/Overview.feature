@@ -63,6 +63,12 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
       | 25th Percentile (visible only in SuperMatch) | 2.5 |
       | 75th Percentile (visible only in SuperMatch) | 2.9 |
 
+  @MATCH-5683
+  Scenario: As an HE user with the Publishing or Administrator role I want to see a message on top of my institution's
+  college profile preview in HEM that informs me where I can manage my photos and videos so I know I need to navigate to
+  a different tab of HEM.
+    When HUBS I open "Overview" in the edit menu
+    Then HUBS I should be able to see overlay message "Use the Photos and Videos option under the Media tab to manage your institution's gallery!"
 
 
 
