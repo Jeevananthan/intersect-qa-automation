@@ -32,4 +32,10 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that the connector dialog is displayed in the page of URL \"([^\"]*)\"$", connectorPage::verifyConnectorDialogInURL);
 
+        Then("^SM I verify that all the connection checkboxes are \"([^\"]*)\" by default$", connectorPage::verifyConnectionCheckboxes);
+
+        Then("^SM I verify that it is possible to select the value \"([^\"]*)\" in the Majors dropdown$", connectorPage::verifyValueSelectionMajors);
+
+        Then("^SM I verify that the Successfully Submitted! screen is displayed$", connectorPage::verifySubmittedScreen);
+
     }}

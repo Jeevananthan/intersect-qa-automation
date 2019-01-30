@@ -180,3 +180,66 @@ Feature: AMNG - AM NextGen Connector
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+
+  @MATCH-5324 @ignore
+  Scenario: As a student using Naviance Student, when I match with more than one AM NextGen Connection HE client,
+  I would like to see a connector form that would allow me to connect with more than one college so that I can send my information to them at once.
+
+    #Clean existing subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5324SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Make the connector verifications
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to the Colleges I'm thinking about list
+    Then SM I verify that all the connection checkboxes are "checked" by default
+    And HE I click the button "Next" in the connector dialog
+    Then SM I verify that all the checkboxes are "checked" when "Share all" is "checked"
+    Then SM I verify that "Share all" is unselected when any data checkbox is unselected, for example "Email"
+    Then SM I verify that the following connector fields are editable:
+      | First Name * |
+      | Last Name *  |
+      | Email      |
+      | Phone      |
+      | Street     |
+      | City       |
+      | State      |
+      | Zip Code   |
+    Then SM I verify that the following connector fields are not editable:
+      | Gender    |
+      | Birthday  |
+      | Your GPA  |
+      | Ethnicity |
+    And HE I click the button "Submit" in the connector dialog
+    Then SM I verify that the Successfully Submitted! screen is displayed
+    And HE I click the button "Close" in the connector dialog
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+
+
+
+
