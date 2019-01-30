@@ -53,11 +53,11 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-        WebElement firstQueryLine = driver.findElements(By.cssSelector(queryLinesListLocator)).get(0);
-        enterTextInGraphiQLField(firstQueryLine, query);
-        graphiQLQueryVariablesHeaderLocator().click();
-        WebElement firstVariablesLine = driver.findElements(By.cssSelector(variablesLinesListLocator)).get(0);
-        enterTextInGraphiQLField(firstVariablesLine, variables);
+        enterTextInGraphiQLField(query, "query");
+        if (graphiQLQueryVariablesHeaderLocator().getAttribute("style").equals("cursor: n-resize;")) {
+            graphiQLQueryVariablesHeaderLocator().click();
+        }
+        enterTextInGraphiQLField(variables, "variables");
         executeButton().click();
         Assert.assertFalse("There were errors when creating the subscription", isPresentInResults("errors"));
     }
@@ -75,11 +75,18 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
         return result;
     }
 
-    public void enterTextInGraphiQLField(WebElement fieldFirstLine, String jsonText) {
+    public void enterTextInGraphiQLField(String jsonText, String window) {
         Actions actions = new Actions(driver);
-        actions.moveToElement(fieldFirstLine);
-        actions.click();
-        actions.sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT, Keys.END), jsonText);
+        if (window.equals("query")) {
+            queryFirstNonEditableLine().click();
+        } else if (window.equals("variables")) {
+            variablesFirstNonEditableLine().click();
+        }
+        actions.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        actions.build().perform();
+        actions.sendKeys(Keys.BACK_SPACE);
+        actions.build().perform();
+        actions.sendKeys(jsonText);
         actions.build().perform();
     }
 
@@ -110,9 +117,9 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
     }
 
     //Locators
-    private String queryLinesListLocator = "div.query-editor div.CodeMirror-code div[style='position: relative;'] span[role='presentation']";
     private WebElement executeButton() { return driver.findElement(By.cssSelector("button.execute-button")); }
-    private String variablesLinesListLocator = "div.variable-editor div.CodeMirror-code div[style='position: relative;'] span[role='presentation']";
     private WebElement graphiQLQueryVariablesHeaderLocator() { return driver.findElement(By.cssSelector("div.variable-editor-title")); }
     private String resultsLinesListLocatorssSelector = "div.result-window pre.CodeMirror-line span[role='presentation']";
+    private WebElement queryFirstNonEditableLine() { return driver.findElement(By.xpath("//div[@class = 'query-editor']//div[@class = 'CodeMirror-lines']")); }
+    private WebElement variablesFirstNonEditableLine() { return driver.findElement(By.xpath("//div[@class = 'variable-editor']//div[@class = 'CodeMirror-lines']")); }
 }
