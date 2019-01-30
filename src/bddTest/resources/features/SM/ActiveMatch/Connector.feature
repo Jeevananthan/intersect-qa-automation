@@ -181,7 +181,7 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5324
+  @MATCH-5324 @ignore
   Scenario: As a student using Naviance Student, when I match with more than one AM NextGen Connection HE client,
   I would like to see a connector form that would allow me to connect with more than one college so that I can send my information to them at once.
 
