@@ -207,7 +207,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         selectDay(day).click();
         String visitDate = getDate("0");
         switch (option){
-           case "Declined":
+           case "DECLINED":
                String id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'id')]")).getText();
                String actualValue = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'DECLINED')]")).getText();
                String startTime  = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'startTime')]")).getText();
@@ -217,7 +217,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
                Assert.assertTrue("id is not displayed",!id.equals(""));
                break;
-           case "Approved":
+           case "APPROVED":
                id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'id')]")).getText();
                actualValue = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'APPROVED')]")).getText();
                startTime  = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'startTime')]")).getText();
@@ -237,7 +237,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
                Assert.assertTrue("id is not displayed",!id.equals(""));
                break;
            case "Reschedule":
-               id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='Reschedule RSVP']/following-sibling::td/div/div/span[contains(text(),'endTime')]")).getText();;
+               id = getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='Reschedule RSVP']/following-sibling::td/div/div/span[contains(text(),'id')]")).getText();;
                Assert.assertTrue("Reschedule details is not displayed in log history",getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='Reschedule RSVP']")).isDisplayed());
                Assert.assertTrue("id is not displayed",!id.equals(""));
                break;
