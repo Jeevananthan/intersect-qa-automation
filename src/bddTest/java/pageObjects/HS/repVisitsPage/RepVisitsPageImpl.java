@@ -2077,7 +2077,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       Performing click on Unpublish in College Fairs
      */
     public void chooseUnpublish(){
-        WebElement ele=UnpublishOption();
+        WebElement ele=unpublishOption();
         scrollDown(ele);
         ele.click();
 
@@ -11546,7 +11546,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[contains(@id,'success-message-grid')]//p"));
     }
 
-    private  WebElement UnpublishOption(){
+    private  WebElement unpublishOption(){
         return   driver.findElement(By.xpath("//button[contains(@class,'ui button')]"));
     }
 

@@ -42,7 +42,7 @@
       Then HE I verify the side bar popup has "Fabens High School" as school Name on the header
       When HE I click on the side bar 'Fairs' toggle bar
       Then HE I verify the recently "Published" Fair on the fairs toggle
-      And HE I successfully sign out
+      And  HE I successfully sign out
 
        #verifying a unpublished fair
       Given HS I am logged in to Intersect HS as user type "HSadmin1"
@@ -61,8 +61,6 @@
       Then HE I verify the side bar popup has "Fabens High School" as school Name on the header
       When HE I click on the side bar 'Fairs' toggle bar
       Then HE I verify the recently "UnPublished" Fair on the fairs toggle
-
-
 
       Examples:
         |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
