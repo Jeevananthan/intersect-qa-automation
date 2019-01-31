@@ -203,16 +203,28 @@ Feature: AMNG - AM NextGen Connector
       | endDate   | 2 days after now  |
     And SP I successfully sign out
 
+    #Create Majors Messages
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "advanced-awareness/majors" url
+    And HE I set messages for the following majors:
+      | African-American/Black Studies              | Message 1 |
+    And HE I click the advanced awareness save button
+
     #Make the connector verifications
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I clear all pills from Must have  and Nice to have boxes
+    When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | African-American/Black Studies              |
     When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
     And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
     And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
     And SM I navigate to the Colleges I'm thinking about list
     Then SM I verify that all the connection checkboxes are "checked" by default
+    Then SM I verify that the Next button is disabled when all competitors are unchecked
     And HE I click the button "Next" in the connector dialog
     Then SM I verify that all the checkboxes are "checked" when "Share all" is "checked"
     Then SM I verify that "Share all" is unselected when any data checkbox is unselected, for example "Email"
+    Then SM I verify that at least one of the following fields is required for submitting the form: Email, Phone, Address
     Then SM I verify that the following connector fields are editable:
       | First Name * |
       | Last Name *  |
@@ -227,6 +239,7 @@ Feature: AMNG - AM NextGen Connector
       | Birthday  |
       | Your GPA  |
       | Ethnicity |
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
     And HE I click the button "Submit" in the connector dialog
     Then SM I verify that the Successfully Submitted! screen is displayed
     And HE I click the button "Close" in the connector dialog
