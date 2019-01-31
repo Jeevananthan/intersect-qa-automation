@@ -54,60 +54,27 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-//        getDriver().manage().deleteAllCookies();
-//        getDriver().navigate().refresh();
-//        waitUntilPageFinishLoading();
-//       List<WebElement> codeElements = getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span"));
-//               for(WebElement element:codeElements){
-//        while (getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).size() > 1) {
-            Actions actions = new Actions(getDriver());
-        actions.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0));
-        actions.click();
-        actions.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
-        actions.sendKeys(Keys.DELETE);
-        actions.build().perform();
-//        Actions actions2 = new Actions(getDriver());
-//        actions2.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(0).findElements(By.cssSelector("span > span")).get(0));
-//        actions2.click();
-//        actions2.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
-//        actions2.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
-//            actions.sendKeys(Keys.DELETE); actions.sendKeys(Keys.DELETE);
-
-
-
-//            actions2.build().perform();
-//            getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0).clear();
-
-//            getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(1).clear();
-//        }
-
-//try {
-//    Actions actions = new Actions(getDriver());
-//    actions.moveToElement(element);
-//    actions.click();
-//    actions.sendKeys(Keys.HOME,Keys.chord(Keys.SHIFT, Keys.END), "");
-//    actions.build().perform();
-//}
-//catch (Exception e){}
-//               }
 
         WebElement firstQueryLine = getDriver().findElements(By.cssSelector(queryLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstQueryLine, query);
 
         if(getDriver().findElement(By.className("variable-editor")).getSize().height < 70 ) {
             graphiQLQueryVariablesHeaderLocator().click();
+        }
+        else {
+
+            WebElement element = getDriver().findElements(By.cssSelector(".CodeMirror-hscrollbar > div")).get(1);
+
+            WebElement target = getDriver().findElements(By.cssSelector(".CodeMirror-gutters")).get(1);
+
+            (new Actions(getDriver())).dragAndDrop(element, target).perform();
+
+            Actions actions = new Actions(getDriver());
+            actions.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0));
+            actions.click();
+            actions.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
+            actions.sendKeys(Keys.DELETE);
+            actions.build().perform();
         }
         WebElement firstVariablesLine = getDriver().findElements(By.cssSelector(variablesLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstVariablesLine, variables);

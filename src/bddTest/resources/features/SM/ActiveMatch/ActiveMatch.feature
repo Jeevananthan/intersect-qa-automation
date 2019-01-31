@@ -229,7 +229,7 @@ Feature: SM - ActiveMatch Next Gen
     When SP I select "University of Sydney" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
-    When SP I select "University of Montevallo" from the institution dashboard
+    When SP I select "The University of Arizona" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
     When SP I select "University of California-Berkeley" from the institution dashboard
@@ -281,7 +281,7 @@ Feature: SM - ActiveMatch Next Gen
     And SM I remove "Boston University" from the I'm thinking about list if it is added in the list
     And SM I remove "University of Washington" from the I'm thinking about list if it is added in the list
     And SM I remove "University of Sydney" from the I'm thinking about list if it is added in the list
-    And SM I remove "University of Montevallo" from the I'm thinking about list if it is added in the list
+    And SM I remove "The University of Arizona" from the I'm thinking about list if it is added in the list
     And SM I remove "University of California,Berkeley" from the I'm thinking about list if it is added in the list
     And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
     And SM I go to Colleges Looking for Students Like You list
@@ -314,7 +314,7 @@ Feature: SM - ActiveMatch Next Gen
     When SP I select "University of Sydney" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
-    When SP I select "University of Montevallo" from the institution dashboard
+    When SP I select "The University of Arizona" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
     When SP I select "University of California-Berkeley" from the institution dashboard
