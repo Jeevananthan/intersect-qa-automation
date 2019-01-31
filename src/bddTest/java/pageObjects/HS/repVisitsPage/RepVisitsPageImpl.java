@@ -2078,6 +2078,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     public void chooseUnpublish(){
         WebElement ele=unpublishOption();
+        waitUntil(ExpectedConditions.elementToBeClickable(ele));
         scrollDown(ele);
         ele.click();
 
