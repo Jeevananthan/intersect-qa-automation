@@ -42,7 +42,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
         waitUntil(ExpectedConditions.elementToBeClickable(loginButton()));
+        waitUntilPageFinishLoading();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
+
     }
 
     public void goToCounselorCommunity(){

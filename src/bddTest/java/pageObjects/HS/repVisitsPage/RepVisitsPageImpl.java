@@ -2077,8 +2077,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
       Performing click on Unpublish in College Fairs
      */
     public void chooseUnpublish(){
+        List<WebElement> closeEle=driver.findElements(By.xpath("//i[contains(@class,'close icon _3AcltzPxtgX0rUCbxyMhN_')]"));
+        if(!closeEle.isEmpty()){
+            closeEle.get(0).click();
+        }
         WebElement ele=unpublishOption();
-        waitUntil(ExpectedConditions.elementToBeClickable(ele));
         scrollDown(ele);
         ele.click();
 
