@@ -354,3 +354,29 @@ Examples:
     Then HE I select the search category as "Int QA Combined School 2"
     Then HE I select the search result "Int QA Combined School 2"
     Then HE I verify the "Add to Travel Plan" button
+
+  @MATCH-2051
+  Scenario: As an HE user I want the quick view calendar on the Search and Schedule RepVisit page to be a premium feature so non premium HE accounts see more value in upgrading.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select "The University of Alabama" from the global search results
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I successfully sign out
+#verify premium feature details  in search and schedule page for limited account
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to "Search and Schedule" page
+    Then HE I verify the premium feature header is displaying in search and schedule page using "Premium Feature"
+    Then HE I verify the lock icon is displaying in search and schedule page using "locked"
+    Then HE I verify learn more hyper link is displaying in search and schedule page using "Learn more"
+
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select "The University of Alabama" from the global search results
+    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I successfully sign out
+#verify premium feature details in search and schedule page for premium account
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to "Search and Schedule" page
+    Then HE I verify the premium feature header is not displaying in search and schedule page
+    Then HE I verify the lock icon is not displaying in search and schedule page
+    Then HE I verify learn more hyper link is not displaying in search and schedule page

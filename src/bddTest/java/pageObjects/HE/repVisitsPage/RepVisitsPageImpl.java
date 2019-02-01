@@ -4077,6 +4077,55 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * /**
+     * verifying premium feature Header is displaying for limited account in search and schedule page
+     * @param premiumText
+     */
+    public void verifyPremiumFeatureHeaderIsDisplayingInSearchAndSchedule(String premiumText){
+        String actualValue = premiumFeatureText().getText();
+        softly().assertThat(actualValue).as("Premium text").isEqualTo(premiumText);
+    }
+
+    /**
+     * verifying lock icon is displaying for limited account in search and schedule page
+     * @param lockIcon
+     */
+    public void verifyLockIconIsDisplayingInSearchAndSchedule(String lockIcon){
+        String actualValue = lockIcon().getAttribute("alt");
+        softly().assertThat(actualValue).as("Lock icon").isEqualTo(lockIcon);
+    }
+
+    /**
+     * verifying learn more link is displaying for limited account in search and schedule page
+     * @param learnMore
+     */
+    public void verifyLearnMoreHyperLinkIsDisplayingInSearchAndSchedulePage(String learnMore){
+        String actualValue = learnMoreLink().getText();
+        softly().assertThat(actualValue).as("Learn more link").isEqualTo(learnMore);
+    }
+
+    /**
+     * verifying premium feature Header is not displaying for premium account in search and schedule page
+     */
+    public void verifyPremiumFeatureHeaderIsNotDisplayingInSearchAndSchedule(){
+        Assert.assertTrue("Learn more hyper link is displayed",premiumFeature().size()==0);
+    }
+
+    /**
+     * verifying lock icon is not displaying for premium account in search and schedule page
+     */
+    public void verifyLockIconIsNotDisplayingInSearchAndSchedule(){
+        Assert.assertTrue("Learn more hyper link is displayed",lockicon().size()==0);
+    }
+
+    /**
+     * verifying learn more link is not displaying for premium account in search and schedule page
+     */
+    public void verifyLearnMoreHyperLinkIsNotDisplayingInSearchAndSchedulePage(){
+        Assert.assertTrue("Learn more hyper link is displayed",learnMore().size()==0);
+    }
+
+    /**
      * Gets the searchByLocation textbox in the repvisits>recommendations page
      * @return WebElement
      */
@@ -4554,6 +4603,53 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
 
     private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
+
+    /**
+     * returning premium feature text
+     * @return : Web element
+     */
+    private WebElement premiumFeatureText(){
+        return getDriver().findElement(By.xpath("//span[text()='Your Schedule']/following-sibling::span/span"));
+    }
+
+    /**
+     * returning lock icon text
+     * @return : Web element
+     */
+    private WebElement lockIcon(){
+        return getDriver().findElement(By.xpath("//span[text()='Your Schedule']/following-sibling::icon/img"));
+    }
+
+    /**
+     * returning learn more hyper link
+     * @return : Web element
+     */
+    private WebElement learnMoreLink(){
+        return getDriver().findElement(By.cssSelector("button[class='ui button _2rXWwF_Uy39x5eO1MMJqOu']>span>span"));
+    }
+    /**
+     * returning premium feature text
+     * @return : Web element
+     */
+    private List<WebElement> premiumFeature(){
+        return getDriver().findElements(By.xpath("//span[text()='Your Schedule']/following-sibling::span/span"));
+    }
+
+    /**
+     * returning lock icon text
+     * @return : Web element
+     */
+    private List<WebElement> lockicon(){
+        return getDriver().findElements(By.xpath("//span[text()='Your Schedule']/following-sibling::icon/img"));
+    }
+
+    /**
+     * returning learn more hyper link
+     * @return : Web element
+     */
+    private List<WebElement> learnMore(){
+        return getDriver().findElements(By.cssSelector("button[class='ui button _2rXWwF_Uy39x5eO1MMJqOu']>span>span"));
+    }
 
 }
 
