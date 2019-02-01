@@ -17,7 +17,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
   @MATCH-1610
   Scenario: As an HE Community member,I need to view a calendar of my appointments
             so that I can easily see what my day/week/month schedule looks like.
-    Given HE I am logged in to Intersect HE as user type "community"
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I verify the calendar view in repvisits
 
   @MATCH-1935 @MATCH-1934 @MATCH-1936 @MATCH-2274
