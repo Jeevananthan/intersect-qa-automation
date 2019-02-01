@@ -59,7 +59,7 @@ Feature: HE - GlobalSearch - GlobalSearch - As an HE user, I want to be able to 
       | Groups       | searchResultsTabgroups       |
     Then HE I verify that only five or less results are listed for advanced search results displayed by category
       | People | Institutions | Groups |
-    Then HE I verify advanced search tab layouts are displayed correctly "admin"
+    Then HE I verify advanced search tab layouts are displayed correctly "Test"
       | People | Institutions | Groups |
 
 
