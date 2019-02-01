@@ -684,6 +684,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
 
+        Then("^HS I complete the set up wizard broken$",repVisits::completeSetupWizardBroken);
+
         Then("^HS I complete the set up wizard from any location$",repVisits::completeSetupWizardFromAnylocation);
 
         And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
