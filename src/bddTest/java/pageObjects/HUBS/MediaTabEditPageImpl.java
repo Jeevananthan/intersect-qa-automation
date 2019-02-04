@@ -68,6 +68,11 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickOnEditButton() {
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title='Hubs View']")));
+        editButton().click();
+    }
+
     public void verifyFunctionalityForPublishingModalConfirmation() {
         cancelAndContinueEditingButton().click();
         softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish mu media changes button verifications").contains("Publish my media changes");
@@ -78,6 +83,8 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         continueEditingButton().click();
         softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish mu media changes button verifications").contains("Publish my media changes");
     }
+
+
 
     //Locators
     private WebElement mediaTab() {
@@ -100,4 +107,7 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Continue editing')]"));
     }
 
+    private WebElement editButton() {
+        return getDriver().findElement(By.cssSelector("a[ng-click='vm.enableEditMode()"));
+    }
 }
