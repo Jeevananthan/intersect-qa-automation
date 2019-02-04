@@ -32,7 +32,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
 
     Examples:
       |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                            |School              |heStartTime|heTime | option|
-      |The University of Alabama|7  |10:25am  |11:25pm |3        |7        |42      |11:25pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:25am    |10:25am|1      |
+      |The University of Alabama|14 |10:25am  |11:25pm |3        |14       |28      |11:25pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:25am    |10:25am|1      |
 
 
   @MATCH-1779 @MATCH-1735 @NotInQA
@@ -121,8 +121,8 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     Then HS I verify the Time Slot time were removed with "<HourStartTime>", "<MinuteStartTime>" and "<MeridianStartTime>"
 
     Examples:
-      |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
-      |Monday           | 6             |06          | 11             | 07             | am                | pm              | 3          | 29         |30     |
+      |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate  |EndDate  |
+      |Monday           | 6             |06          | 11             | 07            | am                | pm              | 3          | 14         |28       |
 #      |Tuesday          | 5             |07          | 12             | 08             | am                | pm              | 99         | August 15 2018       |September 23 2018 |
 
 
