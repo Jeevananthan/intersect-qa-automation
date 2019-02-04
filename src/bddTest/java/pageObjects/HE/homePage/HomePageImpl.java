@@ -50,7 +50,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button(By.id("user-dropdown-signout")).click();
         driver.manage().deleteAllCookies();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(loginButtonLocator), 1));
-        Assert.assertTrue("User did not sign out",button("LOGIN").isDisplayed());
+        waitUntilPageFinishLoading();
+       Assert.assertTrue("User did not sign out",button("LOGIN").isDisplayed());
     }
 
     public void accountSettings() {

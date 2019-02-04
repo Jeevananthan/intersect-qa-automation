@@ -3583,6 +3583,21 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         waitUntilPageFinishLoading();
     }
+    /*
+       verifying a travel plan with the School Name and deleting it
+     */
+    public void verifyTravelPlanAndDelete(String school){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
+        List<WebElement> ele=allSchools(school);
+        if(!ele.isEmpty()){
+            button(By.xpath(String.format(".//div/div/h3[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
+                    ,school))).click();
+            button("YES, REMOVE").click();
+        }
+        waitForUITransition();
+        waitForUITransition();
+
+    }
 
     public void accessViewDetailsPageforFair(String fairNametoClickViewDetails){
         getNavigationBar().goToRepVisits();
@@ -4554,6 +4569,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> readMorebutton(){return getDriver().findElements(By.xpath("//button[text()='Read More']"));}
 
     private By dismissButton(){return By.cssSelector("i[class='close icon _3AcltzPxtgX0rUCbxyMhN_']");}
+    public List<WebElement> allSchools(String schoolName){
+        return driver.findElements(By.xpath("//h3[contains(text(),'"+schoolName+"')]"));
+    }
 
 }
 

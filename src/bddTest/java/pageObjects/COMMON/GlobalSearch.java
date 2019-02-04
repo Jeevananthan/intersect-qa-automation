@@ -176,7 +176,11 @@ public class GlobalSearch extends SeleniumBase {
     public void selectResult(String optionToSelect) {
         //Commenting the below line to increase the performance
         //waitUntilPageFinishLoading();
+
+        waitUntil(ExpectedConditions.elementToBeClickable(By.cssSelector("div[id='global-search-box-results']")));
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
         waitUntilElementExists(getDriver().findElement(By.xpath("//div[@id='global-search-box-results' and @aria-expanded='true']")));
+
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
         boolean institutionClickedOn = false;
