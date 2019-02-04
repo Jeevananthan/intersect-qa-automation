@@ -7,10 +7,12 @@ Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Admissions" tab in the preview
 
+  @HUBS-925
   Scenario: All the elements of the page are displayed for HE users in Costs (MATCH-4009)
     Then HUBS All the elements of the admissions tab should be displayed
     And HE I successfully sign out
 
+  @HUBS-925
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Admissions" in the edit menu
     Then HUBS I should be able to edit the following fields for Admissions in real time:
