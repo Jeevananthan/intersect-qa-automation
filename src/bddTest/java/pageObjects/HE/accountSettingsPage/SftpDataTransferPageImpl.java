@@ -480,6 +480,56 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies the value of the host text box
+     * @param host
+     */
+    public void verifyHostField(String host){
+        String currentHostValue = hostTextBox().getText();
+        Assert.assertTrue(String.format("The value of the host field is not correct, actual: %s, expected: %s",currentHostValue, host),
+                currentHostValue.contains(host));
+    }
+
+    /**
+     * Verifies the value of the port text box
+     * @param port
+     */
+    public void verifyPortField(String port){
+        String currentPortValue = portTextBox().getText();
+        Assert.assertTrue(String.format("The value of the port field is not correct, actual: %s, expected: %s",currentPortValue, port),
+                currentPortValue.contains(port));
+    }
+
+    /**
+     * Verifies the value of the path text box
+     * @param path
+     */
+    public void verifyPathField(String path){
+        String currentPathValue = pathTexBox().getText();
+        Assert.assertTrue(String.format("The value of the path field is not correct, actual: %s, expected: %s",currentPathValue, path),
+                currentPathValue.contains(path));
+    }
+
+    /**
+     * Verifies the value of the userName text box
+     * @param userName
+     */
+    public void verifyUserNameField(String userName){
+        String currentUserNameValue = userNameTextBox().getText();
+        Assert.assertTrue(String.format("The value of the user name field is not correct, actual: %s, expected: %s",currentUserNameValue, userName),
+                currentUserNameValue.contains(userName));
+    }
+
+    /**
+     * Verifes that the password field is not empty
+     */
+    public void verifyPasswordFieldIsNotEmpty(){
+        Assert.assertTrue("The password field is empty", passwordTextBox().getText()!="");
+    }
+
+
+
+
+    /**
      * Goes to the main sftp connection page though the title link
      */
     public void goToSftpConnectionMainPageThroughTitleLink(){
