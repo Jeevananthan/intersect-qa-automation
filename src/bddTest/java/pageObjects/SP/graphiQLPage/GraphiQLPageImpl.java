@@ -1,6 +1,7 @@
 package pageObjects.SP.graphiQLPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.gl.E;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -33,7 +34,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
             switch (row.get(0)) {
-                case "startDate" :
+                case "startDate":
                     long startDateEpochTime = 0;
                     if (row.get(1).contains("before")) {
                         startDateEpochTime = getEpochTime(-Integer.parseInt(row.get(1).split(" ")[0]));
@@ -42,7 +43,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     }
                     variables = variables.replaceAll("(\"startDate\")\\:[0-9]+", "$1:" + startDateEpochTime);
                     break;
-                case "endDate" :
+                case "endDate":
                     long endDateEpochTime = 0;
                     if (row.get(1).contains("before")) {
                         endDateEpochTime = getEpochTime(-Integer.parseInt(row.get(1).split(" ")[0]));
@@ -53,10 +54,29 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-        WebElement firstQueryLine = driver.findElements(By.cssSelector(queryLinesListLocator)).get(0);
+
+        WebElement firstQueryLine = getDriver().findElements(By.cssSelector(queryLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstQueryLine, query);
-        graphiQLQueryVariablesHeaderLocator().click();
-        WebElement firstVariablesLine = driver.findElements(By.cssSelector(variablesLinesListLocator)).get(0);
+
+        if(getDriver().findElement(By.className("variable-editor")).getSize().height < 70 ) {
+            graphiQLQueryVariablesHeaderLocator().click();
+        }
+        else {
+
+            WebElement element = getDriver().findElements(By.cssSelector(".CodeMirror-hscrollbar > div")).get(1);
+
+            WebElement target = getDriver().findElements(By.cssSelector(".CodeMirror-gutters")).get(1);
+
+            (new Actions(getDriver())).dragAndDrop(element, target).perform();
+
+            Actions actions = new Actions(getDriver());
+            actions.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0));
+            actions.click();
+            actions.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
+            actions.sendKeys(Keys.DELETE);
+            actions.build().perform();
+        }
+        WebElement firstVariablesLine = getDriver().findElements(By.cssSelector(variablesLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstVariablesLine, variables);
         executeButton().click();
         Assert.assertFalse("There were errors when creating the subscription", isPresentInResults("errors"));

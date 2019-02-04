@@ -232,6 +232,32 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         logger.info("All changes were submitted");
     }
 
+    public void verifyOverlayMessage(String message) {
+        boolean getOverlayMessagePartI = getDriver().findElement(By.xpath("//div[text()='Use the ']")).isDisplayed();
+        boolean getOverlayMessagePartII = getDriver().findElement(By.xpath("//i[text()='Photos and Videos']")).isDisplayed();
+        boolean getOverlayMessagePartIII = getDriver().findElement(By.xpath("//div[text()=' option under the ']")).isDisplayed();
+        boolean getOverlayMessagePartIV = getDriver().findElement(By.xpath("//i[text()='Media']")).isDisplayed();
+        boolean closeButton = getDriver().findElement(By.cssSelector("div[class='webtour-overlay-content-container__close']")).isDisplayed();
+
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartI);
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartI);
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartII);
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartIII);
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartIV);
+
+        assertTrue("Close button does not exists",
+                getOverlayMessagePartIV);
+    }
+
     //Locators
     private WebElement openingStatementButton() {
         return getDriver().findElement(By.xpath("//h3[text()='Opening Statement']"));

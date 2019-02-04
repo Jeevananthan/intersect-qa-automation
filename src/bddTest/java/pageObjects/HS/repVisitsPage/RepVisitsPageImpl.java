@@ -3600,6 +3600,19 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void completeSetupWizardBroken() {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntilElementExists(nextButton());
+        while (nextButtons().size()== 1 && takeMeToMyVisitsButtons().size()!= 1) {
+            waitUntilElementExists(nextButton());
+            nextButton().click();
+            if(navianceImport().size() == 1) {
+                waitUntilElementExists(nextButton());
+            }
+        }
+        takeMeToMyVisitsButton().click();
+    }
+
     public void verifyAttendeeDetailsInEditFairs(String attendee) {
         Assert.assertTrue("Attendee details is not displayed", driver.findElement(By.xpath("//div[text()='" + attendee + "']/parent::td/following-sibling::td[text()='Pending']")).isDisplayed());
     }
@@ -10532,12 +10545,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));
     }
 
+    private List<WebElement> navianceImport() {
+        return getDriver().findElements(By.xpath("//span[text()='Naviance Import']"));
+    }
+
+    private List<WebElement> nextButtons() {
+        return getDriver().findElements(By.cssSelector("button[class='ui primary button']"));
+    }
+
     private WebElement backButton() {
         return driver.findElement(By.xpath("//span[text()='Back']"));
     }
 
     private WebElement takeMeToMyVisitsButton() {
         return driver.findElement(By.xpath("//button/span[text()='Take me to my visits']"));
+    }
+
+    private List<WebElement> takeMeToMyVisitsButtons() {
+        return driver.findElements(By.xpath("//button/span[text()='Take me to my visits']"));
     }
 
 

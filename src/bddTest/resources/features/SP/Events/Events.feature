@@ -8,9 +8,9 @@ Feature: SP - Events - SuperAdmin Role for Events
     When HE I open the Events list
     And HE I create and save a new event with a unique name and the following details:
       | Event Name | AtendeesEvent |
-      | Event Start | 12-31-2018;10:00AM |
+      | Event Start | 14;10:00AM |
       | Max Attendees | 30 |
-      | RSVP Deadline | 12-30-2018;10:00AM |
+      | RSVP Deadline | 7;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
 
