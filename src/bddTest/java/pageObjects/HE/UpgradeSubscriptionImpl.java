@@ -192,10 +192,10 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
                     privacyPolicy = thisWindow;
                 }
             }
-            waitForUITransition();
+            getDriver().switchTo().window(privacyPolicy);
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(textInPrivacyPolicyPage()));
             String actualURl = getDriver().getCurrentUrl();
             softly().assertThat(actualURl).as("URl of the current page").isEqualTo(url);
-            getDriver().switchTo().window(privacyPolicy);
             getDriver().close();
             getDriver().switchTo().window(currentWindow);
         }
@@ -377,4 +377,12 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
      * @return Web element
      */
     private By upgradeButton(){return By.xpath("//div/a[text()='Upgrade']");}
+
+    /**
+     * return text in privacy policy page
+     * @return Web element
+     */
+    private By textInPrivacyPolicyPage(){
+        return By.xpath("//span[text()='User Provided Information: ']");
+    }
 }
