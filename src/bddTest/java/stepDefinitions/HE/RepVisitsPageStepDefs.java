@@ -445,6 +445,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the \"([^\"]*)\" button$",repVisits::verifyAddToTravelPlanButtonInHSPage);
 
+        Then ("^HE I verify the school \"([^\"]*)\" and delete if it is added to travel plan$",repVisits::verifyTravelPlanAndDelete);
+      
         Then("^HE I verify the premium feature header is displaying in search and schedule page using \"([^\"]*)\"$",repVisits::verifyPremiumFeatureHeaderIsDisplayingInSearchAndSchedule);
 
         Then("^HE I verify the lock icon is displaying in search and schedule page using \"([^\"]*)\"$",repVisits::verifyLockIconIsDisplayingInSearchAndSchedule);

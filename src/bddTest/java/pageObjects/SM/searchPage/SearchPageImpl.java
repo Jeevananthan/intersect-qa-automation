@@ -2965,6 +2965,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The text 'PIN' is not displayed next to the search result", pinLink.getText().contains("PIN"));
     }
 
+    public void verifyCollegeAtTopOfList(String collegeName) {
+        waitUntilElementExists(firstPinnedCollege());
+        Assert.assertTrue("The college pinned from the search box is not displayed at the top of the list.",
+                firstPinnedCollege().getText().equals(collegeName));
+    }
+
     // Locators Below
     private WebElement leftCompareMoveButton(String collegeName) {
         return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
@@ -3584,5 +3590,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement addSportButton() {
         return driver.findElement(By.xpath("//button[text()='ADD SPORT']"));
     }
+    private WebElement firstPinnedCollege() { return driver.findElement(By.cssSelector("table.ui.unstackable.table." +
+            "csr-results-table:not(.csr-header-table) td.inPinnedList a.result-row-decription-label")); }
 }
 
