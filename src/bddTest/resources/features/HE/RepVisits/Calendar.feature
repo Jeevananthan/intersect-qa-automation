@@ -267,7 +267,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then SP I go to the users list for "<institution>" from the institution dashboard
     And SP I "inactivate" the user account for "<user>"
 #verify all fields in re assign appointments page
-    Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
+    Then HE I am logged in to Intersect HE as user type "administrator"
     When HE I go to re assign appointments
     Then HE I verify the text 'Re-assign Appointments' is displaying in re assign appointments page
     Then HE I verify the text 'Select appointments to re-assign:' is displaying in re assign appointments page
@@ -278,13 +278,13 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HE I verify the button 'Reassign  Appointments' is displaying in re assign appointments page
     Then HE I click Go Back button
 #verify staff member dropdown
-    Then HE I verify the current user "HE, Purple" is displaying in Select staff member dropdown list
+    Then HE I verify the current user "Automation, PurpleHE" is displaying in Select staff member dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in Select staff member dropdown list
     Then HE I click Go Back button
     Then HE I verify the users are listed in A-Z order in 'select staff member' dropdown
 #verify new assignee dropdown
-    Then HE I select the user "Alpena, purple" in select staff member dropdown
-    Then HE I verify the current user "HE, Purple" is displaying in Select new assignee dropdown list
+    Then HE I select the user "Publishing, PurpleHE" in select staff member dropdown
+    Then HE I verify the current user "Automation, PurpleHE" is displaying in Select new assignee dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in new assignee dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is not selectable in Select new assignee dropdown
     Then HE I click Go Back button
@@ -321,6 +321,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HS I successfully sign out
 
     Examples:
-      |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |institution             |user                                       |
-      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |Alpena Community College|purpleheautomation+AlpenaInActive@gmail.com|
+      |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |institution              |user                                   |
+      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |The University of Alabama|purpleheautomation+heInActive@gmail.com|
 
