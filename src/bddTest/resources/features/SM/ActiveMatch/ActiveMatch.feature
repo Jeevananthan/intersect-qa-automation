@@ -342,6 +342,7 @@ Feature: SM - ActiveMatch Next Gen
     When HE I navigate to the "advanced-awareness/diversity" url
     And HE I select following Diversity Settings
     | Asian |
+    And SM I press button "Save"
 
     #Verify match or not match
     Given SM I am logged in to SuperMatch through Family Connection as user "davidsupermatch" with password "Hobsons!23" from school "blue4hs"
