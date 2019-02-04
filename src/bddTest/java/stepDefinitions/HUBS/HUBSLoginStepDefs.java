@@ -35,5 +35,10 @@ public class HUBSLoginStepDefs implements En{
         And("^HUBS I open the HUBS page for \"([^\"]*)\"$", hubsLogin::openHUBSPage);
 
         And("^HUBS I enable AM Next Gen using the URL part \"([^\"]*)\"$", hubsLogin::enableAMNextGenByURL);
+
+        And("^HUBS I verify the dark blue footer$", hubsLogin::verifyDarkBlueFooter);
+
+        Then("^HUBS I verify the \"([^\"]*)\" link in the SuperMatch Footer$", hubsLogin::verifyFooterLink);
+
     }
 }

@@ -3,7 +3,9 @@ package pageObjects.HUBS;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -21,6 +23,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
     Logger logger = null;
     StudentLifePageImpl studentLifePreview = new StudentLifePageImpl();
     PublishPageImpl publish = new PublishPageImpl();
+
 
     public StudentLifeEditPageImpl() {
         logger = Logger.getLogger(StudentLifeEditPageImpl.class);
@@ -51,6 +54,10 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     ethnicityButton().click();
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
+                    if (invalidValueMessage("% Unknown").isDisplayed()) {
+                        innerEditSection("% Unknown").clear();
+                        innerEditSection("% Unknown").sendKeys("1");
+                    }
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time: " + studentLifePreview.chartsPercent(fieldAndValueElement.get(1)).getText(),
                             studentLifePreview.chartsPercent(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2) + "%"));
                     break;
@@ -117,6 +124,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Computing Resources" :
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
                     computingResourcesButton().click();
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
@@ -133,6 +142,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Organizations" :
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
                     studentLifePreview.organizationsTab().click();
                     List<String> organizationsTextList = new ArrayList<>();
                     for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
@@ -163,6 +174,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Athletics" :
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
                     studentLifePreview.athleticsTab().click();
                     studentLifePreview.athleticsInnerSection(fieldAndValueElement.get(1)).click();
                     athleticsButton().click();
@@ -336,7 +349,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(details.get(11).get(1));
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 
@@ -435,4 +448,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return dropDown;
     }
     private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
+    public String loadingIconLeftMenuLocator = "div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary";
+    private WebElement invalidValueMessage(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/following-sibling::span")); }
+    private WebElement publishButton() { return driver.findElement(By.cssSelector("span.intersect-btn.intersect-btn--fuschia.ng-binding")); }
 }

@@ -60,13 +60,21 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     fieldValues.put(field.get(0), nearestCityText().getText());
                     break;
                 case "Ethnicity" :
-                    fieldValues.put(field.get(0), chartsPercent(field.get(1)).getText());
+                    if (Integer.parseInt(chartsPercent(field.get(1)).getText().replace("%", "")) > 90) {
+                        fieldValues.put(field.get(0), Integer.toString(1));
+                    } else {
+                        fieldValues.put(field.get(0), chartsPercent(field.get(1)).getText().replace("%", ""));
+                    }
                     break;
                 case "Gender Data" :
                     fieldValues.put(field.get(0), chartsPercent(field.get(1)).getText());
                     break;
                 case "Age Data" :
-                    fieldValues.put(field.get(0), chartsPercent(field.get(1)).getText());
+                    if (Integer.parseInt(chartsPercent(field.get(1)).getText().replace("%", "")) > 90) {
+                        fieldValues.put(field.get(0), Integer.toString(1));
+                    } else {
+                        fieldValues.put(field.get(0), chartsPercent(field.get(1)).getText().replace("%", ""));
+                    }
                     break;
                 case "Housing Data" :
                     fieldValues.put(field.get(0), getHousingDataSectionValue(field.get(1)).getText());
@@ -309,7 +317,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//span[text()='Greek Life']"));
     }
     public WebElement servicesTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Services']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Services')]"));
     }
     public WebElement computingResourcesTab() {
         return getDriver().findElement(By.xpath("//span[text()='Computing Resources']"));

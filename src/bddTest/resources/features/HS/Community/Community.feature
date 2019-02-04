@@ -32,3 +32,23 @@ Feature: HS - Community - Community - As an HS user, I can view HE institution d
     Then HE I verify that the Email Notification Message says: "(.*)Intersect by Hobsons(.*)purpleheautomation(.*)marketing14@gmail.com(.*)Hobsons Support(.*)support@purpledev.hobsonspobox.net(.*)"
       |Subject                                                        |To                            |Messages |
       |Your Intersect Invitation | purpleheautomation+marketing14@gmail.com|1        |
+
+  @MATCH-1816
+  Scenario: As a HS user who is trying to access RepVisits without already activating my Community user profile
+  I should be redirected to the Activate Community profile page first so I can provide Intersect the appropriate
+  data in order to personalize my RepVisit experience.
+    #Cleanup steps
+    Given HS I am logged in to Intersect HS as user type "resetAccount"
+    And HS I go to the Counselor Community
+    And HS I clear the account to get the community welcome page again
+    Then HS I successfully sign out
+    # Testcase
+    Then HS I am logged in to Intersect HS as user type "resetAccount"
+    When HS I verify that I am redirected to the Community activate profile page when accessing RepVisits
+    Then HS I verify the new user required to complete the Counselor Community profile form before they can access the following fields
+      |Counselor Community|RepVisits|
+    Then HS I verify the following fields are required fields in the Counselor Community profile form
+      |Job Title field is required.|Office Phone field is required.|Privacy Policy|Are you an EU citizen? field is required.|Terms of Use|Community Guidelines|
+    And HS I activate my community profile by providing OfficePhone as "1234567892" JobTitle as "Counselor" and EU citizen as "Yes"
+    And HS I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits
+    And HS I clear the account to get the community welcome page again

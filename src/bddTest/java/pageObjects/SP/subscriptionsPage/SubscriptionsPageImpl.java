@@ -228,6 +228,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteMultipleSubscriptions(){
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
         for (WebElement removeButton : buttonList){
@@ -237,7 +238,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
             deleteButton().click();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         }
-
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(removeButtonListLocator),0 ));
 
 
@@ -252,6 +253,50 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    /**
+     * verify Major checkbox can be checked
+     */
+    public void verifyMajorsCheckboxCanBeChecked(){
+        boolean check = getCheckBoxLabelByText("Majors").isSelected();
+        if(check==false){
+            getCheckBoxElementByText("Majors").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Majors"));
+        Assert.assertTrue("CheckBox 'Majors' is not checked", getCheckBoxLabelByText("Majors").isSelected());
+    }
+    /**
+     * verify Major checkbox can be Unchecked
+     */
+    public void verifyMajorsCheckboxCanBeUnchecked(){
+        boolean check = getCheckBoxLabelByText("Majors").isSelected();
+        if(check==true){
+            getCheckBoxElementByText("Majors").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Majors"));
+        Assert.assertFalse("CheckBox 'Majors' is checked", getCheckBoxLabelByText("Majors").isSelected());
+    }
+    /**
+     * verify Connection checkbox can be checked
+     */
+    public void verifyConnectionCheckboxCanBeChecked(){
+        boolean check = getCheckBoxLabelByText("Connection").isSelected();
+        if(check==false){
+            getCheckBoxElementByText("Connection").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Connection"));
+        Assert.assertTrue("CheckBox 'Connection' is not checked", getCheckBoxLabelByText("Connection").isSelected());
+    }
+    /**
+     * verify Connection checkbox can be Unchecked
+     */
+    public void verifyConnectionCheckboxCanBeUnchecked(){
+        boolean check = getCheckBoxLabelByText("Connection").isSelected();
+        if(check==true){
+            getCheckBoxElementByText("Connection").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Connection"));
+        Assert.assertFalse("CheckBox 'Connection' is checked", getCheckBoxLabelByText("Connection").isSelected());
+    }
     //Locators
 
     private String subscriptionTypeRadioButtonLocator(String subscriptionType) { return "//label[text() = '" + subscriptionType + "']"; }
@@ -313,6 +358,32 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
     }
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
+    /**
+     *
+     * @param checkboxText : element to verify(ex: Majors )
+     * @return : checkbox element
+     */
+    private WebElement getCheckBoxLabelByText(String checkboxText) {
+        return getDriver().findElement(By.xpath("//label[text()='" + checkboxText + "']/../input"));
+    }
+
+    /**
+     *
+     * @param checkboxText : element to check(ex: Majors )
+     * @return : checkbox element
+     */
+    private WebElement getCheckBoxElementByText(String checkboxText) {
+        return getDriver().findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
+    }
+
+    /**
+     * Move to the given element using javascript
+     * @param element : get the element to move
+     */
+    public void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
 }
 
 

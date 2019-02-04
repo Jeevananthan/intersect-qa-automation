@@ -7,9 +7,11 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.HE.welcomePage.HEWelcomePageImpl;
 import utilities.GetProperties;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +41,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         button(By.cssSelector("i.sign.out.icon + span.text")).click();
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
+        waitUntil(ExpectedConditions.elementToBeClickable(loginButton()));
+        waitUntilPageFinishLoading();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
+
     }
 
     public void goToCounselorCommunity(){
@@ -166,6 +171,18 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         return currentDate;
     }
 
+    /**
+     *
+     * Logout from the naviance page
+     */
+    public void logoutFromNaviance(){
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.xpath("//i[@class='icon-cog']"))).build().perform();
+        link("Logout").click();
+        waitUntilPageFinishLoading();
+        driver.manage().deleteAllCookies();
+    }
+
     public void verifyYearInRegistrationPage(){
         String currentYear = getCurrentYear();
         load(GetProperties.get("hs.registration.url"));
@@ -244,6 +261,131 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * This method is for clearing the HS community profile for any user.
+     */
+    public void clearHSCommunityProfile(){
+        load(GetProperties.get("hs.community.clear"));
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * This method is checking the Community Welcome page, which we used to get whenever community profile is not filled
+     */
+    public void verifyHSCommunityActivationForRepVisits(){
+        getNavigationBar().goToRepVisits();
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitUntilElementExists(communityWelcomeForm());
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+        driver.switchTo().defaultContent();
+    }
+
+    /**
+     * This method will check the Community welcome page existence whenever any user try to access Counselor Community
+     * and RepVisits before completing the Community profile.
+     * @param dataTable
+     */
+    public void verifyRequiredPageforNewUser(DataTable dataTable){
+        List<String> list = dataTable.asList(String.class);
+        for(String tab:list){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@name='mainmenu']")));
+            navigationDropDown().sendKeys(Keys.ENTER);
+            switch (tab){
+                case "Counselor Community":
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='welcome-text']")));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                case "RepVisits":
+                    repVisitsMenuLink().click();
+                    iframeEnter();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='welcome-text']")));
+                    Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
+                    iframeExit();
+                    break;
+                default:
+                    Assert.fail("Invalid option");
+            }
+        }
+    }
+
+    /**
+     * This method will check the all mandatory fields which we need to fill for community profile activation.
+     * @param dataTable
+     */
+    public void verifyRequiredFieldsInCCProfileFormForHS(DataTable dataTable){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        iframeEnter();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
+        saveButtonInCommunity().click();
+        waitUntilPageFinishLoading();
+        List<String> list = dataTable.asList(String.class);
+        for(String fields:list){
+            Assert.assertTrue(fields+" is not displayed",text(fields).isDisplayed());
+        }
+        iframeExit();
+    }
+
+    /**
+     * This method will fill all the mandatory fields which require to activate community profile.
+     * @param OfficePhone
+     * @param JobTitle
+     * @param euCitizen - valid values: Yes, No
+     */
+    public void fillCommunityWelcomeMandatoryFieldsForHS(String OfficePhone, String JobTitle, String euCitizen){
+        driver.switchTo().frame(0);
+        getofficePhone().sendKeys(OfficePhone);
+        getJobTitle().sendKeys(JobTitle);
+        driver.findElement(By.xpath(String.format(
+                "//label[@for='edit-field-eu-citizen-und']/following-sibling::div/div/label[text()='%s ']",
+                euCitizen))).click();
+        getTermsAndConditionCheckBox().click();
+        driver.executeScript("arguments[0].click()",getCreationAndMaintenanceConsentCheckBox());
+        saveButton().click();
+        waitUntilPageFinishLoading();
+        driver.switchTo().defaultContent();
+        getNavigationBar().goToRepVisits();
+    }
+
+    public void verifyRepVisitsLandingPageForHS(){
+        getNavigationBar().goToRepVisits();
+        waitUntilElementExists(getSearchAndScheduleHeading());
+        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
+    }
+
+
+    //Locators
+    private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
+    private WebElement saveButton(){
+        return button("Save");
+    }
+    private WebElement getCreationAndMaintenanceConsentCheckBox(){
+        return driver.findElement(By.id("edit-field-account-consent-und"));
+    }
+    private WebElement getTermsAndConditionCheckBox(){ return driver.findElement(By.xpath("//label[@for='edit-terms-and-conditions']"));}
+
+    private WebElement getJobTitle(){ return driver.findElement(By.id("edit-field-job-position-und-0-value"));}
+
+    private WebElement getofficePhone() { return driver.findElement(By.id("edit-field-office-phone-und-0-value"));}
+
+    private WebElement saveButtonInCommunity(){
+        return driver.findElement(By.id("edit-submit"));
+    }
+
+    private WebElement navigationDropDown(){
+        return driver.findElement(By.xpath("//a[@name='mainmenu']"));
+    }
+    private WebElement counselorCommunityMenuLink(){
+        return driver.findElement(By.xpath("//dt/a/span[text()='Counselor Community']"));
+    }
+    private WebElement ccProfileForm(){
+        return driver.findElement(By.xpath("//div/h1[text()='Welcome to the Counselor Community!']"));
+    }
+    private WebElement repVisitsMenuLink(){
+        return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
+    }
+    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
@@ -289,4 +431,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private By productAnnouncementsHeader(){return By.xpath("//div[text()='Product Announcement']");}
     private By productAnnouncementsReadMore(){return By.id("read-more-announcement-button");}
     private By productAnnouncementsReadMoreClose(){ return By.xpath("//div[text()='Product Announcement']/parent::div/preceding-sibling::button/i"); }
+
+    /**
+     * @return  : return login button
+     */
+    private By loginButton(){
+        return By.xpath("//button/span[text()='Login']");
+    }
 }

@@ -1,17 +1,18 @@
 package pageObjects.HUBS;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.WebElement;
+import org.junit.Assert;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.searchPage.SearchPageImpl;
 import utilities.GetProperties;
 
 import java.util.List;
 
 public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
+
+    private SearchPageImpl searchPage = new SearchPageImpl();
 
     Logger logger = null;
 
@@ -87,6 +88,48 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
         driver.get(newURL);
     }
 
+    public void verifyDarkBlueFooter() {
+        Assert.assertTrue("College Search footer is not displayed", getFooter().isDisplayed());
+
+        // placeholder changed in MATCH-3471 from Search... to Search by College Name
+        Assert.assertTrue("Search box in College Search footer is not displayed", getFooter().findElement(By.xpath(".//input[@placeholder='Search by College Name']"))
+                .isDisplayed());
+
+        Assert.assertTrue("'THINKING ABOUT' menu is not displayed", getFooter().findElement(By.xpath("//a[text()=' Thinking About']"))
+                .isDisplayed());
+
+        Assert.assertTrue("'APPLYING TO' menu is not displayed", getFooter().findElement(By.xpath("//a[text()=' Applying To']"))
+                .isDisplayed());
+
+        Assert.assertTrue("'MORE' menu is not displayed", getFooter().findElement(By.xpath("//a[text()=' More ']"))
+                .isDisplayed());
+    }
+
+    /**
+     * Verifies the text of a link in the "More" link inside the SuperMatch footer, as well as the location the user is sent to,
+     * @param link Name of the link to navigate to in the "More" menu in the SM footer.
+     */
+    public void verifyFooterLink(String link) {
+            footerMoreButton().click();
+            waitUntilPageFinishLoading();
+        switch(link) {
+            case "Upcoming Visits":
+                footerUpcomingVisitsLink().click();
+                waitUntilPageFinishLoading();
+                softly().assertThat(getDriver().getCurrentUrl()).contains("/colleges/visits");
+                getDriver().executeScript("window.history.go(-1)");
+                waitUntilPageFinishLoading();
+                break;
+            case "Events":
+                footerEventsAppLink().click();
+                waitUntilPageFinishLoading();
+                softly().assertThat(getDriver().getCurrentUrl()).contains("college-events");
+                getDriver().executeScript("window.history.go(-1)");
+                waitUntilPageFinishLoading();
+                break;
+        }
+    }
+
 
     //Locators
 
@@ -103,4 +146,8 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
     private WebElement searchButton() { return driver.findElement(By.cssSelector("span.nophone")); }
     private WebElement collegeInResults(String collegeName) { return driver.findElement(By.xpath("//tbody//a[text() = '" + collegeName + "']")); }
     private String noResultsFoundTextLocator = "//div[contains(text(), 'No results found')]";
+    private WebElement getFooter() {return driver.findElement(By.xpath("//sticky-bar"));}
+    private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//sticky-bar//*[text() = \" More \"]"));}
+    private WebElement footerUpcomingVisitsLink() {return getDriver().findElement(By.xpath("//sticky-bar//*[text() = \" Upcoming Visits \"]"));}
+    private WebElement footerEventsAppLink() {return getDriver().findElement(By.xpath("//sticky-bar//*[text() = \" Events \"]"));}
 }

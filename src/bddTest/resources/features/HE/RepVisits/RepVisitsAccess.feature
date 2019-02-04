@@ -7,7 +7,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Then HE I verify the following tabs exist on the RepVisits page
       |Overview |Search and Schedule |Calendar |Travel Plan |Contacts |Recommendations |Notifications|
 
-  @MATCH-1667
+  @MATCH-1667 @MATCH-2075
   Scenario: As an HE user, I should be able to see Check RepVisits Availability button and Availablity sidebar from HS instituion profile
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "Int QA High School 4" in "Institutions"
@@ -17,7 +17,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
   @MATCH-1610
   Scenario: As an HE Community member,I need to view a calendar of my appointments
             so that I can easily see what my day/week/month schedule looks like.
-    Given HE I am logged in to Intersect HE as user type "community"
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I verify the calendar view in repvisits
 
   @MATCH-1935 @MATCH-1934 @MATCH-1936 @MATCH-2274
@@ -345,3 +345,38 @@ Examples:
     Examples:
       |Date|newVisitSTime|newVisitETime|Attendees           |visitLocation|
       |14  |11:02am      |10:58pm      |PurpleHE Automation |Cbba         |
+
+  @MATCH-2075
+  Scenario: As an HE user of the Counselor Community who is viewing a HS profile, I want to quickly find an action to view
+  that high school's visit and fair availability if they are using RepVisits so I can plan my seasonal travel plan.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then I navigate to Counselor Community page
+    Then HE I select the search category as "Int QA Combined School 2"
+    Then HE I select the search result "Int QA Combined School 2"
+    Then HE I verify the "Add to Travel Plan" button
+
+  @MATCH-2051
+  Scenario: As an HE user I want the quick view calendar on the Search and Schedule RepVisit page to be a premium feature so non premium HE accounts see more value in upgrading.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select "The University of Alabama" from the global search results
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I successfully sign out
+#verify premium feature details  in search and schedule page for limited account
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to "Search and Schedule" page
+    Then HE I verify the premium feature header is displaying in search and schedule page using "Premium Feature"
+    Then HE I verify the lock icon is displaying in search and schedule page using "locked"
+    Then HE I verify learn more hyper link is displaying in search and schedule page using "Learn more"
+
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I search for "2400006"
+    And SP I select "The University of Alabama" from the global search results
+    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I successfully sign out
+#verify premium feature details in search and schedule page for premium account
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to "Search and Schedule" page
+    Then HE I verify the premium feature header is not displaying in search and schedule page
+    Then HE I verify the lock icon is not displaying in search and schedule page
+    Then HE I verify learn more hyper link is not displaying in search and schedule page

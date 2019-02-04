@@ -3,7 +3,9 @@ package pageObjects.HUBS;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -17,6 +19,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     Logger logger = null;
     AdmissionsPageImpl admissionsPreview = new AdmissionsPageImpl();
     PublishPageImpl publish = new PublishPageImpl();
+    OverviewEditPageImpl overviewEditPage = new OverviewEditPageImpl();
 
     public AdmissionsEditPageImpl() {
         logger = Logger.getLogger(AdmissionsEditPageImpl.class);
@@ -60,6 +63,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Deadlines" :
                     String newMonth = "";
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
                     deadlinesButton().click();
                     deadlineType(fieldAndValueElement.get(1)).click();
                     if (fieldAndValueElement.get(2).split(";")[0].equals("month")) {
@@ -100,6 +104,8 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                             isAppReqPresent);
                     break;
                 case "Recommended Courses" :
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
                     recommendedCoursesButton().click();
                     recommendedCourse(fieldAndValueElement.get(1)).click();
                     courseYears(fieldAndValueElement.get(2).split(";")[0]).clear();
@@ -113,6 +119,8 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Application Factors" :
                     boolean isAppFactorPresent = false;
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
                     applicationFactorsButton().click();
                     appFactorType(fieldAndValueElement.get(1)).click();
                     Select importanceDropdown = new Select(appFactorsImportanceDropdownElement());
@@ -265,7 +273,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(fieldsDetails.get(0).get(1));
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(overviewEditPage.loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
     }
 
@@ -367,4 +375,5 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     private WebElement recommendedCourse(String label) { return getDriver().findElement(By.xpath("//strong[text()='" + label + "']")); }
     private WebElement courseYears(String requiredOrRecommended) { return getDriver().findElement(By.xpath("//label[text()='" + requiredOrRecommended + "']/following-sibling::input")); }
     private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
+    private WebElement publishButton() { return driver.findElement(By.cssSelector("span.intersect-btn.intersect-btn--fuschia.ng-binding")); }
 }

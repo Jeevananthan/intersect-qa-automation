@@ -7,10 +7,12 @@ Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Admissions" tab in the preview
 
+  @HUBS-925
   Scenario: All the elements of the page are displayed for HE users in Costs (MATCH-4009)
     Then HUBS All the elements of the admissions tab should be displayed
     And HE I successfully sign out
 
+  @HUBS-925
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Admissions" in the edit menu
     Then HUBS I should be able to edit the following fields for Admissions in real time:
@@ -22,7 +24,7 @@ Feature: HUBS - Admissions - As a community user viewing College Hubs, I want to
       | Recommended Courses      | Science        | Years Required;7         |
       | Application Factors      | Ethnicity | Considered |
 
-  @HUBS-1052
+  @HUBS-1052 @Unstable
   Scenario: Changes done in HEM are successfully published to HUBS (MATCH-4022 - MATCH-5459 - MATCH-5459 - MATCH-5461)
     When HUBS I open "Admissions" in the edit menu
     And HUBS I take note of the values from the following fields in Admissions:

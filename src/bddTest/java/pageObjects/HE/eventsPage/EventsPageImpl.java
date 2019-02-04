@@ -11,7 +11,11 @@ import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.text.SimpleDateFormat;
@@ -108,15 +112,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Event Start":
                     eventStartCalendarButton().click();
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyy");
-                    Calendar date = Calendar.getInstance();
-                    try {
-                        Date formattedDate = formatter.parse(row.get(1).split(";")[0]);
-                        date.setTime(formattedDate);
-                        pickDateInDatePicker(date);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    String formattedDate = row.get(1).split(";")[0];
+                    setSpecificDate(formattedDate,"MMMM dd yyyy");
                     eventStartTimeField().sendKeys(row.get(1).split(";")[1]);
                     break;
                 case "Timezone":
@@ -133,15 +130,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "RSVP Deadline":
                     rsvpCalendarButton().click();
-                    SimpleDateFormat rsvpFormatter = new SimpleDateFormat("MM-dd-yyy");
-                    Calendar rsvpDate = Calendar.getInstance();
-                    try {
-                        Date formattedDate = rsvpFormatter.parse(row.get(1).split(";")[0]);
-                        rsvpDate.setTime(formattedDate);
-                        pickDateInDatePicker(rsvpDate);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    formattedDate = row.get(1).split(";")[0];
+                    setSpecificDate(formattedDate,"MMMM dd yyyy");
                     break;
                 case "EVENT LOCATION":
                     selectLocationByName(row.get(1));
@@ -419,6 +409,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillEventStartDateTimeFields(minutesFromNow);
         fillCreateEventForm(eventDetails);
         publishNowButton().sendKeys(Keys.RETURN);
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLocator), 1));
     }
 
     public void EditAndPublishEventWithGenDate (String minutesFromNow, DataTable eventDetailsData) {
@@ -429,7 +420,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void fillEventStartDateTimeFields(String minutesFromNow) {
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(createEventButton());
         generatedTime = getDeltaTime(Integer.parseInt(minutesFromNow));
         Calendar date = Calendar.getInstance();
         createEventButton().click();
@@ -480,32 +471,35 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.welcomeTooltipLocator)).size() > 0) {
             FCCollegeEventsPage.welcomeTooltipCloseButton.click();
         }
-        List<WebElement> listOfEventNames = new ArrayList<>();
+        List<WebElement> listOfEventNames;
         List<String> listOfEventNamesStrings = new ArrayList<>();
 
-        WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
-
-        listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
-        for (WebElement eventNameElement : listOfEventNames) {
-            listOfEventNamesStrings.add(eventNameElement.getText());
-        }
-
-        while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            waitForUITransition();
-            waitUntilPageFinishLoading();
-            waitUntilElementExists(upperNextArrow);
-            upperNextArrow.click();
-            waitForUITransition();
+        if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                waitForUITransition();
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(collegeNameHeader), 0));
+                listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
+                for (WebElement eventNameElement : listOfEventNames) {
+                    listOfEventNamesStrings.add(eventNameElement.getText());
+                }
+                if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                    Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                                    cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                            cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                    break;
+                }
+                driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0).click();
+            }
+        } else {
             listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
             for (WebElement eventNameElement : listOfEventNames) {
                 listOfEventNamesStrings.add(eventNameElement.getText());
             }
-        }
-
-        if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                            cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                    cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+            if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
+                                cancelledEventMessage(EventsPageImpl.eventName).getText(),
+                        cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+            }
         }
         waitForUITransition();
     }
@@ -517,7 +511,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitForUITransition();
+        waitUntilElementExists(getEventsTab(tabName));
         try {
             getEventsTab(tabName).click();
         } catch(WebDriverException e) {
@@ -717,6 +711,108 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * select date by given value
+     * @param addDays : number of days to add (ex 10 )
+     * @param format : date format
+     */
+    public void setSpecificDate(String addDays,String format) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        if (format != null)
+            DATE_FORMAT_NOW = format;
+        Calendar cal = Calendar.getInstance();
+        if (addDays.length() > 2) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_NOW, Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(addDays, formatter);
+            int days = date.getMonthValue();
+            cal.add(Calendar.DATE, days);
+        } else {
+            cal = getDeltaDate(Integer.parseInt(addDays));
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * select the month by given value
+     * @param month Ex : july
+     */
+    public void findMonth(String month) {
+        waitUntilPageFinishLoading();
+        boolean monthStatus = compareDate(month);
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try {
+            while (!DayPickerCaption.contains(month)) {
+
+                if (monthStatus) {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                } else {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+            }
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected it's out of RANGE.");
+        }
+    }
+
+    /**
+     *
+     * @param month : compare month by given value
+     * @return
+     */
+    public Boolean compareDate(String month) {
+
+        String dateCaption = null;
+        DateFormat format = new SimpleDateFormat("MMM yyyy");
+        DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='DayPicker-Caption']")));
+        dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        //Logic to compare dates before? or not
+        Date first = null;
+        try {
+            first = format.parse(dateCaption);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date second = null;
+        try {
+            second = formatDate.parse(month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean before = (first.before(second));
+        return before;
+
+    }
+
+    /**
+     * click the day in the month
+     * @param date : date to click
+     */
+    public void clickOnDay(String date) {
+
+        try {
+
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[@aria-disabled='false'][text()=" + date + "]")).click();
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.");
+        }
+
+    }
+
     //locators
 //    private WebElement statusDraft(){return  driver.findElement(By.cssSelector(""))};
     private WebElement eventsTitle() { return driver.findElement(By.xpath("//span[text()='Events']")); }
@@ -747,7 +843,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateButton() { return driver.findElement(By.cssSelector("button[title='Update']")); }
     private WebElement cancelYesButton() { return driver.findElement(By.cssSelector("button[data-status='CANCELED']")); }
     public WebElement getEventsTab(String tabName) {
-        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]"));
+        return driver.findElement(By.xpath("//span[contains(text(), '" + tabName + "')]/.."));
     }
     private WebElement getTimeZoneOption(String optionName) {
         return driver.findElement(By.xpath("//div[@class='ui stackable middle aligned grid _22IjfAfN4Zs4CnM4Q_AlWZ']" +
@@ -822,4 +918,6 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private WebElement editEventClick (String nameOfEvent){return driver.findElement(By.xpath("//h3[text()='" +nameOfEvent+ "']"));}
     private String unpublishedEventsEllipsisLocator(String eventName) { return "//h3[text() = '" + eventName + "']/../../../..//i"; }
     private String progressBarLocator = "div[role='progressbar']";
+    private String collegeNameHeader = "div.events-list__column-head.events-list__column-head--name";
+    private String loadingIconLocator = "div.ui.active.loader";
 }

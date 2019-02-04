@@ -13,6 +13,7 @@ public class InstitutionPageStepDefs implements En {
         Then("^SP I verify the user can successfully access Counselor Community from within the Support App$",collProfile::accessCounselorCommunity);
         Then("^SP I verify the user can access the following sub tabs in the Counselor Community$",collProfile::accessFieldsInCounselorCommunity);
         Then("^SP I verify the user tied to the Hobsons institution$",collProfile::verifyUser);
+
     }
 
 }

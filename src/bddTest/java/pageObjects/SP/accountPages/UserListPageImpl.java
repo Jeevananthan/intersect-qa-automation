@@ -31,7 +31,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
-        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(createNewUserButtonLocator), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(userListTable), 0));
         if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
@@ -287,7 +287,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         String date = getSpecificDate(0,"M/d/yyyy");
         String firstNameValue = AccountSettingsPageImpl.generatedFirstName;
-        Assert.assertTrue("The user account was not successfully updated.",driver.findElement(By.xpath("//td/span[text()='"+date+"']/../following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td//div/span[text()='firstName:']/following-sibling::span[text()='\""+firstNameValue+"\"']")).isDisplayed());
+        softly().assertThat(ExpectedConditions.visibilityOf(firstNameValue(date, firstNameValue))).as("The user account was not successfully updated.");
     }
 
     public String getSpecificDate(int addDays, String format) {
@@ -332,7 +332,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
         driver.switchTo().window(HEWindow);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ui small icon info message toast persistent wGfRWJCMN3CEBD7NJI-dc']/div/span")));
         String originalMessage = getLoginMessageInHomePage().getText();
-        Assert.assertTrue("Logged in message is not displayed",originalMessage.equals(message));
+        softly().assertThat(originalMessage).as("Impersonation Banner Message").isEqualTo(message);
     }
 
     public void verifyUpgradeButtonInHomPage(String message){
@@ -347,6 +347,7 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
             }
         }
         driver.switchTo().window(HEWindow);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getUpgrateButtonLocator()));
         softly().assertThat(getUpgradeButton().isDisplayed());
         softly().assertThat(getUpgradeButton().getText().contains(message));
     }
@@ -407,7 +408,11 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement timeDropdown() { return driver.findElement(By.xpath("//div[@class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']//i[@class='dropdown icon']")); }
 
-    private WebElement getUpgradeButton() { return driver.findElement(By.cssSelector("button[class='ui secondary button _2gMolwx9EDCmPkEu5Kjlaw']")); }
+    private WebElement getUpgradeButton() { return driver.findElement(getUpgrateButtonLocator()); }
+
+    private By getUpgrateButtonLocator(){
+        return By.cssSelector("button[class='ui secondary button _2gMolwx9EDCmPkEu5Kjlaw']");
+    }
 
 
     private WebElement timeDropdownOption(String option) { return driver.findElement(By.xpath("//span [text()='"+option+"']")); }
@@ -421,5 +426,10 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
     }
 
     private GmailAPI getGmailApi() throws Exception { return new GmailAPI(); }
-    private String createNewUserButtonLocator = "//span[text() = 'Create New User']";
+    private String backButton = "i[class='angle left icon']";
+    private String userListTable = "//table/caption/span[contains(text(),'User List')]";
+    private WebElement firstNameValue(String date, String newName) {
+        return driver.findElement(By.xpath("//td/span[text()='" + date + "']/../following-sibling::td/following-sibling::" +
+                "td//span[@class = 'json-markup-key']/following-sibling::span[text() = '\""+ newName + "\"']"));
+    }
 }

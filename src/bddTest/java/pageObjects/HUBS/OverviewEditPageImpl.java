@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -220,23 +221,6 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return generatedValues;
     }
 
-    //    private void enterPublishReasonsText(String publishReason) {
-//        publishReasonsTextArea().sendKeys(publishReason);
-//    }
-//
-//    private void clickSubmitChangesButton() {
-//        submitChangesButton().click();
-//        new WebDriverWait(getDriver(), 40).until(ExpectedConditions.elementToBeClickable(By.linkText("Continue editing")));
-//    }
-//
-//    private void clickContinueEditingLink() {
-//        continueEditingLink().click();
-//    }
-//
-//    private void clickPublishButton() {
-//        publishButton().click();
-//    }
-//
     public void editAllFieldsBasedOnGatheredValues(String publishReason, HashMap<String, String> originalValues) {
         HashMap<String, String> newValues = generateValues(originalValues);
         OverviewPageImpl.generatedValues = newValues;
@@ -244,8 +228,34 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         publish.clickPublishButton();
         publish.enterPublishReasonsText(publishReason);
         publish.clickSubmitChangesButton();
-        publish.clickContinueEditingLink();
+        waitUntil(ExpectedConditions.numberOfElementsToBeLessThan(By.cssSelector(loadingIconLeftMenuLocator), 1));
         logger.info("All changes were submitted");
+    }
+
+    public void verifyOverlayMessage(String message) {
+        boolean getOverlayMessagePartI = getDriver().findElement(By.xpath("//div[text()='Use the ']")).isDisplayed();
+        boolean getOverlayMessagePartII = getDriver().findElement(By.xpath("//i[text()='Photos and Videos']")).isDisplayed();
+        boolean getOverlayMessagePartIII = getDriver().findElement(By.xpath("//div[text()=' option under the ']")).isDisplayed();
+        boolean getOverlayMessagePartIV = getDriver().findElement(By.xpath("//i[text()='Media']")).isDisplayed();
+        boolean closeButton = getDriver().findElement(By.cssSelector("div[class='webtour-overlay-content-container__close']")).isDisplayed();
+
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartI);
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartI);
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartII);
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartIII);
+
+        assertTrue("Overlay Message it's not correct",
+                getOverlayMessagePartIV);
+
+        assertTrue("Close button does not exists",
+                getOverlayMessagePartIV);
     }
 
     //Locators
@@ -350,4 +360,5 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         }
         return result;
     }
+    public String loadingIconLeftMenuLocator = "div.fc-loader.fc-loader-three-bounce.fc-loader--color-primary";
 }

@@ -33,6 +33,10 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
         closeButton().click();
     }
 
+    public void clickButtonInConnectDialog(String buttonText) {
+        connectDialogButton(buttonText).click();
+    }
+
     public void verifyIfMatchingCardIsDisplayed(String cardStatus, String collegeName) {
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(cardsGroupsLocator), 0));
         if (cardStatus.equals("displayed")) {
@@ -43,20 +47,28 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
             Assert.assertTrue("Matching card is not displayed, when it should.",
                     driver.findElements(By.xpath(cardTitleLocator(collegeName))).size() == 0);
         }
+    }
 
+    public void verifyConnectorNotDisplayed() {
+        //I'm using this fixed wait here because I want to wait for something that is not supposed to be displayed
+        waitForUITransition();
+        Assert.assertTrue("The connector was displayed, when it shouldn't.",
+                driver.findElements(By.cssSelector(yesIDoButtonLocator)).size() == 0);
     }
 
     //Locators
     private WebElement heartIcon(String collegeName) {
         return driver.findElement(By.xpath("//div[@id = 'activematch-app']/div[1]//a[text() = '" + collegeName + "']/../..//div[1]/i"));
     }
-    private String modalCancelButton = "//span[text() = 'CANCEL']";
     private WebElement stepTitle() { return driver.findElement(By.cssSelector("main h2")); }
     private WebElement stepTitle2() { return driver.findElement(By.cssSelector("div.ui.header")); }
-    private WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
-    private WebElement yesIDoButton() { return driver.findElement(By.cssSelector("button#yesIDoButton")); }
+    public WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
+    public WebElement yesIDoButton() { return driver.findElement(By.cssSelector(yesIDoButtonLocator)); }
+    private String yesIDoButtonLocator = "button#yesIDoButton";
+    public WebElement noThanksButton() { return driver.findElement(By.cssSelector("button#onCloseButton")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
-    private WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
+    public WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }
     private String cardsGroupsLocator = "div.ui.cards.matches-group";
+    private WebElement connectDialogButton(String buttonText) { return driver.findElement(By.xpath("//button[text() = '" + buttonText + "']")); }
     private String cardTitleLocator(String collegeName) { return "//div[@class = 'ui cards matches-group'][1]//a[text() = '" + collegeName + "']"; }
 }

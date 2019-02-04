@@ -103,6 +103,11 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Verifies that the updated made in HEM are displayed in HUBS
+     *
+     * @param stringsDataTable - Data Table containing data about the fields that should be updated in HUBS.
+     */
     public void verifyChangesPublishedInHUBS(DataTable stringsDataTable) {
         driver.close();
         load(GetProperties.get("hubs.app.url"));
@@ -112,16 +117,28 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(creds.get(2));
         hubsMainMenu.clickStudiesTab();
-        for (int i = 0; i < 15; i++) {
+        verifyValuesAreUpdated(creds, 10);
+        verifyGeneratedValues(creds.get(3), generatedValues);
+    }
+
+    /**
+     * Verifies if the Student/Faculty Ratio field is updated. It tries a given number of times to log out, log in
+     * and verify if the field was updated. If the field was updated, the loop is broken. This field was selected because
+     * it usually is the last field to be updated.
+     *
+     * @param credentials - Credentials for Family Connection/Naviance Student
+     * @param numberOfTries - Number of tries to verify the upda
+     */
+    private void verifyValuesAreUpdated(List<String> credentials, int numberOfTries) {
+        for (int i = 0; i < numberOfTries; i++) {
             if (!generatedValues.get("Student/Faculty Ratio").equals(studentFacultyRatioText().getText().replace(",", ""))) {
                 header.clickLogOut();
-                hubsLogin.defaultLogIn(creds);
+                hubsLogin.defaultLogIn(credentials);
                 fcMain.clickCollegesTab();
-                collegesPage.searchAndOpenCollege(creds.get(2));
+                collegesPage.searchAndOpenCollege(credentials.get(2));
                 hubsMainMenu.clickStudiesTab();
             }
         }
-        verifyGeneratedValues(creds.get(3), generatedValues);
     }
 
     //Locators

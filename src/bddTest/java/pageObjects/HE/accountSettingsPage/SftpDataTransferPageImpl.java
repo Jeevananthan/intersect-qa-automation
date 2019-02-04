@@ -450,6 +450,36 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Verifies if the given text is present in the error message when saving the connection fails
+     * @param expectedMessage
+     */
+    public void verifyFailedSaveMessage(String expectedMessage){
+        String actualMessage = saveFailedMessageBox().getText();
+        Assert.assertTrue(String.format("The error message when saving the connection does not contains the text: %s",
+                expectedMessage),actualMessage.contains(expectedMessage));
+    }
+
+    /**
+     * verify configuration issues link is displaying in sftp main page
+     * @param configurationIssues : configuration link
+     */
+    public void verifyConfigurationIssuesLink(String configurationIssues){
+        accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        waitUntilElementExists(configurationIssuesLink(configurationIssues));
+        Assert.assertTrue("Configuration Issues link is not displayed",configurationIssuesLink(configurationIssues).isDisplayed());
+    }
+
+    /**
+     * verify verify that we can able to navigate to the edit connection page
+     */
+    public void verifyEditConnectionNavigation(){
+        accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        Assert.assertTrue("Edit link is not displayed",editLink().isDisplayed());
+        goToEditConnectionPage();
+        Assert.assertTrue("Edit link is not displayed",sftpDataTransferTitleLink().isDisplayed());
+    }
+
+    /**
      * Goes to the main sftp connection page though the title link
      */
     public void goToSftpConnectionMainPageThroughTitleLink(){
@@ -739,5 +769,22 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement warningToast(){
         return getDriver().findElement(warningToastLocator());
+    }
+
+    /**
+     * Gets the save failed message box
+     * @return
+     */
+    private WebElement saveFailedMessageBox(){
+        return getDriver().findElement(By.cssSelector("div[class='ui icon warning message']"));
+    }
+
+    /**
+     *
+     * @param configurationIssues : configuration issue link
+     * @return WebElement
+     */
+    private WebElement configurationIssuesLink(String configurationIssues){
+        return getDriver().findElement(By.xpath("//span/a[text()='"+configurationIssues+"']"));
     }
 }

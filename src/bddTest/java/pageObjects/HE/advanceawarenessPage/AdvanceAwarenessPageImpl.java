@@ -103,7 +103,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectCheckbox(String option){
-       waitForUITransition();
+        waitUntilPageFinishLoading();
         getCompetitors().get(0).findElement(getOption(option)).click();
     }
 

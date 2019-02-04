@@ -20,13 +20,6 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
 
     public void openHUBSEditorMode() {
         getNavigationBar().goToCollegeProfile();
-        verifyVieworEditYourCollegeProfileinNaviance();
-        try {
-            getStartedButton().click();
-        } catch(WebDriverException e) {
-            getNavigationBar().navianceCollegeProfileMenuLink.sendKeys(Keys.ESCAPE);
-            getStartedButton().click();
-        }
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
         verifyInstitutionalProfilePage();

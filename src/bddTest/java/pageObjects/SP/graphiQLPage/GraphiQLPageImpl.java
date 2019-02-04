@@ -1,6 +1,7 @@
 package pageObjects.SP.graphiQLPage;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.gl.E;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -8,6 +9,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,15 +26,15 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
     }
 
     private static String fs = File.separator;
-    private static String partialFilePath = String.format(".%ssrc%sbddTest%sresources%sJSON%s",fs ,fs ,fs ,fs ,fs);
+    private static String propJsonFile = String.format(".%ssrc%sbddTest%sresources%sJSON%sSubscriptions",fs ,fs ,fs ,fs ,fs);
 
     public void createSubscriptionViaGraphiQL(String jsonFileName, DataTable dataTable) {
-        String query = readWholeJSONFile(partialFilePath + "CreateSubscriptionQuery.json");
-        String variables = readWholeJSONFile(partialFilePath + jsonFileName);
+        String query = getStringFromPropFile(propJsonFile,"createSubscriptionQuery");
+        String variables = getStringFromPropFile(propJsonFile,jsonFileName);
         List<List<String>> details = dataTable.asLists(String.class);
         for (List<String> row : details) {
             switch (row.get(0)) {
-                case "startDate" :
+                case "startDate":
                     long startDateEpochTime = 0;
                     if (row.get(1).contains("before")) {
                         startDateEpochTime = getEpochTime(-Integer.parseInt(row.get(1).split(" ")[0]));
@@ -41,7 +43,7 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     }
                     variables = variables.replaceAll("(\"startDate\")\\:[0-9]+", "$1:" + startDateEpochTime);
                     break;
-                case "endDate" :
+                case "endDate":
                     long endDateEpochTime = 0;
                     if (row.get(1).contains("before")) {
                         endDateEpochTime = getEpochTime(-Integer.parseInt(row.get(1).split(" ")[0]));
@@ -52,10 +54,29 @@ public class GraphiQLPageImpl extends PageObjectFacadeImpl {
                     break;
             }
         }
-        WebElement firstQueryLine = driver.findElements(By.cssSelector(queryLinesListLocator)).get(0);
+
+        WebElement firstQueryLine = getDriver().findElements(By.cssSelector(queryLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstQueryLine, query);
-        graphiQLQueryVariablesHeaderLocator().click();
-        WebElement firstVariablesLine = driver.findElements(By.cssSelector(variablesLinesListLocator)).get(0);
+
+        if(getDriver().findElement(By.className("variable-editor")).getSize().height < 70 ) {
+            graphiQLQueryVariablesHeaderLocator().click();
+        }
+        else {
+
+            WebElement element = getDriver().findElements(By.cssSelector(".CodeMirror-hscrollbar > div")).get(1);
+
+            WebElement target = getDriver().findElements(By.cssSelector(".CodeMirror-gutters")).get(1);
+
+            (new Actions(getDriver())).dragAndDrop(element, target).perform();
+
+            Actions actions = new Actions(getDriver());
+            actions.moveToElement(getDriver().findElements(By.cssSelector(".CodeMirror-code > div:first-child  > pre")).get(1).findElements(By.cssSelector("span > span")).get(0));
+            actions.click();
+            actions.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "");
+            actions.sendKeys(Keys.DELETE);
+            actions.build().perform();
+        }
+        WebElement firstVariablesLine = getDriver().findElements(By.cssSelector(variablesLinesListLocator)).get(0);
         enterTextInGraphiQLField(firstVariablesLine, variables);
         executeButton().click();
         Assert.assertFalse("There were errors when creating the subscription", isPresentInResults("errors"));
