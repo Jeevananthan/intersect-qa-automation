@@ -327,40 +327,40 @@ Feature: SM - ActiveMatch Next Gen
   Scenario: As a HS student who has favorited a college, I want to be presented with a new 'Connect' action/text+icon
   for that college when viewing search results or the SuperMatch 'Why?' drawer so I am always presented with the option
   to change my mind to 'Connect'.
-#    Given SP I am logged in to the Admin page as an Admin user
-#    When SP I select "The University of Alabama" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
-#    When SP I select "Auburn University" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
-#    When SP I select "Assumption College" from the institution dashboard
-#    And HE I click the link "Advanced Awareness"
-#    And SP I delete all the subscriptions for school
-#    And SP I navigate to the GraphiQL page
-#    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
-#      | startDate | 0 days before now |
-#      | endDate   | 2 days after now  |
-#    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData2.json" and the following settings:
-#      | startDate | 0 days before now |
-#      | endDate   | 2 days after now  |
-#    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData4.json" and the following settings:
-#      | startDate | 0 days before now |
-#      | endDate   | 2 days after now  |
-#    And SP I successfully sign out
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Assumption College" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
+    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData2.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
+    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData4.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
-#    And I clear the onboarding popups if present
-#    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
-#    And SM I remove "Auburn University" from the I'm thinking about list if it is added in the list
-#    And SM I remove "Assumption College" from the I'm thinking about list if it is added in the list
-#    And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
-#    And SM I navigate to page via URL path "colleges/supermatch-next"
+    And I clear the onboarding popups if present
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I remove "Auburn University" from the I'm thinking about list if it is added in the list
+    And SM I remove "Assumption College" from the I'm thinking about list if it is added in the list
+    And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to page via URL path "colleges/supermatch-next"
     And SM I clear pinned schools list
-#    Then SM I pin "Williams College" from the search box
-#    Then SM I pin "Bennett College" from the search box
+
     And SM I pin "The University of Alabama" from the search box
     And SM I pin "Auburn University" from the search box
     And SM I pin "Assumption College" from the search box
+
 
     Then SM I favorite the school "The University of Alabama"
     Then I check if I can see "Great news!" on the page

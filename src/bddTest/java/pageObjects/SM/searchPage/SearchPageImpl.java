@@ -2456,6 +2456,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToPageViaURLPath(String path) {
         load(GetProperties.get("fc.app.url")+path);
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".ui.active.loader")));
     }
 
     public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
