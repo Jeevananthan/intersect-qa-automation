@@ -17,3 +17,13 @@ Feature: HUBS - Edit Media
     Then HUBS I verify the Publishing Modal Confirmation with the "Submit changes" element
     Then HUBS I verify the Publishing Modal Confirmation with the "IE: We've moved the admissions office!" element
     Then HUBS I verify functionality of Publishing Modal Confirmation
+
+  @HUBS-5787
+  Scenario: Currently, an HE user can find an 'edit' button from their Hubs 'view' page that, when mashed, takes the HE
+  user to our old version of HEM (feature flag not passed in URL).
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When I go to institution page
+    And I click on Additional Info
+    And I click on VIEW NAVIANCE COLLEGE PROFILE
+    And HUBS I click on EDIT button
+    Then HUBS I verify that HEM loads

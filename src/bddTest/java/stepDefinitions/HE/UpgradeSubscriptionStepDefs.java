@@ -20,4 +20,14 @@ public class UpgradeSubscriptionStepDefs implements En {
             And("^HE I verify Upgrade Message for \"([^\"]*)\"$", UpgradeSubscriptionPage :: clickUpgradeFilter);
             And("^HE I Verify Upgrade Filter Ribbon and Button for \"([^\"]*)\"$",UpgradeSubscriptionPage :: filterPremiumLock);
             And("^HE I click on Upgrade button filter \"([^\"]*)\"$", UpgradeSubscriptionPage :: filterUpgradeClick);
+            Then("^HE I navigate to the community page$",UpgradeSubscriptionPage::navigateToCommunityPage);
+            Then("^HE I click upgrade button in community page$",UpgradeSubscriptionPage::clickUpgradeButtonInCommunity);
+            Then("^HE I verify the following fields are required in the upgrade form$",UpgradeSubscriptionPage::verifyFieldsInUpgradeForm);
+            Then("^HE I verify the check box is changed to \"([^\"]*)\" in the upgrade form$",UpgradeSubscriptionPage::verifyCheckBoxInUpgradeForm);
+            Then("^HE I verify the note \"([^\"]*)\" is displaying in the upgrade form$",UpgradeSubscriptionPage::verifyNoteInUpgradeForm);
+            Then("^HE I verify the privacy policy link navigate to the URL \"([^\"]*)\" in the upgrade form$",UpgradeSubscriptionPage::verifyPrivacyPolicy);
+            Then("^HE I verify the updated text \"([^\"]*)\" is displaying in the upgrade form$",UpgradeSubscriptionPage::verifyUpdatedTextInUpgradeForm);
+            Then("^HE I navigate to the Fields \"([^\"]*)\" in repvisits page$",UpgradeSubscriptionPage::navigateToFieldsInRepVisits);
+            Then("^HE I click upgrade button in repVisits$",UpgradeSubscriptionPage::clickUpgradeButtonInRepvisits);
+            Then("^HE I close upgrade form$",UpgradeSubscriptionPage::closeUpgradeForm);
     }}

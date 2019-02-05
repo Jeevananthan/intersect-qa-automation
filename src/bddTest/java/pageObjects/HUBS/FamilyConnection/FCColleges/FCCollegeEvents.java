@@ -185,7 +185,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
             WebElement upperNextArrow = driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0);
-            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                 waitUntilPageFinishLoading();
                 waitUntilElementExists(upperNextArrow);
                 upperNextArrow.click();
@@ -197,8 +197,8 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
             }
         }
 
-        if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
-            FCCollegeEventsPage.getSignUpButton(EventsPageImpl.eventName).click();
+        if (listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
+            FCCollegeEventsPage.getSignUpButton(EventsPageImpl.staticEventName).click();
             clickSignUpButton();
             waitUntil(ExpectedConditions.visibilityOf(FCCollegeEventsPage.registeredEventSaveChangesButton()));
         }
