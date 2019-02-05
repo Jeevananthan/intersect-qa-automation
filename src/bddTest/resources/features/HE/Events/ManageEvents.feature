@@ -6,7 +6,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and save a new event "60" minutes ahead from now with the following details:
-      | Event Name  | MandeepEventForTesting |
+      | Event Name  | RandomEventName |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | Test |
       | Max Attendees | 30 |
@@ -19,22 +19,22 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
     | EVENT LOCATION BY POSITION  | 1 |
     | EVENT PRIMARY CONTACT BY POSITION | 1 |
     | EVENT AUDIENCE BY POSITION       | 1 |
-    Then HE I should see the event of name "MandeepEventForTesting" present in the unpublished events list as Draft event
-    Then HE I verify status "Draft" for the event of name "MandeepEventForTesting"
-    And HE click on Event Name "MandeepEventForTesting" to edit
+    Then HE I should see the event of name "RandomEventName" present in the unpublished events list as Draft event
+    Then HE I verify status "Draft" for the event of name "RandomEventName"
+    And HE click on Event Name "RandomEventName" to edit
     And HE I edit and publish a new event "60" minutes ahead from now with the following details:
-      | Event Name  | MandeepEventForTestingEdited |
+      | Event Name  | RandomEventName |
       | Timezone    | Eastern Time (i.e. America/New_York) |
       | Description | TestEdited |
       | Max Attendees | 30 |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
       | EVENT AUDIENCE BY POSITION       | 2 |
-    Then HE I verify status "Published" for the event of name "MandeepEventForTestingEdited"
-    Then HE I should see the event of name "MandeepEventForTestingEdited" present in the events list as a published event
-    When HE I unpublish the event of name "MandeepEventForTestingEdited"
-    And HE I delete the event of name "MandeepEventForTestingEdited"
-    Then HE The deleted event of name "MandeepEventForTestingEdited" should not be displayed in the unpublished events list
+    Then HE I verify status "Published" for the event of name "RandomEventName"
+    Then HE I should see the event of name "RandomEventName" present in the events list as a published event
+    When HE I unpublish the event of name "RandomEventName"
+    And HE I delete the event of name "RandomEventName"
+    Then HE The deleted event of name "RandomEventName" should not be displayed in the unpublished events list
 
   @MATCH-2913 @MATCH-2902 @MATCH-2928
   Scenario: Verify an event can be cancelled

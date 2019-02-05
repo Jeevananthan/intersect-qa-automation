@@ -21,6 +21,8 @@ public class HUBSEditModeStepDefs implements En{
 
         And("^HE I access the INSTITUTION page$",navianceCollegeProfilePage::navigateToInstitutionProfile);
 
+        Then("^HUBS I verify that HEM loads$", navianceCollegeProfilePage::verifyHEMLoads);
+
     }
 
 }

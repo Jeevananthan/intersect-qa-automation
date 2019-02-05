@@ -17,19 +17,16 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import pageObjects.COMMON.PageObjectFacadeImpl;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
-    public static String eventName;
+    public static String staticEventName;
     private HomePageImpl homePage = new HomePageImpl();
     public static Calendar generatedTime;
     private NavianceCollegeProfilePageImpl navianceCollegeProfilePage = new NavianceCollegeProfilePageImpl();
@@ -59,6 +56,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventIsPresent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         driver.get(driver.getCurrentUrl());
@@ -85,10 +84,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyPublishedEventPresent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         verifyEventIsPresent(eventName);
     }
 
     public void deleteEvent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         getEventsInternalTab("Unpublished").click();
         waitUntilPageFinishLoading();
@@ -103,12 +106,31 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         verifyEventIsPresent(eventName);
     }
 
+    /**
+     * Randomizes a passed event name by adding a random number between 1 and 99,999 to the end
+     * @param eventName - Base of the name to be used.  Random number will be appended to this
+     * @return String - Randomized event name
+     */
+    public String randomizeEventName(String eventName) {
+        String randomNo = Integer.toString(new Random().nextInt(99999));
+        logger.info("random suffix = " + randomNo + "\n");
+        String newEventName = eventName + "" + randomNo;
+        logger.info("New Event Name = " + newEventName + "\n");
+        return newEventName;
+    }
+
     public void fillCreateEventForm(List<List<String>> data) {
         for (List<String> row : data) {
             switch (row.get(0)) {
                 case "Event Name":
-                    eventNameField().clear();
-                    eventNameField().sendKeys(row.get(1));
+                    if (row.get(1).equalsIgnoreCase("RandomEventName")) {
+                        staticEventName = randomizeEventName("RandomEventName");
+                        eventNameField().clear();
+                        eventNameField().sendKeys(staticEventName);
+                    } else {
+                        eventNameField().clear();
+                        eventNameField().sendKeys(row.get(1));
+                    }
                     break;
                 case "Event Start":
                     eventStartCalendarButton().click();
@@ -246,6 +268,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void editEventToPublish(String clickEventName){
+        if (clickEventName.equalsIgnoreCase("RandomEventName"))
+            clickEventName = staticEventName;
         editEventClick(clickEventName).click();
 
     }
@@ -334,6 +358,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyEventNotPresentInList(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
@@ -343,6 +369,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEvent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Published")));
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
@@ -378,15 +406,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         createEventButton().click();
         fillCreateEventForm(eventDetails);
         eventNameField().sendKeys(dateFormat.format(date));
-        eventName = eventNameField().getAttribute("value");
+        staticEventName = eventNameField().getAttribute("value");
         publishNowButton().sendKeys(Keys.RETURN);
     }
 
     public void cancelCreatedEvent() {
-        menuButtonForEvent(eventName).click();
+        menuButtonForEvent(staticEventName).click();
         getMenuButton("Cancel").click();
         cancelYesButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(staticEventName)), 0));
     }
 
     public void clickCreateEvent() {
@@ -394,7 +422,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCreatedEventIsInCancelledList() {
-        verifyEventIsInCancelledList(eventName);
+        verifyEventIsInCancelledList(staticEventName);
     }
 
     public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
@@ -455,8 +483,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEventOfGeneratedName() {
-        waitUntil(ExpectedConditions.visibilityOf(menuButtonForEvent(eventName)));
-        menuButtonForEvent(eventName).click();
+        waitUntil(ExpectedConditions.visibilityOf(menuButtonForEvent(staticEventName)));
+        menuButtonForEvent(staticEventName).click();
         getMenuButton("Unpublish").click();
     }
 
@@ -475,17 +503,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         List<String> listOfEventNamesStrings = new ArrayList<>();
 
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
-            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                 waitForUITransition();
                 waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(collegeNameHeader), 0));
                 listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
                 for (WebElement eventNameElement : listOfEventNames) {
                     listOfEventNamesStrings.add(eventNameElement.getText());
                 }
-                if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                if (listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                     Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                                    cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                            cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                                    cancelledEventMessage(EventsPageImpl.staticEventName).getText(),
+                            cancelledEventMessage(EventsPageImpl.staticEventName).getText().contains(cancellationMessage));
                     break;
                 }
                 driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0).click();
@@ -495,10 +523,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             for (WebElement eventNameElement : listOfEventNames) {
                 listOfEventNamesStrings.add(eventNameElement.getText());
             }
-            if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            if (listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                 Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                                cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                        cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                                cancelledEventMessage(EventsPageImpl.staticEventName).getText(),
+                        cancelledEventMessage(EventsPageImpl.staticEventName).getText().contains(cancellationMessage));
             }
         }
         waitForUITransition();
@@ -647,12 +675,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventStatus(String status, String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         Assert.assertTrue("The Event status is incorrect. UI: " + eventStatus(eventName).getText(), eventStatus(eventName).getText().equals(status));
     }
 
     public void verifyEventWithGenNameStatus(String status) {
-        verifyEventStatus(status, eventName);
+        verifyEventStatus(status, staticEventName);
     }
 
     public void verifyDefaultFilter(String filterName) {
@@ -668,7 +698,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openEventOfGeneratedName() {
         waitUntilPageFinishLoading();
-        menuButtonForEvent(eventName).click();
+        menuButtonForEvent(staticEventName).click();
         getMenuButton("Attendees").click();
     }
 
@@ -681,7 +711,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAttendeesErrorMessage(DataTable dataTable) {
         List<String> details = dataTable.asList(String.class);
-        attendeeStatusBarStudent(eventName).click();
+        attendeeStatusBarStudent(staticEventName).click();
         Assert.assertTrue("The error message is not correct", attendeesErrorMessage().getText().equals(details.get(0)));
     }
 
@@ -693,7 +723,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillEventStartDateTimeFields(xDaysFromNow);
         fillCreateEventForm(eventDetails);
         eventNameField().sendKeys(dateFormat.format(date));
-        eventName = eventNameField().getAttribute("value");
+        staticEventName = eventNameField().getAttribute("value");
         publishNowButton().sendKeys(Keys.RETURN);
     }
 

@@ -129,6 +129,7 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+
     //Locators
     private WebElement studiesButton() {
         return getDriver().findElement(By.xpath("//li[text()='Studies']"));
