@@ -2309,7 +2309,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
                 + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
         WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
-                + "']/../../../../following-sibling::tr"));
+                + "']/../../../../following-sibling::tr[2]"));
         scrollDown(nextCollege);
         whyButtonForCollege.click();
     }
@@ -2980,7 +2980,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
-    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
+    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"']")))));}
     private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}
     private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
     private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
