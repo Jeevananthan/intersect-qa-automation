@@ -13,6 +13,7 @@ public class EditMediaTabStepDefs implements En{
         Then("^HUBS I click on \"([^\"]*)\" button$", mediaTabEdit::clickOnPublishMyMediaChangesButton);
         Then("^HUBS I verify the Publishing Modal Confirmation with the \"([^\"]*)\" element$",mediaTabEdit::verifyPublishingModalConfirmation);
         Then("^HUBS I verify functionality of Publishing Modal Confirmation$",mediaTabEdit::verifyFunctionalityForPublishingModalConfirmation);
+        And("^HUBS I click on EDIT button$", mediaTabEdit::clickOnEditButton);
 
 
     }
