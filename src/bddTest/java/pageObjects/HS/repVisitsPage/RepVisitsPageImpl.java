@@ -1823,7 +1823,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void selectAndCleanVisits(String date) {
         WebElement visitInOverlay;
-        while (driver.findElements(By.cssSelector(appointmentLocator)).size() > 0) {
+       try{ while (driver.findElements(By.cssSelector(appointmentLocator)).size() > 0) {
             visitInOverlay = driver.findElements(By.cssSelector(appointmentLocator)).get(0);
             visitInOverlay.click();
             if (driver.findElements(By.xpath(noGoBackButtonLocator)).size() > 0) {
@@ -1849,6 +1849,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(visitFormLocator), 0));
             }
         }
+       }catch (Exception e){}
     }
 
     public void goToCurrentMonthInCalendar(String date){
