@@ -47,5 +47,10 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I verify that the message that says \"([^\"]*)\" is displayed when saving fails$", sftpDataTransferPage::verifyFailedSaveMessage);
         When("^HE I verify that we can able to navigate to the edit connection page$",sftpDataTransferPage::verifyEditConnectionNavigation);
         Then("^HE I verify \"([^\"]*)\" link still appears on the SFTP main page$",sftpDataTransferPage::verifyConfigurationIssuesLink);
+        And("^HE I verify that validation message for host field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForHostField);
+        And("^HE I verify that validation message for port field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForPortField);
+        And("^HE I verify that validation message for user name field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForUserNameField);
+        And("^HE I verify that validation message for password field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForPasswordField);
+        And("^HE I verify that the error message that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifySomethingWentWrongErrorMessage);
     }
 }

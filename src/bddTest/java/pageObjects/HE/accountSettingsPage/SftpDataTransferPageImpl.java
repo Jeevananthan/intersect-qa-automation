@@ -40,7 +40,9 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
             waitUntil(ExpectedConditions.visibilityOf(deleteSftpConfigurationButton()));
             waitUntil(ExpectedConditions.elementToBeClickable(deleteSftpConfigurationButton()));
             deleteSftpConfigurationButton().click();
+            waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupConnectionButtonLocator()));
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(successToastLocator()));
         }
     }
 
@@ -533,7 +535,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyValidationMessageForHostField(String message){
         String hostFieldValidationMessage  = validationMessageForHostField().getText();
-        Assert.assertTrue(String.format("The validation message for the host field is not correct, actual: %, expected: %s",
+        Assert.assertTrue(String.format("The validation message for the host field is not correct, actual: %s, expected: %s",
                 hostFieldValidationMessage, message), hostFieldValidationMessage.contains(message));
     }
 
@@ -543,7 +545,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyValidationMessageForPortField(String message){
         String portFieldValidationMessage  = validationMessageForPortField().getText();
-        Assert.assertTrue(String.format("The validation message for the port field is not correct, actual: %, expected: %s",
+        Assert.assertTrue(String.format("The validation message for the port field is not correct, actual: %s, expected: %s",
                 portFieldValidationMessage, message), portFieldValidationMessage.contains(message));
     }
 
@@ -553,7 +555,7 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyValidationMessageForUserNameField(String message){
         String userNameFieldValidationMessage  = validationMessageForUserNameField().getText();
-        Assert.assertTrue(String.format("The validation message for the user name field is not correct, actual: %, expected: %s",
+        Assert.assertTrue(String.format("The validation message for the user name field is not correct, actual: %s, expected: %s",
                 userNameFieldValidationMessage, message), userNameFieldValidationMessage.contains(message));
     }
 
@@ -563,10 +565,20 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     public void verifyValidationMessageForPasswordField(String message){
         String passwordFieldValidationMessage  = validationMessageForPasswordField().getText();
-        Assert.assertTrue(String.format("The validation message for the password field is not correct, actual: %, expected: %s",
+        Assert.assertTrue(String.format("The validation message for the password field is not correct, actual: %s, expected: %s",
                 passwordFieldValidationMessage, message), passwordFieldValidationMessage.contains(message));
     }
-    
+
+    /**
+     * Verifies the something went wrong error message
+     * @param message
+     */
+    public void verifySomethingWentWrongErrorMessage(String message){
+        String errorMessage  = somethingWentWrongMessage().getText();
+        Assert.assertTrue(String.format("The error message is not correct, actual: %s, expected: %s",
+                errorMessage, message), message.contains(message));
+    }
+
     /**
      * Goes to the main sftp connection page though the title link
      */
@@ -790,8 +802,15 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement successToast(){
-        return getDriver().findElement(By.cssSelector(
-                "div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']"));
+        return getDriver().findElement(successToastLocator());
+    }
+
+    /**
+     * Gets the sucess toast locator
+     * @return
+     */
+    private By successToastLocator(){
+        return By.cssSelector("div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']");
     }
 
     /**
