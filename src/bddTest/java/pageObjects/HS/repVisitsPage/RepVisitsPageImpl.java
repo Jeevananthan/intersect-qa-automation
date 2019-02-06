@@ -2010,6 +2010,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if(takeMeToVisits.size()==1){
             takeMeToMyVisitsButton().click();
             waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='Today']")));
             load(GetProperties.get("hs.WizardAppSelect.url"));
             waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
@@ -2017,9 +2018,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             jsClick(allRepVisitsUsersRadioButton());
             nextButton().click();
-            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Take me to my visits']")));
             takeMeToMyVisitsButton().click();
             waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='Today']")));
             load(GetProperties.get("hs.WizardAppSelect.url"));
             waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
@@ -2028,7 +2030,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             while (navianceSettingsActiveStep().size() == 0) {
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
                 nextButton().click();
-                waitUntilPageFinishLoading();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             }
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
@@ -2038,13 +2040,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             while (completeWizardActiveStep().size() == 0) {
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
                 nextButton().click();
-                waitUntilPageFinishLoading();
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             }
             jsClick(allRepVisitsUsersRadioButton());
             nextButton().click();
-            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Take me to my visits']")));
             takeMeToMyVisitsButton().click();
             waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[title='Today']")));
             load(GetProperties.get("hs.WizardAppSelect.url"));
             waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
