@@ -9,6 +9,7 @@ import pageObjects.COMMON.GlobalSearch;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -198,6 +199,62 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * verify log history details
+     */
+    public void verifyLogHistory(String option, String day,String user){
+        selectDate().click();
+        selectDay(day).click();
+        String visitDate = getDate("0");
+        switch (option){
+           case "DECLINED":
+               String id = getIdInLogHistory(visitDate,user).getText();
+               String actualValue = getStatusInLogHistory(visitDate,user,"DECLINED").getText();
+               String startTime  = getStartAndEndTimeValueInLogHistory(visitDate,user,"startTime").getText();
+               String endTime = getStartAndEndTimeValueInLogHistory(visitDate,user,"endTime").getText();
+               softly().assertThat(option).as("DECLINED").isEqualTo(actualValue);
+               Assert.assertTrue("StartTime is not displayed",!startTime.equals(""));
+               Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           case "APPROVED":
+               id = getIdInLogHistory(visitDate,user).getText();
+               actualValue = getStatusInLogHistory(visitDate,user,"APPROVED").getText();
+               startTime  = getStartAndEndTimeValueInLogHistory(visitDate,user,"startTime").getText();
+               endTime = getStartAndEndTimeValueInLogHistory(visitDate,user,"endTime").getText();
+               softly().assertThat(option).as("APPROVED").isEqualTo(actualValue);
+               Assert.assertTrue("StartTime is not displayed",!startTime.equals(""));
+               Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           case "Cancel":
+               id = getIdInLogHistory(visitDate,user).getText();
+               Assert.assertTrue("Cancelled visit details is not displayed",statusForCancelOrReschedule(visitDate,user,"cancelled RSVP").isDisplayed());
+               startTime  = getStartAndEndTimeValueInLogHistory(visitDate,user,"startTime").getText();
+               endTime = getStartAndEndTimeValueInLogHistory(visitDate,user,"endTime").getText();
+               Assert.assertTrue("StartTime is not displayed",!startTime.equals(""));
+               Assert.assertTrue("EndTime is not displayed",!endTime.equals(""));
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           case "Reschedule":
+               id = getIdForReschedule(visitDate,user).getText();;
+               Assert.assertTrue("Reschedule details is not displayed in log history",statusForCancelOrReschedule(visitDate,user,"Reschedule RSVP").isDisplayed());
+               Assert.assertTrue("id is not displayed",!id.equals(""));
+               break;
+           default:
+               Assert.fail("Invalid option");
+        }
+    }
+
+    public String getDate(String addDays){
+        String DATE_FORMAT_NOW = "M/d/yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days=Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        return currentDate;
+    }
     //Locators
     private WebElement userDropdownSingout() { return button(By.id("user-dropdown-signout"));}
     private WebElement userDropdown() {
@@ -226,5 +283,72 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement helpCentre()    {
         WebElement helpCentre=driver.findElement(By.xpath("//span[text()='Help Center']"));
         return  helpCentre;
+    }
+
+    /**
+     *
+     * @return Web element
+     */
+    private WebElement selectDate(){
+        return getDriver().findElement(By.cssSelector("div[class='ui compact selection dropdown _3SCFtXPZGOBhlAsaQm037_']>i[class='dropdown icon']"));
+    }
+
+    /**
+     * select day from the dropdown
+     * @param day
+     * @return
+     */
+    private WebElement selectDay(String day){
+        return getDriver().findElement(By.xpath("//span [text()='"+day+"']"));
+    }
+
+    /**
+     * return id details from log history
+     * @param visitDate : current visit date
+     * @param user : current user
+     * @return
+     */
+    private WebElement getIdInLogHistory(String visitDate,String user){
+        return getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'id')]"));
+    }
+
+    /**
+     * return status of the visits created from log history
+     * @param visitDate : current visit date
+     * @param user : current user
+     * @param status : status to return
+     * @return
+     */
+    private WebElement getStatusInLogHistory(String visitDate,String user,String status){
+        return getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'"+status+"')]"));
+    }
+    /**
+     * return start time or end time value from log history
+     * @param visitDate : current visit date
+     * @param user : current user
+     * @param option : status to return
+     * @return
+     */
+    private WebElement getStartAndEndTimeValueInLogHistory(String visitDate,String user,String option){
+        return getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/following-sibling::td/div/div/span[contains(text(),'"+option+"')]"));
+    }
+    /**
+     * return cancel or reschedule status value from log history
+     * @param visitDate : current visit date
+     * @param user : current user
+     * @param option : status to return
+     * @return
+     */
+    private WebElement statusForCancelOrReschedule(String visitDate,String user,String option){
+        return getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='"+option+"']"));
+    }
+    /**
+     * return Reschedule id details from log history
+     * @param visitDate : current visit date
+     * @param user : current user
+     * @return
+     */
+    private WebElement getIdForReschedule(String visitDate,String user){
+        return getDriver().findElement(By.xpath("//td/span[text()='"+visitDate+"']/parent::td/following-sibling::td[contains(text(),'"+user+"')]/self::td[text()='Reschedule RSVP']/following-sibling::td/div/div/span[contains(text(),'id')]"));
     }
 }
