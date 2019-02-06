@@ -112,7 +112,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void accessCounselorCommunityPage() {
         logger.info("Going to Counselor Community page.");
-        counselorCommunity().click();
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
         communityFrame();
     }
 
