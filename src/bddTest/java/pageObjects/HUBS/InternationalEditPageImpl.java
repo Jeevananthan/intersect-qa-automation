@@ -285,16 +285,16 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//div[@class='entity-collection']/div/div[" + position + "]/div[2]/select-field/div/select"));
     }
     private WebElement getTestScoresInnerSection(String section) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + section + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + section + "')]"));
     }
     private WebElement getQualificationsDropDown(String section) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + section + "']/../../div[2]/select-field/div/select"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + section + "')]/../../div[2]/select-field/div/select"));
     }
     private WebElement getQualificationsInnerSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement innerCheckBox(String label) {
-        return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input"));
+        return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private String getFollowingDropDownValue(String option) {
         String result = "";

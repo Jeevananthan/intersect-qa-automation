@@ -411,10 +411,10 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
     }
     private WebElement innerCheckBox(String label) {
-        return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input"));
+        return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private WebElement athleticsInnerEditSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement getAthleticsDropDown(String section, String dropDownLabel) {
         WebElement dropDown = null;
