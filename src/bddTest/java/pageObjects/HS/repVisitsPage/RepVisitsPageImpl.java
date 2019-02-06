@@ -3657,6 +3657,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                 waitUntilPageFinishLoading();
             }
         }
+        if(fairsSubmitButton().size()==1) {
+            editFairsSubmitButton().click();
+            waitUntilElementExists(closeButton());
+            closeButton().click();
+        }
     }
 
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
@@ -11354,10 +11359,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement viewDetailsLink() {
         return link("View Details");
     }
-
-    private By closeFairPopup() {
-        return By.cssSelector("button[class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']");
+    private List<WebElement> fairsSubmitButton(){
+        return getDriver().findElements(By.xpath("//button/span[text()='Save']"));
     }
+    private By closeFairPopup () { return By.cssSelector("button[class='ui circular icon button _1zaSIpaNy8bj4C9yOAOsXw']"); }
 
     private List<WebElement> errorMessage() {
         return getDriver().findElements(By.xpath("//div/span[text()='There were some errors with your submission']"));
