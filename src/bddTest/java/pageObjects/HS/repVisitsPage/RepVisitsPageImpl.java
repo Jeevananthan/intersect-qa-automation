@@ -7646,7 +7646,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getCollegeFairsPrimaryContactPhoneNumberField().clear();
         getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("555555555");
         clickSaveSettingsButtonInCollegeFairsTab();
-        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")));
+        waitUntilPageFinishLoading();
+        getDriver().navigate().refresh();
+        waitUntilElementExists(button("SAVE SETTINGS"));
+        clickSaveSettingsButtonInCollegeFairsTab();
         Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
     }
 
