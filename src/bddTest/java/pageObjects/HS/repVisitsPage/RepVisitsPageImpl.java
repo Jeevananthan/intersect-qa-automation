@@ -4402,6 +4402,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void accessSuccessMessageforAddAttendees(String buttonName) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui button']")));
         if (buttonName.equals("No, I'm Done")) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui button']")));
             waitForUITransition();
@@ -7641,6 +7642,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getCollegeFairsPrimaryContactPhoneNumberField().clear();
         getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("555555555");
         clickSaveSettingsButtonInCollegeFairsTab();
+        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")));
         Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
     }
 
@@ -8060,6 +8062,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         declineMsgTextBox().sendKeys(msg);
         Assert.assertTrue("Decline button is not displayed", declineButton().isDisplayed());
         declineButton().click();
+        waitForUITransition();
         waitUntilElementExists(close());
         Assert.assertTrue("Close button is not displayed", close().isDisplayed());
         waitUntilElementExists(closeButton());
