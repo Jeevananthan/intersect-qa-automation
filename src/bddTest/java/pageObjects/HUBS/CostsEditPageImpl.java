@@ -30,7 +30,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldAndValueElement : fieldsAndValues) {
             switch (fieldAndValueElement.get(0)) {
                 case "Average Net Prices" :
-                    avgNetPricesButton().click();
+                    jsClick(avgNetPricesButton());
                     avgNetPriceTextBox(fieldAndValueElement.get(1)).clear();
                     avgNetPriceTextBox(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     Select avgNetPriceDropDown = new Select(costsPreview.avgNetPriceDropDown());
@@ -39,7 +39,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                             costsPreview.avgNetPriceText().getText().replace(",", "").equals(fieldAndValueElement.get(2)));
                     break;
                 case "% Receiving Aid" :
-                    percentReceivingAidButton().click();
+                    jsClick(percentReceivingAidButton());
                     percentRceivingAidTextBox(fieldAndValueElement.get(1)).clear();
                     percentRceivingAidTextBox(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     Select receivingAidDropDown = new Select(costsPreview.receivingAidDropDown());
@@ -48,7 +48,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                             costsPreview.percentReceivingAidText().getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Average Amount of Aid" :
-                    avgAmountOfAidButton().click();
+                    jsClick(avgAmountOfAidButton());
                     avgAmountOfAidTextBox(fieldAndValueElement.get(1)).clear();
                     avgAmountOfAidTextBox(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     assertTrue(fieldAndValueElement.get(0) + " cannot be edited in real time",
@@ -70,12 +70,12 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "% Receiving Aid" :
-                    percentReceivingAidButton().click();
+                    jsClick(percentReceivingAidButton());
                     percentRceivingAidTextBox(fieldsDetails.get(1).get(1)).clear();
                     percentRceivingAidTextBox(fieldsDetails.get(1).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Average Amount of Aid" :
-                    avgAmountOfAidButton().click();
+                    jsClick(avgAmountOfAidButton());
                     avgAmountOfAidTextBox(fieldsDetails.get(2).get(1)).clear();
                     avgAmountOfAidTextBox(fieldsDetails.get(2).get(1)).sendKeys(generatedValues.get(key));
                     break;
