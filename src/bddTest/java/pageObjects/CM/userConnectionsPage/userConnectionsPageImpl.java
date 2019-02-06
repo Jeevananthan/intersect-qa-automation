@@ -5,16 +5,16 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
-//import sun.rmi.runtime.Log;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+//import sun.rmi.runtime.Log;
 
 /**
  * Created by bojan on 6/2/17.

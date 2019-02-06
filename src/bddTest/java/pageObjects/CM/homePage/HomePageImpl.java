@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.COMMON.NavBarImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
 
@@ -96,6 +95,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         logger.info("Logged in to Community successfully");
     }
 
+    public void verifyUserIsLoggedInSuportUser() {
+        waitUntilPageFinishLoading();
+        //Check if user Profile element is present
+        Assert.assertTrue("User did not sign in successfully",welcomeSupportTitle().getText().contains("Welcome to the Support Application"));
+        logger.info("Logged in to Community successfully");
+    }
+
     public void logoutHE() {
         getDriver().switchTo().defaultContent();
         userDropdown().click();
@@ -119,7 +125,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void goToHomePage() {
         logger.info("Going to home page.");
         iframeExit();
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/");
         communityFrame();
 //        link(By.cssSelector("a[href='/']")).click();
     }
@@ -265,6 +271,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement participateButton() {return driver.findElement(By.xpath("//a[text()='Participate']"));}
     private WebElement postBoxInstructionalMessage() {return driver.findElement(By.xpath("//div[@id='edit-post-instructions']"));}
     private WebElement yourGroupsLink() {return driver.findElement(By.xpath("//a[text()='Your Groups']"));}
+    private WebElement welcomeSupportTitle() {return driver.findElement(By.xpath("//*[@id='app']/div/div/main/div/p"));}
 
 
 }

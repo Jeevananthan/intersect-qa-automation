@@ -1,9 +1,7 @@
 package stepDefinitions.CM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.CM.welcomePage.WelcomePageImpl;
-import pageObjects.HE.welcomePage.HEWelcomePageImpl;
 
 /**
  * Created by bojan on 5/30/17.

@@ -35,18 +35,20 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
         getNavigationBar().goToCommunity();
+        communityFrame();
+        link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void goToHSUserInstitutionPage() {
         logger.info("Going to user profile page.");
-        link(By.id("js-main-nav-home-menu-link")).click();
+        getNavigationBar().goToCommunityInHS();
         communityFrame();
         link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void clickInstitutionTab() {
         logger.info("Going to institution tab.");
-        link(By.cssSelector("a[href='/institution']")).click();
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/");
     }
 
     public void createNewInstitutionPost(String postText) {
@@ -168,8 +170,10 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         try {
             setImplicitWaitTimeout(1);
-            unfollowBtn();
-            unfollowBtn().click();
+            if (unfollowBtn().isDisplayed())
+            {
+                unfollowBtn().click();
+            }
             waitUntilPageFinishLoading();
             resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex)  {
@@ -184,8 +188,10 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         communityFrame();
         try {
-            followBtn();
-            followBtn().click();
+            if (followBtn().isDisplayed()) {
+
+                followBtn().click();
+            }
             waitUntilPageFinishLoading();
 
         } catch (NoSuchElementException ex)  {
@@ -254,7 +260,6 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         logger.info("Checking if all items are displayed on the Institution page.");
         Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
         Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
-        Assert.assertTrue("Website field is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-website-url"));
         Assert.assertTrue("Institution location is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-location"));
         Assert.assertTrue("Institution type not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-type"));
         Assert.assertTrue("Undergraduate enrollment not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-undergraduate-enrollment"));

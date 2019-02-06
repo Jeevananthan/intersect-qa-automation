@@ -14,6 +14,8 @@ public class HomePageStepDefs implements En {
 
         Then("^I am able to successfully login$", homePage::verifyUserIsLoggedIn);
 
+        Then("^I am able to successfully login as a support user$", homePage::verifyUserIsLoggedInSuportUser);
+
         //And("^I successfully sign out from the HE app$", homePage::logoutHE);
 
         //And("^I successfully sign out from the Support app$", homePage::logoutSupport);

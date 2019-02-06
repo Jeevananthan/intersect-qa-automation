@@ -1,6 +1,5 @@
 package stepDefinitions.CM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.CM.groupsPage.GroupsPageImpl;
 
