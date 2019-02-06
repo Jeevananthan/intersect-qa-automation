@@ -1282,7 +1282,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement EntertimeZone = getDriver().findElement(By.cssSelector(".search[class=\"search\"] + div"));
         waitUntilElementExists(EntertimeZone);
         EntertimeZone.click();
-        getDriver().findElement(By.xpath("//span[text()='" + timeZone + "']")).click();
+        jsClick(getDriver().findElement(By.xpath("//span[text()='" + timeZone + "']")));
     }
 
     public void verifyCalendarViewOnRepVisits() {
@@ -2004,49 +2004,56 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void loadSetupWizardPage() {
         load(GetProperties.get("hs.WizardAppSelect.url"));
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardCheckmarkButton()));
+        List<WebElement> takeMeToVisits = getDriver().findElements(By.xpath("//button/span[text()='Take me to my visits']"));
         List<WebElement> welcomeWizard = getDriver().findElements(By.xpath("//h1/span[text()='Tell us about your High School']"));
-            if(completeWizardActiveStep().size() == 1){
+        if(takeMeToVisits.size()==1){
+            takeMeToMyVisitsButton().click();
+            waitUntilPageFinishLoading();
+            load(GetProperties.get("hs.WizardAppSelect.url"));
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        }else if(completeWizardActiveStep().size() == 1){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+            jsClick(allRepVisitsUsersRadioButton());
+            nextButton().click();
+            waitUntilPageFinishLoading();
+            takeMeToMyVisitsButton().click();
+            waitUntilPageFinishLoading();
+            load(GetProperties.get("hs.WizardAppSelect.url"));
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        }else if(welcomeWizard.size() == 0) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+            while (navianceSettingsActiveStep().size() == 0) {
                 waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
-                jsClick(allRepVisitsUsersRadioButton());
                 nextButton().click();
                 waitUntilPageFinishLoading();
-                takeMeToMyVisitsButton().click();
-                waitUntilPageFinishLoading();
-                load(GetProperties.get("hs.WizardAppSelect.url"));
-                waitUntilPageFinishLoading();
-                waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
-            }else if(welcomeWizard.size() == 0) {
-                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
-                while (navianceSettingsActiveStep().size() == 0) {
-                    waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
-                    nextButton().click();
-                    waitUntilPageFinishLoading();
-                }
-                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
-                WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
-                jsClick(yesOption);
-                nextButton().click();
-                waitUntilPageFinishLoading();
-                while (completeWizardActiveStep().size() == 0) {
-                    waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
-                    nextButton().click();
-                    waitUntilPageFinishLoading();
-                }
-                jsClick(allRepVisitsUsersRadioButton());
-                nextButton().click();
-                waitUntilPageFinishLoading();
-                takeMeToMyVisitsButton().click();
-                waitUntilPageFinishLoading();
-                load(GetProperties.get("hs.WizardAppSelect.url"));
-                waitUntilPageFinishLoading();
-                waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
-            } else if(welcomeWizard.size() == 1) {
-                logger.info("The Setup Wizard Welcome page is displayed");
-            } else {
-                Assert.fail("Error in the Setup Wizard page");
             }
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+            WebElement yesOption = getDriver().findElement(By.xpath("//label[text()='Yes, I would like to connect Naviance and RepVisits']/parent::div/input"));
+            jsClick(yesOption);
+            nextButton().click();
+            waitUntilPageFinishLoading();
+            while (completeWizardActiveStep().size() == 0) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
+                nextButton().click();
+                waitUntilPageFinishLoading();
+            }
+            jsClick(allRepVisitsUsersRadioButton());
+            nextButton().click();
+            waitUntilPageFinishLoading();
+            takeMeToMyVisitsButton().click();
+            waitUntilPageFinishLoading();
+            load(GetProperties.get("hs.WizardAppSelect.url"));
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(setUpWizardText()));
+        } else if(welcomeWizard.size() == 1) {
+            logger.info("The Setup Wizard Welcome page is displayed");
+        } else {
+            Assert.fail("Error in the Setup Wizard page");
         }
+    }
 
 
     public void verifyRepvisitsSetupWizardTimeZoneMilestones() {
@@ -4160,12 +4167,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         waitUntilElementExists(calendar());
         Assert.assertTrue("Calendar page is not active", calendar().isDisplayed());
-        WebElement addVisitButton = addvisitButton();
-        waitUntil(ExpectedConditions.visibilityOf(addVisitButton), 20);
-        Assert.assertTrue("Add visit button is not displayed", addVisitButton.isDisplayed());
-        WebElement calendarMonth = calendarMonth();
-        waitUntil(ExpectedConditions.visibilityOf(calendarMonth), 20);
-        Assert.assertTrue("Calendar is not displayed in Month view", calendarMonth.isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(addvisitButton()));
+        Assert.assertTrue("Add visit button is not displayed", getDriver().findElement(addvisitButton()).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarMonth()));
+        Assert.assertTrue("Calendar is not displayed in Month view", getDriver().findElement(calendarMonth()).isDisplayed());
     }
 
     /*public void fillAddCollegeFairFields(String field, String data) {
@@ -11106,12 +11111,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.xpath("//a/span[text()='Regular Weekly Hours']"));
     }
 
-    private WebElement addvisitButton() {
-        return button("add visit");
+    private By addvisitButton() {
+        return By.xpath("//span[text()='add visit']");
     }
 
-    private WebElement calendarMonth() {
-        return getDriver().findElement(By.xpath("//button[normalize-space(@class)='ui pink button GFr3D5C_jMOwFFfwEoOXq _2I9ZFEPwCCOsGFn0AAk1Gl' and @title='Month']"));
+    private By calendarMonth() {
+        return By.xpath("//button[normalize-space(@class)='ui pink button GFr3D5C_jMOwFFfwEoOXq _2I9ZFEPwCCOsGFn0AAk1Gl' and @title='Month']");
     }
 
     private List<WebElement> activeStepNavianceSettings() {
@@ -11585,5 +11590,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return   driver.findElement(By.xpath("//button[contains(@class,'ui button')]"));
     }
 
+    private By setupWizardCheckmarkButton(){
+        return By.cssSelector("i[class='checkmark circular icon']");
+    }
 
 }
