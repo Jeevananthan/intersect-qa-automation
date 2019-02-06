@@ -2642,12 +2642,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void primaryContactDetailsforFairs() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id='notification_fairs_phone_number']")));
         while (getCollegeFairsPrimaryContactPhoneNumberField().getAttribute("value").length() > 0)
             getCollegeFairsPrimaryContactPhoneNumberField().sendKeys(Keys.BACK_SPACE);
         button("Save Settings").click();
         Assert.assertTrue("Phone number is a required field, but the error message was not displayed.", driver.findElement(By.xpath("//span[contains(text(),'Please enter a phone number. Ex: (555) 555-5555')]")).isDisplayed());
         getCollegeFairsPrimaryContactPhoneNumberField().sendKeys("1234567890");
         button("Save Settings").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
     public void primaryContactDetailsinAvailabilityandSettings() {
@@ -2657,6 +2659,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Phone number is a required field, but the error message was not displayed.", driver.findElement(By.xpath("//span[text()='Please enter a phone number. Ex: (555) 555-5555']")).isDisplayed());
         getRepVisitsPrimaryContactPhoneNumerField().sendKeys("1234567890");
         button("Save changes").click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(successMessage()));
     }
 
 
@@ -3672,7 +3675,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getCollegeFairsPrimaryContactPhoneNumberField() {
-        return driver.findElement(By.cssSelector("input[id='notification_fairs_phone_number']"));
+        return getDriver().findElement(By.cssSelector("input[id='notification_fairs_phone_number']"));
     }
 
     private WebElement getRepVisitsPrimaryContactPhoneNumerField() {
