@@ -138,6 +138,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
                     so that I can visually see the status of each appointment window.
 #precondition
    Given HS I am logged in to Intersect HS as user type "Exceptions"
+   Then HS I Remove the created blocked days
    Then HS I clean the visits for particular Month "14"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
