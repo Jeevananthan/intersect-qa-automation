@@ -1,10 +1,6 @@
 package stepDefinitions.HE;
 
 import cucumber.api.java8.En;
-import pageObjects.COMMON.NavBarImpl;
-import pageObjects.COMMON.NavigationBarImpl;
-import pageObjects.HE.eventsPage.EventsPageImpl;
-import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HE.welcomePage.HEWelcomePageImpl;
 
 public class HEWelcomePageStepDefs implements En {
@@ -26,6 +22,10 @@ public class HEWelcomePageStepDefs implements En {
 
         And("^HE I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$",
                 heWelcomePage::fillCommunityWelcomeMandatoryFields);
+
+        And("^HE I verify the Welcome page has a header that says: \"([^\"]*)\"$", heWelcomePage::verifyWelcomeCounselorCommunityPageHeader);
+
+        And("^HE I go to the Welcome Counselor Community poage$", heWelcomePage::goToWelcomeCounselorCommunityPage);
 
     }
 }
