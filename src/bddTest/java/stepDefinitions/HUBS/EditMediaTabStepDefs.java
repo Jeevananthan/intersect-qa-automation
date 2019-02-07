@@ -14,6 +14,10 @@ public class EditMediaTabStepDefs implements En{
         Then("^HUBS I verify the Publishing Modal Confirmation with the \"([^\"]*)\" element$",mediaTabEdit::verifyPublishingModalConfirmation);
         Then("^HUBS I verify functionality of Publishing Modal Confirmation$",mediaTabEdit::verifyFunctionalityForPublishingModalConfirmation);
         And("^HUBS I click on EDIT button$", mediaTabEdit::clickOnEditButton);
+        Then("^HUBS I verify contents \"([^\"]*)\" and \"([^\"]*)\" in Media tab$",mediaTabEdit::verifyContentsMediaTab);
+        Then("^HUBS I verify Arrows and Slots in the Photos and Videos panel$",mediaTabEdit::verifyArrowsAndSlotsInPhotosAndVideos);
+
+
 
 
     }

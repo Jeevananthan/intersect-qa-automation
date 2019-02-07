@@ -27,3 +27,10 @@ Feature: HUBS - Edit Media
     And I click on VIEW NAVIANCE COLLEGE PROFILE
     And HUBS I click on EDIT button
     Then HUBS I verify that HEM loads
+
+  @HUBS-5755
+  Scenario: As an HE user with either the Publishing or Administrator role, I want to see my existing 'Media' premium
+            HEM content in the right area of the React app so I can see what currently exists on my College's Naviance profile.
+    When HUBS I click on "MEDIA" tab
+    Then HUBS I verify contents "hotos and Videos" and "Add up to 31 photos and videos." in Media tab
+    Then HUBS I verify Arrows and Slots in the Photos and Videos panel
