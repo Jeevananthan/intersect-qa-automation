@@ -4,7 +4,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   Scenario: As an RepVisits HS user that had previously connected my RepVisits with my Naviance account to publish
   events into Naviance, I want the ability to opt out/disconnect my RepVisits events from publishing to Naviance,
   so that I can manage events separately in Naviance and RepVisits.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
 #Precondition
     Then HS I complete the setupWizard
     Then HS I clean the visits for particular Month "14"
@@ -43,6 +43,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     And HE I search for "Standalone High School 7" in RepVisits page
     Then HE I select Visits to schedule the appointment for "Standalone High School 7" using "21" and "10:31am"
     And HE I verify the schedule pop_up for "Standalone High School 7" using "10:31am" and "12:40pm"
+    And HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I verify the Notification "PurpleHE","The University of Alabama","10:31am","21" in the Request Notification Tab
@@ -84,15 +85,8 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   of the wizard. Instead of correcting with this ticket, will adjust the timing of this alert disappearing with MATCH-4205
   2.2PASSED the user selects the "yes" radio  option and completes the full Naviance Settings wizard
     #Precondition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone3"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I complete the setupWizard
-    Then HS I navigate to naviance settings page
-    Then HS I click on Disconnect RepVisits from Naviance button
-    Then HS I navigate to the Naviance Settings page through the setup Wizard
-    Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
-    Then HS I navigate to the Naviance Settings page through the setup Wizard
-    Then HS I complete the setupWizard
-
     #Verify with No option
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "No" to connect RepVisits with Naviance in the Wizard
@@ -101,6 +95,11 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I verify the toast "is" displayed when setup Wizard is incomplete
+    Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
+    Then HS I complete the setupWizard
+    Then HS I navigate to naviance settings page
+    Then HS I click on Disconnect RepVisits from Naviance button
+    Then HS I navigate to the Naviance Settings page through the setup Wizard
     Then HS I select "Yes" to connect RepVisits with Naviance in the Wizard
     Then HS I complete the setupWizard
 
@@ -128,6 +127,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I successfully sign out
 #verify Naviance Tab
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I verify the Notification is "displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
@@ -166,6 +166,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
+    And HE I successfully sign out
 #verify Naviance Tab
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I verify the Notification is "displaying" in the Naviance Sync Tab for the following details "<University>","<heTime>","<Date>"
@@ -192,6 +193,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
   So that Naviance accurately reflects my visits.
   #pre-condition
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I clean the visits for particular Month "14"
     And HS I go to the Naviance Settings and submit the following details
       |option                 |Automatically publish confirmed visits.|
       |NumVisits              |3                                      |
@@ -201,12 +203,12 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
       |Notes                  |sss-testing from HS                    |
       |deadlineOption         |hours                                  |
   #create new visit for Reschedule
-    Then HS I set a date using "21" and "42"
-    Then HS I clear the time slot for the particular day "21" in Regular Weekly Hours Tab
+    Then HS I set a date using "14" and "28"
+    Then HS I clear the time slot for the particular day "14" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "21","10:34am","12:33pm" and "3" with "1"
     Then HS I set the value for Reschedule the visit
   #create Visit
-    Then HS I set a date using "14" and "35"
+    Then HS I set a date using "14" and "28"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "14","10:58am","12:59pm" and "3" with "1"
     Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
@@ -221,6 +223,7 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     And HE I search for "Standalone High School 6" in RepVisits page
     Then HE I select Visits to schedule the appointment for "Standalone High School 6" using "14" and "10:58am"
     And HE I verify the schedule pop_up for "Standalone High School 6" using "10:58am" and "12:59pm"
+    And HE I successfully sign out
   #verify Newly created visit is present In Naviance
     Given HS I go to the Naviance Page with user type "navAdminStandalone6"
     Then HS I select "view" In Naviance college visit Page using "14","10:58 AM"
@@ -231,13 +234,13 @@ Feature: HS - RepVisits - NavianceSync - As an HS user, I want to be able to acc
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     Then HS I reschedule the visit for the following data "Alpena Community College","10:58AM","14" in calendar
     Then HS I verify reschedule pop-up for the following data "Purple HE","Alpena Community College","10:58AM","14"
-    Then HS I reschedule a visit for the following details "10:34am","by QA","21"
+    Then HS I reschedule a visit for the following details "10:34am","by QA","14"
     Then HS I remove the Time Slot created with "14","10:58am" in Regular Weekly Hours Tab
     And HS I successfully sign out
   #verify updated visit Details In Naviance
     Given HS I go to the Naviance Page with user type "navAdminStandalone6"
-    Then HS I select "view" In Naviance college visit Page After Reschedule the visit using "21","10:34 AM"
-    And HS I verify the naviance college visit page using the following details after Reschedule the Visits "21"
+    Then HS I select "view" In Naviance college visit Page After Reschedule the visit using "14","10:34 AM"
+    And HS I verify the naviance college visit page using the following details after Reschedule the Visits "14"
       |Alpena Community College|N/A|Purple HE|Cbba|sss-testing from HS|30|no later than 2 hours prior|N/A|
     And HS I successfully sign out from the Naviance
   #Remove the appointment from Calendar
