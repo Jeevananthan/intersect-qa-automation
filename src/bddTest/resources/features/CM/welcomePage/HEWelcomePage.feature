@@ -15,6 +15,8 @@ Feature: HE - Community - Welcome - As an HE User, Prepopulate Community User Pr
     When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
     Then HE I verify the new user required to complete the Counselor Community profile form before they can access the following fields
       |Counselor Community|RepVisits|ActiveMatch|
+    When HE I go to the Welcome Counselor Community poage
+    And HE I verify the Welcome page has a header that says: "Please take a moment to complete the form below to activate your profile. This is the first step in utilizing Intersect solutions, including updating your Naviance college profile and accessing RepVisits. Based on your institution's partnership with Intersect, you may also have access to Counselor Community, Naviance Events, and Active Match. Once this step is complete you will be ready to start using Intersect."
     Then HE I verify the following fields are required fields in the Counselor Community profile form
       |Job Title field is required.|Office Phone field is required.|Privacy Policy|Are you an EU citizen? field is required.|Terms of Use|Community Guidelines|
     And HE I activate my community profile by providing OfficePhone as "1234567892" JobTitle as "Counselor" and EU citizen as "Yes"
