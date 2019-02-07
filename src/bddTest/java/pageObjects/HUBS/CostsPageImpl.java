@@ -170,18 +170,15 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
     }
     public WebElement avgAmountOfAidButton(String label) {
         String locatorPart = "";
-        WebElement ele= null;
+
         switch (label) {
-            case "Grant" :
-                ele= getDriver().findElement(By.xpath("//li[text()=' Average Grant Amount ']"));
+            case "Grant" :locatorPart=" Average Grant Amount ";
                 break;
-            case "Pell Grant" :
-                ele= getDriver().findElement(By.xpath("//li[text()=' Average Pell Grant Amount ']"));
+            case "Pell Grant" : locatorPart=" Average Pell Grant Amount ";
                 break;
-            case "Federal Student Loan" :
-                ele= getDriver().findElement(By.xpath("//li[text()=' Average Federal Student Loan Amount ']"));
+            case "Federal Student Loan" : locatorPart=" Average Federal Student Loan Amount ";
                 break;
         }
-        return ele;
+        return getDriver().findElement(By.xpath("//li[text()='" + locatorPart + "']"));
     }
 }
