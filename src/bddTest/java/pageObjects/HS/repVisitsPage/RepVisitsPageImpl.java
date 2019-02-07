@@ -4276,6 +4276,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
 
     public void navigateToNavianceSettingsPage() {
+        load(GetProperties.get("hs.WizardAppSelect.url"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardCheckmarkButton()));
         while (activeStepNavianceSettings().size() == 0) {
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupWizardNextButton()));
             nextButton().click();
