@@ -358,7 +358,7 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Computing Resources" :
-                    computingResourcesButton().click();
+                    jsClick(computingResourcesButton());
                     innerEditSection(fieldElement.get(1)).clear();
                     innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
