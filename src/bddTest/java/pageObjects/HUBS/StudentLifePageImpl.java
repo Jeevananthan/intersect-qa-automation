@@ -314,19 +314,19 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("div[ng-if=\"vm.studentLifeTabs.getActive() == 'Athletics'\"]"));
     }
     public WebElement greekLifeTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Greek Life']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Greek Life')]"));
     }
     public WebElement servicesTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Services')]"));
     }
     public WebElement computingResourcesTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Computing Resources']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Computing Resources')]"));
     }
     public WebElement organizationsTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Organizations']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Organizations')]"));
     }
     public WebElement athleticsTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Athletics']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Athletics')]"));
     }
     public WebElement chartsPercent(String section) {
         String sectionTextLocator = "";
@@ -362,7 +362,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//td[text()='" + location + "']/following-sibling::td[" + columnNumber + "]"));
     }
     public String organizationsList = "div.fc-grid__col.fc-grid__col--xs-12.fc-grid__col--sm-6.organizations__item.ng-binding.ng-scope";
-    public WebElement athleticsInnerSection(String tabLabel) { return getDriver().findElement(By.xpath("//span[text()='" + tabLabel + "']")); }
+    public WebElement athleticsInnerSection(String tabLabel) { return getDriver().findElement(By.xpath("//span[contains(text(), '" + tabLabel + "')]")); }
     public WebElement athleticsTableValue(String sportName, String section) {
         String sectionNumber = "";
         switch (section) {
@@ -373,6 +373,6 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
             case "Association" : sectionNumber = "3";
                 break;
         }
-        return getDriver().findElement(By.xpath("//td[text()='" + sportName + "']/following-sibling::td[" + sectionNumber + "]"));
+        return getDriver().findElement(By.xpath("//td[contains(text(), '" + sportName + "')]/following-sibling::td[" + sectionNumber + "]"));
     }
 }

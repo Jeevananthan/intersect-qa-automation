@@ -17,5 +17,6 @@ public class ActiveMatchNextGenStepDefs implements En{
             Then("^SM I check Legacy AM match for \"([^\"]*)\" displayes:$",activeMatchNextGenPage::checkLegacyCardDisplayes);
             Then("^SM I verify the card for \"([^\"]*)\" contains:$",activeMatchNextGenPage::checkActiveMatchNextGenDisplayes);
             Then("^SM I verify there are more than (\\d+) AM cards$", activeMatchNextGenPage::checkActiveMatchNextGenNumber);
+            Then("^SM I verify that the text '& more...' is a link in \"([^\"]*)\" match card$", activeMatchNextGenPage::verifyTextIsLinkInMatchCard);
         }
 }

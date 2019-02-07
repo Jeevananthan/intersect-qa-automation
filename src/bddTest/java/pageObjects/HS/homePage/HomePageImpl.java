@@ -42,7 +42,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
         waitUntil(ExpectedConditions.elementToBeClickable(loginButton()));
+        waitUntilPageFinishLoading();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
+
     }
 
     public void goToCounselorCommunity(){
@@ -273,6 +275,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyHSCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        getDriver().navigate().refresh();
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
         waitUntilElementExists(communityWelcomeForm());
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();

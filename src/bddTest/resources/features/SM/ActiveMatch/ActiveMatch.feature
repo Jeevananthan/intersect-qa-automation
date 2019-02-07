@@ -154,7 +154,7 @@ Feature: SM - ActiveMatch Next Gen
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5201
+  @MATCH-5201 @MATCH-5813
   Scenario: As a Naviance Student student user, I'd like to see why I matched with an HE institution who has
   an Advanced Awareness subscription configuration, because I am interested in another school
     Given SP I am logged in to the Admin page as an Admin user
@@ -188,6 +188,7 @@ Feature: SM - ActiveMatch Next Gen
     And SM I go to Colleges Looking for Students Like You list
     Then SM I verify the card for "The University of Alabama" contains:
       | & more... |
+    Then SM I verify that the text '& more...' is a link in "The University of Alabama" match card
     Then SM I remove "Babson College" from the I'm thinking about list if it is added in the list
     Then SM I remove "Auburn University" from the I'm thinking about list if it is added in the list
     Then SM I remove "Assumption College" from the I'm thinking about list if it is added in the list
@@ -318,5 +319,41 @@ Feature: SM - ActiveMatch Next Gen
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
     When SP I select "University of California-Berkeley" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+
+  @MATCH-5493
+  Scenario: As a Naviance Student student user, I want to be matched based on my ethnicity when Audience Profiles have
+  the diversity set to "Racial and ethnic minorities".
+    #Clean existing subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+
+    #Create a subscription with today as end date.
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5493SubscriptionData.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Enable Diversity in HE
+    When HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "advanced-awareness/diversity" url
+    And HE I select following Diversity Settings
+    | Asian |
+    And SM I press button "Save"
+
+    #Verify match or not match
+    Given SM I am logged in to SuperMatch through Family Connection as user "davidsupermatch" with password "Hobsons!23" from school "blue4hs"
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I go to Colleges Looking for Students Like You list
+    Then SM I verify a matching card is "displayed" for "The University of Alabama"
+
+    #Clean existing subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school

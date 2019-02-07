@@ -2310,7 +2310,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
                 + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
         WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
-                + "']/../../../../following-sibling::tr"));
+                + "']/../../../../following-sibling::tr[2]"));
         scrollDown(nextCollege);
         whyButtonForCollege.click();
     }
@@ -2966,6 +2966,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The text 'PIN' is not displayed next to the search result", pinLink.getText().contains("PIN"));
     }
 
+    public void verifyCollegeAtTopOfList(String collegeName) {
+        waitUntilElementExists(firstPinnedCollege());
+        Assert.assertTrue("The college pinned from the search box is not displayed at the top of the list.",
+                firstPinnedCollege().getText().equals(collegeName));
+    }
+
     // Locators Below
     private WebElement leftCompareMoveButton(String collegeName) {
         return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
@@ -2975,7 +2981,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
-    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"'")))));}
+    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"']")))));}
     private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}
     private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
     private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
@@ -3586,5 +3592,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//button[text()='ADD SPORT']"));
     }
     private WebElement majorsListContainer() { return driver.findElement(By.cssSelector("div.visible.menu.transition")); }
+    private WebElement firstPinnedCollege() { return driver.findElement(By.cssSelector("table.ui.unstackable.table." +
+            "csr-results-table:not(.csr-header-table) td.inPinnedList a.result-row-decription-label")); }
 }
 

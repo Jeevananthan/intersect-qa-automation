@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import utilities.GetProperties;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,9 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
             waitUntil(ExpectedConditions.visibilityOf(deleteSftpConfigurationButton()));
             waitUntil(ExpectedConditions.elementToBeClickable(deleteSftpConfigurationButton()));
             deleteSftpConfigurationButton().click();
+            waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(setupConnectionButtonLocator()));
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(successToastLocator()));
         }
     }
 
@@ -460,6 +463,123 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * verify configuration issues link is displaying in sftp main page
+     * @param configurationIssues : configuration link
+     */
+    public void verifyConfigurationIssuesLink(String configurationIssues){
+        accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        waitUntilElementExists(configurationIssuesLink(configurationIssues));
+        Assert.assertTrue("Configuration Issues link is not displayed",configurationIssuesLink(configurationIssues).isDisplayed());
+    }
+
+    /**
+     * verify verify that we can able to navigate to the edit connection page
+     */
+    public void verifyEditConnectionNavigation(){
+        accountSettings.accessUsersPage("Account Settings", "SFTP Data Transfer");
+        Assert.assertTrue("Edit link is not displayed",editLink().isDisplayed());
+        goToEditConnectionPage();
+        Assert.assertTrue("Edit link is not displayed",sftpDataTransferTitleLink().isDisplayed());
+    }
+
+    /**
+     * Verifies the value of the host text box
+     * @param host
+     */
+    public void verifyHostField(String host){
+        String currentHostValue = hostTextBox().getText();
+        Assert.assertTrue(String.format("The value of the host field is not correct, actual: %s, expected: %s",currentHostValue, host),
+                currentHostValue.contains(host));
+    }
+
+    /**
+     * Verifies the value of the port text box
+     * @param port
+     */
+    public void verifyPortField(String port){
+        String currentPortValue = portTextBox().getText();
+        Assert.assertTrue(String.format("The value of the port field is not correct, actual: %s, expected: %s",currentPortValue, port),
+                currentPortValue.contains(port));
+    }
+
+    /**
+     * Verifies the value of the path text box
+     * @param path
+     */
+    public void verifyPathField(String path){
+        String currentPathValue = pathTexBox().getText();
+        Assert.assertTrue(String.format("The value of the path field is not correct, actual: %s, expected: %s",currentPathValue, path),
+                currentPathValue.contains(path));
+    }
+
+    /**
+     * Verifies the value of the userName text box
+     * @param userName
+     */
+    public void verifyUserNameField(String userName){
+        String currentUserNameValue = userNameTextBox().getText();
+        Assert.assertTrue(String.format("The value of the user name field is not correct, actual: %s, expected: %s",currentUserNameValue, userName),
+                currentUserNameValue.contains(userName));
+    }
+
+    /**
+     * Verifes that the password field is not empty
+     */
+    public void verifyPasswordFieldIsNotEmpty(){
+        Assert.assertTrue("The password field is empty", passwordTextBox().getText()!="");
+    }
+
+    /**
+     * Verifies the validation message for the host field
+     * @param message
+     */
+    public void verifyValidationMessageForHostField(String message){
+        String hostFieldValidationMessage  = validationMessageForHostField().getText();
+        Assert.assertTrue(String.format("The validation message for the host field is not correct, actual: %s, expected: %s",
+                hostFieldValidationMessage, message), hostFieldValidationMessage.contains(message));
+    }
+
+    /**
+     * Verifies the validation message for the port field
+     * @param message
+     */
+    public void verifyValidationMessageForPortField(String message){
+        String portFieldValidationMessage  = validationMessageForPortField().getText();
+        Assert.assertTrue(String.format("The validation message for the port field is not correct, actual: %s, expected: %s",
+                portFieldValidationMessage, message), portFieldValidationMessage.contains(message));
+    }
+
+    /**
+     * Verifies the validation message for the user name field
+     * @param message
+     */
+    public void verifyValidationMessageForUserNameField(String message){
+        String userNameFieldValidationMessage  = validationMessageForUserNameField().getText();
+        Assert.assertTrue(String.format("The validation message for the user name field is not correct, actual: %s, expected: %s",
+                userNameFieldValidationMessage, message), userNameFieldValidationMessage.contains(message));
+    }
+
+    /**
+     * Verifies the validation message for the user name field
+     * @param message
+     */
+    public void verifyValidationMessageForPasswordField(String message){
+        String passwordFieldValidationMessage  = validationMessageForPasswordField().getText();
+        Assert.assertTrue(String.format("The validation message for the password field is not correct, actual: %s, expected: %s",
+                passwordFieldValidationMessage, message), passwordFieldValidationMessage.contains(message));
+    }
+
+    /**
+     * Verifies the something went wrong error message
+     * @param message
+     */
+    public void verifySomethingWentWrongErrorMessage(String message){
+        String errorMessage  = somethingWentWrongMessage().getText();
+        Assert.assertTrue(String.format("The error message is not correct, actual: %s, expected: %s",
+                errorMessage, message), message.contains(message));
+    }
+
+    /**
      * Goes to the main sftp connection page though the title link
      */
     public void goToSftpConnectionMainPageThroughTitleLink(){
@@ -682,8 +802,15 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      * @return WebElement
      */
     private WebElement successToast(){
-        return getDriver().findElement(By.cssSelector(
-                "div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']"));
+        return getDriver().findElement(successToastLocator());
+    }
+
+    /**
+     * Gets the sucess toast locator
+     * @return
+     */
+    private By successToastLocator(){
+        return By.cssSelector("div[class='ui small icon success message toast _2Z22tp5KKn_l5Zn5sV3zxY']");
     }
 
     /**
@@ -757,5 +884,66 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement saveFailedMessageBox(){
         return getDriver().findElement(By.cssSelector("div[class='ui icon warning message']"));
+    }
+
+    /**
+     *
+     * @param configurationIssues : configuration issue link
+     * @return WebElement
+     */
+    private WebElement configurationIssuesLink(String configurationIssues){
+        return getDriver().findElement(By.xpath("//span/a[text()='"+configurationIssues+"']"));
+    }
+
+    /**
+     * Gets the validation message for hos field
+     * @return Webelement
+     */
+    private WebElement validationMessageForHostField(){
+        return getDriver().findElement(By.xpath(
+                "//div/div[@class='field i-vA4WLK6wR9Zt9WdHRwA']/following-sibling::div"));
+    }
+
+    /**
+     * Gets the validation message for port field
+     * @return Webelement
+     */
+    private WebElement validationMessageForPortField(){
+        return getDriver().findElement(By.xpath("//div[@class='field _17GoBvEPu0A0AQd2GvwzvQ']/following-sibling::div"));
+    }
+
+    /**
+     * Gets the validation error message for user name field
+     * @return Webelement
+     */
+    private WebElement validationMessageForUserNameField(){
+        return getDriver().findElement(By.xpath(
+                "//label[@for='username']/ancestor::div[@class='fields']/following-sibling::div[@role='tooltip']"));
+    }
+
+    /**
+     * Gets the validation error message for password field
+     * @return Webelement
+     */
+    private WebElement validationMessageForPasswordField(){
+        return getDriver().findElement(By.xpath(
+                "//input[@id='sftpPasswordText']/ancestor::div[@class='fields']/following-sibling::div"));
+    }
+
+    /**
+     * Gets the validation error message for transfer frequency
+     * @return Webelement
+     */
+    private WebElement validationMessageForTransferFrequency(){
+        return getDriver().findElement(By.xpath(
+                "//p[@class='C_F_BFz3fgJaZxYJ6FA4L']/following-sibling::div/div/div[@class='ui pointing basic label _3CRp_vb1bUP5SHSmNJcrKw']"));
+    }
+
+    /**
+     * Gets the something went wrong message
+     * @return
+     */
+    private WebElement somethingWentWrongMessage(){
+        return getDriver().findElement(By.cssSelector("div[class='ui error icon message']"));
     }
 }

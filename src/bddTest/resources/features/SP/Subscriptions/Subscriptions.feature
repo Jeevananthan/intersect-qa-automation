@@ -271,3 +271,21 @@ Feature: SP - Subscriptions - Verify the Subscriptions functionality
       | State             | Alabama | None                          | Female                   | Auburn University Main Campus | no         | 2 days from now | 3 days from now | None  | None             |
       | County            | Alaska  | Aleutians East Borough County | Male                     | Auburn University Main Campus | yes        | 2 days from now | 3 days from now | None  | None             |
       | Zip               | Arizona | None                          | Racial & Ethnic Minority | Auburn University Main Campus | no         | 2 days from now | 3 days from now | 76001 | 15               |
+
+    @MATCH-5541
+    Scenario:As a Support person editing an ActiveMatch NextGen subscription (Advanced Awareness and Connection), 
+    I do not need to always change the Start Date when I edit a subscription.
+      Given SP I am logged in to the Admin page as a Support user
+      When SP I select "Auburn University Main Campus" from the institution dashboard
+      And HE I click the link "Advanced Awareness"
+      And SP I delete all the subscriptions for school
+      And SP I navigate to the GraphiQL page
+      And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
+        | startDate | 2 days before now |
+        | endDate   | 2 days after now  |
+      When SP I select "Auburn University Main Campus" from the institution dashboard
+      And HE I click the link "Advanced Awareness"
+      And SM I reload the page
+      And HE I click the link "Virginia"
+      And SM I press button "Finish"
+      And SP I delete all the subscriptions for school

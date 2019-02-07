@@ -3,8 +3,10 @@ package pageObjects.CM.userInstitutionPage;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 
@@ -236,13 +238,16 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitutionAdditionalInfo() {
         logger.info("Going to the Alabama Institution Aditional Info.");
-        link(By.xpath("//a[contains(@href, '/info')]")).click();
-//        link(By.cssSelector("a[href='/institution/636/info']")).click();
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/636/info");
     }
 
     public void goToInstitutionFollowersList() {
         logger.info("Going to the Alabama Institution Aditional Info.");
         link(By.xpath("//a[contains(@href, '/followers')]")).click();
+    }
+
+    public void clickOnViewNavianceCollegeProfile() {
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/naviance-college-profile/view/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830");
     }
 
     public void checkHEInstitutionAdditionalInfoPageItems() {

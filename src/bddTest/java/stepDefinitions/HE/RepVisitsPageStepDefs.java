@@ -444,5 +444,21 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
 
         Then("^HE I verify the \"([^\"]*)\" button$",repVisits::verifyAddToTravelPlanButtonInHSPage);
+
+        Then ("^HE I verify the school \"([^\"]*)\" and delete if it is added to travel plan$",repVisits::verifyTravelPlanAndDelete);
+      
+        Then("^HE I verify the premium feature header is displaying in search and schedule page using \"([^\"]*)\"$",repVisits::verifyPremiumFeatureHeaderIsDisplayingInSearchAndSchedule);
+
+        Then("^HE I verify the lock icon is displaying in search and schedule page using \"([^\"]*)\"$",repVisits::verifyLockIconIsDisplayingInSearchAndSchedule);
+
+        Then("^HE I verify learn more hyper link is displaying in search and schedule page using \"([^\"]*)\"$",repVisits::verifyLearnMoreHyperLinkIsDisplayingInSearchAndSchedulePage);
+
+        Then("^HE I verify the premium feature header is not displaying in search and schedule page$",repVisits::verifyPremiumFeatureHeaderIsNotDisplayingInSearchAndSchedule);
+
+        Then("^HE I verify the lock icon is not displaying in search and schedule page$",repVisits::verifyLockIconIsNotDisplayingInSearchAndSchedule);
+
+        Then("^HE I verify learn more hyper link is not displaying in search and schedule page$",repVisits::verifyLearnMoreHyperLinkIsNotDisplayingInSearchAndSchedulePage);
+
+        Then("^HE I navigate to \"([^\"]*)\" page$",repVisits::navigateToRepVisitsSection);
     }
 }

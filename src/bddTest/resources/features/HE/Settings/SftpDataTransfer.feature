@@ -214,3 +214,41 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
            And HE I verify that the message that says "Connection test failed" is displayed when saving fails
            And HE I verify that the message that says "Port was refused. Check that the port number is correct." is displayed when saving fails
 
+  @MATCH-5407
+  Scenario: As an HE user that has somehow managed to attempt to save a configuration but there is some missing data somewhere
+            I want to be able to create and edit SFTP Settings without errors
+            so that I can have transfer data
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I delete the SFTP Data Transfer connection
+    When HE I setup a SFTP connection with the following data
+      |host          |port|path    |userName          |password                |transferFrequency   |checkFingerPrintToVerifyServer|
+      |209.97.159.244|23  |/uploads|bruh-you-can-SFTP |foo-bar-biz-bat-4442332 |mon,tue,wed,thu,fri |no                            |
+    And HE I verify that the message that says "Connection test failed" is displayed when saving fails
+    When HE I verify that we can able to navigate to the edit connection page
+    Then HE I verify " Configuration Issues " link still appears on the SFTP main page
+    And HE I delete the SFTP Data Transfer connection
+    And HE I successfully sign out
+
+    @MATCH-4874
+    Scenario: As an HE admin associated with an HE account that has an active AMPLUS subscription, I want the ability to test
+    the connection separately from saving my new connection AND the ability to test and save the connection in
+    one action, so that I can proceed in the SFTP Data Transfer form as best fit for me and my organization.
+      Given HE I am logged in to Intersect HE as user type "administrator"
+      And HE I delete the SFTP Data Transfer connection
+      When HE I setup a SFTP connection with the following data
+        |host|port|path    |userName|password|transferFrequency  |checkFingerPrintToVerifyServer|
+        |    |    |        |        |        |mon,tue,wed,thu,fri|no                            |
+      Then HE I verify that validation message for host field that says "Please enter a host" is displayed
+      And HE I verify that validation message for user name field that says "Please enter a username" is displayed
+      And HE I verify that validation message for password field that says "Please enter a password" is displayed
+      And HE I verify that the error message that says "Something went wrong" is displayed
+      And HE I setup a SFTP connection with the following data
+        |host          |port|path    |userName|password         |transferFrequency  |checkFingerPrintToVerifyServer|
+        |209.97.159.249|22  |/uploads|sftpme  |bruh-you-can-SFTP|mon,tue,wed,thu,fri|no                            |
+      When SP I am logged in to the Admin page as a Support user
+      And SP I select "The University of Alabama" from the institution dashboard
+      And SP I go to the log history page
+      Then SP I verify that it is displayed an entry with action "PurpleHE Automation Saved AMExportConfig" and the following keys
+        |"institutionId":|"connectionTestSuccess":|"serverFingerprintMismatch":|"serverFingerprintEnabled":|
+
+
