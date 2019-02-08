@@ -25,7 +25,11 @@ public class HEWelcomePageStepDefs implements En {
 
         And("^HE I verify the Welcome page has a header that says: \"([^\"]*)\"$", heWelcomePage::verifyWelcomeCounselorCommunityPageHeader);
 
-        And("^HE I go to the Welcome Counselor Community poage$", heWelcomePage::goToWelcomeCounselorCommunityPage);
+        And("^HE I go to the Welcome Counselor Community page$", heWelcomePage::goToWelcomeCounselorCommunityPage);
+
+        And("^HE I verify the agreements label that says: \"([^\"]*)\"$", heWelcomePage::verifyAgreementsLabel);
+
+        And("^HE I verify the edit privacy info label that says: \"([^\"]*)\"$", heWelcomePage::verifyEditPrivacyInfoLabel);
 
     }
 }

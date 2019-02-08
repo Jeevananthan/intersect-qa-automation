@@ -36,5 +36,6 @@ public class WelcomePageStepDefs implements En {
         Then("^I verify the user can access the following fields$",welcomePage::verifyingTabNavigation);
         And("^I activate my community profile by providing OfficePhone as \"([^\"]*)\" JobTitle as \"([^\"]*)\" and EU citizen as \"([^\"]*)\"$", welcomePage::fillCommunityWelcomeMandatoryFields);
         And("^I clear the account to get the community welcome page again$",welcomePage::clearCommunityProfile);
+        And("^I go to the Welcome Counselor Community page$", welcomePage::goToWelcomeCounselorCommunityPage);
     }
 }
