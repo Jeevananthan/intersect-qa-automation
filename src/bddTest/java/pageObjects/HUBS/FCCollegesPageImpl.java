@@ -22,6 +22,7 @@ public class FCCollegesPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickSingleResult(String collegeName) {
+        waitUntilElementExists(singleResult(collegeName));
         singleResult(collegeName).click();
         waitUntilPageFinishLoading();
     }
