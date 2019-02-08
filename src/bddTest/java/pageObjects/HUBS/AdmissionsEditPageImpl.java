@@ -360,19 +360,19 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getImportantPolicyDropDown(String label) { return getDriver().findElement(By.xpath("//label[text()='" + label + "']/following-sibling::select")); }
     private WebElement deadlinesButton() { return getDriver().findElement(By.xpath("//h3[text()='Deadlines']")); }
-    private WebElement deadlineType(String label) { return getDriver().findElement(By.xpath("//strong[text()='" + label + "']")); }
+    private WebElement deadlineType(String label) { return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]")); }
     private WebElement deadlineMonth() { return getDriver().findElement(By.cssSelector("select[id *= '-field_he_month_of_the_deadline-month'")); }
     private WebElement deadlineDay() { return getDriver().findElement(By.cssSelector("select[id *= '-field_he_day_of_the_deadline-day'")); }
     private WebElement feesButton() { return getDriver().findElement(By.xpath("//h3[text()='Fees']")); }
     private WebElement feesType(String label) { return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input")); }
     private WebElement applicationRequirementsButton() { return getDriver().findElement(By.xpath("//h3[text()='Application Requirements']")); }
     private WebElement appReqElement(String group, String label) { return getDriver().findElement(By.xpath("//legend[text()='" + group + "']/following-sibling::entity-collection/div/div/div/div/strong[text()='" + label + "']")); }
-    private WebElement getAppRequirementDropDown(String group, String label) { return getDriver().findElement(By.xpath("//legend[text()='" + group + "']/following-sibling::entity-collection/div/div/div/div/strong[text()='" + label + "']/../../div/select-field/div/select")); }
+    private WebElement getAppRequirementDropDown(String group, String label) { return getDriver().findElement(By.xpath("//legend[text()='" + group + "']/following-sibling::*//strong[contains(text(), '" + label + "')]/../..//select")); }
     private WebElement recommendedCoursesButton() { return getDriver().findElement(By.xpath("//h3[text()='Recommended Courses']")); }
     private WebElement applicationFactorsButton() { return getDriver().findElement(By.xpath("//h3[text()='Application Factors']")); }
-    private WebElement appFactorType(String type) { return getDriver().findElement(By.xpath("//strong[text()='" + type + "']")); }
+    private WebElement appFactorType(String type) { return getDriver().findElement(By.xpath("//strong[contains(text(), '" + type + "')]")); }
     private WebElement appFactorsImportanceDropdownElement() { return getDriver().findElement(By.xpath("//select[contains(@id, 'field_he_importance')]")); }
-    private WebElement recommendedCourse(String label) { return getDriver().findElement(By.xpath("//strong[text()='" + label + "']")); }
+    private WebElement recommendedCourse(String label) { return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]")); }
     private WebElement courseYears(String requiredOrRecommended) { return getDriver().findElement(By.xpath("//label[text()='" + requiredOrRecommended + "']/following-sibling::input")); }
     private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }
     private WebElement publishButton() { return driver.findElement(By.cssSelector("span.intersect-btn.intersect-btn--fuschia.ng-binding")); }
