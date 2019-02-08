@@ -19,11 +19,12 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void clickOnMediaTab(String tabName) {
+    public void clickOnHEMTab(String tabName) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), '" + tabName + "')]")));
         switch (tabName) {
             case "MEDIA" : mediaTab().click();
+                break;
+            case "INTRO" : introTab().click();
                 break;
         }
     }
@@ -70,6 +71,16 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + addUpText + "')]")).getText()).as("Elements verifications").isEqualTo(addUpText);
     }
 
+    public void verifyContentsIntroTab(String content) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + content + "')]")).getText()).as("Elements verifications").isEqualTo(content);
+    }
+
+    public void verifyPremiumFeatureLock(String premiumText) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + premiumText + "')]")).getText()).as("Elements verifications").isEqualTo(premiumText);
+    }
+
     public void verifyArrowsAndSlotsInPhotosAndVideos() {
         waitUntilPageFinishLoading();
         softly().assertThat(rightArrow().isDisplayed());
@@ -85,7 +96,7 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     public void verifyFunctionalityForPublishingModalConfirmation() {
         cancelAndContinueEditingButton().click();
-        softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish mu media changes button verifications").contains("Publish my media changes");
+        softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish my media changes button verifications").contains("Publish my media changes");
         publishMyMediaChangesButton().click();
         submitChangesButton().click();
         softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), 'updated your college profile')]")).getText()).as("New modal verifications").contains("updated your college profile");
@@ -94,11 +105,20 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish mu media changes button verifications").contains("Publish my media changes");
     }
 
+    public void verifyUpgradeModal() {
+        premiumFeaturesButton().click();
+        softly().assertThat(getDriver().findElement(By.xpath("//*[@id='upgrade-form']/div[1][contains(text(), 'Interested in learning more about Intersect?')]")).getText()).as("New modal verifications").contains("Interested in learning more about Intersect?");
+}
+
 
 
     //Locators
     private WebElement mediaTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'MEDIA')]"));
+    }
+
+    private WebElement introTab() {
+        return getDriver().findElement(By.xpath("//a[contains(text(), 'INTRO')]"));
     }
 
     private WebElement cancelAndContinueEditingButton() {
@@ -131,5 +151,10 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private List<WebElement> photosAndVideoPanel() {
         return getDriver().findElements(By.xpath("//*[@class='_4MiKKhtvn8oXpH1abXjg0']/div"));
+    }
+
+
+    private WebElement premiumFeaturesButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Premium Features')]"));
     }
 }
