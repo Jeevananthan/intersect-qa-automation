@@ -173,6 +173,16 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<ConnectionModule>"
 
     When SP I select "<University>" from the institution dashboard
+    Then SP I set the "<HubsModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<CommunityModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<IntersectPresenceModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<ActiveMatchEventsModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<ActiveMatchPlusModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<AdvancedAwarenessModule>" module to "<Inactive>" in the institution page
+    Then SP I set the "<ConnectionModule>" module to "<Inactive>" in the institution page
+
+    When SP I select "<University>" from the institution dashboard
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<CommunityModule>"
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectAwarenessModule>"
