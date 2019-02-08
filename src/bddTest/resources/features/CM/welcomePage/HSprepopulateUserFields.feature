@@ -20,7 +20,7 @@ Feature: HS Community User - Prepopulate Community User Profile Fields Upon Acti
     Then I click on Edit profile button
     And I check if privacy settings are saved properly
 
-  @MATCH-1799 @MATCH-4609
+  @MATCH-1799 @MATCH-4609 @MATCH-4468
   Scenario: As a Hobsons staff wanting to ensure data security compliance for Intersect users,
   I want to ensure that all users coming through intersect including all subscription levels and HS user is required to complete the Counselor Community profile page,
   So that I can ensure that all users coming into Intersect have consented to terms, account creation, and specified whether they're an EU citizen.
