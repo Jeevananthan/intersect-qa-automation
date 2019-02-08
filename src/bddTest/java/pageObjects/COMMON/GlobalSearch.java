@@ -178,8 +178,7 @@ public class GlobalSearch extends SeleniumBase {
         //waitUntilPageFinishLoading();
 
         waitUntil(ExpectedConditions.elementToBeClickable(By.cssSelector("div[id='global-search-box-results']")));
-        waitUntilElementExists(getDriver().findElement(By.cssSelector("div[id='global-search-box-results']")));
-        waitUntilElementExists(getDriver().findElement(By.xpath("//div[@id='global-search-box-results' and @aria-expanded='true']")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='global-search-box-results']")));
 
         List<WebElement> categories = getDriver().findElement(By.id("global-search-box-results")).findElements(By.className("category"));
         boolean institutionsReturned = false;
