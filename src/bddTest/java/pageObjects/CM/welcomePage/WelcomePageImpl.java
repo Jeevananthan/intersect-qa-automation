@@ -226,11 +226,6 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRequiredFieldsInCCProfileForm(DataTable dataTable){
-        navigationDropDown().sendKeys(Keys.ENTER);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
-        counselorCommunityMenuLink().click();
-        iframeEnter();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
         saveButtonInCommunity().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
@@ -238,6 +233,14 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
             Assert.assertTrue(fields+" is not displayed",text(fields).isDisplayed());
         }
         iframeExit();
+    }
+
+    public void goToWelcomeCounselorCommunityPage(){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
+        counselorCommunityMenuLink().click();
+        iframeEnter();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
     }
 
     public void verifyingTabNavigation(DataTable dataTable){
@@ -284,6 +287,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         load(GetProperties.get("hs.community.clear"));
         waitUntilPageFinishLoading();
     }
+
 
     private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
     private WebElement emailTextbox() {

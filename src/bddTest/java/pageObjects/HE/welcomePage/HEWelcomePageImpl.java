@@ -174,6 +174,22 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
         softly().assertThat(welcomePageHeader().getText().contains(text));
     }
 
+    /**
+     *  Verifies that the agreements label has the given text
+     * @param text
+     */
+    public void verifyAgreementsLabel(String text){
+        softly().assertThat(agreementsLabel().getText().contains(text));
+    }
+
+    /**
+     * Verifies that the edit privacy info label has the given text
+     * @param text
+     */
+    public void verifyEditPrivacyInfoLabel(String text){
+        softly().assertThat(editPrivacyInfoLabel().getText().contains(text));
+    }
+
     private WebElement communityWelcomeForm(){ return driver.findElement(communityWelcomeFormLocator()); }
 
     private By communityWelcomeFormLocator(){
@@ -228,5 +244,21 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
      */
     private WebElement welcomePageHeader(){
         return getDriver().findElement(By.xpath("//div[@id='featured']//p"));
+    }
+
+    /**
+     * Gets the agreements label
+     * @return Webelement
+     */
+    private WebElement agreementsLabel(){
+        return getDriver().findElement(By.id("edit-privacy-info"));
+    }
+
+    /**
+     * Gets the edit privacy info label
+     * @return
+     */
+    private WebElement editPrivacyInfoLabel(){
+        return getDriver().findElement(By.id("edit-cp-privacy-info"));
     }
 }
