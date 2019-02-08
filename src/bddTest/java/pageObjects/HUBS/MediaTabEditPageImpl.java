@@ -1,15 +1,11 @@
 package pageObjects.HUBS;
 
-import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
-import org.assertj.core.api.StringAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -68,6 +64,20 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyContentsMediaTab(String title, String addUpText) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + title + "')]")).getText()).as("Elements verifications").isEqualTo(title);
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + addUpText + "')]")).getText()).as("Elements verifications").isEqualTo(addUpText);
+    }
+
+    public void verifyArrowsAndSlotsInPhotosAndVideos() {
+        waitUntilPageFinishLoading();
+        softly().assertThat(rightArrow().isDisplayed());
+        rightArrow().click();
+        softly().assertThat(leftArrow().isDisplayed());
+        softly().assertThat(photosAndVideoPanel().size() == 16);
+    }
+
     public void clickOnEditButton() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title='Hubs View']")));
         editButton().click();
@@ -109,5 +119,17 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private WebElement editButton() {
         return getDriver().findElement(By.cssSelector("a[ng-click='vm.enableEditMode()"));
+    }
+
+    private WebElement rightArrow() {
+        return getDriver().findElement(By.cssSelector("i[class='arrow right icon"));
+    }
+
+    private WebElement leftArrow() {
+        return getDriver().findElement(By.cssSelector("i[class='arrow left icon"));
+    }
+
+    private List<WebElement> photosAndVideoPanel() {
+        return getDriver().findElements(By.xpath("//*[@class='_4MiKKhtvn8oXpH1abXjg0']/div"));
     }
 }
