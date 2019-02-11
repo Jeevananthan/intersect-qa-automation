@@ -504,6 +504,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement passwordTextboxForSupport() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("i0118")));
         return textbox(By.id("i0118"));
     }
 
