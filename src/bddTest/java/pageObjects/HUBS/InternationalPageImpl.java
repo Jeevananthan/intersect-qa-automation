@@ -202,7 +202,7 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
         String scoreType = "";
         String finalLevel = "";
         if (testScoreType.equals("Michigan (MELAB)")) {
-            scoreType = "MELAB (Michigan)";
+            scoreType = "MELAB (Michigan) ";
         } else {
             scoreType = testScoreType;
         }
@@ -214,14 +214,13 @@ public class InternationalPageImpl extends PageObjectFacadeImpl {
             case "High" : finalLevel = "3";
             break;
         }
-        return getDriver().findElement(By.xpath("//div[contains(@class, 'international__scores fc-grid__col fc-grid__col--xs-12 " +
-                "fc-grid__col--sm-8 fc-grid__col--md-7')]/div/div[text()='" + scoreType + "']/following-sibling::div[" + finalLevel + "]"));
+        return getDriver().findElement(By.xpath("//div[contains(@class, 'international__scores fc-grid__col fc-grid__col--xs-12 "+"fc-grid__col--sm-8 fc-grid__col--md-7')]/div/div[text()='" + scoreType + "']/following-sibling::div[" + finalLevel + "]"));
     }
     public WebElement getIntApplication(String type) {
         return getDriver().findElement(By.xpath("//span[text()='" + type + "']/../span[1]"));
     }
     public WebElement getIntQualification(String type) {
-        return getDriver().findElement(By.xpath("//div[text()='" + type + "']/../div[2]"));
+        return getDriver().findElement(By.xpath("//div[text()='"+type+" "+"']/../div[2]"));
     }
     public List<WebElement> getAcceptedLanguagesTests() {
         return getDriver().findElements(By.cssSelector("div.international__qualifications--last.fc-grid__row." +
