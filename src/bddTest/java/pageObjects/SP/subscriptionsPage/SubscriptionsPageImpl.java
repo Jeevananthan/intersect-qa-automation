@@ -297,6 +297,16 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         moveToElement(getCheckBoxLabelByText("Connection"));
         Assert.assertFalse("CheckBox 'Connection' is checked", getCheckBoxLabelByText("Connection").isSelected());
     }
+
+    /**
+     * close subscriptions popup in subscriptions page
+     */
+    public void closeSubscriptionsPopup(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(subscriptionsPopupCloseButton()));
+        moveToElement(getDriver().findElement(subscriptionsPopupCloseButton()));
+        getDriver().findElement(subscriptionsPopupCloseButton()).click();
+        waitUntilPageFinishLoading();
+    }
     //Locators
 
     private String subscriptionTypeRadioButtonLocator(String subscriptionType) { return "//label[text() = '" + subscriptionType + "']"; }
@@ -383,6 +393,14 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     public void moveToElement(WebElement element) {
         Actions builder = new Actions(driver);
         builder.moveToElement(element).build().perform();
+    }
+
+    /**
+     * Return subscriptions popup close button
+     * @return
+     */
+    private By subscriptionsPopupCloseButton(){
+        return By.cssSelector("div[id='subscription-modal']>i");
     }
 }
 
