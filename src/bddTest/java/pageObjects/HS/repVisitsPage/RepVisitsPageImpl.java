@@ -10351,6 +10351,30 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return startTime;
     }
 
+    /**
+     * Verifies that a given text is displayed in Connecting Naviance and Repvisits page
+     * @param text
+     */
+    public void verifyTextInConnectingNavianceAndRepvisitsPage(String text){
+        waitUntil(ExpectedConditions.visibilityOf(connectingNavianceText()));
+        softly().assertThat(text(text).isDisplayed());
+    }
+
+    /**
+     * Verifies that a given text is displayed in Naviance Sync Settings page
+     * @param text
+     */
+    public void verifyTextInNavianceSyncSettingsPage(String text){
+        getNavigationBar().goToRepVisits();
+        availabilityAndSettings().click();
+        navianceSettings().click();
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(navianceSettingsPageLocator()));
+        softly().assertThat(text(text).isDisplayed());
+    }
+
+
+
     /*public void closeSendEmailMessageBox(){
         button("Close").click();
 
@@ -11602,6 +11626,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private By setupWizardCheckmarkButton(){
         return By.cssSelector("i[class='checkmark circular icon']");
+    }
+
+    /**
+     * Gets the Naviance Settings page locator
+     * @return
+     */
+    private By navianceSettingsPageLocator(){
+        return By.id("form-naviance-settings");
     }
 
 }

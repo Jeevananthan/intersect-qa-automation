@@ -782,5 +782,8 @@ public class RepVisitsPageStepDefs implements En {
         And("^HS  I Store the college Fair Name created$", repVisits::storeCollegeFairName);
         And("^HS I click on Unpublish option on repvisits sidebar$", repVisits::chooseUnpublish);
         Then("^HS I verify Fair unpublished message on the repvisits sidebar$", repVisits::assertUnpublish);
+
+        And("^HS I verify that the connecting naviance and repvisits page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInConnectingNavianceAndRepvisitsPage);
+        And("^HS I verify that the naviance sync settings page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInNavianceSyncSettingsPage);
     }
 }
