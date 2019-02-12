@@ -311,6 +311,15 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         Assert.assertTrue("Current user is not displayed",currentUserInSelectStaffMember(currentUser).isDisplayed());
     }
 
+    /**
+     * Verifies that the given user is not displayed in select new assignee drow down
+     * @param user
+     */
+    public void verifyUserIsNotDisplayedInSelectNewAsignee(String user){
+        jsClick(selectNewAssigneeDropdown());
+        softly().assertThat(getDriver().findElements(userInNewAssigneeLocator(user)).size()).isEqualTo(0);
+    }
+
     public void verifyInActiveUserIsDisplayingInSelectStaffMember(String inActiveUser){
         Assert.assertTrue("In active user is not displayed",inActiveUserLabelInSelectStaffMember(inActiveUser).isDisplayed());
         waitUntilPageFinishLoading();
@@ -397,7 +406,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement userInSelectStaffMember(String selectUser){return getDriver().findElement(By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']"));}
     private By userSelectStaffMemberLocator(String selectUser){return By.xpath("//div/div/div[text()='Select staff member']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+selectUser+"']");}
     private WebElement excludedUser(String user){return getDriver().findElement(By.xpath("//div[text()= '" + user + "']"));}
-    private WebElement userInNewAssignee(String newAssignee){return getDriver().findElement(By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+newAssignee+"']"));}
+    private WebElement userInNewAssignee(String newAssignee){return getDriver().findElement(userInNewAssigneeLocator(newAssignee));}
+    private By userInNewAssigneeLocator(String newAssignee){return By.xpath("//div/div/div[text()='Select new assignee']/following-sibling::div[@class='visible menu transition']/div/div[text()='"+newAssignee+"']");}
     private WebElement selectFairsAppointment(String fairsDate,String school,String noOfStudents){return getDriver().findElement(By.xpath("//div/span[text()='"+fairsDate+"']/parent::div/following-sibling::" +
             "div/span[text()='College Fair']/ancestor::div/following-sibling::div[@class='twelve wide column']" +
             "/div/div//div[text()='"+school+"']/ancestor::div/following-sibling::div/div/span[text()='Number of Expected Students']" +

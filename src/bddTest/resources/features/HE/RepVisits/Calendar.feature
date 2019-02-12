@@ -324,3 +324,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |institution              |user                                   |
       |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |The University of Alabama|purpleheautomation+heInActive@gmail.com|
 
+  @MATCH-4911
+  Scenario: As an RepVisits HE user I should not be able to select the same name in Re-assign appointments
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I select the user "Publishing, PurpleHE" in select staff member dropdown
+    Then HE I verify that the user: "Publishing, PurpleHE" is not displayed in select new assignee dropdown
