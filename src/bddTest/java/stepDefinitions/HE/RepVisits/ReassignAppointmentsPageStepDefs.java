@@ -92,5 +92,7 @@ public class ReassignAppointmentsPageStepDefs implements En {
         Then("^HE I verify the in active user \"([^\"]*)\" is not selectable in Select new assignee dropdown$",reassignAppointmentsPage::verifyInActiveUserIsNotSelectable);
    
         Then("^HE I verify Select all check box in reAssignAppointments page using \"([^\"]*)\"$", reassignAppointmentsPage::verifySelectAllCheckBox);
+
+        Then("^HE I verify that the user: \"([^\"]*)\" is not displayed in select new assignee dropdown$", reassignAppointmentsPage::verifyUserIsNotDisplayedInSelectNewAsignee);
     }
 }
