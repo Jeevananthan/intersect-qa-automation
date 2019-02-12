@@ -27,3 +27,27 @@ Feature: HUBS - Edit Media
     And I click on VIEW NAVIANCE COLLEGE PROFILE
     And HUBS I click on EDIT button
     Then HUBS I verify that HEM loads
+
+  @HUBS-5755
+  Scenario: As an HE user with either the Publishing or Administrator role, I want to see my existing 'Media' premium
+            HEM content in the right area of the React app so I can see what currently exists on my College's Naviance profile.
+    When HUBS I click on "MEDIA" tab
+    Then HUBS I verify contents "Photos and Videos" and "Add up to 31 photos and videos." in Media tab
+    Then HUBS I verify Arrows and Slots in the Photos and Videos panel
+
+  @HUBS-5791
+  Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Awareness
+            subscription activated, I want to be able to manage my institution's college profile (about us area) so
+            I do not have to rely on Intersect Support to do this for me.
+    Given HE I am logged in to Intersect HE as user type "HEMadministrator"
+    And HUBS I access HUBS Edit Mode
+    When HUBS I click on "MEDIA" tab
+    And HUBS I click on "INTRO" tab
+    Then HUBS I verify contents "About Us" in Intro tab
+
+    Given HE I am logged in to Intersect HE as user type "HEMadmin"
+    And HUBS I access HUBS Edit Mode
+    When HUBS I click on "MEDIA" tab
+    And HUBS I click on "INTRO" tab
+    Then HUBS I verify "Premium Features" Lock
+    Then HUBS I verify the Upgrade Modal

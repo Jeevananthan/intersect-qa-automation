@@ -121,8 +121,6 @@ Feature: HS - RepVisits - SetupWizard - As an HS user, I should be able to set u
       |verify Confirmation Message|verify Special Instruction for RepVisits|Confirmation Message_Next                |Special Instruction for RepVisits_Next     |Button to Click_Next|verify Confirmation Message_Next         |verify Special Instruction for RepVisits_Next|Confirmation Message_Back                     |Special Instruction for RepVisits_Back          |Button to Click_Back|
       |                           |                                        |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User|Next                |Confirmation Message for visits and Fairs|Special Instructions for the repvisits User  |Confirmation Message for visits and Fairs Back|Special Instructions for the repvisits User Back|Back                |
 
-
-
   @MATCH-2294
   Scenario: As a Non-Naviance HS, I want the RepVisit setup wizard to not have Naviance Settings options.
             So that I can update RepVisit college fairs and visits

@@ -4,7 +4,6 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -81,11 +80,6 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRequiredFieldsInCCProfileForm(DataTable dataTable){
-        navigationDropDown().sendKeys(Keys.ENTER);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
-        counselorCommunityMenuLink().click();
-        iframeEnter();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
         saveButtonInCommunity().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
@@ -161,6 +155,41 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * Goes to the Welcome Counselor community page
+     */
+    public void goToWelcomeCounselorCommunityPage(){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
+        counselorCommunityMenuLink().click();
+        iframeEnter();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
+    }
+
+    /**
+     * Verifies that the welcome header contains the given text
+     * @param text
+     */
+    public void verifyWelcomeCounselorCommunityPageHeader(String text){
+        softly().assertThat(welcomePageHeader().getText().contains(text));
+    }
+
+    /**
+     *  Verifies that the agreements label has the given text
+     * @param text
+     */
+    public void verifyAgreementsLabel(String text){
+        softly().assertThat(agreementsLabel().getText().contains(text));
+    }
+
+    /**
+     * Verifies that the edit privacy info label has the given text
+     * @param text
+     */
+    public void verifyEditPrivacyInfoLabel(String text){
+        softly().assertThat(editPrivacyInfoLabel().getText().contains(text));
+    }
+
     private WebElement communityWelcomeForm(){ return driver.findElement(communityWelcomeFormLocator()); }
 
     private By communityWelcomeFormLocator(){
@@ -208,4 +237,28 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//span[text()='Connections']"));
     }
     private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
+
+    /**
+     * Gets the welcome page header
+     * @return Webelement
+     */
+    private WebElement welcomePageHeader(){
+        return getDriver().findElement(By.xpath("//div[@id='featured']//p"));
+    }
+
+    /**
+     * Gets the agreements label
+     * @return Webelement
+     */
+    private WebElement agreementsLabel(){
+        return getDriver().findElement(By.id("edit-privacy-info"));
+    }
+
+    /**
+     * Gets the edit privacy info label
+     * @return
+     */
+    private WebElement editPrivacyInfoLabel(){
+        return getDriver().findElement(By.id("edit-cp-privacy-info"));
+    }
 }

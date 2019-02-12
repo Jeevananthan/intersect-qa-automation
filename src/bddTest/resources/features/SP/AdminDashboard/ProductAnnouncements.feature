@@ -133,7 +133,7 @@ Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin
     |ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.ThisisgoingtobeMorethan140characterslimit.|
 
   @MATCH-4144
-  Scenario Outline: As a Intersect HE, HS (naviance), and HS (non-naviance) user (any role),
+  Scenario: As a Intersect HS (naviance) user (any role),
   I want the ability to view any in-product notifications associated with me and as published by Hobsons Intersect support admins and super admins,
   So that I'm able to view the content they've intended for me to see within the Intersect product.
 #verify announcement details in HS-Naviance
@@ -167,6 +167,10 @@ Feature: SP - AdminDashboard - ProductAnnouncements - As a super admin and admin
     Then HS I verify the announcement is not displaying after clicking dismiss button
     And HS I successfully sign out
 
+  @MATCH-4144
+  Scenario Outline: As a Intersect HE, HS (non-naviance) user (any role),
+  I want the ability to view any in-product notifications associated with me and as published by Hobsons Intersect support admins and super admins,
+  So that I'm able to view the content they've intended for me to see within the Intersect product.
 #verify announcement details in HS-NonNaviance
     Given SP I am logged in to the Admin page as an Admin user
     And SP I un-publish all the published announcements
