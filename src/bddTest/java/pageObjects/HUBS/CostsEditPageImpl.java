@@ -30,6 +30,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldAndValueElement : fieldsAndValues) {
             switch (fieldAndValueElement.get(0)) {
                 case "Average Net Prices" :
+                    //avgNetPricesButton().click(); added js click
                     jsClick(avgNetPricesButton());
                     avgNetPriceTextBox(fieldAndValueElement.get(1)).clear();
                     avgNetPriceTextBox(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
@@ -39,6 +40,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                             costsPreview.avgNetPriceText().getText().replace(",", "").equals(fieldAndValueElement.get(2)));
                     break;
                 case "% Receiving Aid" :
+                    //percentReceivingAidButton().click(); added js click
                     jsClick(percentReceivingAidButton());
                     percentRceivingAidTextBox(fieldAndValueElement.get(1)).clear();
                     percentRceivingAidTextBox(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
@@ -48,6 +50,7 @@ public class CostsEditPageImpl extends PageObjectFacadeImpl {
                             costsPreview.percentReceivingAidText().getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Average Amount of Aid" :
+                    //avgAmountOfAidButton().click(); added js click
                     jsClick(avgAmountOfAidButton());
                     avgAmountOfAidTextBox(fieldAndValueElement.get(1)).clear();
                     avgAmountOfAidTextBox(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
