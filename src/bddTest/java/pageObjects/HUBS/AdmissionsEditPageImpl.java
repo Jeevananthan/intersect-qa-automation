@@ -186,8 +186,10 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Recommended Courses" :
-                    recommendedCoursesButton().click();
-                    recommendedCourse("English").click();
+                    //recommendedCoursesButton().click(); //added below js clicks
+                    //recommendedCourse("English").click(); //added below js clicks
+                    jsClick(recommendedCoursesButton());
+                    jsClick(recommendedCourse(" English "));
                     String newRecommCoursesYearsReq = Integer.toString(Integer.parseInt(generatedValues.get(key)));
                     courseYears("Years Required").clear();
                     courseYears("Years Required").sendKeys(newRecommCoursesYearsReq);
@@ -333,8 +335,10 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Recommended Courses" :
-                    recommendedCoursesButton().click();
-                    recommendedCourse(fieldElement.get(1)).click();
+                    //recommendedCoursesButton().click(); //added below js clicks
+                    //recommendedCourse("English").click(); //added below js clicks
+                    jsClick(recommendedCoursesButton());
+                    jsClick(recommendedCourse(" English "));
                     courseYears(fieldElement.get(2)).clear();
                     courseYears(fieldElement.get(2)).sendKeys(fieldElement.get(3));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
