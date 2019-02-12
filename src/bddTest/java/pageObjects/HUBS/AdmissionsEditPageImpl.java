@@ -186,6 +186,8 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Recommended Courses" :
+                    //recommendedCoursesButton().click(); //added below js clicks
+                    //recommendedCourse("English").click(); //added below js clicks
                     jsClick(recommendedCoursesButton());
                     jsClick(recommendedCourse(" English "));
                     String newRecommCoursesYearsReq = Integer.toString(Integer.parseInt(generatedValues.get(key)));
@@ -333,6 +335,8 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Recommended Courses" :
+                    //recommendedCoursesButton().click(); //added below js clicks
+                    //recommendedCourse("English").click(); //added below js clicks
                     jsClick(recommendedCoursesButton());
                     jsClick(recommendedCourse(" English "));
                     courseYears(fieldElement.get(2)).clear();

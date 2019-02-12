@@ -231,6 +231,8 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Test Scores" :
+                    //getEditButton(fieldElement.get(0)).click(); //added js clicks
+                    //getTestScoresInnerSection(fieldElement.get(1)).click(); //added js clicks
                     jsClick(getEditButton(fieldElement.get(0)));
                     value=" "+fieldElement.get(1)+" ";
                     jsClick(getTestScoresInnerSection(value));
