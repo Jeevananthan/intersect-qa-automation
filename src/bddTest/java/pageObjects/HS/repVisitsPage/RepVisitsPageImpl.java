@@ -10373,7 +10373,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(text(text).isDisplayed());
     }
 
+    /**
+     * Manually adding attendee in college fair
+     * @param institution
+     */
+    public void manuallyAddAttendee(String firstName,String institution){
+        getAddAttendeesButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(addAttendeeManually()));
+        getDriver().findElement(addAttendeeManually()).click();
+        waitUntil(ExpectedConditions.visibilityOf(attendeeFirstNameTextBox()));
+        attendeeFirstNameTextBox().sendKeys(firstName);
+        attendeeInstitutionTextBox().sendKeys(institution);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getInstitution(institution)));
+        getDriver().findElement(getInstitution(institution)).click();
+        getDriver().findElement(addAttendeeButtonInCollegeFair()).click();
+    }
 
+    /**
+     * verifying undefined text is not displaying in college fair attendee page
+     * @param firstNameWithUndefinedText
+     */
+    public void verifyUndefinedTextIsNotDisplayingInAttendeePage(String firstNameWithUndefinedText){
+        Assert.assertTrue("Undefined text is displaying",attendeeFirstNameAndLastName(firstNameWithUndefinedText).size()==0);
+    }
 
     /*public void closeSendEmailMessageBox(){
         button("Close").click();
@@ -11636,4 +11658,37 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return By.id("form-naviance-settings");
     }
 
+    /**
+     * return locator for add attendee manually in college fair
+     * @return
+     */
+    private By addAttendeeManually(){
+        return By.cssSelector("a[class='KKyfdym6DkswwZqeWN7Ck']");
+    }
+
+    /**
+     * return locator for institution in college fair
+     * @param institution
+     * @return
+     */
+    private By getInstitution(String institution){
+        return By.xpath("//div[text()='"+institution+"']");
+    }
+
+    /**
+     * return locator for add attendee button
+     * @return
+     */
+    private By addAttendeeButtonInCollegeFair(){
+        return By.cssSelector("button[class='ui primary right floated button']");
+    }
+
+    /**
+     * return locator attendee first name and last name
+     * @param attendeeFirstNameAndLastName
+     * @return
+     */
+    private List<WebElement> attendeeFirstNameAndLastName(String attendeeFirstNameAndLastName){
+        return getDriver().findElements(By.xpath("//div[text()='"+attendeeFirstNameAndLastName+"']"));
+    }
 }
