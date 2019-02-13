@@ -428,6 +428,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
         for (int i = 0; i < itemsToSelectSize; i++) {
             majorsDropdownArrow().click();
+            waitUntilElementExists(majorsListContainer());
             String item = itemsToSelect.get(i).get(0);
             getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[1]")).click();
 
@@ -3590,6 +3591,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement addSportButton() {
         return driver.findElement(By.xpath("//button[text()='ADD SPORT']"));
     }
+    private WebElement majorsListContainer() { return driver.findElement(By.cssSelector("div.visible.menu.transition")); }
     private WebElement firstPinnedCollege() { return driver.findElement(By.cssSelector("table.ui.unstackable.table." +
             "csr-results-table:not(.csr-header-table) td.inPinnedList a.result-row-decription-label")); }
 }
