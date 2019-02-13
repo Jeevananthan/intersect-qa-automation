@@ -181,7 +181,7 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5324 @ignore
+  @MATCH-5324 @MATCH-5944 @ignore
   Scenario: As a student using Naviance Student, when I match with more than one AM NextGen Connection HE client,
   I would like to see a connector form that would allow me to connect with more than one college so that I can send my information to them at once.
 
@@ -219,6 +219,9 @@ Feature: AMNG - AM NextGen Connector
     And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
     And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
     And SM I navigate to the Colleges I'm thinking about list
+    Then SM I verify that the following text is present in the connector dialog:
+    | Multiple institutions you're interested in would like to communicate with you! |
+    | Select those in which you would like to connect                                |
     Then SM I verify that all the connection checkboxes are "checked" by default
     Then SM I verify that the Next button is disabled when all competitors are unchecked
     And HE I click the button "Next" in the connector dialog
