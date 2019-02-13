@@ -10,6 +10,8 @@ public class EditMediaTabStepDefs implements En{
         MediaTabEditPageImpl mediaTabEdit = new MediaTabEditPageImpl();
 
         When("^HUBS I click on \"([^\"]*)\" tab$", mediaTabEdit::clickOnHEMTab);
+        When("^HUBS I expanded the \"([^\"]*)\" link$", mediaTabEdit::clickOnLink);
+        When("^HUBS verify contents \"([^\"]*)\" into \"([^\"]*)\" section", mediaTabEdit::verifyContents);
         Then("^HUBS I click on \"([^\"]*)\" button$", mediaTabEdit::clickOnPublishMyMediaChangesButton);
         Then("^HUBS I verify the Publishing Modal Confirmation with the \"([^\"]*)\" element$",mediaTabEdit::verifyPublishingModalConfirmation);
         Then("^HUBS I verify functionality of Publishing Modal Confirmation$",mediaTabEdit::verifyFunctionalityForPublishingModalConfirmation);
