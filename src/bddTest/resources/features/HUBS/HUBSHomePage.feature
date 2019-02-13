@@ -12,14 +12,12 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
     Then HUBS all three tabs ie "BASIC INFO", "MEDIA" and "LINKS & PROFILES" should display
     Then HUBS I click on "MEDIA" tab in main menu
     And HUBS I check "MEDIA" tab functionality
-    And HE I successfully sign out
 
   @MATCH-5587
   Scenario: As an HE user with the Administrator or Publishing role I need to be able to navigate between different
   tabs of HEM seamlessly so I can manage my institution's profile content.
     Then HUBS I click on "LINKS & PROFILES" tab in main menu
     And HUBS I check "LINKS & PROFILES" tab functionality
-    And HE I successfully sign out
 
   @MATCH-5701
   Scenario: As an HE user with the Administrator or Publishing role that has made 'Media' or 'Links & Profiles'
