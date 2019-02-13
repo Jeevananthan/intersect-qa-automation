@@ -322,6 +322,15 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return date.getTime();
     }
 
+    /**
+     * Checks the page to see if a SuperMatch toast message is displayed, and if so, clicks the close button to dismiss it.
+     */
+    public void clearSuperMatchToast() {
+        if (getDriver().findElements(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")).size() > 0)
+            superMatchToastMessageCloseButton().click();
+    }
+
+    protected WebElement superMatchToastMessageCloseButton() { return getDriver().findElement(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(datePickerMonthYearTextLocator)); }
     private String datePickerMonthYearTextLocator = "div.DayPicker-Caption";
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }

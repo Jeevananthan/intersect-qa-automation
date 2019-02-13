@@ -1556,8 +1556,12 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void checkDiversityColumnInResult(String genderConcentration){
 
+        clearSuperMatchToast();
         scrollDown(getResultTable());
-        driver.findElement(By.cssSelector(".csr-heading-dropdown-text")).click();
+        //There are two copies of the results table headers, a sticky version, and the one attached to the table itself.
+        //Only the "real" headers are clickable when the table is at the top, so we need to make sure we interact with that one.
+        WebElement tableHeader = getDriver().findElement(By.xpath("//table[@class[contains(.,'csr-results-table')]]/caption[text()='College Search Results']/.."));
+        tableHeader.findElement(By.cssSelector(".csr-heading-dropdown-text")).click();
         scrollDown(driver.findElement(By.xpath("//span[contains(text(), 'Diversity')]")));
         getResultTable().findElement(By.xpath("//span[contains(text(), 'Diversity')]")).click();
 
@@ -3585,7 +3589,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("(//div[contains(@class, 'supermatch-athletics-button-group') " +
                 "and not(contains(@class, 'row'))])[" + index + "]//p")).getText();
     }
-    private WebElement academicsRadioButton(String optionName) { return driver.findElement(By.xpath("//div[@class = 'ui radio checkbox supermatch-academics-radio-left']/label[text() = \"" + optionName + "\"]")); }
+    private WebElement academicsRadioButton(String optionName) { return driver.findElement(By.xpath("//input[@name='degreeTypeOptionGroup'][@value=\"" + optionName + "\"]/../label")); }
     private WebElement majorsDropdownArrow() { return driver.findElement(By.cssSelector("div[categorysuffix='majors'] i.chevron")); }
     private WebElement addSportButton() {
         return driver.findElement(By.xpath("//button[text()='ADD SPORT']"));
