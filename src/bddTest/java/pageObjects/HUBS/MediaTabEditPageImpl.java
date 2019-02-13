@@ -26,6 +26,24 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
                 break;
             case "INTRO" : introTab().click();
                 break;
+            case "LINKS & PROFILES" : linksAndProfilesTab().click();
+                break;
+        }
+    }
+
+    public void clickOnLink(String link) {
+        waitUntilPageFinishLoading();
+        switch (link) {
+            case "Links" : clickOnLinks().click();
+                break;
+        }
+    }
+
+    public void verifyContents(String contents, String link) {
+        waitUntilPageFinishLoading();
+        switch (link) {
+            case "Links" : verifyLinksContent(contents);
+                break;
         }
     }
 
@@ -119,6 +137,18 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private WebElement introTab() {
         return getDriver().findElement(By.xpath("//a[contains(text(), 'INTRO')]"));
+    }
+
+    private WebElement linksAndProfilesTab() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'LINKS & PROFILES')]"));
+    }
+
+    private WebElement clickOnLinks() {
+        return getDriver().findElement(By.cssSelector("li[id='links-accordion-title"));
+    }
+
+    private void verifyLinksContent(String contents) {
+        softly().assertThat(getDriver().findElement(By.xpath("//h3[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
     }
 
     private WebElement cancelAndContinueEditingButton() {
