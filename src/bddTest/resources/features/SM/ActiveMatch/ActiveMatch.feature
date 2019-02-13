@@ -339,13 +339,13 @@ Feature: SM - ActiveMatch Next Gen
     And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
-      | startDate | 0 days before now |
+      | startDate | 2 days before now |
       | endDate   | 2 days after now  |
     And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData2.json" and the following settings:
-      | startDate | 0 days before now |
+      | startDate | 2 days before now |
       | endDate   | 2 days after now  |
     And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData4.json" and the following settings:
-      | startDate | 0 days before now |
+      | startDate | 2 days before now |
       | endDate   | 2 days after now  |
     And SP I successfully sign out
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
@@ -360,11 +360,11 @@ Feature: SM - ActiveMatch Next Gen
     And SM I pin "The University of Alabama" from the search box
     And SM I pin "Auburn University" from the search box
     And SM I pin "Assumption College" from the search box
+    And SM I navigate to page via URL path "colleges/supermatch-next"
 
 
     Then SM I favorite the school "The University of Alabama"
     Then I check if I can see "Great news!" on the page
-    Then I check if I can see "would like to connect with you." on the page
     Then SM I press button "No, Thanks"
     Then SM I un-favorite the school "The University of Alabama"
     Then SM I favorite the school "The University of Alabama"
@@ -372,7 +372,6 @@ Feature: SM - ActiveMatch Next Gen
 
     Then SM I favorite the school "Auburn University" from the why drawer
     Then I check if I can see "Great news!" on the page
-    Then I check if I can see "would like to connect with you." on the page
     Then SM I press button "Connect"
     Then I check if I can see "Connect with Auburn University" on the page
     Then I click on close icon
