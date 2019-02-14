@@ -112,7 +112,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void accessCounselorCommunityPage() {
         logger.info("Going to Counselor Community page.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        counselorCommunity().click();
         communityFrame();
     }
 
@@ -125,7 +125,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void goToHomePage() {
         logger.info("Going to home page.");
         iframeExit();
-        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/");
+        getNavigationBar().goToCommunity();
         communityFrame();
 //        link(By.cssSelector("a[href='/']")).click();
     }
@@ -272,6 +272,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement postBoxInstructionalMessage() {return driver.findElement(By.xpath("//div[@id='edit-post-instructions']"));}
     private WebElement yourGroupsLink() {return driver.findElement(By.xpath("//a[text()='Your Groups']"));}
     private WebElement welcomeSupportTitle() {return driver.findElement(By.xpath("//*[@id='app']/div/div/main/div/p"));}
+    private WebElement counselorCommunity() {return driver.findElement(By.xpath("//*[@id='app']/div/div[1]/div/div/header/nav/a[2]/div/div[1]"));}
 
 
 }

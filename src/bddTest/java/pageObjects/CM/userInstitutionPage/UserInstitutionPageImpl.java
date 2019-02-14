@@ -48,7 +48,8 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void clickInstitutionTab() {
         logger.info("Going to institution tab.");
-        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/");
+        homeLink().click();
+        institutionLink().click();
     }
 
     public void createNewInstitutionPost(String postText) {
@@ -170,10 +171,8 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         communityFrame();
         try {
             setImplicitWaitTimeout(1);
-            if (unfollowBtn().isDisplayed())
-            {
-                unfollowBtn().click();
-            }
+            unfollowBtn();
+            unfollowBtn().click();
             waitUntilPageFinishLoading();
             resetImplicitWaitTimeout();
         } catch (NoSuchElementException ex)  {
@@ -188,10 +187,8 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         communityFrame();
         try {
-            if (followBtn().isDisplayed()) {
-
-                followBtn().click();
-            }
+            followBtn();
+            followBtn().click();
             waitUntilPageFinishLoading();
 
         } catch (NoSuchElementException ex)  {
@@ -319,5 +316,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     private WebElement unfollowBtnById(String id) {return driver.findElement(By.id("unfollow-"+id+""));}
     private WebElement followBtn() {return driver.findElement(By.cssSelector("a[title='Follow Institution']"));}
     private WebElement editInstitutionBtn() {return driver.findElement(By.cssSelector("a[class='edit-institution-link']"));}
+    private WebElement homeLink(){ return driver.findElement(By.xpath("//*[@id=\"app\"]/div/div[1]/div/div/header/nav/a[2]/div/div[1]")); }
+    private WebElement institutionLink() { return driver.findElement(By.cssSelector("a[href='/institution']")); }
 
 }

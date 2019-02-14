@@ -109,13 +109,13 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void searchForUser(String user){
         iframeExit();
-        textbox(By.id("global-search-box-input")).clear();
-        textbox(By.id("global-search-box-input")).sendKeys(user);
+        searchUser().clear();
+        searchUser().sendKeys(user);
         logger.info("Searching for user.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
-        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
+        link(By.xpath("//div[@id='global-search-box-item-0']")).click();
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
     }
@@ -630,5 +630,6 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveBtn(){return driver.findElement(By.id("edit-save"));}
     private WebElement editCustomCategory(String category) {return driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]/..//a[@title='Edit category']"));}
+    private WebElement  searchUser()  {return driver.findElement(By.id("global-search-box-input"));}
 
 }

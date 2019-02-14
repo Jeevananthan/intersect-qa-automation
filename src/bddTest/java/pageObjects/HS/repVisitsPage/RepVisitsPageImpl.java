@@ -6318,11 +6318,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public String dateConverter(String rsvpDeadline) {
 
-        java.util.Date date;
-        date = new Date(rsvpDeadline);
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String format = formatter.format(date);
-        return format;
+        return "";
     }
 
     public Boolean cancelNewEvent(String collegeFairName) {
