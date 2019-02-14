@@ -29,7 +29,7 @@ Feature: HS - Home - AccountSettings - As an HS user, I can manage my account se
     Then HS I verify the user is "<Role>" or not
   Examples:
     |UserType        |Role      |
-    |navianceAdmin   |ADMIN     |
+    |navAdminStandalone7   |ADMIN     |
     |navianceMember  |NON-ADMIN |
 
   @MATCH-3060 @MATCH-3061

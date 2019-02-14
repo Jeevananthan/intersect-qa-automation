@@ -186,6 +186,25 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The success message is not displayed.", successfulSubmitMessage().isDisplayed());
     }
 
+    public void verifyNextButtonDisabled() {
+        waitUntilElementExists(connectionModalHeader());
+        List<WebElement> checkboxesList = driver.findElements(By.cssSelector(connectionCheckboxesLocator));
+        for (WebElement checkbox : checkboxesList) {
+            if (checkbox.getAttribute("class").contains("checked")) {
+                checkbox.click();
+            }
+        }
+
+        Assert.assertTrue("The Next button is not disabled when all the connection checkboxes are unselected.",
+                disabledNextButton().isDisplayed());
+
+        for (WebElement checkbox : checkboxesList) {
+            if (!checkbox.getAttribute("class").contains("checked")) {
+                checkbox.click();
+            }
+        }
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";
@@ -209,4 +228,6 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     private WebElement majorsDropdownValue(String label) { return driver.findElement(By.xpath("//span[text() = '" + label + "' and @class = 'text']")); }
     private WebElement majorsPill(String label) { return driver.findElement(By.xpath("//li[contains(text(), '" + label + "')]")); }
     private WebElement successfulSubmitMessage() { return driver.findElement(By.xpath("//h1[text() = 'Successfully Submitted!']")); }
+    private WebElement disabledNextButton() { return driver.findElement(By.cssSelector("button[disabled='']#nextButton")); }
+    private WebElement connectionModalHeader() { return driver.findElement(By.cssSelector("div.connection-modal-header.header")); }
 }
