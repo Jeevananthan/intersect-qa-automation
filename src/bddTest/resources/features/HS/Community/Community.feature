@@ -3,14 +3,14 @@ Feature: HS - Community - Community - As an HS user, I can view HE institution d
 
   @MATCH-1904
   Scenario: HS user - Verify access to Hubs View mode
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     When SP I search for "The University of Alabama" as an Institution in the global search box
     And SP I select "The University of Alabama" from the global search results
     Then SP I verify Hubs view mode for "The University of Alabama"
 
   @MATCH-1658
   Scenario Outline: HS Community User - Add redirect rule for high school users that view college hub pages
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     When SP I search for "<institution>" as an Institution in the global search box
     And SP I select "<institution>" from the global search results
     Then HS I verify the URL "<beforeClickingBackToIntersectLink>" of "Additional info" page before clicking "Back to Intersect" link using "<SCID>","<institution>","/info" in the college profile page
