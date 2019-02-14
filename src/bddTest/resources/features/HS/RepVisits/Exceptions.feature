@@ -201,7 +201,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   Scenario Outline:As a high school user, I need to be able to view my Max Appointments availability
                     so that I can visually see the status of each appointment window.
 #Max Appointments Met Day
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions7"
     Then HS I clean the visits for particular Month "14"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I set the date using "<StartDate>" and "<EndDate>"
@@ -216,7 +216,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HE I verify the schedule pop_up for "<School>" using "<MaxstartTime>" and "<MaxEndTime>"
     And HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions7"
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..." "1" visits per day
     Then HS I go to the Exception tab to verify the visits using "Max visits met","<MaxhestartTime>","<StartDate>",""
     Then HS I verify the diagonal HashLines present in the Max Appointments Met date "<StartDate>","<back-ground color>"
@@ -226,7 +226,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day|StartDate|EndDate |School          |MaxNumVisits|MaxstartTime|MaxhestartTime|MaxEndTime|back-ground color|option |
-      |14 |14       |21      |Iowa High School|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
+      |14 |14       |21      |Waccamaw Academy|2           |10:21am     |10:21am       |12:59pm   |rgba(0, 0, 0, 0) | 1     |
 
 
   @MATCH-1581
@@ -264,7 +264,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |Day|StartDate|EndDate |School           |PartiallyNumVisits|PartiallystartTime|PartiallyhestartTime|PartiallyEndTime |back-ground color     | option |
-      |14 |14       |21      |THE FULTON SCHOOL|5                 |10:59am           |11:29am             |12:59pm          |rgba(255, 255, 255, 1)| 1      |
+      |14 |14       |21      |The Fulton School|5                 |10:59am           |11:29am             |12:59pm          |rgba(255, 255, 255, 1)| 1      |
 
 
   @MATCH-1581
@@ -326,7 +326,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   @MATCH-4255
   Scenario Outline: As a high school admin, I can able to edit the availability slots in regular weekly hours, so that i can able to enable/disable the particular time slot availability.
 #precondition
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions6"
     Then HS I clean the visits for particular Month "14"
     Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "a maximum of..."
@@ -343,7 +343,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HE I successfully sign out
 
 # NumVisits-2
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions6"
     Then HS I go to the Exception tab to verify the visits using "Appointment scheduled","<heStartTime>","<StartDate>",""
 
 #NumofVisits from 2 to 1
@@ -364,7 +364,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 #    And HE I successfully sign out
 
 #edit regular weekly hours
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions6"
     Then HS I select the time slot in Regular Weekly Hours to verify the pills is highlighted using "<StartDate>","<EndDate>","<heStartTime>"
     Then HS I edit the slots in Regular Weekly Hours to "2"
 
@@ -380,13 +380,13 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
     And HE I successfully sign out
 
 #Remove the time slot in Regular Weekly Hours Tab
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions6"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
 
     Examples:
-      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|School          |heStartTime|heTime | option |
-      |14  |14  |10:55am  |12:11pm|2        |14       |21     |12:11pm  |Iowa High School|10:55am    |10:55am| 1       |
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|hsEndTime|School                   |heStartTime|heTime | option |
+      |14  |14  |10:55am  |12:11pm|2        |14       |21     |12:11pm  |Newark Senior High School|10:55am    |10:55am| 1       |
 
 
   @MATCH-3701
