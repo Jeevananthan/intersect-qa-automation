@@ -38,4 +38,6 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that the Successfully Submitted! screen is displayed$", connectorPage::verifySubmittedScreen);
 
+        Then("^SM I verify that the Next button is disabled when all competitors are unchecked$", connectorPage::verifyNextButtonDisabled);
+
     }}

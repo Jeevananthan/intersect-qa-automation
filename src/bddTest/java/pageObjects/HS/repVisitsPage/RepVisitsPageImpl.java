@@ -9728,7 +9728,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement exceptionLink() {
-        WebElement link = driver.findElement(By.xpath("//span[contains(text(),'Exceptions')]"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2/span[text()='Exceptions']")));
+        WebElement link = driver.findElement(By.xpath("//h2/span[text()='Exceptions']"));
         return link;
     }
 

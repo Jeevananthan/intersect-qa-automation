@@ -5,6 +5,16 @@ Feature: HUBS - Edit Media
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Overview" tab in the preview
 
+  @HUBS-5176
+  Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Awareness
+  subscription activated, I want to be able to manage my institution's links so I do not have to rely on
+  Intersect Support to do this for me.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS verify contents "COMMUNICATE" into "Links" section
+    Then HUBS verify contents "APPLY ONLINE" into "Links" section
+    Then HUBS verify contents "LEARN MORE" into "Links" section
+
   @HUBS-5739
   Scenario: As an HE user with the Publishing or Administrator role I want to be able to publish my Premium HEM (React)
             updates so my Naviance College Profile can stay up-to-date.
@@ -51,3 +61,5 @@ Feature: HUBS - Edit Media
     And HUBS I click on "INTRO" tab
     Then HUBS I verify "Premium Features" Lock
     Then HUBS I verify the Upgrade Modal
+
+
