@@ -156,6 +156,18 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void removeConnectionsByUserId(String userId){
+        load("https://purple-mongo-qa.hesos.net/db/match/amhsstudentconnections?skip=0&key=userId&value=" + userId + "&type=S&query=&projection=");
+        waitUntilPageFinishLoading();
+        button("Sign In").click();
+        waitUntilPageFinishLoading();
+        load("https://purple-mongo-qa.hesos.net/db/match/amhsstudentconnections?skip=0&key=userId&value=" + userId + "&type=S&query=&projection=");
+        try {getBigDeleteButton().click();
+        button(By.id("deleteListConfirmButton")).click();}
+        catch (Exception e) {}
+        waitUntilPageFinishLoading();
+    }
+
 
 //locators
     private WebElement notification(){
@@ -207,5 +219,9 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
 
     private WebElement getCloseIcon(){
       return getDriver().findElement(By.cssSelector(".remove.circle.icon.close"));
+    }
+
+    private WebElement getBigDeleteButton(){
+        return getDriver().findElement(By.xpath("//button[@data-target=\"#deleteListModal\"]"));
     }
 }
