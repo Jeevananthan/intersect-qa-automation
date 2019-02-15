@@ -208,6 +208,7 @@ Feature: AMNG - AM NextGen Connector
     When HE I navigate to the "advanced-awareness/majors" url
     And HE I set messages for the following majors:
       | African-American/Black Studies              | Message 1 |
+      | American/United States Studies/Civilization | Message 2 |
     And HE I click the advanced awareness save button
 
     #Make the connector verifications
@@ -215,6 +216,7 @@ Feature: AMNG - AM NextGen Connector
     And SM I clear all pills from Must have  and Nice to have boxes
     When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       | African-American/Black Studies              |
+      | American/United States Studies/Civilization |
     When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
     And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
     And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
