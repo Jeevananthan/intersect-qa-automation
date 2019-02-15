@@ -785,5 +785,9 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that the connecting naviance and repvisits page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInConnectingNavianceAndRepvisitsPage);
         And("^HS I verify that the naviance sync settings page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInNavianceSyncSettingsPage);
+
+        Then("^HS I go to the calendar page and verify the visit appointment is displaying with gray color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPendingVisitInCalendar);
+
+        Then("^HS I go to the calendar page and verify the visit appointment is displaying with blue color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyScheduledVisitInCalendar);
     }
 }
