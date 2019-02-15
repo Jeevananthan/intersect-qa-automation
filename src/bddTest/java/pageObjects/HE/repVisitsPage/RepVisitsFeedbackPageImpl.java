@@ -588,6 +588,15 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         }
     }
 
+    /**
+     * Verifies that clicking a school link, we are redirected to counselor community
+     * @param school
+     */
+    public void verifySchoolLinkRedirectsToSchoolProfile(String school){
+        getFeedbackSchoolLinks(school).get(0).click();
+        softly().assertThat(getDriver().findElements(By.cssSelector("iframe[title=Community]")).size()>0);
+    }
+
     private WebElement visitFeedBackLeftPanel() {
         return getDriver().findElement(By.xpath("//nav[@class='ui vertical third _345W6T1ug0RMtbb4Ez3uMz menu']"));
     }
@@ -603,4 +612,12 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
     private WebElement getRatingDetails() { return getDriver().findElement(By.className("rating-details")); }
     private WebElement getUserSummary() { return getDriver().findElement(By.xpath("//div[contains(@class,'user-summary')]")); }
     private WebElement getSingleRating() { return getParent(getDriver().findElement(By.xpath("//span[text()='submitted visit feedback of']")));}
+
+    /**
+     * Gets the shool link for a feedback entry
+     * @return
+     */
+    private List<WebElement> getFeedbackSchoolLinks(String school){
+        return getDriver().findElements(By.xpath(String.format("//a[text()='%s']",school)));
+    }
 }

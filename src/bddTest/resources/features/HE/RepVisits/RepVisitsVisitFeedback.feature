@@ -59,3 +59,11 @@ Feature: HE - RepVisits - RepVisitsVisitFeedback - As an HE admin user, I want t
     Then HE I navigate to the "Visit Feedback" page in RepVisits
     Then HE I select "Rosh Nag_HE01" from the RepVisits Feedback user list
     And HE I verify the format of the user feedback page for user "Rosh Nag_HE01"
+
+  @MATCH-4014
+  Scenario: HE admins that have enabled Visit Feedback and are reviewing visit-specific feedback for a rep, clicking on the institution associated with the visit returns a "The requested page "/institution/undefined" could not be found error in Counselor Community.
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "Visit Feedback" page in RepVisits
+    And HE I select "Rosh Nag_HE01" from the RepVisits Feedback user list
+    Then HE I verify that clicking on  " Ritzville High School" link, school profile is loaded
+
