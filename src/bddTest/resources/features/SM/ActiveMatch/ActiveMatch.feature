@@ -386,13 +386,15 @@ Feature: SM - ActiveMatch Next Gen
     #Make the connector verifications
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to page via URL path "colleges/supermatch-next"
     When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       | African-American/Black Studies              |
       | American/United States Studies/Civilization |
-    When SM I navigate to page via URL path "colleges/match/activematch-next"
+    When SM I navigate to page via URL path "colleges/match/looking-for-you"
     Then SM I verify the card for "The University of Alabama" contains:
       | Babson College    |
-      | Auburn University |
       | African-American/Black Studies              |
       | American/United States Studies/Civilization |
 
