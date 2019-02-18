@@ -42,5 +42,7 @@ public class SubscriptionsPageStepDefs implements En {
 
         Then("^SP I close subscriptions popup$",subscriptionsPage::closeSubscriptionsPopup);
 
+        Then("^SP I click 'ADD NEW SUBSCRIPTION' button$",subscriptionsPage::clickAddNewSubscriptionButton);
+
     }
 }

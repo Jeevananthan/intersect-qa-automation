@@ -181,7 +181,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
      * @param url
      */
     public void verifyPrivacyPolicy(String url) {
-        privacyPolicy().click();
+        jsClick(privacyPolicy());
         waitUntilPageFinishLoading();
         String currentWindow = getDriver().getWindowHandle();
         String privacyPolicy = null;

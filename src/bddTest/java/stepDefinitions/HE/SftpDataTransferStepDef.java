@@ -52,5 +52,6 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I verify that validation message for user name field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForUserNameField);
         And("^HE I verify that validation message for password field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForPasswordField);
         And("^HE I verify that the error message that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifySomethingWentWrongErrorMessage);
+        And("HE I click the \"([^\"]*)\" link$",sftpDataTransferPage::clickConfigurationIssuesLink);
     }
 }

@@ -44,6 +44,12 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         switch (link) {
             case "Links" : verifyLinksContent(contents);
                 break;
+            case "Title Links" : verifyTitleLinksContent(contents);
+                break;
+            case "COMMUNICATE" : verifyDropdownContent(contents);
+                break;
+            case "LEARN MORE" : verifyDropdownContent(contents);
+                break;
         }
     }
 
@@ -149,6 +155,15 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private void verifyLinksContent(String contents) {
         softly().assertThat(getDriver().findElement(By.xpath("//h3[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
+    }
+
+    private void verifyTitleLinksContent(String contents) {
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
+    }
+
+    private void verifyDropdownContent(String contents) {
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Communicate ')]")).click();
+        softly().assertThat(getDriver().findElement(By.xpath("//a[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
     }
 
     private WebElement cancelAndContinueEditingButton() {
