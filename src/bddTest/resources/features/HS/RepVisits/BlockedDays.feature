@@ -38,15 +38,16 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
   Scenario Outline: As a high school community member,
   I want to be able to automatically block off U.S. Holidays
   so that I do not have to manually block each holiday.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
-    Then HS I set a date using "<StartDate>" and "<EndDate>"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Then HS I set a date using "<BlockedDate>" and "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HE I set and verify that "<Holiday>" is blocked on the Blocked Days page
+    Then HS I set Blocked date as "<Reason>" and select the reason as "<BlockedDate>" in the Holiday tab
     And HS I successfully sign out
     Given HE I am logged in to Intersect HE as user type "administrator"
-    Then HE I search for school "Int Qa High School 4" in RepVisits page using "Liberty Township, OH" and verify that "<Date>" is blocked
+    Then HE I search for school "Standalone High School 6" in RepVisits page using "California, PA" and verify that "<Date>" is blocked
     Examples:
-      |Holiday               | Date                | StartDate  | EndDate     |
+      |Holiday          | Date            | BlockedDate  | EndDate     |Reason|
       #Ommited by old dates cannot be setup blocked days calrified by Gayathri
-      |MARTIN_LUTHER_DAY     | January 21 2019     |July 23 2018|July 14 2019 |
+      |MEMORIAL_DAY     | May 28 2019     |May 28 2019|July 14 2019 |Holiday|
 
