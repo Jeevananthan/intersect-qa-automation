@@ -785,5 +785,9 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that the connecting naviance and repvisits page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInConnectingNavianceAndRepvisitsPage);
         And("^HS I verify that the naviance sync settings page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInNavianceSyncSettingsPage);
+
+        Then("^HS I manually add the attendee for created college fair without last name \"([^\"]*)\",\"([^\"]*)\"$",repVisits::manuallyAddAttendee);
+
+        Then("^HS I verify \"([^\"]*)\" text is not displaying in the attendee page$",repVisits::verifyUndefinedTextIsNotDisplayingInAttendeePage);
     }
 }
