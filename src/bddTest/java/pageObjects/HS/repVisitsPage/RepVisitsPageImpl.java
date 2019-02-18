@@ -1060,7 +1060,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement element = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[title='" + holiday + "']")));
         if (!getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).getAttribute("class").contains("checked")) {
-            getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).click();
+            doubleClick(getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")));
             //Click on SAVE BLOCKED HOLIDAYS button
             getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
         }
@@ -1130,8 +1130,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         waitUntilElementExists(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG")));
-        Assert.assertTrue("Was not set Blocked!", getParent(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG"))).findElement(By.tagName("p")).getText().toLowerCase().contains("holiday"));
-
+        Assert.assertTrue("Was not set Blocked!", getDriver().findElement(By.xpath("//span[text()='Blocked']/parent::span/following-sibling::p[text()='holiday']")).isDisplayed());
     }
 
     public void setDate(String inputDate, String startOrEndDate) {
@@ -7703,6 +7702,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setSpecificBlockedDate(String reason, String blockdate) {
+        String Date;
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
@@ -7710,8 +7710,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         chooseDates().click();
         waitUntilPageFinishLoading();
-        String Date = getSpecificDate(blockdate);
-        setDateDoubleClick(Date);
+        if (blockdate.length() > 3) {
+            setDateDoubleClick(blockdate);
+        }else {
+            Date = getSpecificDate(blockdate);
+            setDateDoubleClick(Date);
+        }
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
         selectReason.click();
