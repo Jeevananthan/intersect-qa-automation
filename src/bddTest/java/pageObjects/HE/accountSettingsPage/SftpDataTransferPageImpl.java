@@ -580,6 +580,14 @@ public class SftpDataTransferPageImpl extends PageObjectFacadeImpl {
     }
 
     /**
+     * Clicks the configuration issues link
+     */
+    public void clickConfigurationIssuesLink(String link){
+        configurationIssuesLink(link).click();
+        waitUntil(ExpectedConditions.visibilityOf(sftpDataTransferTitleLink()));
+    }
+
+    /**
      * Goes to the main sftp connection page though the title link
      */
     public void goToSftpConnectionMainPageThroughTitleLink(){
