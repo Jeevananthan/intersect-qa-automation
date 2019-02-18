@@ -4,7 +4,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
 
   @MATCH-5139
   Scenario Outline: As a HS RepVisits user I can be able to add a time slot in Regular Weekly Hours
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS as user type "Availability1"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -25,14 +25,14 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     And HE I verify the visit details are present in the calendar using "<School>","<StartDate>","<StartTime>"
 
 #Verify and remove the appointment from HS calendar
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "Availability1"
     Then HS I verify and select an appointment in calendar page using "<institution>","<StartTime>","<StartDate>","Scheduled"
     Then HS I remove the appointment from the calendar
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
 
     Examples:
-      |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                            |School              |heStartTime|heTime | option|
-      |The University of Alabama|14 |10:25am  |11:25pm |3        |14       |28      |11:25pm  |Yes, accept all incoming requests.|Int Qa High School 4|10:25am    |10:25am|1      |
+      |institution              |Day|StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime|Option                            |School          |heStartTime|heTime | option|
+      |The University of Alabama|14 |10:25am  |11:25pm |3        |14       |28      |11:25pm  |Yes, accept all incoming requests.|Twin Oaks School|10:25am    |10:25am|1      |
 
 
   @MATCH-1779 @MATCH-1735 @NotInQA
@@ -74,7 +74,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
   Scenario Outline: As a high school staff member,
   I want to be able to view the weekly recurring time slots that my school is available for visits
   so that colleges can manage those availabilities.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS as user type "Availability1"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -113,7 +113,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
   Scenario Outline: As a high school staff member ,
   I want to be able to define the weekly recurring appointment times that my school is available
   so that colleges can schedule appointments to visit during those times.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS as user type "Availability1"
     Then HS I set a date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     When HS I add new time slot with "<Day>", "<HourStartTime>", "<HourEndTime>", "<MinuteStartTime>", "<MinuteEndTime>", "<MeridianStartTime>", "<MeridianEndTime>" and "<NumVisits>"
@@ -129,7 +129,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
   @MATCH-1577 @MATCH-2124
   Scenario Outline: As a high school community member, I want to be able to indicate the date ranges for which I am
   available for college visits, so that colleges know when to visit my high school.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS as user type "Availability1"
     Then HS I set the visit availability dates to "<StartDate>" through "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I verify the "<StartDate>" and "<EndDate>" date was set in the calendar
