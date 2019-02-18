@@ -64,7 +64,20 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4946
   Scenario: The Counselor Community upgrade forms that allow HE users can to submit to indicate they are interested in paying for an
-  Intersect subscription they currently don't have need a few changes.
+            Intersect subscription they currently don't have need a few changes.
+  #Pre-conditions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
+    Then SP I set the "Legacy: Community" module to "inactive" in the institution page
+    Then SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    Then SP I set the "Legacy: ActiveMatch Events" module to "inactive" in the institution page
+    Then SP I set the "ActiveMatch Plus" module to "inactive" in the institution page
+    Then SP I set the "Advanced Awareness" module to "inactive" in the institution page
+    Then SP I set the "Connection" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the community page
     Then HE I click upgrade button in community page
@@ -78,7 +91,13 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
 
   @MATCH-4946
   Scenario Outline: The RepVisits upgrade forms that allow HE users can to submit to indicate they are interested in paying for an
-  Intersect subscription they currently don't have need a few changes.
+                    Intersect subscription they currently don't have need a few changes.
+    #Pre-conditions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I Click the Save Changes button
+
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the Fields "<Fields>" in repvisits page
     Then HE I click upgrade button in repVisits
