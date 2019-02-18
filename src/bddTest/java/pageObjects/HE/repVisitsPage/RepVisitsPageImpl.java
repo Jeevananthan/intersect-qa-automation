@@ -1774,7 +1774,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
             findMonth(calendarHeading);
         } else if(startOrEndDate.equals("Go to date")){
-            getDriver().findElement(By.cssSelector("button[class='ui small basic icon right labeled button']"));
+            getDriver().findElement(By.cssSelector("button[class='ui small basic icon right labeled button']")).click();
             findMonth(calendarHeading);
         } else {
             button(By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']")).click();

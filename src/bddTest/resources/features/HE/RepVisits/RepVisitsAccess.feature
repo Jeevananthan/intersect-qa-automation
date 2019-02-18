@@ -397,7 +397,8 @@ Examples:
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"
-    Then SP I select "Int Qa High School 4" from the institution dashboard
+    And HE I search for "Int QA High School 4" in "Institutions"
+    And HE I select "Int QA High School 4" from the results
     Then HE I verify the Check RepVisits Availability button
     Then HE I verify the availability pill is displaying in community availability side bar "14"
     Then HE I verify the availability pill is clickable in community availability side bar
@@ -459,7 +460,8 @@ Examples:
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "administrator"
-    Then SP I select "Int Qa High School 4" from the institution dashboard
+    And HE I search for "Int QA High School 4" in "Institutions"
+    And HE I select "Int QA High School 4" from the results
     Then HE I verify the Check RepVisits Availability button
     Then HE I verify the availability pill is displaying in community availability side bar "14"
     Then HE I verify the availability pill is clickable in community availability side bar
