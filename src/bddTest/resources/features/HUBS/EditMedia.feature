@@ -62,4 +62,17 @@ Feature: HUBS - Edit Media
     Then HUBS I verify "Premium Features" Lock
     Then HUBS I verify the Upgrade Modal
 
+  @HUBS-5758
+  Scenario: As an HE user with either the Publishing or Administrator role, I want to see my existing 'Links & Profiles'
+            premium HEM content in the right area of the React app so I can see what currently exists on my College's
+            Naviance profile.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS verify title "Links & Profiles" into "Title Links" section
+    Then HUBS verify title "Links" into "Title Links" section
+    Then HUBS verify contents "COMMUNICATE" into "Links" section
+    Then HUBS verify contents "APPLY ONLINE" into "Links" section
+    Then HUBS verify contents "LEARN MORE" into "Links" section
+    Then HUBS verify contents "Request Information" in the dropdown "COMMUNICATE"
+    Then HUBS verify contents "lttest.tt" in the dropdown "LEARN MORE"
 
