@@ -25,7 +25,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     And HE I verify the visit details are present in the calendar using "<School>","<StartDate>","<StartTime>"
 
 #Verify and remove the appointment from HS calendar
-    Given HS I am logged in to Intersect HS through Naviance with user type "Availability1"
+    Given HS I am logged in to Intersect HS as user type "Availability1"
     Then HS I verify and select an appointment in calendar page using "<institution>","<StartTime>","<StartDate>","Scheduled"
     Then HS I remove the appointment from the calendar
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
