@@ -1073,6 +1073,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * The below method is to clear all the pills present in Must Have & Nice to Have box.
      */
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
+        clearSuperMatchToast();
         List<WebElement> allPills = getAllPillsCloseIcon();
         for (WebElement singlePill :
                 allPills) {
