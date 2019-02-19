@@ -1060,7 +1060,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement element = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[title='" + holiday + "']")));
         if (!getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).getAttribute("class").contains("checked")) {
-            getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).click();
+            doubleClick(getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")));
             //Click on SAVE BLOCKED HOLIDAYS button
             getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
         }
@@ -1130,8 +1130,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         waitUntilElementExists(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG")));
-        Assert.assertTrue("Was not set Blocked!", getParent(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG"))).findElement(By.tagName("p")).getText().toLowerCase().contains("holiday"));
-
+        Assert.assertTrue("Was not set Blocked!", getDriver().findElement(By.xpath("//span[text()='Blocked']/parent::span/following-sibling::p[text()='holiday']")).isDisplayed());
     }
 
     public void setDate(String inputDate, String startOrEndDate) {
@@ -7707,6 +7706,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setSpecificBlockedDate(String reason, String blockdate) {
+        String Date;
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
@@ -7714,8 +7714,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         chooseDates().click();
         waitUntilPageFinishLoading();
-        String Date = getSpecificDate(blockdate);
-        setDateDoubleClick(Date);
+        if (blockdate.length() > 3) {
+            setDateDoubleClick(blockdate);
+        }else {
+            Date = getSpecificDate(blockdate);
+            setDateDoubleClick(Date);
+        }
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
         selectReason.click();
@@ -10378,7 +10382,29 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(text(text).isDisplayed());
     }
 
+    /**
+     * Manually adding attendee in college fair
+     * @param institution
+     */
+    public void manuallyAddAttendee(String firstName,String institution){
+        getAddAttendeesButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(addAttendeeManually()));
+        getDriver().findElement(addAttendeeManually()).click();
+        waitUntil(ExpectedConditions.visibilityOf(attendeeFirstNameTextBox()));
+        attendeeFirstNameTextBox().sendKeys(firstName);
+        attendeeInstitutionTextBox().sendKeys(institution);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getInstitution(institution)));
+        getDriver().findElement(getInstitution(institution)).click();
+        getDriver().findElement(addAttendeeButtonInCollegeFair()).click();
+    }
 
+    /**
+     * verifying undefined text is not displaying in college fair attendee page
+     * @param firstNameWithUndefinedText
+     */
+    public void verifyUndefinedTextIsNotDisplayingInAttendeePage(String firstNameWithUndefinedText){
+        Assert.assertTrue("Undefined text is displaying",attendeeFirstNameAndLastName(firstNameWithUndefinedText).size()==0);
+    }
 
     /*public void closeSendEmailMessageBox(){
         button("Close").click();
@@ -11641,4 +11667,37 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return By.id("form-naviance-settings");
     }
 
+    /**
+     * return locator for add attendee manually in college fair
+     * @return
+     */
+    private By addAttendeeManually(){
+        return By.cssSelector("a[class='KKyfdym6DkswwZqeWN7Ck']");
+    }
+
+    /**
+     * return locator for institution in college fair
+     * @param institution
+     * @return
+     */
+    private By getInstitution(String institution){
+        return By.xpath("//div[text()='"+institution+"']");
+    }
+
+    /**
+     * return locator for add attendee button
+     * @return
+     */
+    private By addAttendeeButtonInCollegeFair(){
+        return By.cssSelector("button[class='ui primary right floated button']");
+    }
+
+    /**
+     * return locator attendee first name and last name
+     * @param attendeeFirstNameAndLastName
+     * @return
+     */
+    private List<WebElement> attendeeFirstNameAndLastName(String attendeeFirstNameAndLastName){
+        return getDriver().findElements(By.xpath("//div[text()='"+attendeeFirstNameAndLastName+"']"));
+    }
 }
