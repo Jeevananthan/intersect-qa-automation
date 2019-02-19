@@ -6,7 +6,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I verify the College Fair Blank DashBoard Message
-
+    And HS I successfully sign out
 
   @MATCH-1776
   Scenario Outline: As a HS RepVisits user I want to able to create a new fair in the college fair
@@ -20,6 +20,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
     Examples:
       |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
       |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
@@ -133,7 +134,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<StatusCanceled>","<ActionCanceled>"
     Then HS I cancel the fair of name "PreviouslySetFair" with the reason "TestCase Cleanup"
-
+    And HS I successfully sign out
 
     Examples:
       |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                      |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
@@ -244,6 +245,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 #cancel the college Fair
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
     Examples:
       |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School             |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
       |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Cinema School (the)|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
