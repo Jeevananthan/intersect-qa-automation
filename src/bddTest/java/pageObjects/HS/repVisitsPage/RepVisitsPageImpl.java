@@ -4892,9 +4892,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessListoffairAttendees(String buttonToClick, String name) {
         int nameID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead", "Name");
         int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody", nameID, name);
-        nameID = nameID + 1;
-        rowID = rowID + 1;
+        rowID = rowID + 2;
         if (buttonToClick.equals("Cancel")) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']")));
             WebElement cancelbutton = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']"));
             cancelbutton.click();
             waitUntilPageFinishLoading();
@@ -7657,6 +7657,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().navigate().refresh();
         waitUntilElementExists(button("SAVE SETTINGS"));
         clickSaveSettingsButtonInCollegeFairsTab();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui small icon success message toast']")));
         Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
     }
 
@@ -8408,11 +8409,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addSchoolUserManually() {
-        linkToAddSchoolUser().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(linkToAddSchoolUser()));
+        jsClick(getDriver().findElement(linkToAddSchoolUser()));
         waitUntilPageFinishLoading();
     }
 
     public void addDataToAddAttendeeManually(DataTable AttendeeDetails) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(attendeeFirstName()));
         List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
         for (List<String> fieldrow : AttendeeInformation) {
             switch (fieldrow.get(0)) {
@@ -9036,8 +9039,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button:not(.small):not(.basic)"));
     }
 
-    private WebElement linkToAddSchoolUser() {
-        return getDriver().findElement(By.cssSelector("a.KKyfdym6DkswwZqeWN7Ck"));
+    private By linkToAddSchoolUser() {
+        return By.cssSelector("a.KKyfdym6DkswwZqeWN7Ck");
     }
 
     private WebElement attendeeFirstNameTextBox() {
@@ -11699,5 +11702,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private List<WebElement> attendeeFirstNameAndLastName(String attendeeFirstNameAndLastName){
         return getDriver().findElements(By.xpath("//div[text()='"+attendeeFirstNameAndLastName+"']"));
+    }
+
+    private By attendeeFirstName() {
+        return By.cssSelector("input#add-rep-first-name");
     }
 }
