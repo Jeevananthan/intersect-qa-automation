@@ -40,5 +40,7 @@ public class RepVisitsFeedbackPageStepDefs implements En {
         Then("^HE I select \"([^\"]*)\" from the RepVisits Feedback user list$", repVisitsFeedback::selectFeedbackUser);
 
         And("^HE I verify the format of the user feedback page for user \"([^\"]*)\"$", repVisitsFeedback::verifyUserFeedbackPage);
+
+        Then("^HE I verify that clicking on  \"([^\"]*)\" link, school profile is loaded$", repVisitsFeedback::verifySchoolLinkRedirectsToSchoolProfile);
     }
 }

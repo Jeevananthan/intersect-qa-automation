@@ -340,4 +340,16 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   Examples:
   |College Fair Name |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|
   |qa Fairs          |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |
- 
+
+  @MATCH-2438
+  Scenario: As an HS User who entered only a first name and Institution to attend a fair, I want no last name displayed (instead of "undefined")
+            So that my display is not cluttered with info that is not applicable.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the following data to On the College Fair page "qa Fairs", "3", "0800AM", "1000AM", "1", "$25", "25", "100", "Save"
+    Then HS I manually add the attendee for created college fair without last name "PurpleHE","The University of Alabama"
+    Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
+    Then HS I verify "PurpleHE Undefined" text is not displaying in the attendee page
+    #cancel the college Fair
+    Then HS I Click on the View Details button for the College Fair Event "qa Fairs"
+    Then HS I select Edit button to cancel the college Fair "qa Fairs"
+    And HS I successfully sign out

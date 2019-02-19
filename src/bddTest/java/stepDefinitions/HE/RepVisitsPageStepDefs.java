@@ -460,5 +460,17 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify learn more hyper link is not displaying in search and schedule page$",repVisits::verifyLearnMoreHyperLinkIsNotDisplayingInSearchAndSchedulePage);
 
         Then("^HE I navigate to \"([^\"]*)\" page$",repVisits::navigateToRepVisitsSection);
+
+        Then("^HE I verify \"([^\"]*)\" text is displaying in search and schedule tab$",repVisits::verifyYourScheduleTextInSearchAndSchedule);
+
+        Then("^HE I verify the month and dates displayed in the title bar of the your schedule content always matches what is selected for the search bar \"([^\"]*)\"$",repVisits::verifyCurrentVisitDateInSearchAndSchedule);
+
+        Then("^HE I verify the view details hyperlink for each high school visit already scheduled by that user opens a popup \"([^\"]*)\"$",repVisits::verifyHyperLinkInYourSchedulePage);
+
+        Then("^HE I verify the school details are present in the your schedule popup \"([^\"]*)\"$",repVisits::verifySchoolDetailsInYourSchedulePopup);
+
+        Then("^HE I verify the link navigate to the Counselor Community institution profile page \"([^\"]*)\"$",repVisits::verifyLinkNavigationInYourSchedulePopup);
+
+        Then("^HE I verify the popup has an 'X' icon that would close the popup if clicked$",repVisits::verifyCloseIconInYourSchedulePopup);
     }
 }
