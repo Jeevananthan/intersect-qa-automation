@@ -900,6 +900,41 @@ public class GlobalSearch extends SeleniumBase {
         }
     }
 
+    public void verifyHSAdvancedSearchResultsLayout(String searchRequest, DataTable dataTable){
+        waitUntilPageFinishLoading();
+        logger.info("Verifying advanced search results layouts are displayed correctly.");
+        doSearch(searchRequest);
+        waitUntilPageFinishLoading();
+        clickSearchIcon();
+        waitUntilPageFinishLoading();
+        List<String> categoryOptions = dataTable.asList(String.class);
+        for (String categoryTab : categoryOptions) {
+            clickAdvancedSearchTabCategory(categoryTab);
+            waitUntilPageFinishLoading();
+            boolean iconExist;
+            switch (categoryTab) {
+                case "People":
+                    iconExist = getDriver().findElements(By.xpath("//div[@class='ui items']/div[@class='item _3oJrouWMnNDQa2_NMjysit']/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@class='ui items']/div[@class='item _3oJrouWMnNDQa2_NMjysit']/i")).size() != 0;
+                    Assert.assertTrue("Avatar is not displayed in the People tab for real-time search.", iconExist);
+                    Assert.assertTrue("Name is not displayed in the People tab for real-time search.", getDriver().findElement(By.cssSelector("div[class='header _1E-fy-qQ1o0LGCa15nUQe0']")).isDisplayed());
+                    Assert.assertTrue("Institution is not displayed in the People tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3oJrouWMnNDQa2_NMjysit']/div/div[@class='description _3FZFtAql1zqRcNrPTqtzKh']/a")).isDisplayed());
+                    break;
+                case "Institutions":
+                    iconExist = getDriver().findElements(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/img")).size() != 0 || getDriver().findElements(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/i")).size() != 0;
+                    Assert.assertTrue("Avatar/icon is not displayed in the Institutions tab for real-time search.", iconExist);
+                    Assert.assertTrue("Name is not displayed in the Institutions tab for real-time search.", getDriver().findElement(By.cssSelector("div[class='header _1t0UcauZeLfM9p_w6ruYnP']")).isDisplayed());
+                    Assert.assertTrue("Description is not displayed in the Institutions tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _1mnhs5BYlolZXplMGBZCvC']/div/div[@class='description _1ivc8V9w17QnsCFYF71bKh']")).isDisplayed());
+                    break;
+                case "Groups":
+                    Assert.assertTrue("Group name is not displayed in the Groups tab for real-time search.", getDriver().findElement(By.cssSelector("div[class='header _1TUGVQiwKij6ggWIsdT60']")).isDisplayed());
+                    Assert.assertTrue("Description is not displayed in the Groups tab for real-time search.", getDriver().findElement(By.xpath("//div[@class='ui items']/div[@class='item _3504j--xOPKDqROw_Eyuxk']/div/div[@class='description _1EgLJDbPRwye6oql2m3Mk1']")).isDisplayed());
+                    break;
+                default:
+                    Assert.fail(categoryTab + " is not a valid search tab.  Valid categories: People, Institutions, or Groups");
+            }
+        }
+    }
+
     //Getters
     private WebElement openSearchOptionsDropdowns(){
         return getDriver().findElement(By.xpath("//div[@class='title _20a5whP7pey-rtsEpBX62I']"));
