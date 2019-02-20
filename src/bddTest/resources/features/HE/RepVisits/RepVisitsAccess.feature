@@ -402,6 +402,8 @@ Examples:
     Then HE I verify the Check RepVisits Availability button
     Then HE I verify the availability pill is displaying in community availability side bar "14"
     Then HE I verify the availability pill is clickable in community availability side bar
+    Then HE I verify that i can close the schedule popup in community availability side bar by clicking "CANCEL" button if i do not want to submit request
+    Then HE I close community availability side bar
     And HE I search for "Int Qa High School 4" in RepVisits page
     Then HE I verify the Availability slot "10:22am" is displaying in the visit toggle "14","Int Qa High School 4" in search and schedule Tab
     Then HE I verify the pill is clickable in search and schedule page
@@ -465,6 +467,8 @@ Examples:
     Then HE I verify the Check RepVisits Availability button
     Then HE I verify the availability pill is displaying in community availability side bar "14"
     Then HE I verify the availability pill is clickable in community availability side bar
+    Then HE I verify that i can close the schedule popup in community availability side bar by clicking "CANCEL" button if i do not want to submit request
+    Then HE I close community availability side bar
     And HE I search for "Int Qa High School 4" in RepVisits page
     Then HE I verify the Availability slot "10:22am" is displaying in the visit toggle "14","Int Qa High School 4" in search and schedule Tab
     Then HE I verify the pill is clickable in search and schedule page
@@ -502,14 +506,12 @@ Examples:
     Then HE I am logged in to Intersect HE as user type "administrator"
     Then HE I go to the calendar page and verify the visit appointment is displaying with blue color "Int Qa High School 4","14","Scheduled"
 #verify school in travel plan list
+    Then HE I navigate to "Travel Plan"
     Then HE I verify "Int Qa High School 4" is displayed in the Travel Plan list
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to the calendar page and verify the visit appointment is displaying with blue color "The University of Alabama","14","Scheduled"
-#Cancel visit
-    Then HS I verify and select an appointment in calendar page using "The University of Alabama","10:22am","14","Scheduled"
-    Then HS I remove the appointment from the calendar
-    And HS I verify the cancel in Naviance with "PurpleHE Automation","The University of Alabama","10:22 AM"
+
 #Clean environment
     Then HS I remove the Time Slot created with "14","10:22am" in Regular Weekly Hours Tab
     And HS I successfully sign out

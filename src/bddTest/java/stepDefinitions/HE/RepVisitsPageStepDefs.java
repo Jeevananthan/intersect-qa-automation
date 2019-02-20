@@ -505,5 +505,10 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I go to the calendar page and verify the visit appointment is displaying with blue color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyScheduledVisitInCalendar);
 
+        Then("^HE I verify that i can close the schedule popup in community availability side bar by clicking \"([^\"]*)\" button if i do not want to submit request$",repVisits::clickCancelButtonInCommunityAvailabilityPopup);
+
+        Then("^HE I close community availability side bar$",repVisits::closeCommunityAvailability);
+
+        Then("^HE I navigate to \"([^\"]*)\"$",repVisits::navigateToRepVisitsSection);
     }
 }

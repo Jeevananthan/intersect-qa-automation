@@ -3857,7 +3857,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyHSNameInVisitSchedulePopup(String school){
-        Assert.assertTrue("School name is not displayed",schoolInSchedulePopup(school).isDisplayed());
+        Assert.assertTrue("School name is not displayed",schoolInSchedulePopup(school).size()==1);
     }
 
     public void verifySubmitButtonInVisitSchedulePopup(String submit){
@@ -4053,6 +4053,16 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.fail("Appointment is not displayed");
         }
+    }
+
+    public void clickCancelButtonInCommunityAvailabilityPopup(String cancelButon){
+        Assert.assertTrue("Cancel button is not displayed",requestButton(cancelButon).isDisplayed());
+        requestButton(cancelButon).click();
+    }
+
+    public void closeCommunityAvailability(){
+        availabilityCloseButton().click();
+        waitUntilPageFinishLoading();
     }
 
     private void openLoginPage(String url) {
@@ -5116,8 +5126,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("div[class='dJgg9PNwgMdtXUrtb_czW content']>div>b:nth-of-type(1)"));
     }
 
-    private WebElement schoolInSchedulePopup(String school){
-        return getDriver().findElement(By.xpath("//div[contains(text(),'"+school+"')]"));
+    private List<WebElement> schoolInSchedulePopup(String school){
+        return getDriver().findElements(By.xpath("//div[@class='ui modal transition visible active _147-j4YP4EpdIh1rkNHy-W']//div[contains(text(),'"+school+"')]"));
     }
 
     private WebElement requestButton(String submitButton){
@@ -5147,6 +5157,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement pendingCheckBoxInCalendarPage() {
         WebElement check=getDriver().findElement(By.xpath("//div/label[text()='Pending']"));
         return check;
+    }
+
+    private WebElement availabilityCloseButton(){
+        return getDriver().findElement(By.cssSelector("i[class='close large circular fitted link icon']"));
     }
 }
 
