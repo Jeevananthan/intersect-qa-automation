@@ -1060,7 +1060,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         WebElement element = wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[title='" + holiday + "']")));
         if (!getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).getAttribute("class").contains("checked")) {
-            getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")).click();
+            doubleClick(getDriver().findElement(By.cssSelector("div[title='" + holiday + "']")));
             //Click on SAVE BLOCKED HOLIDAYS button
             getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
         }
@@ -1130,8 +1130,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitForUITransition();
         waitUntilElementExists(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG")));
-        Assert.assertTrue("Was not set Blocked!", getParent(getDriver().findElement(By.className("JIilVAK-W5DJoBrTmFeUG"))).findElement(By.tagName("p")).getText().toLowerCase().contains("holiday"));
-
+        Assert.assertTrue("Was not set Blocked!", getDriver().findElement(By.xpath("//span[text()='Blocked']/parent::span/following-sibling::p[text()='holiday']")).isDisplayed());
     }
 
     public void setDate(String inputDate, String startOrEndDate) {
@@ -4893,9 +4892,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessListoffairAttendees(String buttonToClick, String name) {
         int nameID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead", "Name");
         int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody", nameID, name);
-        nameID = nameID + 1;
-        rowID = rowID + 1;
+        rowID = rowID + 2;
         if (buttonToClick.equals("Cancel")) {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']")));
             WebElement cancelbutton = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']"));
             cancelbutton.click();
             waitUntilPageFinishLoading();
@@ -7658,6 +7657,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getDriver().navigate().refresh();
         waitUntilElementExists(button("SAVE SETTINGS"));
         clickSaveSettingsButtonInCollegeFairsTab();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ui small icon success message toast']")));
         Assert.assertTrue("Saved was not successfully", getDriver().findElement(By.cssSelector("div[class='ui small icon success message toast']")).getText().contains("You've updated College Fair settings"));
     }
 
@@ -7707,6 +7707,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void setSpecificBlockedDate(String reason, String blockdate) {
+        String Date;
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         availabilityAndSettings().click();
@@ -7714,8 +7715,12 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         chooseDates().click();
         waitUntilPageFinishLoading();
-        String Date = getSpecificDate(blockdate);
-        setDateDoubleClick(Date);
+        if (blockdate.length() > 3) {
+            setDateDoubleClick(blockdate);
+        }else {
+            Date = getSpecificDate(blockdate);
+            setDateDoubleClick(Date);
+        }
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
         selectReason.click();
@@ -8404,11 +8409,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addSchoolUserManually() {
-        linkToAddSchoolUser().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(linkToAddSchoolUser()));
+        jsClick(getDriver().findElement(linkToAddSchoolUser()));
         waitUntilPageFinishLoading();
     }
 
     public void addDataToAddAttendeeManually(DataTable AttendeeDetails) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(attendeeFirstName()));
         List<List<String>> AttendeeInformation = AttendeeDetails.asLists(String.class);
         for (List<String> fieldrow : AttendeeInformation) {
             switch (fieldrow.get(0)) {
@@ -9032,8 +9039,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("button.ui.primary.right.floated.button:not(.small):not(.basic)"));
     }
 
-    private WebElement linkToAddSchoolUser() {
-        return getDriver().findElement(By.cssSelector("a.KKyfdym6DkswwZqeWN7Ck"));
+    private By linkToAddSchoolUser() {
+        return By.cssSelector("a.KKyfdym6DkswwZqeWN7Ck");
     }
 
     private WebElement attendeeFirstNameTextBox() {
@@ -10378,7 +10385,23 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(text(text).isDisplayed());
     }
 
-    public void verifyPendingVisitInCalendar(String university, String date, String option){
+    /**
+     * Manually adding attendee in college fair
+     * @param institution
+     */
+    public void manuallyAddAttendee(String firstName,String institution){
+        getAddAttendeesButton().click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(addAttendeeManually()));
+        getDriver().findElement(addAttendeeManually()).click();
+        waitUntil(ExpectedConditions.visibilityOf(attendeeFirstNameTextBox()));
+        attendeeFirstNameTextBox().sendKeys(firstName);
+        attendeeInstitutionTextBox().sendKeys(institution);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(getInstitution(institution)));
+        getDriver().findElement(getInstitution(institution)).click();
+        getDriver().findElement(addAttendeeButtonInCollegeFair()).click();
+    }
+  
+   public void verifyPendingVisitInCalendar(String university, String date, String option){
         String startTime = "";
         if (option.equals("Scheduled")) {
             startTime = getVisitStartTimeInCalendar();
@@ -10480,6 +10503,13 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    /**
+     * verifying undefined text is not displaying in college fair attendee page
+     * @param firstNameWithUndefinedText
+     */
+    public void verifyUndefinedTextIsNotDisplayingInAttendeePage(String firstNameWithUndefinedText){
+        Assert.assertTrue("Undefined text is displaying",attendeeFirstNameAndLastName(firstNameWithUndefinedText).size()==0);
+    }
 
     /*public void closeSendEmailMessageBox(){
         button("Close").click();
@@ -11742,4 +11772,41 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return By.id("form-naviance-settings");
     }
 
+    /**
+     * return locator for add attendee manually in college fair
+     * @return
+     */
+    private By addAttendeeManually(){
+        return By.cssSelector("a[class='KKyfdym6DkswwZqeWN7Ck']");
+    }
+
+    /**
+     * return locator for institution in college fair
+     * @param institution
+     * @return
+     */
+    private By getInstitution(String institution){
+        return By.xpath("//div[text()='"+institution+"']");
+    }
+
+    /**
+     * return locator for add attendee button
+     * @return
+     */
+    private By addAttendeeButtonInCollegeFair(){
+        return By.cssSelector("button[class='ui primary right floated button']");
+    }
+
+    /**
+     * return locator attendee first name and last name
+     * @param attendeeFirstNameAndLastName
+     * @return
+     */
+    private List<WebElement> attendeeFirstNameAndLastName(String attendeeFirstNameAndLastName){
+        return getDriver().findElements(By.xpath("//div[text()='"+attendeeFirstNameAndLastName+"']"));
+    }
+
+    private By attendeeFirstName() {
+        return By.cssSelector("input#add-rep-first-name");
+    }
 }
