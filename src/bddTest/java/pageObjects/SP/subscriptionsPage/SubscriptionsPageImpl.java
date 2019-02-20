@@ -233,8 +233,8 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
         for (WebElement removeButton : buttonList){
             waitUntilPageFinishLoading();
-            removeButton.click();
-            waitUntilPageFinishLoading();
+            jsClick(removeButton);
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/button[text()='Delete']")));
             deleteButton().click();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         }
@@ -297,6 +297,25 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         moveToElement(getCheckBoxLabelByText("Connection"));
         Assert.assertFalse("CheckBox 'Connection' is checked", getCheckBoxLabelByText("Connection").isSelected());
     }
+
+    /**
+     * close subscriptions popup in subscriptions page
+     */
+    public void closeSubscriptionsPopup(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(subscriptionsPopupCloseButton()));
+        moveToElement(getDriver().findElement(subscriptionsPopupCloseButton()));
+        getDriver().findElement(subscriptionsPopupCloseButton()).click();
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * clicking add new subscription button in subscription page
+     */
+    public void clickAddNewSubscriptionButton(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(andNewSubscriptionButton()));
+        moveToElement(getDriver().findElement(andNewSubscriptionButton()));
+        jsClick(getDriver().findElement(andNewSubscriptionButton()));
+    }
     //Locators
 
     private String subscriptionTypeRadioButtonLocator(String subscriptionType) { return "//label[text() = '" + subscriptionType + "']"; }
@@ -350,7 +369,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     private String removeButtonListLocator = "button.ui:not(.icon)";
 
     private WebElement deleteButton() {
-        return driver.findElement(By.cssSelector("button[class *= 'ui teal basic button']"));
+        return driver.findElement(By.xpath("//div/button[text()='Delete']"));
 
     }
 
@@ -383,6 +402,22 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     public void moveToElement(WebElement element) {
         Actions builder = new Actions(driver);
         builder.moveToElement(element).build().perform();
+    }
+
+    /**
+     * Return subscriptions popup close button
+     * @return
+     */
+    private By subscriptionsPopupCloseButton(){
+        return By.cssSelector("div[id='subscription-modal']>i");
+    }
+
+    /**
+     * return locator for subscription button
+     * @return
+     */
+    private By andNewSubscriptionButton(){
+        return By.xpath("//a[text()='Add New Subscription']");
     }
 }
 

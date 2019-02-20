@@ -258,7 +258,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|Option                                              |School                  |heStartTime|heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
       |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |5555555      |School Manager|school_user_61024USPU@localhost.naviance.com|1     |
       
-  @MATCH-4147
+  @MATCH-4147 @MATCH-4700
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user,
                     I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
                     so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
@@ -280,12 +280,14 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 #verify staff member dropdown
     Then HE I verify the current user "Automation, PurpleHE" is displaying in Select staff member dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in Select staff member dropdown list
+    Then HE I verify the in active user "AutomationWithoutCCProfile, PurpleHE" is displaying with 'Profile Incomplete' notation in Select staff member dropdown list
     Then HE I click Go Back button
     Then HE I verify the users are listed in A-Z order in 'select staff member' dropdown
 #verify new assignee dropdown
     Then HE I select the user "Publishing, PurpleHE" in select staff member dropdown
     Then HE I verify the current user "Automation, PurpleHE" is displaying in Select new assignee dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in new assignee dropdown list
+    Then HE I verify the in active user "AutomationWithoutCCProfile, PurpleHE" is displaying with 'Profile Incomplete' notation in new assignee dropdown list
     Then HE I verify the in active user "InActive, PurpleHE" is not selectable in Select new assignee dropdown
     Then HE I click Go Back button
     Then HE I verify the users are listed in A-Z order in 'Select new assignee' dropdown using "HE, Purple"
@@ -324,3 +326,8 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
       |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |institution              |user                                   |
       |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |The University of Alabama|purpleheautomation+heInActive@gmail.com|
 
+  @MATCH-4911
+  Scenario: As an RepVisits HE user I should not be able to select the same name in Re-assign appointments
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I select the user "Publishing, PurpleHE" in select staff member dropdown
+    Then HE I verify that the user: "Publishing, PurpleHE" is not displayed in select new assignee dropdown

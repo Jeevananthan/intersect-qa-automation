@@ -227,11 +227,15 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
 
     public void verifyErrorMessageWithInvalidData(DataTable stringsDataTable) {
         List<List<String>> fieldsDetails = stringsDataTable.cells(0);
+        String value="";
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Test Scores" :
-                    getEditButton(fieldElement.get(0)).click();
-                    getTestScoresInnerSection(fieldElement.get(1)).click();
+                    //getEditButton(fieldElement.get(0)).click(); //added js clicks
+                    //getTestScoresInnerSection(fieldElement.get(1)).click(); //added js clicks
+                    jsClick(getEditButton(fieldElement.get(0)));
+                    value=" "+fieldElement.get(1)+" ";
+                    jsClick(getTestScoresInnerSection(value));
                     innerEditSection(fieldElement.get(2)).clear();
                     innerEditSection(fieldElement.get(2)).sendKeys(fieldElement.get(3));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
@@ -242,7 +246,7 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
 
     //Locators
     private WebElement getEditButton(String label) {
-        return getDriver().findElement(By.xpath("//h3[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//h3[text()='"+label +"']"));
     }
     private WebElement innerEditSection(String section) {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
@@ -284,17 +288,17 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         }
         return getDriver().findElement(By.xpath("//div[@class='entity-collection']/div/div[" + position + "]/div[2]/select-field/div/select"));
     }
-    private WebElement getTestScoresInnerSection(String section) {
+    private WebElement  getTestScoresInnerSection(String section) {
         return getDriver().findElement(By.xpath("//strong[text()='" + section + "']"));
     }
     private WebElement getQualificationsDropDown(String section) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + section + "']/../../div[2]/select-field/div/select"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + section + "')]/../../div[2]/select-field/div/select"));
     }
     private WebElement getQualificationsInnerSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement innerCheckBox(String label) {
-        return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input"));
+        return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private String getFollowingDropDownValue(String option) {
         String result = "";

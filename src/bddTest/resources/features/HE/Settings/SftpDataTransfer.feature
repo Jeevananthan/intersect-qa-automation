@@ -251,4 +251,19 @@ Feature: HE - Settings - SFTP Data Transfer - As an HE admin user, I should be a
       Then SP I verify that it is displayed an entry with action "PurpleHE Automation Saved AMExportConfig" and the following keys
         |"institutionId":|"connectionTestSuccess":|"serverFingerprintMismatch":|"serverFingerprintEnabled":|
 
+     @MATCH-4949
+     Scenario: As an HE admin associated with an HE account that has an active AMPLUS subscription, I want the ability to see what configuration issues I may have
+     so that I can troubleshoot as best as possible.
+       Given HE I am logged in to Intersect HE as user type "administrator"
+       And HE I setup a SFTP connection with the following data
+         |host          |port|path    |userName|password |transferFrequency  |checkFingerPrintToVerifyServer|
+         |209.97.159.111|15  |/uploads|sftpme  |wrongPass|mon,tue,wed,thu,fri|no                            |
+       When HE I go to the Main Sftp Connection page
+       Then HE I verify " Configuration Issues " link still appears on the SFTP main page
+       And HE I click the " Configuration Issues " link
+       And HE I verify the title of the page is "SFTP Data Transfer"
+       And HE I verify the text "Edit Connection" is displayed
+       And HE I verify that the message that says "Connection test failed" is displayed when saving fails
+
+
 

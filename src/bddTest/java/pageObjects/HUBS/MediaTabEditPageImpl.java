@@ -1,15 +1,11 @@
 package pageObjects.HUBS;
 
-import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
-import org.assertj.core.api.StringAssert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -23,11 +19,36 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
     }
 
 
-    public void clickOnMediaTab(String tabName) {
+    public void clickOnHEMTab(String tabName) {
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(), '" + tabName + "')]")));
         switch (tabName) {
             case "MEDIA" : mediaTab().click();
+                break;
+            case "INTRO" : introTab().click();
+                break;
+            case "LINKS & PROFILES" : linksAndProfilesTab().click();
+                break;
+        }
+    }
+
+    public void clickOnLink(String link) {
+        waitUntilPageFinishLoading();
+        switch (link) {
+            case "Links" : clickOnLinks().click();
+                break;
+        }
+    }
+
+    public void verifyContents(String contents, String link) {
+        waitUntilPageFinishLoading();
+        switch (link) {
+            case "Links" : verifyLinksContent(contents);
+                break;
+            case "Title Links" : verifyTitleLinksContent(contents);
+                break;
+            case "COMMUNICATE" : verifyDropdownContent(contents);
+                break;
+            case "LEARN MORE" : verifyDropdownContent(contents);
                 break;
         }
     }
@@ -68,6 +89,30 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyContentsMediaTab(String title, String addUpText) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + title + "')]")).getText()).as("Elements verifications").isEqualTo(title);
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + addUpText + "')]")).getText()).as("Elements verifications").isEqualTo(addUpText);
+    }
+
+    public void verifyContentsIntroTab(String content) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + content + "')]")).getText()).as("Elements verifications").isEqualTo(content);
+    }
+
+    public void verifyPremiumFeatureLock(String premiumText) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + premiumText + "')]")).getText()).as("Elements verifications").isEqualTo(premiumText);
+    }
+
+    public void verifyArrowsAndSlotsInPhotosAndVideos() {
+        waitUntilPageFinishLoading();
+        softly().assertThat(rightArrow().isDisplayed());
+        rightArrow().click();
+        softly().assertThat(leftArrow().isDisplayed());
+        softly().assertThat(photosAndVideoPanel().size() == 16);
+    }
+
     public void clickOnEditButton() {
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title='Hubs View']")));
         editButton().click();
@@ -75,7 +120,7 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     public void verifyFunctionalityForPublishingModalConfirmation() {
         cancelAndContinueEditingButton().click();
-        softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish mu media changes button verifications").contains("Publish my media changes");
+        softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish my media changes button verifications").contains("Publish my media changes");
         publishMyMediaChangesButton().click();
         submitChangesButton().click();
         softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), 'updated your college profile')]")).getText()).as("New modal verifications").contains("updated your college profile");
@@ -84,11 +129,41 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(publishMyMediaChangesButton().getText()).as("Publish mu media changes button verifications").contains("Publish my media changes");
     }
 
+    public void verifyUpgradeModal() {
+        premiumFeaturesButton().click();
+        softly().assertThat(getDriver().findElement(By.xpath("//*[@id='upgrade-form']/div[1][contains(text(), 'Interested in learning more about Intersect?')]")).getText()).as("New modal verifications").contains("Interested in learning more about Intersect?");
+}
+
 
 
     //Locators
     private WebElement mediaTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'MEDIA')]"));
+    }
+
+    private WebElement introTab() {
+        return getDriver().findElement(By.xpath("//a[contains(text(), 'INTRO')]"));
+    }
+
+    private WebElement linksAndProfilesTab() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'LINKS & PROFILES')]"));
+    }
+
+    private WebElement clickOnLinks() {
+        return getDriver().findElement(By.cssSelector("li[id='links-accordion-title"));
+    }
+
+    private void verifyLinksContent(String contents) {
+        softly().assertThat(getDriver().findElement(By.xpath("//h3[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
+    }
+
+    private void verifyTitleLinksContent(String contents) {
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
+    }
+
+    private void verifyDropdownContent(String contents) {
+        getDriver().findElement(By.xpath("//span[contains(text(), 'Communicate ')]")).click();
+        softly().assertThat(getDriver().findElement(By.xpath("//a[contains(text(), '" + contents +"')]")).getText()).as("Verify Contents").contains(contents);
     }
 
     private WebElement cancelAndContinueEditingButton() {
@@ -109,5 +184,22 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private WebElement editButton() {
         return getDriver().findElement(By.cssSelector("a[ng-click='vm.enableEditMode()"));
+    }
+
+    private WebElement rightArrow() {
+        return getDriver().findElement(By.cssSelector("i[class='arrow right icon"));
+    }
+
+    private WebElement leftArrow() {
+        return getDriver().findElement(By.cssSelector("i[class='arrow left icon"));
+    }
+
+    private List<WebElement> photosAndVideoPanel() {
+        return getDriver().findElements(By.xpath("//*[@class='_4MiKKhtvn8oXpH1abXjg0']/div"));
+    }
+
+
+    private WebElement premiumFeaturesButton() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Premium Features')]"));
     }
 }

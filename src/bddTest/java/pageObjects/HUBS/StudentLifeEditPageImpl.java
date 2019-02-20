@@ -358,7 +358,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Computing Resources" :
-                    computingResourcesButton().click();
+                    //computingResourcesButton().click(); //added js click
+                    jsClick(computingResourcesButton());
                     innerEditSection(fieldElement.get(1)).clear();
                     innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
@@ -411,10 +412,10 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
     }
     private WebElement innerCheckBox(String label) {
-        return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input"));
+        return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private WebElement athleticsInnerEditSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement getAthleticsDropDown(String section, String dropDownLabel) {
         WebElement dropDown = null;

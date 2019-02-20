@@ -1083,6 +1083,83 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    /**
+     * verifying your schedule text in search and schedule page
+     * @param yourScheduleText
+     */
+    public void verifyYourScheduleTextInSearchAndSchedule(String yourScheduleText){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(yourSchedule()));
+        String actualValue = getDriver().findElement(yourSchedule()).getText();
+        softly().assertThat(actualValue).as("Your schedule Text in search and schedule page").isEqualTo(yourScheduleText);
+    }
+
+    /**
+     * verifying date in search and schedule page
+     * @param startDate
+     */
+    public void verifyCurrentVisitDateInSearchAndSchedule(String startDate){
+        String gotoDate;
+        int date = Integer.parseInt(startDate);
+        gotoDate = getSpecificDate(date,"MMMM d yyyy");
+        setDate(gotoDate, "Go To Date");
+        String startdate = getStartDate().getText();
+        String enddate = getEndDate().getText();
+        String actualValue = startdate+"-"+enddate;
+        String yourScheduleStartDate = getStartDateFromYourSchedule().getText();
+        String yourScheduleEndDate = getEndDateFromYourSchedule().getText();
+        String expectedValue = yourScheduleStartDate+"-"+yourScheduleEndDate;
+        softly().assertThat(actualValue).as("Date is not equal in Your schedule page").isEqualTo(expectedValue);
+    }
+
+    /**
+     * verifying hyperlink in yourSchedule page
+     * @param school
+     */
+    public void verifyHyperLinkInYourSchedulePage(String school){
+        String visitTime = StartTime;
+        String actualValue = getSchoolFromYourSchedule(visitTime).getText();
+        softly().assertThat(actualValue).as("School is not displayed with visit time").isEqualTo(school);
+        Assert.assertTrue("Visit details Hyper link is not displayed in your schedule page",selectHyperLinkInYourSchedule(school,visitTime).isDisplayed());
+        selectHyperLinkInYourSchedule(school,visitTime).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(schoolInYourSchedule(school)));
+    }
+
+    /**
+     * verifying school details in your schedule popup
+     * @param school
+     * @param dataTable
+     */
+    public void verifySchoolDetailsInYourSchedulePopup(String school,DataTable dataTable){
+        Assert.assertTrue("Email icon is not displaying in your schedule page",emailIconInYourSchedulePage().isDisplayed());
+        List<String> values = dataTable.asList(String.class);
+        for(String schoolDetails:values){
+            Assert.assertTrue(schoolDetails+" are not displayed",schoolDetailsInYourSchedulePopup(schoolDetails).isDisplayed());
+        }
+    }
+
+    /**
+     * verify Link navigation in your schedule page
+     * @param school
+     */
+    public void verifyLinkNavigationInYourSchedulePopup(String school){
+        schoolHyperLink(school).click();
+        communityFrame();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(repvisitsAvailability()));
+        Assert.assertTrue("School hyper link is not navigated to counselor community profile",getDriver().findElement(repvisitsAvailability()).isDisplayed());
+        getDriver().switchTo().defaultContent();
+    }
+
+    /**
+     * verifying close icon in your schedule popup
+     */
+    public void verifyCloseIconInYourSchedulePopup(){
+        moveToElement(closeIconInYourSchedulePopup());
+        Assert.assertTrue("close icon is not displayed",closeIconInYourSchedulePopup().isDisplayed());
+        closeIconInYourSchedulePopup().click();
+        waitUntil(ExpectedConditions.visibilityOf(search()));
+        Assert.assertTrue("Close icon is not clicked",search().isDisplayed());
+    }
+
     public void verifyUserDropdownforHE(){
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
@@ -4669,6 +4746,117 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.cssSelector("button[class='ui button _2rXWwF_Uy39x5eO1MMJqOu']>span>span"));
     }
 
+    /**
+     * return your schedule text locator
+     * @return
+     */
+    private By yourSchedule(){return By.cssSelector("h2[class='ui header _10d-iKN-H5vknCTxDrfCk8']>span");}
+
+    /**
+     * return locator to get start date value
+     * @return
+     */
+    private WebElement getStartDate(){
+        return getDriver().findElement(By.xpath("//span[text()='Showing Week:']/parent::span/following-sibling::span/span/span[1]"));
+    }
+
+    /**
+     * return locator to get end date value
+     * @return
+     */
+    private WebElement getEndDate(){
+        return getDriver().findElement(By.xpath("//span[text()='Showing Week:']/parent::span/following-sibling::span/span/span[2]"));
+    }
+
+    /**
+     * return locator to get start date value from your schedule
+     * @return
+     */
+    private WebElement getStartDateFromYourSchedule(){
+        return getDriver().findElement(By.xpath("//span[text()='Your Schedule']/parent::h2/following-sibling::p/span/span[1]"));
+    }
+
+    /**
+     * return locator to get end date value from your schedule
+     * @return
+     */
+    private WebElement getEndDateFromYourSchedule(){
+        return getDriver().findElement(By.xpath("//span[text()='Your Schedule']/parent::h2/following-sibling::p/span/span[2]"));
+    }
+
+    /**
+     * return school name from your schedule page
+     * @param startTime
+     * @return
+     */
+    private WebElement getSchoolFromYourSchedule(String startTime){
+        return getDriver().findElement(By.xpath("//span[text()='"+startTime+"']/following-sibling::h3/a"));
+    }
+
+    /**
+     * return hyperlink of the school visit
+     * @param school
+     * @param startTime
+     * @return
+     */
+    private WebElement selectHyperLinkInYourSchedule(String school,String startTime){
+        return getDriver().findElement(By.xpath("//span[text()='"+startTime+"']/following-sibling::h3/a[text()='"+school+"']"));
+    }
+
+    /**
+     * return locator for school from your schedule popup
+     * @param school
+     * @return
+     */
+    private By schoolInYourSchedule(String school){
+        return By.xpath("//h2[text()='"+school+"']");
+    }
+
+    /**
+     * return locator for email icon from your schedule popup
+     * @return
+     */
+    private WebElement emailIconInYourSchedulePage(){
+        return getDriver().findElement(By.cssSelector("i[class='mail outline icon']"));
+    }
+
+    /**
+     * return locator for school details from your schedule popup
+     * @return
+     */
+    private WebElement schoolDetailsInYourSchedulePopup(String schoolDetails){
+        return getDriver().findElement(By.xpath("//div[normalize-space(text())='"+schoolDetails+"']"));
+    }
+
+    /**
+     * return locator for school hyperlink
+     * @param school
+     * @return
+     */
+    private WebElement schoolHyperLink(String school){
+        return getDriver().findElement(By.xpath("//a[text()='"+school+"']/span"));
+    }
+
+    /**
+     * return locator for repvisits availability
+     * @return
+     */
+    private By repvisitsAvailability(){
+        return By.cssSelector("a[class='check-repvisits-link']");
+    }
+
+    /**
+     * return close icon locator in your schedule popup
+     * @return
+     */
+    private WebElement closeIconInYourSchedulePopup(){
+        return getDriver().findElement(By.cssSelector("div[class='ui modal transition visible active _2Y9RSczSrF9nmSWpzkmx21']>i[class='close icon']"));
+    }
+
+    public void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
 }
 
 

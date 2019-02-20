@@ -277,8 +277,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         getDriver().navigate().refresh();
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
-        waitUntilElementExists(communityWelcomeForm());
-        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomeForm()));
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", getDriver().findElement(communityWelcomeForm()).isDisplayed());
         driver.switchTo().defaultContent();
     }
 
@@ -387,7 +387,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement repVisitsMenuLink(){
         return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
     }
-    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    private By communityWelcomeForm(){ return By.id("user-profile-form"); }
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }

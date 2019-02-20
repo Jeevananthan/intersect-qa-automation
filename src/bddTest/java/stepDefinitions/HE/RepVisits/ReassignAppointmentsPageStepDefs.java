@@ -85,12 +85,18 @@ public class ReassignAppointmentsPageStepDefs implements En {
 
         Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Inactive User' notation in Select staff member dropdown list$",reassignAppointmentsPage::verifyInActiveUserIsDisplayingInSelectStaffMember);
 
+        Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Profile Incomplete' notation in Select staff member dropdown list$",reassignAppointmentsPage::verifyProfileIncompleteUserIsDisplayingInSelectStaffMember);
+
         Then("^HE I verify the current user \"([^\"]*)\" is displaying in Select new assignee dropdown list$",reassignAppointmentsPage::verifyCurrentUserIsDisplayingInSelectNewAssignee);
 
         Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Inactive User' notation in new assignee dropdown list$",reassignAppointmentsPage::verifyInActiveUserIsDisplayingInSelectNewAssignee);
 
+        Then("^HE I verify the in active user \"([^\"]*)\" is displaying with 'Profile Incomplete' notation in new assignee dropdown list$",reassignAppointmentsPage::verifyProfileIncompleteUserIsDisplayingInSelectNewAssignee);
+
         Then("^HE I verify the in active user \"([^\"]*)\" is not selectable in Select new assignee dropdown$",reassignAppointmentsPage::verifyInActiveUserIsNotSelectable);
    
         Then("^HE I verify Select all check box in reAssignAppointments page using \"([^\"]*)\"$", reassignAppointmentsPage::verifySelectAllCheckBox);
+
+        Then("^HE I verify that the user: \"([^\"]*)\" is not displayed in select new assignee dropdown$", reassignAppointmentsPage::verifyUserIsNotDisplayedInSelectNewAsignee);
     }
 }

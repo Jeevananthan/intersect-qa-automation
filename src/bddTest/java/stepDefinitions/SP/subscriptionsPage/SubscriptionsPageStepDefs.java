@@ -40,5 +40,9 @@ public class SubscriptionsPageStepDefs implements En {
 
         And("^SP I verify that checkBox with text 'Connection' can be unchecked$", subscriptionsPage::verifyConnectionCheckboxCanBeUnchecked);
 
+        Then("^SP I close subscriptions popup$",subscriptionsPage::closeSubscriptionsPopup);
+
+        Then("^SP I click 'ADD NEW SUBSCRIPTION' button$",subscriptionsPage::clickAddNewSubscriptionButton);
+
     }
 }
