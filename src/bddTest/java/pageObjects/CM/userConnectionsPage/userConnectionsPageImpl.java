@@ -23,7 +23,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
-//    private LoginPageImpl lp;
+    //    private LoginPageImpl lp;
 //    private HomePageImpl hp;
     HomePageImpl hp = new HomePageImpl();
     LoginPageImpl lp = new LoginPageImpl();
@@ -63,7 +63,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkMutualConnectionsDisplayed() {
         logger.info("Checking if there are mutual connection section displayed.");
-        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "institutions-wrapper"));
     }
 
     public void checkConnectionsDisplayed() {
@@ -176,7 +176,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(1);
             String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
-            if (buttonText.equals("Invited")) {
+            if (buttonText.equals("INVITED")) {
                 acceptConnectionRequestByHSUser();
                 searchForUser(user);
                 communityFrame();
