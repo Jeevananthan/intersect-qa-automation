@@ -48,7 +48,7 @@ public class InstitutionEditProfilePageImpl extends PageObjectFacadeImpl {
                     WebElement drpCharterSchool = driver.findElement(By.id("charterSchool"));
                     drpCharterSchool.click();
                     waitUntilPageFinishLoading();
-                    jsClick(drpCharterSchool.findElement(By.xpath("//span[contains(text(),'" + data.get(key)+"')]")));
+                    jsClick(drpCharterSchool.findElement(By.xpath("//div[@id='charterSchool']/div/div/span[text()='"+data.get(key)+"']")));
                     waitUntilPageFinishLoading();
                     break;
                 case "Coeducational":
