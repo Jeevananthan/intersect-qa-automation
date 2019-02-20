@@ -4,7 +4,7 @@ Feature: HS Community User - Prepopulate Community User Profile Fields Upon Acti
   As an HS Community user I want my Naviance Succeed user account data to prepopulate my Community user profile upon
   initial activation so I don't have to re-enter information Naviance already knows about me.
 
-  @MATCH-486
+  @MATCH-486 @ignore
   Scenario: As an HS Community user I want my Naviance Succeed user account details to autopopulate my Community user profile when initially activated.
     Given HS I am logged in to Intersect HS as user type "default"
     And I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
