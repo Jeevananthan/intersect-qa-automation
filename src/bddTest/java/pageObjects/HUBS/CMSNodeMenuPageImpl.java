@@ -42,61 +42,35 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
         waitForUITransition();
         cmsLogin.defaultLogIn(details);
         workflowOverviewButton().click();
+        userEmailTextBox().clear();
         userEmailTextBox().sendKeys(userMail);
+        schoolNameField().clear();
+        schoolNameField().sendKeys(details.get(2));
         submitButton().click();
         waitUntilPageFinishLoading();
         int numberOfRows = workflowRows().size();
         waitUntilPageFinishLoading();
         waitForUITransition();
-        userEmailTextBox().clear();
-        waitForUITransition();
         for (int i = 0; i < numberOfRows; i++) {
+            userEmailTextBox().clear();
             userEmailTextBox().sendKeys(userMail);
+            schoolNameField().clear();
+            schoolNameField().sendKeys(details.get(2));
             submitButton().click();
             waitUntilPageFinishLoading();
-            WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.sticky-enabled.tableheader-processed.sticky-table tbody tr")).get(workflowRows().size() - 1);
-            WebElement institutionCell = workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(2) a"));
-            if (institutionCell.getText().equals(details.get(2))) {
-                String originalHandle = driver.getWindowHandle();
-                workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(9) a:nth-of-type(2)")).click();
-                for (String handle : driver.getWindowHandles()) {
-                    driver.switchTo().window(handle);
-                }
-                waitUntilElementExists(approveButton());
-                approveButton().click();
-                waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
-                navigation.closeNewTabAndSwitchToOriginal(originalHandle);
-                workflowOverviewButton().click();
+            String originalHandle = driver.getWindowHandle();
+            actionsLink(details.get(2), "Approve").click();
+            for (String handle : driver.getWindowHandles()) {
+                driver.switchTo().window(handle);
             }
+            waitUntilElementExists(approveButton());
+            approveButton().click();
+            waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
+            navigation.closeNewTabAndSwitchToOriginal(originalHandle);
+            workflowOverviewButton().click();
         }
 
         logger.info("Changes were approved in CMS");
-//        submitButton().click();
-//        waitUntilPageFinishLoading();
-//        int numberOfRows = workflowRows().size();
-//        waitUntilPageFinishLoading();
-//        waitUntilPageFinishLoading();
-//        waitForUITransition();
-//        userEmailTextBox().clear();
-//        for (int i = 0; i < numberOfRows; i++) {
-//            userEmailTextBox().sendKeys(userMail);
-//            waitUntilPageFinishLoading();
-//            WebElement workFlowRow = getDriver().findElements(By.cssSelector("table.sticky-enabled.tableheader-processed.sticky-table tbody tr")).get(workflowRows().size() - 1);
-//            WebElement institutionCell = workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(2) a"));
-//            if (institutionCell.getText().equals(details.get(2))) {
-//                String originalHandle = driver.getWindowHandle();
-//                workFlowRow.findElement(By.cssSelector("tr td:nth-of-type(9) a:nth-of-type(2)")).click();
-//                for (String handle : driver.getWindowHandles()) {
-//                    driver.switchTo().window(handle);
-//                }
-//                approveButton().click();
-//                waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
-//                navigation.closeNewTabAndSwitchToOriginal(originalHandle);
-//                workflowOverviewButton().click();
-//            }
-//        }
-//
-//        logger.info("Changes were approved in CMS");
     }
 
     private void approveChangesInSection(String section, String publishOption, String originalWindowHandle) {
@@ -149,4 +123,6 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("input#edit-submit")); }
     private WebElement logOutButton() { return driver.findElement(By.xpath("//a[text()='Log out']")); }
+    private WebElement schoolNameField() { return driver.findElement(By.cssSelector("input#edit-school-name")); }
+    private WebElement actionsLink(String collegeName, String action) { return driver.findElement(By.xpath("//tr/td[2]/a[text() = '" + collegeName + "']/../../td[9]/a[text() = '" + action + "']")); }
 }
