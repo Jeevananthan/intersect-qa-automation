@@ -365,7 +365,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
                     break;
                 case "Age Data" :
-                    ageDataButton().click();
+                    //ageDataButton().click(); js click
+                    jsClick(ageDataButton());
                     innerEditSection(fieldElement.get(1)).clear();
                     innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
@@ -412,9 +413,11 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
     }
     private WebElement innerCheckBox(String label) {
+        // return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
         return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private WebElement athleticsInnerEditSection(String label) {
+        ////return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
         return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement getAthleticsDropDown(String section, String dropDownLabel) {
