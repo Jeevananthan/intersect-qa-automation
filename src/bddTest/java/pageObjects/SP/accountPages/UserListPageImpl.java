@@ -32,7 +32,11 @@ public class UserListPageImpl extends PageObjectFacadeImpl {
 
     public void setUserStatus(String activeOrInactiveorUnlock, String userName) {
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(userListTable), 0));
-        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") || activeOrInactiveorUnlock.equals("re-invite") || activeOrInactiveorUnlock.equals("Login As") ) {
+        if (activeOrInactiveorUnlock.equals("activate") || activeOrInactiveorUnlock.equals("inactivate") || activeOrInactiveorUnlock.equals("unlock") ) {
+            takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a/span[text()='Create New User']")));
+            waitForUITransition();
+        } else if (activeOrInactiveorUnlock.equals("Login As")|| activeOrInactiveorUnlock.equals("re-invite") ){
             takeUserAction(userName, WordUtils.capitalize(activeOrInactiveorUnlock));
         } else {
             Assert.fail("Valid user actions are \"activate\",\"inactivate\",\"unlock\",\"re-invite\" and \"Login As\".");
