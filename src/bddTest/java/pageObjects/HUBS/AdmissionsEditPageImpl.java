@@ -240,7 +240,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
         for (String key : fieldValues.keySet()) {
             switch (key) {
                 case "Acceptance Rate":
-                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key)) + 1));
+                    generatedValues.put(key, String.valueOf(Integer.parseInt(fieldValues.get(key).replace(",","")) + 1));
                     break;
                 case "Important Policies":
                     String result = "";
