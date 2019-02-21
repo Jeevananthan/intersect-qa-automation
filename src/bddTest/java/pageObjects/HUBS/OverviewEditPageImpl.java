@@ -3,6 +3,7 @@ package pageObjects.HUBS;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -21,6 +22,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
     Logger logger = null;
     OverviewPageImpl overviewPreview = new OverviewPageImpl();
     PublishPageImpl publish = new PublishPageImpl();
+    StudiesEditPageImpl studiesEditPage = new StudiesEditPageImpl();
 
     public OverviewEditPageImpl() {
         logger = Logger.getLogger(StudentLifeEditPageImpl.class);
@@ -83,8 +85,12 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Test Scores" :
                     testScoresButton().click();
+                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
+                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
                     testScoresInnerSection(fieldAndValueElement.get(1).split(";")[0]).click();
+                    waitUntilElementExists(innerEditSection(fieldAndValueElement.get(1).split(";")[1]));
                     innerEditSection(fieldAndValueElement.get(1).split(";")[1]).clear();
+                    waitUntilElementExists(innerEditSection(fieldAndValueElement.get(1).split(";")[1]));
                     innerEditSection(fieldAndValueElement.get(1).split(";")[1]).sendKeys(fieldAndValueElement.get(1).split(";")[2]);
                     overviewPreview.getTestScoresTableButton(fieldAndValueElement.get(1).split(";")[0].split(" ")[0]).click();
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
@@ -93,6 +99,8 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Average GPA" :
                     avgGPAButton().click();
+                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
+                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
                     avgGPATextArea().clear();
                     avgGPATextArea().sendKeys(fieldAndValueElement.get(1));
 
@@ -101,6 +109,8 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Contact Information" :
                     contactInfoButton().click();
+                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
+                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
                     getContactInfoInput(fieldAndValueElement.get(1).split(";")[0], fieldAndValueElement.get(1).split(";")[1]).clear();
                     getContactInfoInput(fieldAndValueElement.get(1).split(";")[0], fieldAndValueElement.get(1).split(";")[1])
                             .sendKeys(fieldAndValueElement.get(1).split(";")[2]);
@@ -304,7 +314,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("input[id*='-field_he_studentfacultyratio']"));
     }
     private WebElement testScoresInnerSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement avgGPATextArea() {
         return getDriver().findElement(By.cssSelector("input[id*='-field_he_gpaaverage']"));

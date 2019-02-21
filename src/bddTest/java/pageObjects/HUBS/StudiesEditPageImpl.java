@@ -232,7 +232,7 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
     private WebElement continueEditingLink() {
         return link("Continue editing");
     }
-    private WebElement publishButton() {
+    public WebElement publishButton() {
         return getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia ng-binding']"));
     }
     private WebElement studyOptionCheckbox(String label) {
