@@ -76,3 +76,26 @@ Feature: HUBS - Edit Media
     Then HUBS verify contents "Request Information" in the dropdown "COMMUNICATE"
     Then HUBS verify contents "lttest.tt" in the dropdown "LEARN MORE"
 
+  @HUBS-5177
+  Scenario Outline: As an HE user with either the Publishing or Administrator role tied to an HE account with the Intersect Awareness
+           Subscription activated, I want to be able to manage my institution's Request Information & Apply Online links so I
+           do not have to rely on Intersect Support to do this for me.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS I click on PUBLISH MY LINKS & PROFILES CHANGES editing  "<URL>" new URL
+    Then HUBS I click on Submit Changes
+    Then HUBS I click on Continue editing link
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HUBS I access HUBS Edit Mode
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS I verify "Request Information" input box with URL "http://gobama.ua.edu/contact/"
+    Then HUBS I validate URL for "Request Information"
+    Examples:
+      | URL|
+      | https://gobama.ua.edu/contact/|
+      | www.gobama.ua.edu/contact/|
+      | http://gobama.ua.edu/contact/|
+      | ://gobama|
+
+
