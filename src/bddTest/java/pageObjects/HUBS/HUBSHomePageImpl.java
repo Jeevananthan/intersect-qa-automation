@@ -62,6 +62,11 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
     public void clickOnHubsMenuTab(String menuTab){
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li/span[text()='"+menuTab+"']|//a[text()='"+menuTab+"']"))).click();
         getMainMenuTab(menuTab).click();
+        //-------------------------------------
+        WebElement logo = driver.findElement(By.xpath("//span[text()='Logo']"));
+        logo.click();
+        WebElement selectLogo = driver.findElement(By.xpath("//span[text()='Select an image to upload']"));
+        selectLogo.click();
     }
 
     /**
