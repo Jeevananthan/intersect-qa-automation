@@ -131,7 +131,8 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     dropDown.selectByVisibleText(generatedValues.get(key));
                     break;
                 case "Undergraduate Enrollment" :
-                    undergradEnrollButton().click();
+                    //undergradEnrollButton().click(); added js click
+                    jsClick(undergradEnrollButton());
                     innerEditSection("Undergraduate Women").clear();
                     innerEditSection("Undergraduate Women").sendKeys(generatedValues.get(key));
                     innerEditSection("Undergraduate Men").clear();
@@ -143,7 +144,8 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     stuFacRatioTextArea().sendKeys(generatedValues.get(key));
                     break;
                 case "Campus Surroundings" :
-                    campusSurroundingsButton().click();
+                    campusSurroundingsButton().click();//added js click
+                    jsClick(campusSurroundingsButton());
                     Select campusSurrDropDown = new Select(getCampusSurroundingsDropDown());
                     campusSurrDropDown.selectByVisibleText(generatedValues.get(key));
                     break;
