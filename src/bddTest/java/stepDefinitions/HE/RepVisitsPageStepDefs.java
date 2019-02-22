@@ -460,5 +460,55 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I verify learn more hyper link is not displaying in search and schedule page$",repVisits::verifyLearnMoreHyperLinkIsNotDisplayingInSearchAndSchedulePage);
 
         Then("^HE I navigate to \"([^\"]*)\" page$",repVisits::navigateToRepVisitsSection);
+
+        Then("^HE I verify \"([^\"]*)\" text is displaying in search and schedule tab$",repVisits::verifyYourScheduleTextInSearchAndSchedule);
+
+        Then("^HE I verify the month and dates displayed in the title bar of the your schedule content always matches what is selected for the search bar \"([^\"]*)\"$",repVisits::verifyCurrentVisitDateInSearchAndSchedule);
+
+        Then("^HE I verify the view details hyperlink for each high school visit already scheduled by that user opens a popup \"([^\"]*)\"$",repVisits::verifyHyperLinkInYourSchedulePage);
+
+        Then("^HE I verify the school details are present in the your schedule popup \"([^\"]*)\"$",repVisits::verifySchoolDetailsInYourSchedulePopup);
+
+        Then("^HE I verify the link navigate to the Counselor Community institution profile page \"([^\"]*)\"$",repVisits::verifyLinkNavigationInYourSchedulePopup);
+
+        Then("^HE I verify the popup has an 'X' icon that would close the popup if clicked$",repVisits::verifyCloseIconInYourSchedulePopup);
+      
+        Then("^HE I verify the availability pill is displaying in community availability side bar \"([^\"]*)\"$",repVisits::verifyAvailabilitySlotInCommunitySideBar);
+
+        Then("^HE I verify the availability pill is clickable in community availability side bar$",repVisits::verifyAvailabilitySlotIsClickable);
+
+        Then("^HE I verify the pill is clickable in search and schedule page$",repVisits::verifyAvailabilitySlotIsClickable);
+
+        Then("^HE I verify the appointment date is displaying in the schedule popup \"([^\"]*)\"$",repVisits::verifyAppointmentDateIsDisplayingInSchedulePopup);
+
+        Then("^HE I verify the start and end time is displaying in the schedule popup \"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyStartAndEndTimeInSearchAndSchedulePopup);
+
+        Then("^HE I verify the time zone is displaying in the schedule popup$",repVisits::verifyTimeZoneInSearchAndSchedulePopup);
+
+        Then("^HE I verify the High school name is displaying in the schedule popup \"([^\"]*)\"$",repVisits::verifyHSNameInVisitSchedulePopup);
+
+        Then("^HE I verify the \"([^\"]*)\" button is displaying in the schedule popup$",repVisits::verifySubmitButtonInVisitSchedulePopup);
+
+        Then("^HE I verify that i can close the schedule popup by clicking \"([^\"]*)\" button if i do not want to submit request$",repVisits::closeSearchAndSchedulePopup);
+
+        Then("^HE I verify \"([^\"]*)\" button to submit request to the high school$",repVisits::selectSubmitButtonInSearchAndSchedulePopup);
+
+        Then("^HE I verify the success message \"([^\"]*)\" is displaying in search and schedule page$",repVisits::verifySuccessMessageInSearchAndSchedulePage);
+
+        Then("^HE I logged in to Intersect HE as another HE user type \"([^\"]*)\"$",repVisits::loggingAnotherAccount);
+
+        Then("^HE I switch to another HE User Tab$",repVisits::switchToAnotherHEuserTab);
+
+        Then("^HE I verify the negative message \"([^\"]*)\" is displaying in search and schedule page$",repVisits::verifyNegativeMessageIsDisplaying);
+
+        Then("^HE I go to the calendar page and verify the visit appointment is displaying with gray color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPendingVisitInCalendar);
+
+        Then("^HE I go to the calendar page and verify the visit appointment is displaying with blue color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyScheduledVisitInCalendar);
+
+        Then("^HE I verify that i can close the schedule popup in community availability side bar by clicking \"([^\"]*)\" button if i do not want to submit request$",repVisits::clickCancelButtonInCommunityAvailabilityPopup);
+
+        Then("^HE I close community availability side bar$",repVisits::closeCommunityAvailability);
+
+        Then("^HE I navigate to \"([^\"]*)\"$",repVisits::navigateToRepVisitsSection);
     }
 }

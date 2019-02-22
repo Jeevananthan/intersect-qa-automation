@@ -168,3 +168,32 @@ Feature: HE - RepVisits - SearchAndSchedule - As an HE user, I want to be able t
       |limited           |Name        |school   |
       |limitedPublishing |Name        |school   |
       |limitedCommunity  |Name        |school   |
+
+  @MATCH-1730
+  Scenario: As an HE user I want to see a 'quickview' of my high school visit schedule/calendar on the RepVisits Search and Schedule subtab so I can quickly see what appointments I have already made with high schools.
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
+
+    Then HS I set the date using "14" and "28"
+    And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "14" in Regular Weekly Hours Tab
+    Then HS I add the new time slot with "14","10:28am","11:28am" and "5" with "1"
+    And HS I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Int Qa High School 4" using "14" and "10:28am"
+    And HE I verify the schedule pop_up for "Int Qa High School 4" using "10:28am" and "11:28am"
+
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify "Your Schedule" text is displaying in search and schedule tab
+    Then HE I verify the month and dates displayed in the title bar of the your schedule content always matches what is selected for the search bar "14"
+    Then HE I verify the view details hyperlink for each high school visit already scheduled by that user opens a popup "Int Qa High School 4"
+    Then HE I verify the popup has an 'X' icon that would close the popup if clicked
+    Then HE I verify the view details hyperlink for each high school visit already scheduled by that user opens a popup "Int Qa High School 4"
+    Then HE I verify the school details are present in the your schedule popup "Int Qa High School 4"
+    |6840 LAKOTA LN Liberty Township, Ohio 45044|360.555.1212   |PUBLIC  |280    |null%  |
+    Then HE I verify the link navigate to the Counselor Community institution profile page "Int Qa High School 4"
+    And HE I successfully sign out

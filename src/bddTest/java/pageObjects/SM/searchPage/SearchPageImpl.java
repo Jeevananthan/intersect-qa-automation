@@ -435,6 +435,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilElementExists(driver.findElements(By.cssSelector(addedElementsInDropdownField)).get(i));
         }
         closeButtonForFitCriteria().click();
+        waitUntilElementExists(topBlueBanner());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.content"), 0));
     }
 
     public void unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
@@ -1081,6 +1083,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
             wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
         }
+        waitUntilElementExists(selectCriteriaButton1());
     }
 
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
@@ -3597,5 +3600,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement firstPinnedCollege() { return driver.findElement(By.cssSelector("table.ui.unstackable.table." +
             "csr-results-table:not(.csr-header-table) td.inPinnedList a.result-row-decription-label")); }
     private String addedElementsInDropdownField = "a.ui.label";
+  
+    private WebElement topBlueBanner() { return driver.findElement(By.cssSelector("div.content")); }
 }
 
