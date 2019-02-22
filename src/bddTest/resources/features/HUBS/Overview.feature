@@ -45,7 +45,11 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
       | admin | hbcmsxx | The University of Alabama | Published |
     And HUBS I successfully sign out from CMS
-    Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
+    Then HUBS I should be able to verify the changes for Overview published in HUBS, with the following details:
+      | userName;linussupermatch |
+      | password;Hobsons!23      |
+      | school;blue1combo        |
+      | college;The University of Alabama |
       | Opening Statement |
       | Website |
       | School Type  |
