@@ -205,6 +205,12 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyTextInConnectorDialog(DataTable dataTable) {
+        List<String> dataList = dataTable.asList(String.class);
+        softly().assertThat(connectorTextFirstLine().getText()).as("The text in the connector dialog is incorrect.").isEqualTo(dataList.get(0));
+        softly().assertThat(connectorTextSecondLine().getText()).as("The text in the connector dialog is incorrect.").isEqualTo(dataList.get(1));
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";
@@ -230,4 +236,6 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     private WebElement successfulSubmitMessage() { return driver.findElement(By.xpath("//h1[text() = 'Successfully Submitted!']")); }
     private WebElement disabledNextButton() { return driver.findElement(By.cssSelector("button[disabled='']#nextButton")); }
     private WebElement connectionModalHeader() { return driver.findElement(By.cssSelector("div.connection-modal-header.header")); }
+    private WebElement connectorTextFirstLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(1)")); }
+    private WebElement connectorTextSecondLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(2)")); }
 }
