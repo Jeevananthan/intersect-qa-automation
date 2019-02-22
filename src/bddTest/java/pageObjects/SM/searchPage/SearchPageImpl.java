@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
+import pageObjects.SM.studentLife.StudentLifeImpl;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
@@ -1075,6 +1076,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * The below method is to clear all the pills present in Must Have & Nice to Have box.
      */
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
+        waitUntilPageFinishLoading();
         List<WebElement> allPills = getAllPillsCloseIcon();
         for (WebElement singlePill :
                 allPills) {
@@ -3598,6 +3600,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement firstPinnedCollege() { return driver.findElement(By.cssSelector("table.ui.unstackable.table." +
             "csr-results-table:not(.csr-header-table) td.inPinnedList a.result-row-decription-label")); }
     private String addedElementsInDropdownField = "a.ui.label";
+  
     private WebElement topBlueBanner() { return driver.findElement(By.cssSelector("div.content")); }
 }
 
