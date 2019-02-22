@@ -12,6 +12,7 @@ import pageObjects.CM.loginPage.LoginPageImpl;
 import pageObjects.CM.userProfilePage.UserProfilePageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -359,7 +360,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     private boolean checkPublicationsAredisplayed() {
         try {
-            int publications = driver.findElements(By.xpath("//article[contains(@id,'node-')]")).size();
+            int publications = driver.findElements(publicationsLocator()).size();
             return publications > 0;
         } catch (NoSuchElementException ex)  {
             return false;
@@ -574,4 +575,5 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn() {return driver.findElement(By.id("edit-update"));}
     private WebElement searchIcon() {return driver.findElement(By.cssSelector("i[class='search link icon']"));}
     private WebElement groupsTabUnderSearch() {return driver.findElement(By.id("searchResultsTabgroups"));}
+    public By publicationsLocator(){ return By.xpath("//article[contains(@id,'node-')]"); }
 }

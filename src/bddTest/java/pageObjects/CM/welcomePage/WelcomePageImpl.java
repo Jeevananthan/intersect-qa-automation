@@ -48,7 +48,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     public void makeSureHEWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
 
-        homeLink().click();
+        driver.findElement(homeLink()).click();
         counselorLink().click();
         communityFrame();
 
@@ -354,6 +354,6 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     private WebElement activeMatchMenuLink(){
         return driver.findElement(By.id("js-main-nav-am-plus-menu-link"));
     }
-    private WebElement homeLink(){ return driver.findElement(By.xpath("//*[@id=\"app\"]/div/div[1]/div/div/header/nav/a[2]/div/div[1]")); }
     private WebElement counselorLink() { return driver.findElement(By.id("js-main-nav-counselor-community-menu-link")); }
+    private By homeLink(){ return By.id("js-main-nav-home-menu-link"); }
 }

@@ -199,9 +199,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void writeCommentOnHobsonsPost(String commentText) {
         logger.info("Writing comment to the post.");
-        driver.findElement(By.xpath("(//*[contains(@id,'-comments-link')])[1]")).click();
-        driver.findElement(By.id("edit-comment-body")).sendKeys(commentText);
-        driver.findElement(By.cssSelector("//*[@id='edit-save--2']")).click();
+        driver.findElement(lastComment()).click();
+        driver.findElement(commentBody()).sendKeys(commentText);
+        driver.findElement(postComment()).click();
         waitUntilPageFinishLoading();
     }
 
@@ -273,6 +273,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement yourGroupsLink() {return driver.findElement(By.xpath("//a[text()='Your Groups']"));}
     private WebElement welcomeSupportTitle() {return driver.findElement(By.xpath("//*[@id='app']/div/div/main/div/p"));}
     private WebElement counselorCommunity() {return driver.findElement(By.xpath("//*[@id='app']/div/div[1]/div/div/header/nav/a[2]/div/div[1]"));}
+    private By lastComment() {return By.xpath("(//*[contains(@id,'-comments-link')])[1]"); }
+    private By commentBody() {return By.id("edit-comment-body"); }
+    private By postComment() {return By.cssSelector("//*[@id='edit-save--2']");}
 
 
 }
