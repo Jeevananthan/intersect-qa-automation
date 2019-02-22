@@ -27,7 +27,6 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I "inactivate" the user account for "purpleheautomation+12103@gmail.com"
-    Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I verify that I can create a new primary user
 

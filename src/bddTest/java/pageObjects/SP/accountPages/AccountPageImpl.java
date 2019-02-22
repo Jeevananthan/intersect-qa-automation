@@ -29,7 +29,7 @@ public class AccountPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyImOnAnInstitutionPage() {
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h1[contains(text(),'Client: ')]")));
         Assert.assertTrue(text("Client:").isDisplayed());
     }
 

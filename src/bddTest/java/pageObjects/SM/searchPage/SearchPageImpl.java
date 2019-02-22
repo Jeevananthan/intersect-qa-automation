@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
+import pageObjects.SM.studentLife.StudentLifeImpl;
 import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 import pageObjects.SM.surveyPage.SurveyPageImpl;
 
@@ -431,9 +432,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             waitUntilElementExists(majorsListContainer());
             String item = itemsToSelect.get(i).get(0);
             getDriver().findElement(By.xpath("(//span[text()='" + item + "'])[1]")).click();
-
+            waitUntilElementExists(driver.findElements(By.cssSelector(addedElementsInDropdownField)).get(i));
         }
         closeButtonForFitCriteria().click();
+        waitUntilElementExists(topBlueBanner());
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.content"), 0));
     }
 
     public void unselectMajorsFromSearchMajorsComboBoxForBachelorsDegreeType(DataTable items) {
@@ -1073,12 +1076,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * The below method is to clear all the pills present in Must Have & Nice to Have box.
      */
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
+        waitUntilPageFinishLoading();
         List<WebElement> allPills = getAllPillsCloseIcon();
         for (WebElement singlePill :
                 allPills) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
             wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
         }
+        waitUntilElementExists(selectCriteriaButton1());
     }
 
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
@@ -3594,5 +3599,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement majorsListContainer() { return driver.findElement(By.cssSelector("div.visible.menu.transition")); }
     private WebElement firstPinnedCollege() { return driver.findElement(By.cssSelector("table.ui.unstackable.table." +
             "csr-results-table:not(.csr-header-table) td.inPinnedList a.result-row-decription-label")); }
+    private String addedElementsInDropdownField = "a.ui.label";
+  
+    private WebElement topBlueBanner() { return driver.findElement(By.cssSelector("div.content")); }
 }
 
