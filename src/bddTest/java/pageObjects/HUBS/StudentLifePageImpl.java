@@ -108,7 +108,8 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Organizations" :
                     String isOrgPresent = "";
-                    organizationsTab().click();
+                    jsClick(organizationsTab());
+                    //organizationsTab().click(); added js click
                     List<String> orgListStrings = new ArrayList<>();
                     for (WebElement orgElement : driver.findElements(By.cssSelector(organizationsList))) {
                         orgListStrings.add(orgElement.getText());
@@ -121,7 +122,8 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     fieldValues.put(field.get(0), isOrgPresent);
                     break;
                 case "Athletics" :
-                    athleticsTab().click();
+                    //athleticsTab().click(); added js click
+                    jsClick(athleticsTab());
                     athleticsInnerSection(field.get(1).split(";")[0]).click();
                     athleticsTableValue(field.get(1).split(";")[1], field.get(1).split(";")[2]);
                     fieldValues.put(field.get(0), athleticsTableValue(field.get(1).split(";")[1], field.get(1).split(";")[2]).getText());
