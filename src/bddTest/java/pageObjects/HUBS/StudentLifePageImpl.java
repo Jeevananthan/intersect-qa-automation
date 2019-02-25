@@ -100,7 +100,10 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Computing Resources" :
                     computingResourcesTab().click();
-                    fieldValues.put(field.get(0), getComputerResourcesValue(field.get(1).split(";")[0],
+                    //fieldValues.put(field.get(0), getComputerResourcesValue(field.get(1).split(";")[0],
+                    //                            field.get(1).split(";")[1]).getText()); added modified step below
+                    String value=" "+field.get(1).split(";")[0]+" ";
+                    fieldValues.put(field.get(0), getComputerResourcesValue(value,
                             field.get(1).split(";")[1]).getText());
                     break;
                 case "Organizations" :
