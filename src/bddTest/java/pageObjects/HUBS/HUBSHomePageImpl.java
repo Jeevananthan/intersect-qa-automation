@@ -62,22 +62,16 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
     public void clickOnHubsMenuTab(String menuTab){
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li/span[text()='"+menuTab+"']|//a[text()='"+menuTab+"']"))).click();
         getMainMenuTab(menuTab).click();
-        //---------------------------------
-        WebElement logo = driver.findElement(By.xpath("//span[text()='Logo']"));
-        logo.click();
-        WebElement selectLogo = driver.findElement(By.xpath("//span[text()='Select an image to upload']"));
-        selectLogo.click();
-    }
+        }
 
     /**
      * The below method to verify the Publish Media Changes model, which is mainly the text and buttons in that model.
      * Author : Arun
      */
-    public void verifyPublishYourMediaChangesModel(){
+    public void verifyPublishYourMediaChangesModel(String menuTab){
         Assert.assertTrue("Continue Editing button is not displaying.", getContinueEditingButton().isDisplayed());
         Assert.assertTrue("Disregard my changes button is not displaying.", getDisregardMyChangesButton().isDisplayed());
         Assert.assertTrue("Publish button is not displaying.", getPublishButton().isDisplayed());
-
         getContinueEditingButton().click();
 
         clickOnHubsMenuTab("BASIC INFO");
@@ -93,13 +87,16 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The approval process can take up to 24-48 hours. Text is not displaying.",
                 driver.findElement(By.xpath("//span[text()= 'The approval process can take up to 24-48 hours.']")).isDisplayed());
 
-        String actText2 = driver.findElement(By.xpath("//div[contains(text(),'Media - Photos')]")).getText();
+        String actText2 = driver.findElement(By.xpath("//span[contains(text(),'Media - Photos')]")).getText();
         String expText2 = "Media - Photos & Videos, Logo";
         Assert.assertTrue(expText1+ " Text is not displaying.", actText2.equals(expText2));
 
-        String actText3 = driver.findElement(By.xpath("//div[contains(text(),'Links ')]")).getText();
-        String expText3 = "Links & Profiles - Links, Profiles";
-        Assert.assertTrue(expText3+ " Text is not displaying.", actText3.equals(expText3));
+        if (!menuTab.equals("MEDIA")) {
+             String actText3 = driver.findElement(By.xpath("//span[contains(text(),'Links ')]")).getText();
+             String expText3 = "Links & Profiles - Links, Profiles";
+             Assert.assertTrue(expText3+ " Text is not displaying.", actText3.equals(expText3));
+        }
+
 
         Assert.assertTrue("Please provide a brief explanation for the changes: text is not displaying.",
                 driver.findElement(By.xpath("//span[text()='Please provide a brief explanation for the changes:']")).isDisplayed());
@@ -111,15 +108,35 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         clickOnHubsMenuTab("BASIC INFO");
         getPublishButton().click();
         getSubmitChangesButton().click();
+        /*
         Assert.assertTrue("Great! You've updated your college profile Text is not displaying.", driver.findElement(By.xpath("//span[contains(text(), 'Great! You')]")).isDisplayed());
         Assert.assertTrue("Great! You've updated your college profile Text is not displaying.", driver.findElement(By.xpath("//span[contains(text(), 've updated your college profile')]")).isDisplayed());
         continureEditingPopupLink().click();
-
+*/
         navColProPageObj.openHUBSEditorMode();
 
         clickOnHubsMenuTab("MEDIA");
         clickOnHubsMenuTab("BASIC INFO");
         getDisregardMyChangesButton().click();
+    }
+
+    public void selectImageForLogo(){
+        //---------------------------------
+        WebElement logo = driver.findElement(By.xpath("//span[text()='Logo']"));
+        logo.click();
+        //WebElement selectLogo = driver.findElement(By.xpath("//span[text()='Select an image to upload']"));
+        //selectLogo.click();
+        driver.findElement(By.xpath("//input[@accept='image/*']")).sendKeys("D:\\Profile.png");
+        Assert.assertTrue("Back button is not displaying in Publish model.", driver.findElement(By.xpath("//span[text()='Back']")).isDisplayed());
+
+        WebElement previewButton = driver.findElement(By.xpath("//span[text()='PREVIEW AND CONTINUE EDITING']"));
+        previewButton.click();
+        /*
+        waitForUITransition();
+        WebElement element = driver.findElement(By.xpath("//span[text()='Publish my media changes']/.."));
+        String str = element.getAttribute("class");
+        Assert.assertTrue("Publish my media changes button is not enabled.", str.equals("ui secondary button"));
+*/
     }
 
     //Locators

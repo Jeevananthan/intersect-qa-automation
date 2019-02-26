@@ -25,8 +25,9 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
   I want to be notified that I need to publish my changes any time I leave HEM (React) to the 'Information' tab of
   HEM (Angular) or elsewhere in Intersect so I don't lose my work.
     Then HUBS I click on "MEDIA" tab in main menu
+    And HUBS I select an image for logo
     And HUBS I click on "BASIC INFO" tab in main menu
-    And HUBS I verify the Publish your media changes pop up
+    And HUBS I verify the Publish model for "MEDIA" tab
 
   @MATCH-5897
   Scenario: As an HE user with the Administrator or Publishing role I want an 'Intro' tab in Premium HEM so I can

@@ -13,8 +13,11 @@ public class HUBSHomePageStepDefs implements En{
 
         And("^HUBS I click on \"([^\"]*)\" tab in main menu$", hubsHomePage::clickOnHubsMenuTab);
 
-        And("^HUBS I verify the Publish your media changes pop up$", hubsHomePage::verifyPublishYourMediaChangesModel);
+        //----
+        And("^HUBS I verify the Publish model for \"([^\"]*)\" tab$", hubsHomePage::verifyPublishYourMediaChangesModel);
 
         And("^HUBS I check \"([^\"]*)\" tab functionality$", hubsHomePage::checkHEMMainMenuTabFunctionality);
+
+        And("^HUBS I select an image for logo$", hubsHomePage::selectImageForLogo);
     }
 }
