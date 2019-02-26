@@ -52,7 +52,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                             studentLifePreview.nearestCityText().getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Ethnicity" :
-                    ethnicityButton().click();
+                    //ethnicityButton().click(); added js click
+                    jsClick(ethnicityButton());
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     if (invalidValueMessage("% Unknown").isDisplayed()) {
@@ -63,7 +64,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                             studentLifePreview.chartsPercent(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2) + "%"));
                     break;
                 case "Gender Data" :
-                    genderDataButton().click();
+                    //genderDataButton().click(); added js click
+                    jsClick(genderDataButton());
                     innerEditSection("Undergraduate Women").clear();
                     innerEditSection("Undergraduate Women").sendKeys("0");
                     innerEditSection("Graduate Women").clear();
@@ -79,21 +81,24 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                             studentLifePreview.chartsPercent("Male").getText().equals("100%"));
                     break;
                 case "Age Data" :
-                    ageDataButton().click();
+                    //ageDataButton().click(); added js click
+                    jsClick(ageDataButton());
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             studentLifePreview.chartsPercent(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2) + "%"));
                     break;
                 case "Housing Data" :
-                    housingDataButton().click();
+                    //housingDataButton().click(); added js click
+                    jsClick(housingDataButton());
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             studentLifePreview.getHousingDataSectionValue(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Greek Life" :
-                    greekLifeButton().click();
+                    //greekLifeButton().click();//added js click
+                    jsClick(greekLifeButton());
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     studentLifePreview.greekLifeTab().click();
@@ -101,13 +106,15 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                             studentLifePreview.getGreekLifeSectionValue(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Services" :
-                    servicesButton().click();
+                    //servicesButton().click();//added js click
+                    jsClick(servicesButton());
                     studentLifePreview.servicesTab().click();
                     List<String> basicServicesTextList = new ArrayList<>();
                     for (WebElement serviceElement : studentLifePreview.basicServicesList()) {
                         basicServicesTextList.add(serviceElement.getText());
                     }
-                    innerCheckBox(fieldAndValueElement.get(1)).click();
+                    //innerCheckBox(fieldAndValueElement.get(1)).click(); added js click
+                    jsClick(innerCheckBox(fieldAndValueElement.get(1)));
                     if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
                         basicServicesTextList.clear();
                         for (WebElement serviceElement : studentLifePreview.basicServicesList()) {
@@ -125,14 +132,20 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Computing Resources" :
-                    for (int i = 0; i < 10; i++) {
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    //computingResourcesButton().click();//added js click
+                    jsClick(computingResourcesButton());
+
+                    /*for (int i = 0; i < 10; i++) {
                         try {
                             computingResourcesButton().click();
                             break;
                         } catch (WebDriverException e) {
                             publishButton().sendKeys(Keys.PAGE_DOWN);
                         }
-                    }
+                    }*/
+
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     studentLifePreview.computingResourcesTab().click();
@@ -153,8 +166,8 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     for (WebElement organizationsElement : driver.findElements(By.cssSelector(studentLifePreview.organizationsList))) {
                         organizationsTextList.add(organizationsElement.getText());
                     }
-                    organizationsButton().click();
-
+                    //organizationsButton().click();//added js click
+                    jsClick(organizationsButton());
                     if (fieldAndValueElement.get(2).equals("yes")) {
                         if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
                             innerCheckBox(fieldAndValueElement.get(1)).click();
@@ -213,61 +226,72 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     String percentMaleGender = studentLifePreview.chartsPercent("Male").getText();
                     break;
                 case "Nearest City" :
-                    nearestCityButton().click();
+                    //nearestCityButton().click(); added js click
+                    jsClick(nearestCityButton());
                     innerEditSection(details.get(1).get(1)).clear();
                     innerEditSection(details.get(1).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Ethnicity" :
-                    ethnicityButton().click();
+                    //ethnicityButton().click();  added js click
+                    jsClick(ethnicityButton());
                     innerEditSection(details.get(2).get(1)).clear();
                     innerEditSection(details.get(2).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Age Data" :
-                    ageDataButton().click();
+                    // ageDataButton().click();  added js click
+                    jsClick(ageDataButton());
                     innerEditSection(details.get(4).get(1)).clear();
                     innerEditSection(details.get(4).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Housing Data" :
-                    housingDataButton().click();
+                    //housingDataButton().click();//  added js click
+                    jsClick(housingDataButton());
                     innerEditSection(details.get(5).get(1)).clear();
                     innerEditSection(details.get(5).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Greek Life" :
-                    greekLifeButton().click();
+                    //greekLifeButton().click(); added js click
+                    jsClick(greekLifeButton());
                     innerEditSection(details.get(6).get(1)).clear();
                     innerEditSection(details.get(6).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Services" :
-                    servicesButton().click();
+                    //servicesButton().click(); added js click
+                    jsClick(servicesButton());
                     if (generatedValues.get(key).equals("yes")) {
                         if (innerCheckBox(details.get(7).get(1)).getAttribute("class").contains("ng-empty")) {
-                            innerCheckBox(details.get(7).get(1)).click();
+                            jsClick(innerCheckBox(details.get(7).get(1)));
                         }
                     } else if (generatedValues.get(key).equals("no")) {
                         if (innerCheckBox(details.get(7).get(1)).getAttribute("class").contains("ng-not-empty")) {
-                            innerCheckBox(details.get(7).get(1)).click();
+                            jsClick(innerCheckBox(details.get(7).get(1)));
                         }
                     }
                     break;
                 case "Computing Resources" :
-                    computingResourcesButton().click();
+                    //computingResourcesButton().click(); added js click
+                    jsClick(computingResourcesButton());
                     innerEditSection(details.get(8).get(1)).clear();
                     innerEditSection(details.get(8).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Organizations" :
-                    organizationsButton().click();
+                    //organizationsButton().click(); added js click
+                    jsClick(organizationsButton());
                     if (generatedValues.get(key).equals("yes")) {
                         if (innerCheckBox(details.get(9).get(1)).getAttribute("class").contains("ng-empty")) {
-                            innerCheckBox(details.get(9).get(1)).click();
+                            //innerCheckBox(details.get(9).get(1)).click(); js click
+                            jsClick(innerCheckBox(details.get(9).get(1)));
                         }
                     } else if (generatedValues.get(key).equals("no")) {
                         if (innerCheckBox(details.get(9).get(1)).getAttribute("class").contains("ng-not-empty")) {
-                            innerCheckBox(details.get(9).get(1)).click();
+                            //innerCheckBox(details.get(9).get(1)).click(); //js click
+                            jsClick(innerCheckBox(details.get(9).get(1)));
                         }
                     }
                     break;
                 case "Athletics" :
-                    athleticsButton().click();
+                    //athleticsButton().click(); //js click
+                    jsClick(athleticsButton());
                     athleticsInnerEditSection(details.get(10).get(1).split(";")[1]).click();
                     Select athleticsDropDown = new Select(getAthleticsDropDown(details.get(10).get(1).split(";")[0], details.get(10).get(1).split(";")[2]));
                     athleticsDropDown.selectByVisibleText(details.get(10).get(1).split(";")[2] + " " + generatedValues.get(key));
@@ -362,15 +386,13 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         for (List<String> fieldElement : fieldsDetails) {
             switch (fieldElement.get(0)) {
                 case "Computing Resources" :
-                    //computingResourcesButton().click(); //added js click
-                    jsClick(computingResourcesButton());
+                    computingResourcesButton().click();
                     innerEditSection(fieldElement.get(1)).clear();
                     innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
                     break;
                 case "Age Data" :
-                    //ageDataButton().click(); js click
-                    jsClick(ageDataButton());
+                    ageDataButton().click();
                     innerEditSection(fieldElement.get(1)).clear();
                     innerEditSection(fieldElement.get(1)).sendKeys(fieldElement.get(2));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
@@ -417,11 +439,9 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
     }
     private WebElement innerCheckBox(String label) {
-        // return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
         return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private WebElement athleticsInnerEditSection(String label) {
-        ////return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
         return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement getAthleticsDropDown(String section, String dropDownLabel) {

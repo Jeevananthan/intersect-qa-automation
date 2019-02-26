@@ -3,7 +3,6 @@ package pageObjects.HUBS;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -22,13 +21,13 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
     Logger logger = null;
     OverviewPageImpl overviewPreview = new OverviewPageImpl();
     PublishPageImpl publish = new PublishPageImpl();
-    StudiesEditPageImpl studiesEditPage = new StudiesEditPageImpl();
 
     public OverviewEditPageImpl() {
         logger = Logger.getLogger(StudentLifeEditPageImpl.class);
     }
 
     public void verifyFieldsInRealTime(DataTable stringsDataTable) {
+        String value="";
         List<List<String>> fieldsAndValues = stringsDataTable.cells(0);
         for (List<String> fieldAndValueElement : fieldsAndValues) {
             switch (fieldAndValueElement.get(0)) {
@@ -41,7 +40,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                             overviewPreview.openingStatement().getText().equals(fieldAndValueElement.get(1)));
                     break;
                 case "Website" :
-                    websiteButton().click();
+                    jsClick(websiteButton());
                     websiteTextArea().clear();
                     websiteTextArea().sendKeys(fieldAndValueElement.get(1));
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
@@ -55,7 +54,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                             overviewPreview.getQuickFact(fieldAndValueElement.get(0)).getText().equals(fieldAndValueElement.get(1).split(";")[2]));
                     break;
                 case "Undergraduate Enrollment" :
-                    undergradEnrollButton().click();
+                    jsClick(undergradEnrollButton());
                     innerEditSection("Undergraduate Women").clear();
                     innerEditSection("Undergraduate Women").sendKeys(fieldAndValueElement.get(1).split(";")[0]);
                     innerEditSection("Undergraduate Men").clear();
@@ -67,7 +66,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                             overviewPreview.getQuickFact(fieldAndValueElement.get(0)).getText().equals(Integer.toString(totalUndergradEnroll)));
                     break;
                 case "Student / Faculty Ratio" :
-                    stuFacRatioButton().click();
+                    jsClick(stuFacRatioButton());
                     stuFacRatioTextArea().clear();
                     stuFacRatioTextArea().sendKeys(fieldAndValueElement.get(1));
 
@@ -75,7 +74,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                             overviewPreview.getQuickFact(fieldAndValueElement.get(0)).getText().contains(fieldAndValueElement.get(1)));
                     break;
                 case "Campus Surroundings" :
-                    campusSurroundingsButton().click();
+                    jsClick(campusSurroundingsButton());
                     Select campusSurrDropDown = new Select(getCampusSurroundingsDropDown());
                     campusSurrDropDown.selectByVisibleText(fieldAndValueElement.get(1).split(";")[1]);
 
@@ -84,13 +83,10 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                                     equals(fieldAndValueElement.get(1).split(";")[1].split(",")[0]));
                     break;
                 case "Test Scores" :
-                    testScoresButton().click();
-                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
-                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
-                    testScoresInnerSection(fieldAndValueElement.get(1).split(";")[0]).click();
-                    waitUntilElementExists(innerEditSection(fieldAndValueElement.get(1).split(";")[1]));
+                    jsClick(testScoresButton());
+                    value=" "+fieldAndValueElement.get(1).split(";")[0]+" ";
+                    jsClick(testScoresInnerSection(value));
                     innerEditSection(fieldAndValueElement.get(1).split(";")[1]).clear();
-                    waitUntilElementExists(innerEditSection(fieldAndValueElement.get(1).split(";")[1]));
                     innerEditSection(fieldAndValueElement.get(1).split(";")[1]).sendKeys(fieldAndValueElement.get(1).split(";")[2]);
                     overviewPreview.getTestScoresTableButton(fieldAndValueElement.get(1).split(";")[0].split(" ")[0]).click();
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
@@ -99,8 +95,6 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Average GPA" :
                     avgGPAButton().click();
-                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
-                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
                     avgGPATextArea().clear();
                     avgGPATextArea().sendKeys(fieldAndValueElement.get(1));
 
@@ -109,8 +103,6 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Contact Information" :
                     contactInfoButton().click();
-                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
-                    studiesEditPage.publishButton().sendKeys(Keys.PAGE_DOWN);
                     getContactInfoInput(fieldAndValueElement.get(1).split(";")[0], fieldAndValueElement.get(1).split(";")[1]).clear();
                     getContactInfoInput(fieldAndValueElement.get(1).split(";")[0], fieldAndValueElement.get(1).split(";")[1])
                             .sendKeys(fieldAndValueElement.get(1).split(";")[2]);
@@ -141,7 +133,6 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     dropDown.selectByVisibleText(generatedValues.get(key));
                     break;
                 case "Undergraduate Enrollment" :
-                    //undergradEnrollButton().click(); added js click
                     jsClick(undergradEnrollButton());
                     innerEditSection("Undergraduate Women").clear();
                     innerEditSection("Undergraduate Women").sendKeys(generatedValues.get(key));
@@ -149,28 +140,29 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     innerEditSection("Undergraduate Men").sendKeys("0");
                     break;
                 case "Student / Faculty Ratio" :
-                    stuFacRatioButton().click();
+                    jsClick(stuFacRatioButton());
                     stuFacRatioTextArea().clear();
                     stuFacRatioTextArea().sendKeys(generatedValues.get(key));
                     break;
                 case "Campus Surroundings" :
-                    campusSurroundingsButton().click();
+                    jsClick(campusSurroundingsButton());
+                    //campusSurroundingsButton().click();
                     Select campusSurrDropDown = new Select(getCampusSurroundingsDropDown());
                     campusSurrDropDown.selectByVisibleText(generatedValues.get(key));
                     break;
                 case "Test Scores" :
-                    testScoresButton().click();
+                    jsClick(testScoresButton());
                     testScoresInnerSection("SAT Critical Reading").click();
                     innerEditSection("Low").clear();
                     innerEditSection("Low").sendKeys(generatedValues.get(key));
                     break;
                 case "Average GPA" :
-                    avgGPAButton().click();
+                    jsClick(avgGPAButton());
                     avgGPATextArea().clear();
                     avgGPATextArea().sendKeys(generatedValues.get(key));
                     break;
                 case "Contact Information" :
-                    contactInfoButton().click();
+                    jsClick(contactInfoButton());
                     getContactInfoInput("Application Mailing Address", "ZIP").clear();
                     getContactInfoInput("Application Mailing Address", "ZIP").sendKeys(generatedValues.get(key));
                     break;
@@ -244,7 +236,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyOverlayMessage(String message) {
-        boolean getOverlayMessagePartI = getDriver().findElement(By.xpath("//div[text()='Use the ']")).isDisplayed();
+        boolean getOverlayMessagePartI = getDriver().findElement(By.xpath("//div[text()=' Use the ']")).isDisplayed();
         boolean getOverlayMessagePartII = getDriver().findElement(By.xpath("//i[text()='Photos and Videos']")).isDisplayed();
         boolean getOverlayMessagePartIII = getDriver().findElement(By.xpath("//div[text()=' option under the ']")).isDisplayed();
         boolean getOverlayMessagePartIV = getDriver().findElement(By.xpath("//i[text()='Media']")).isDisplayed();
@@ -313,7 +305,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("input[id*='-field_he_studentfacultyratio']"));
     }
     private WebElement testScoresInnerSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
+        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
     }
     private WebElement avgGPATextArea() {
         return getDriver().findElement(By.cssSelector("input[id*='-field_he_gpaaverage']"));
