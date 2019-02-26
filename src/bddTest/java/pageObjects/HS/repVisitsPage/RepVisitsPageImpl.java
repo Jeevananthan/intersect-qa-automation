@@ -4892,12 +4892,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void accessListoffairAttendees(String buttonToClick, String name) {
         int nameID = getColumnIdByFieldName("//table[@id='he-account-dashboard']//thead", "Name");
         int rowID = getRowIdByColumnId("//table[@id='he-account-dashboard']//tbody", nameID, name);
-        rowID = rowID + 2;
         if (buttonToClick.equals("Cancel")) {
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']")));
-            WebElement cancelbutton = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']"));
-            cancelbutton.click();
-            waitUntilPageFinishLoading();
+            try {
+                rowID = rowID + 1;
+                WebElement cancelbutton = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']"));
+                cancelbutton.click();
+                waitUntilPageFinishLoading();
+            }catch (Exception e){
+                rowID = rowID + 1;
+                WebElement cancelbutton = driver.findElement(By.xpath("//table[@id='he-account-dashboard']//tbody//tr[" + rowID + "]//td//button/span[text()='CANCEL']"));
+                cancelbutton.click();
+                waitUntilPageFinishLoading();
+            }
         }
     }
 
