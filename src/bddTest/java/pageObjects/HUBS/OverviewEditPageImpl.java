@@ -146,6 +146,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Campus Surroundings" :
                     jsClick(campusSurroundingsButton());
+                    //campusSurroundingsButton().click();
                     Select campusSurrDropDown = new Select(getCampusSurroundingsDropDown());
                     campusSurrDropDown.selectByVisibleText(generatedValues.get(key));
                     break;

@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -135,18 +136,26 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     publishButton().sendKeys(Keys.PAGE_DOWN);
                     //computingResourcesButton().click();//added js click
                     jsClick(computingResourcesButton());
+
+                    /*for (int i = 0; i < 10; i++) {
+                        try {
+                            computingResourcesButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }*/
+
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     studentLifePreview.computingResourcesTab().click();
-                    String typeOfComputerPart = fieldAndValueElement.get(0).split("in")[0];
-                    String locationPart = fieldAndValueElement.get(0).split("in")[1];
 
-                    if (typeOfComputerPart.contains("PCs")) {
+                    if (fieldAndValueElement.get(1).contains("PCs")) {
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
-                                studentLifePreview.getComputerResourcesValue(locationPart.trim(), "pc").getText().equals(fieldAndValueElement.get(2)));
-                    } else if (typeOfComputerPart.contains("Macs")) {
+                                studentLifePreview.getComputerResourcesValue(fieldAndValueElement.get(1).split(" in ")[1], "pc").getText().equals(fieldAndValueElement.get(2)));
+                    } else if (fieldAndValueElement.get(1).contains("Macs")) {
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
-                                studentLifePreview.getComputerResourcesValue(locationPart.trim(), "mac").getText().equals(fieldAndValueElement.get(2)));
+                                studentLifePreview.getComputerResourcesValue(fieldAndValueElement.get(1).split(" in ")[1], "mac").getText().equals(fieldAndValueElement.get(2)));
                     }
                     break;
                 case "Organizations" :
