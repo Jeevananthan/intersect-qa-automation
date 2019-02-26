@@ -29,8 +29,8 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
 
     Examples:
-      |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School              |
-      |21         |28     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Int Qa High School 4|
+      |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School                  |
+      |21         |28     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Standalone High School 6|
 
 
 

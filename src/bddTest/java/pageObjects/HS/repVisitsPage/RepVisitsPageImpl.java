@@ -5211,7 +5211,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String selectedAttendeeValue = driver.findElement(By.id("calendar-search-reps")).getAttribute("value");
         Assert.assertTrue("Representative is not present in the Representative text box", selectedAttendeeValue.contains(attendee));
         manualStartTime().sendKeys(Keys.PAGE_DOWN);
-        waitForUITransition();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(eventLocationHsLocator()));
         moveToElement(eventLocationHS());
         eventLocationHS().clear();
@@ -7684,17 +7683,17 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("select an available time slot is not displayed", verifyTextInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("Go to date is not displayed", gotoDateButtonInVisitSchedulePopup().isDisplayed());
         addAttendee().sendKeys(Keys.PAGE_DOWN);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//input[@name='locationWithinSchool']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(eventLocationHsLocator()));
         Assert.assertTrue("event location is not displayed", eventLocationTextboxInAddVisitSchedulePopup().isDisplayed());
         eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_DOWN);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/textarea[@name='internalNotes']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/textarea[@name='internalNotes']")));
         Assert.assertTrue("internal notes is not displayed", internalNotesTextBoxInVisitSchedulePopup().isDisplayed());
         Assert.assertTrue("add visit button is not displayed", verifyAddVisitButtonInVisitSchedulePopup().isDisplayed());
         internalNotesTextBoxInVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
         eventLocationTextboxInAddVisitSchedulePopup().sendKeys(Keys.PAGE_UP);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//div/textarea[@id='internalNotes']"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/textarea[@id='internalNotes']")));
         findRepTextbox().sendKeys(Keys.PAGE_UP);
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//span[contains(text(),'Go to date')]"), 1));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Go to date')]")));
     }
 
     public void removeManuallyAddedBlockedDate(String startDate, String endDate) {
@@ -7762,7 +7761,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         setSpecificDate(date);
         waitForUITransition();
         String currentDate = getcurrentBlockedDate(date);
-        Assert.assertTrue("Blocked day is not displayed", driver.findElement(By.xpath("//div/span[text()='" + currentDate + "']/parent::div/following-sibling::div/span[text()='Blocked - Holiday']")).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(blockedDayInException(currentDate)));
+        Assert.assertTrue("Blocked day is not displayed",getDriver().findElement(blockedDayInException(currentDate)) .isDisplayed());
     }
 
     public void verifyPartiallyScheduledDayInExceptionsSubtab(String reason, String startDate) {
@@ -9705,7 +9705,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private By eventLocationHsLocator(){
-        return By.name("locationWithinSchool");
+        By locator = null;
+        List<WebElement> eventLocation= getDriver().findElements(By.cssSelector("input[name='locationWithinSchool']"));
+        if(eventLocation.size()==1){
+            locator = By.cssSelector("input[name='locationWithinSchool']");
+        }else {
+            locator = By.cssSelector("input[name='eventLocation']");
+        }
+        return locator;
     }
 
     private WebElement addVisitButtonInVisitSchedulePopup() {
@@ -9767,8 +9774,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement eventLocationTextboxInAddVisitSchedulePopup() {
-        WebElement text = driver.findElement(By.xpath("//input[@name='locationWithinSchool']"));
-        return text;
+        WebElement locator = null;
+        List<WebElement> eventLocation= getDriver().findElements(By.cssSelector("input[name='locationWithinSchool']"));
+        if(eventLocation.size()==1){
+            locator = getDriver().findElement(By.cssSelector("input[name='locationWithinSchool']"));
+        }else {
+            locator = getDriver().findElement(By.cssSelector("input[name='eventLocation']"));
+        }
+        return locator;
     }
 
     private WebElement verifyAddVisitButtonInVisitSchedulePopup() {
@@ -11815,4 +11828,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private By attendeeFirstName() {
         return By.cssSelector("input#add-rep-first-name");
     }
+
+    private By blockedDayInException(String currentDate){return By.xpath("//div/span[text()='" + currentDate + "']/parent::div/following-sibling::div/span[text()='Blocked - Holiday']");}
 }
