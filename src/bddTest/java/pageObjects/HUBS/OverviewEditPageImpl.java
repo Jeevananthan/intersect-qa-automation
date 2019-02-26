@@ -154,8 +154,7 @@ public class OverviewEditPageImpl extends PageObjectFacadeImpl {
                     stuFacRatioTextArea().sendKeys(generatedValues.get(key));
                     break;
                 case "Campus Surroundings" :
-                    campusSurroundingsButton().click();//added js click
-                    jsClick(campusSurroundingsButton());
+                    campusSurroundingsButton().click();
                     Select campusSurrDropDown = new Select(getCampusSurroundingsDropDown());
                     campusSurrDropDown.selectByVisibleText(generatedValues.get(key));
                     break;
