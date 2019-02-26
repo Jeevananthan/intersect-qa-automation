@@ -108,7 +108,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      * Navigates to the Family Connection login screen
      * @param hsid - SchoolID that is needed for the hsid paramater in the request URL
      */
-    private void navigateToFamilyConnection(String hsid) {
+    public void navigateToFamilyConnection(String hsid) {
         String url = GetProperties.get("fc.app.url") + hsid;
         load(url);
     }
