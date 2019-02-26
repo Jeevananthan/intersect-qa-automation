@@ -359,7 +359,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         } else if (typeOfComputer.equals("mac")) {
             columnNumber = 2;
         }
-        return getDriver().findElement(By.xpath("//td[text()='" + location + "']/following-sibling::td[" + columnNumber + "]"));
+        return getDriver().findElement(By.xpath("//td[contains(text(), '" + location + "')]/following-sibling::td[" + columnNumber + "]"));
     }
     public String organizationsList = "div.fc-grid__col.fc-grid__col--xs-12.fc-grid__col--sm-6.organizations__item.ng-binding.ng-scope";
     public WebElement athleticsInnerSection(String tabLabel) { return getDriver().findElement(By.xpath("//span[contains(text(), '" + tabLabel + "')]")); }
