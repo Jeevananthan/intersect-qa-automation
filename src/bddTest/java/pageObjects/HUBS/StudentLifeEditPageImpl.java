@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -224,17 +225,38 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     innerEditSection(details.get(4).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Housing Data" :
-                    housingDataButton().click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            housingDataButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     innerEditSection(details.get(5).get(1)).clear();
                     innerEditSection(details.get(5).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Greek Life" :
-                    greekLifeButton().click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            greekLifeButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     innerEditSection(details.get(6).get(1)).clear();
                     innerEditSection(details.get(6).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Services" :
-                    servicesButton().click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            servicesButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     if (generatedValues.get(key).equals("yes")) {
                         if (innerCheckBox(details.get(7).get(1)).getAttribute("class").contains("ng-empty")) {
                             innerCheckBox(details.get(7).get(1)).click();
@@ -246,12 +268,26 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Computing Resources" :
-                    computingResourcesButton().click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            computingResourcesButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     innerEditSection(details.get(8).get(1)).clear();
                     innerEditSection(details.get(8).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Organizations" :
-                    organizationsButton().click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            organizationsButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     if (generatedValues.get(key).equals("yes")) {
                         if (innerCheckBox(details.get(9).get(1)).getAttribute("class").contains("ng-empty")) {
                             innerCheckBox(details.get(9).get(1)).click();
@@ -263,7 +299,14 @@ public class StudentLifeEditPageImpl extends PageObjectFacadeImpl {
                     }
                     break;
                 case "Athletics" :
-                    athleticsButton().click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            athleticsButton().click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     athleticsInnerEditSection(details.get(10).get(1).split(";")[1]).click();
                     Select athleticsDropDown = new Select(getAthleticsDropDown(details.get(10).get(1).split(";")[0], details.get(10).get(1).split(";")[2]));
                     athleticsDropDown.selectByVisibleText(details.get(10).get(1).split(";")[2] + " " + generatedValues.get(key));
