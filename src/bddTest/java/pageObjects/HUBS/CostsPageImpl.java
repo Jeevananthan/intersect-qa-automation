@@ -2,10 +2,7 @@ package pageObjects.HUBS;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -82,7 +79,8 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
                     avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
                     System.out.println("cosa: " + generatedValues.get(key));
                     System.out.println("cosa: " + avgNetPriceText().getText());
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully generated. Expected: " + generatedValues.get(key)
+                            + ". Actual: " + avgNetPriceText().getText().replace(",", ""),
                             generatedValues.get(key).equals(avgNetPriceText().getText().replace(",", "")));
                     break;
                 case "% Receiving Aid" :
@@ -111,8 +109,13 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
         hubsLogin.defaultLogIn(creds);
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(college);
-        waitUntilPageFinishLoading();
+        waitUntilElementExists(hubsMainMenu.profilesTab());
         hubsMainMenu.clickCostsTab();
+        hubsMainMenu.clickCostsTab();
+        waitUntilPageFinishLoading();
+        if (!driver.getCurrentUrl().contains("#/Costs")) {
+            hubsMainMenu.clickCostsTab();
+        }
         waitUntilPageFinishLoading();
         for (List<String> row : sections) {
             switch (row.get(0)) {
@@ -120,7 +123,7 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
             }
         }
         for (int i = 0; i < numberOfTries; i++) {
-            waitForUITransition();
+            waitUntilElementExists(avgNetPriceDropDown());
             Select avgNetPricesDropdown = new Select(avgNetPriceDropDown());
             avgNetPricesDropdown.selectByVisibleText(getDropDownOption(sections.get(0).get(1)));
             if (!generatedValues.get("Average Net Prices").equals(avgNetPriceText().getText().replace(",", ""))) {
@@ -172,14 +175,15 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
         String locatorPart = "";
 
         switch (label) {
-            case "Grant" :locatorPart=" Average Grant Amount "; //locatorPart = "Average Grant Amount";  //old locator
+            case "Grant" :locatorPart="Average Grant Amount";
                 break;
-            case "Pell Grant" : locatorPart=" Average Pell Grant Amount "; //locatorPart = "Average Pell Grant Amount";  //old locator
+            case "Pell Grant" : locatorPart="Average Pell Grant Amount";
                 break;
-            case "Federal Student Loan" : locatorPart=" Average Federal Student Loan Amount "; //locatorPart = "Average Federal Student Loan Amount"; //old locator
+            case "Federal Student Loan" : locatorPart="Average Federal Student Loan Amount";
 
                 break;
         }
-        return getDriver().findElement(By.xpath("//li[text()='" + locatorPart + "']"));
+        return getDriver().findElement(By.xpath("//li[contains(text(), '" + locatorPart + "')]"));
     }
+    private String sendMessageCloseIcon = "div.masthead-dialog-container__close svg";
 }
