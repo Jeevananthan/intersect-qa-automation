@@ -42,8 +42,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
       Then SM I press button "Select date"
       Then SM I pick the date "14" from the date picker
       Then SM I press button "Finish"
-      Then I check that table ".subscriptions-table"  has one more row
-      Then SP I delete all the subscriptions for school
 
   @MATCH-4372
   Scenario: As a Support user, I need the ability to add a county subscription so that I can configure the correct subscription for the HE client.
@@ -72,8 +70,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SM I press button "Select date"
     Then SM I pick the date "14" from the date picker
     Then SM I press button "Finish"
-    Then I check that table ".subscriptions-table"  has one more row
-    Then SP I delete all the subscriptions for school
 
   @MATCH-4373
   Scenario: As a Support user, I need the ability to add a zip subscription so that I can configure the correct subscription for the HE client.
@@ -101,8 +97,6 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Then SM I press button "Select date"
     Then SM I pick the date "14" from the date picker
     Then SM I press button "Finish"
-    Then I check that table ".subscriptions-table"  has one more row
-    Then SP I delete all the subscriptions for school
 
   @MATCH-4371 @MATCH-4372 @MATCH-4373
   Scenario Outline: As a Support user, I need to see error messages when required fields are not set while adding subscription.
