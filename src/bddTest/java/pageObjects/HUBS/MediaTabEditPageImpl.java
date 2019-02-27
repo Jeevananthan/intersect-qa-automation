@@ -38,6 +38,8 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         switch (link) {
             case "Links" : clickOnLinks().click();
                 break;
+            case "Profiles" : clickOnProfilesLink().click();
+                break;
         }
     }
 
@@ -68,6 +70,11 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
             case "Request Information" : verifyURLs(link);
                 break;
         }
+    }
+
+    public void verifyStudentProfile(String contents) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//*/*[contains(text(), '"+ contents +"')]")).getText()).as("Profile verification").isEqualTo(contents);
     }
 
     public void clickOnPublishMyMediaChangesButton(String buttonName) {
@@ -225,6 +232,10 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private WebElement clickOnLinks() {
         return getDriver().findElement(By.cssSelector("li[id='links-accordion-title"));
+    }
+
+    private WebElement clickOnProfilesLink() {
+        return getDriver().findElement(By.cssSelector("li[id='profiles-accordion-title'"));
     }
 
     private WebElement cancelAndContinueEditingButton() {

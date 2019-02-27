@@ -11,6 +11,7 @@ public class EditMediaTabStepDefs implements En{
 
         When("^HUBS I click on \"([^\"]*)\" tab$", mediaTabEdit::clickOnHEMTab);
         When("^HUBS I expanded the \"([^\"]*)\" link$", mediaTabEdit::clickOnLink);
+        Then("^HUBS I verify \"([^\"]*)\" profile$", mediaTabEdit::verifyStudentProfile);
         When("^HUBS I validate URL for \"([^\"]*)\"$", mediaTabEdit::validateURLs);
         Then("^HUBS I verify \"([^\"]*)\" input box with URL \"([^\"]*)\"$", mediaTabEdit::verifyRequestInformationURL);
         When("^HUBS verify contents \"([^\"]*)\" into \"([^\"]*)\" section", mediaTabEdit::verifyContents);

@@ -98,4 +98,19 @@ Feature: HUBS - Edit Media
       | http://gobama.ua.edu/contact/|
       | ://gobama|
 
-
+  @HUBS-5233
+  Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Intersect
+  Awareness Subscription activated, I want to see my institution's current profiles in HEM so I can determine if I want
+  to update them or not. & Profiles'  premium HEM content in the right area of the React app so I can see what currently
+  exists on my College's  Naviance profile.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Profiles" link
+    Then HUBS I verify "Student Profile" profile
+#    Then HUBS I verify " - Grace" profile
+#    Then HUBS verify title "Links & Profiles" into "Title Links" section
+#    Then HUBS verify title "Links" into "Title Links" section
+#    Then HUBS verify contents "COMMUNICATE" into "Links" section
+#    Then HUBS verify contents "APPLY ONLINE" into "Links" section
+#    Then HUBS verify contents "LEARN MORE" into "Links" section
+#    Then HUBS verify contents "Request Information" in the dropdown "COMMUNICATE"
+#    Then HUBS verify contents "lttest.tt" in the dropdown "LEARN MORE"
