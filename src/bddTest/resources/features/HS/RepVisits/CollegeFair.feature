@@ -6,7 +6,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone10"
     And HS I Navigate to College Fairs tab of the Repvisits Page
     And HS I verify the College Fair Blank DashBoard Message
-
+    And HS I successfully sign out
 
   @MATCH-1776
   Scenario Outline: As a HS RepVisits user I want to able to create a new fair in the college fair
@@ -20,6 +20,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
     Examples:
       |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
       |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
@@ -133,7 +134,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the "Close" button in the success page of the college fair
     Then HS I verify the list of registered college fair attendees for the "<Name>","<Contact>","<Notes>","<StatusCanceled>","<ActionCanceled>"
     Then HS I cancel the fair of name "PreviouslySetFair" with the reason "TestCase Cleanup"
-
+    And HS I successfully sign out
 
     Examples:
       |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                      |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
@@ -210,7 +211,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   I want to be able to re-add that attendee to the fair
   So that I can optimize fair attendance.
 #create fair
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "CollegeFairs"
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
 #add attendee
     Then HS I add the following attendees to the College Fair
@@ -226,7 +227,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #decline attendee
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "CollegeFairs"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
     Then HS I select "DECLINE" option for "<College Fair Name>"
@@ -237,16 +238,17 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #confirm attendee
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "CollegeFairs"
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the "DECLINE","CONFIRM" buttons are present in the Fairs tab
     Then HS I select "CONFIRM" option for "<College Fair Name>"
 #cancel the college Fair
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
+    And HS I successfully sign out
     Examples:
-      |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
-      |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Standalone High School 2|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
+      |College Fair Name                 |Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School             |Attendees          |buttonToClickAdd Attendees|cancellationMessage          |buttonToClickYes, cancel visit|institution               |Attendee              |
+      |qa Fairs for cancel28 decline     |3    |0800AM    |1000AM  |1                |$25 |25                    |100                        |Save         |Cinema School (the)|PurpleHE Automation|Add Attendees             |Qa test for cancel Attendee  |Yes, cancel visit             |The University of Alabama |PurpleHE Automation   |
 
   @MATCH-2080 @MATCH-2217
   Scenario: As a HS RepVisits user,
@@ -351,5 +353,23 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I verify "PurpleHE Undefined" text is not displaying in the attendee page
     #cancel the college Fair
     Then HS I Click on the View Details button for the College Fair Event "qa Fairs"
+    Then HS I select Edit button to cancel the college Fair "qa Fairs"
+    And HS I successfully sign out
+
+  @MATCH-3924
+  Scenario: As a high school admin user that has previously scheduling College Fairs in RepVisits, I want to be able to schedule a college fair up and through the end of SY
+  (i.e. July 14 date of the year through which the Regular Weekly Hours end date picker can be supported through),
+  so that my end date for Regular Weekly hours doesn't limit when I can schedule a College Fair.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify the date "July 14 2021" is not enabled in college fair page
+# verify earlier than current date is not enabled in college fair
+    Then HS I verify the date "-7" is not enabled in college fair page
+    Then HS I set the following data to On the College Fair page "qa Fairs", "3", "0800AM", "1000AM", "1", "$25", "25", "100", "Save"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I Click on the View Details button for the College Fair Event "qa Fairs"
+    Then HS I verify the date "July 14 2021" is not enabled in edit college fair page
+# verify earlier than current date is not enabled in edit college fair
+    Then HS I verify the date "-7" is not enabled in edit college fair page
     Then HS I select Edit button to cancel the college Fair "qa Fairs"
     And HS I successfully sign out

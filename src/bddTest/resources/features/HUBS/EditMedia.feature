@@ -76,3 +76,41 @@ Feature: HUBS - Edit Media
     Then HUBS verify contents "Request Information" in the dropdown "COMMUNICATE"
     Then HUBS verify contents "lttest.tt" in the dropdown "LEARN MORE"
 
+  @HUBS-5177
+  Scenario Outline: As an HE user with either the Publishing or Administrator role tied to an HE account with the Intersect Awareness
+           Subscription activated, I want to be able to manage my institution's Request Information & Apply Online links so I
+           do not have to rely on Intersect Support to do this for me.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS I click on PUBLISH MY LINKS & PROFILES CHANGES editing  "<URL>" new URL
+    Then HUBS I click on Submit Changes
+    Then HUBS I click on Continue editing link
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    And HUBS I access HUBS Edit Mode
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS I verify "Request Information" input box with URL "http://gobama.ua.edu/contact/"
+    Then HUBS I validate URL for "Request Information"
+    Examples:
+      | URL|
+      | https://gobama.ua.edu/contact/|
+      | www.gobama.ua.edu/contact/|
+      | http://gobama.ua.edu/contact/|
+      | ://gobama|
+
+  @HUBS-5233
+  Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Intersect
+  Awareness Subscription activated, I want to see my institution's current profiles in HEM so I can determine if I want
+  to update them or not. & Profiles'  premium HEM content in the right area of the React app so I can see what currently
+  exists on my College's  Naviance profile.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Profiles" link
+    Then HUBS I verify "Student Profile" profile
+#    Then HUBS I verify " - Grace" profile
+#    Then HUBS verify title "Links & Profiles" into "Title Links" section
+#    Then HUBS verify title "Links" into "Title Links" section
+#    Then HUBS verify contents "COMMUNICATE" into "Links" section
+#    Then HUBS verify contents "APPLY ONLINE" into "Links" section
+#    Then HUBS verify contents "LEARN MORE" into "Links" section
+#    Then HUBS verify contents "Request Information" in the dropdown "COMMUNICATE"
+#    Then HUBS verify contents "lttest.tt" in the dropdown "LEARN MORE"

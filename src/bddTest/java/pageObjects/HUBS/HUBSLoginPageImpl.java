@@ -95,13 +95,13 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Search box in College Search footer is not displayed", getFooter().findElement(By.xpath(".//input[@placeholder='Search by College Name']"))
                 .isDisplayed());
 
-        Assert.assertTrue("'THINKING ABOUT' menu is not displayed", getFooter().findElement(By.xpath("//a[text()=' Thinking About']"))
+        Assert.assertTrue("'THINKING ABOUT' menu is not displayed", getFooter().findElement(By.xpath("//a[contains(text(), 'Thinking About')]"))
                 .isDisplayed());
 
-        Assert.assertTrue("'APPLYING TO' menu is not displayed", getFooter().findElement(By.xpath("//a[text()=' Applying To']"))
+        Assert.assertTrue("'APPLYING TO' menu is not displayed", getFooter().findElement(By.xpath("//a[contains(text(), 'Applying To')]"))
                 .isDisplayed());
 
-        Assert.assertTrue("'MORE' menu is not displayed", getFooter().findElement(By.xpath("//a[text()=' More ']"))
+        Assert.assertTrue("'MORE' menu is not displayed", getFooter().findElement(By.xpath("//a[contains(text(), 'More')]"))
                 .isDisplayed());
     }
 
@@ -110,10 +110,10 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
      * @param link Name of the link to navigate to in the "More" menu in the SM footer.
      */
     public void verifyFooterLink(String link) {
-            footerMoreButton().click();
             waitUntilPageFinishLoading();
         switch(link) {
             case "Upcoming Visits":
+                footerMoreButton().sendKeys(Keys.RETURN);
                 footerUpcomingVisitsLink().click();
                 waitUntilPageFinishLoading();
                 softly().assertThat(getDriver().getCurrentUrl()).contains("/colleges/visits");
@@ -121,6 +121,7 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
                 waitUntilPageFinishLoading();
                 break;
             case "Events":
+                footerMoreButton().sendKeys(Keys.RETURN);
                 footerEventsAppLink().click();
                 waitUntilPageFinishLoading();
                 softly().assertThat(getDriver().getCurrentUrl()).contains("college-events");
@@ -147,7 +148,7 @@ public class HUBSLoginPageImpl extends PageObjectFacadeImpl {
     private WebElement collegeInResults(String collegeName) { return driver.findElement(By.xpath("//tbody//a[text() = '" + collegeName + "']")); }
     private String noResultsFoundTextLocator = "//div[contains(text(), 'No results found')]";
     private WebElement getFooter() {return driver.findElement(By.xpath("//sticky-bar"));}
-    private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//sticky-bar//*[text() = \" More \"]"));}
-    private WebElement footerUpcomingVisitsLink() {return getDriver().findElement(By.xpath("//sticky-bar//*[text() = \" Upcoming Visits \"]"));}
-    private WebElement footerEventsAppLink() {return getDriver().findElement(By.xpath("//sticky-bar//*[text() = \" Events \"]"));}
+    private WebElement footerMoreButton() {return getDriver().findElement(By.xpath("//sticky-bar//*[contains(text(), 'More')]"));}
+    private WebElement footerUpcomingVisitsLink() {return getDriver().findElement(By.xpath("//a[contains(text(), 'Upcoming Visits')]"));}
+    private WebElement footerEventsAppLink() {return getDriver().findElement(By.xpath("//a[contains(text(), 'Events')]"));}
 }

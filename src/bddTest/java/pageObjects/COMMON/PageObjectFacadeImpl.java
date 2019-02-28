@@ -56,6 +56,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected void communityFrame() {
         // This shouldn't navigate, it should only jump into the iFrame.  Use navBar.goToCommunity() instead for that.
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe[title=Community]")));
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
     }

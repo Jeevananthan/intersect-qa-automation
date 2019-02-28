@@ -20,7 +20,7 @@ public class GlobalSearchStepDefs implements En {
         Then("^HS I type into the global search box and click search icon to display advanced search results \"([^\"]*)\"$", globalSearch::verifyAdvanceSearchByIcon);
         Then("^HS I verify advanced search results were categorized by entity$", globalSearch::verifyAdvancedSearchResultsCategorized);
         Then("^HS I verify that only five or less results are listed for advanced search results displayed by category$", globalSearch::verifyAdvancedSearchCategoryTabsDisplayFiveOrLessResults);
-        Then("^HS I verify advanced search tab layouts are displayed correctly \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchResultsLayout);
+        Then("^HS I verify advanced search tab layouts are displayed correctly \"([^\"]*)\"$", globalSearch::verifyHSAdvancedSearchResultsLayout);
         Then("^HS I verify advanced search returns the HS user's general description field below the title and institution fields \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchUserResultsDisplaysGeneralDescription);
         Then("^HS I verify I can perform an advanced search utilizing any combination of fields for \"([^\"]*)\"$", globalSearch::verifyAdvancedSearchFieldsReturnResults);
         Then("^HS I verify real-time search results do not return any results for HE groups \"([^\"]*)\"$", globalSearch::verifyNoRealTimeSearchResultsReturned);

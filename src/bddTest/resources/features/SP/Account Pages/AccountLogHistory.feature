@@ -98,7 +98,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
   @MATCH-5269
   Scenario: As a Support App I need to add log entries and verify log entry details
   #precondition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "LogHistory1"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "No, I want to manually review all incoming requests."
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -114,11 +114,11 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     And HS I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
-    And HE I search for "Standalone High School 2" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "Standalone High School 2" using "14" and "10:20am"
-    And HE I verify the schedule pop_up for "Standalone High School 2" using "10:20am" and "11:20am"
+    And HE I search for "Academy Nw/family Academy" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Academy Nw/family Academy" using "14" and "10:20am"
+    And HE I verify the schedule pop_up for "Academy Nw/family Academy" using "10:20am" and "11:20am"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "LogHistory1"
     Then HS I verify the Notification "Purple","Alpena Community College","10:20am","14" in the Request Notification Tab
     And HS I select "Decline" option for the Notification using "Purple","10:20am","Alpena Community College"
     Then HS I verify the Decline Pop-up in the Notification Tab "Purple","Alpena Community College","10:20am","14"
@@ -127,23 +127,23 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
 #Declined
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the Log History for "Alpena Community College" from the institution dashboard
-    Then SP I verify visit details in Log History for "DECLINED" using "Today","School Manager"
+    Then SP I verify visit details in Log History for "DECLINED" using "Today","PurpleHS LogHistory1"
 
     Then HE I am logged in to Intersect HE as user type "alpenaAdmin"
-    And HE I search for "Standalone High School 2" in RepVisits page
-    Then HE I select Visits to schedule the appointment for "Standalone High School 2" using "14" and "10:20am"
-    And HE I verify the schedule pop_up for "Standalone High School 2" using "10:20am" and "11:20am"
+    And HE I search for "Academy Nw/family Academy" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Academy Nw/family Academy" using "14" and "10:20am"
+    And HE I verify the schedule pop_up for "Academy Nw/family Academy" using "10:20am" and "11:20am"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "LogHistory1"
     Then HS I verify the Notification "Purple","Alpena Community College","10:20am","14" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "Purple","10:20am","Alpena Community College"
     And HS I successfully sign out
 #Approved
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the Log History for "Alpena Community College" from the institution dashboard
-    Then SP I verify visit details in Log History for "APPROVED" using "Today","School Manager"
+    Then SP I verify visit details in Log History for "APPROVED" using "Today","PurpleHS LogHistory1"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "LogHistory1"
     Then HS I reschedule the visit for the following data "Alpena Community College","10:25am","14" in calendar
     Then HS I verify reschedule pop-up for the following data "Purple HE","Alpena Community College","10:25am","14"
     Then HS I reschedule a visit for the following details "10:35am","by QA","14"
@@ -151,9 +151,9 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
 #Reschedule
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the Log History for "Alpena Community College" from the institution dashboard
-    Then SP I verify visit details in Log History for "Reschedule" using "Today","School Manager"
+    Then SP I verify visit details in Log History for "Reschedule" using "Today","PurpleHS LogHistory1"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "LogHistory1"
     And HS I verify the calendar page in RepVisits using "Alpena Community College","10:25am","14" for cancel the Visit
     Then HS I verify "Cancel This Visit" notification for "Purple HE" using "10:25AM","Alpena Community College","14","10:25am"
     Then HS I select cancel the Visit
@@ -161,4 +161,4 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
 #Cancel
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the Log History for "Alpena Community College" from the institution dashboard
-    Then SP I verify visit details in Log History for "Cancel" using "Today","School Manager"
+    Then SP I verify visit details in Log History for "Cancel" using "Today","PurpleHS LogHistory1"

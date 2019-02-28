@@ -357,3 +357,49 @@ Feature: SM - ActiveMatch Next Gen
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+
+  @MATCH-5485
+  Scenario: As a student I do not want to see duplicate matches on College Match so I am not confused.
+    #Clean existing subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5201SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5485SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Create Majors Messages
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "advanced-awareness/majors" url
+    And HE I set messages for the following majors:
+      | African-American/Black Studies              | Message 1 |
+      | American/United States Studies/Civilization | Message 2 |
+    And HE I click the advanced awareness save button
+
+    #Make the connector verifications
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to page via URL path "colleges/supermatch-next"
+    When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | African-American/Black Studies              |
+      | American/United States Studies/Civilization |
+    When SM I navigate to page via URL path "colleges/match/looking-for-you"
+    Then SM I verify the card for "The University of Alabama" contains:
+      | Babson College    |
+      | African-American/Black Studies              |
+      | American/United States Studies/Civilization |
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school

@@ -240,12 +240,10 @@ public class AdmissionsPageImpl extends PageObjectFacadeImpl {
     public WebElement freshmanDeposit() { return getDriver().findElement(By.cssSelector("dd[ng-if=\"vm.fees.freshmanApplicationDeposit\"]")); }
     public WebElement internationalApplicationFee() { return getDriver().findElement(By.cssSelector("dd[ng-if=\"vm.fees.internationalApplicationFee\"]")); }
     public WebElement internationalDeposit() { return getDriver().findElement(By.cssSelector("dd[ng-if=\"vm.fees.internationalApplicationDeposit\"]")); }
-    public WebElement appFactsTab(String group) { return getDriver().findElement(By.xpath("//li[contains(text(), '" + group + "')]")); }
+    public WebElement appFactsTab(String group) { return getDriver().findElement(By.xpath("//legend[text()='"+group+"']")); }
     public List<WebElement> appReqList(String section) { return getDriver().findElements(By.xpath("//h4[text()='" + section + "']/following-sibling::ul/li")); }
-
-
     public WebElement getAppRequirement(String group, String requirement) {
-        return getDriver().findElement(By.xpath("//legend[text()='" + group + "']/following-sibling::*//strong[contains(text(), '" + requirement + "')]"));
+        return getDriver().findElement(By.xpath("//legend[text()='Freshman']/following-sibling::entity-collection/div/div/div/div/strong[text()='"+requirement+"']"));
     }
     public List<WebElement> appFactorsList(String importance) { return getDriver().findElements(By.xpath("//h4[text()='" + importance + "']/following-sibling::ul/li")); }
     public WebElement deadLineMonth(String deadLineType) { return getDriver().findElement(By.xpath("//span[text()='" + deadLineType + " Deadline']/../div/div[1]")); }

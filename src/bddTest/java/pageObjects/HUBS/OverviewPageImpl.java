@@ -7,7 +7,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.loginPage.LoginPageImpl;
 import utilities.GetProperties;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
     private FCCollegesPageImpl collegesPage = new FCCollegesPageImpl();
     private HUBSMainMenuPageImpl hubsMainMenu = new HUBSMainMenuPageImpl();
     private HUBSHeaderPageImpl header = new HUBSHeaderPageImpl();
+    private LoginPageImpl loginPage = new LoginPageImpl();
 
     public OverviewPageImpl() {
         logger = Logger.getLogger(OverviewPageImpl.class);
@@ -87,7 +90,7 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         return fieldValues;
     }
 
-    private void verifyGeneratedValues(List<List<String>> sections, HashMap<String, String> generatedValues) {
+    private void verifyGeneratedValues(HashMap<String, String> generatedValues) {
         waitUntil(ExpectedConditions.textToBe(By.cssSelector("span[ng-if=\"vm.profile.displayUrl\"] + a"), getQuickFact("Website").getText()));
         for (String key : generatedValues.keySet()) {
             switch (key.split(";")[0]) {
@@ -152,29 +155,66 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void verifyChangesPublishedInHUBS(String username, String password, String college, DataTable stringsDataTable) {
+    public void verifyChangesPublishedInHUBS(DataTable stringsDataTable) {
+        List<String> sections = stringsDataTable.asList(String.class);
+        String userName = "";
+        String password = "";
+        String school = "";
+        String college = "";
+        for (String entry : sections) {
+            switch (entry.split(";")[0]) {
+                case "userName" :
+                    userName = entry.split(";")[1];
+                    break;
+                case "password" :
+                    password = entry.split(";")[1];
+                    break;
+                case "school" :
+                    school = entry.split(";")[1];
+                    break;
+                case "college" :
+                    college = entry.split(";")[1];
+                    break;
+            }
+        }
+
         driver.close();
-        load(GetProperties.get("hubs.app.url"));
-        List<List<String>> sections = stringsDataTable.asLists(String.class);
-        List<String> creds = new ArrayList<String>() {{
-            add(username);
-            add(password);
-        }};
-        hubsLogin.defaultLogIn(creds);
-        fcMain.clickCollegesTab();
-        collegesPage.searchAndOpenCollege(college);
+        loginPage.navigateToFamilyConnection(school);
+        getDriver().findElement(By.name("username")).sendKeys(userName);
+        getDriver().findElement(By.name("password")).sendKeys(password);
+        button("Login").click();
+        new WebDriverWait(getDriver(),60).until(ExpectedConditions.visibilityOf(link("/colleges")));
+        searchCollegeField().clear();
+        searchCollegeField().sendKeys(college);
+        searchButton().click();
+        waitUntilElementExists(goButton());
+        if (driver.findElements(By.xpath(noResultsLabelLocator)).size() > 0) {
+            goButton().click();
+        }
+        waitUntilPageFinishLoading();
+        collegeLink(college).click();
+        waitUntilPageFinishLoading();
         hubsMainMenu.clickOverviewTab();
         waitUntilPageFinishLoading();
         for (int i = 0; i < 10; i++) {
             if (!generatedValues.get("Website").equals(getQuickFact("Website").getText())) {
                 header.clickLogOut();
-                hubsLogin.defaultLogIn(creds);
-                fcMain.clickCollegesTab();
-                collegesPage.searchAndOpenCollege(college);
+                getDriver().findElement(By.name("username")).sendKeys(userName);
+                getDriver().findElement(By.name("password")).sendKeys(password);
+                button("Login").click();
+                new WebDriverWait(getDriver(),60).until(ExpectedConditions.visibilityOf(link("/colleges")));
+                searchCollegeField().clear();
+                searchCollegeField().sendKeys(college);
+                searchButton().click();
+                if (driver.findElements(By.cssSelector(noResultsLabelLocator)).size() > 0) {
+                    searchButton().click();
+                }
+                collegeLink(college).click();
+                waitUntilPageFinishLoading();
                 hubsMainMenu.clickOverviewTab();
             }
         }
-        verifyGeneratedValues(sections, generatedValues);
+        verifyGeneratedValues(generatedValues);
     }
 
     //Locators
@@ -282,4 +322,9 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         }
         return result;
     }
+    private WebElement searchCollegeField() { return driver.findElement(By.cssSelector("input[type='search']")); }
+    private WebElement searchButton() { return driver.findElement(By.xpath("//button/span[text() = 'SEARCH']")); }
+    private String noResultsLabelLocator = "//div[contains(text(), 'No results found')]";
+    private WebElement collegeLink(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']")); }
+    private WebElement goButton() { return driver.findElement(By.xpath("//button[text() = 'Go']")); }
 }

@@ -37,13 +37,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void verifyInstitutionalProfilePage(){
-        WebDriverWait wait = new WebDriverWait(driver, 60);
-        wait.pollingEvery(10000, TimeUnit.MILLISECONDS);
-        wait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed();
-            }
-        });
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//h3[text()='Edit your college profile']"), 0));
         Assert.assertTrue("'Edit your college profile' page title is not displayed",driver.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed());
         Assert.assertTrue("Text 'To get started – choose a category.'",driver.findElement(By.xpath("//div[text()='To get started – choose a category.']")).isDisplayed());
         Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience. ']")).isDisplayed());

@@ -11,6 +11,9 @@ public class EditMediaTabStepDefs implements En{
 
         When("^HUBS I click on \"([^\"]*)\" tab$", mediaTabEdit::clickOnHEMTab);
         When("^HUBS I expanded the \"([^\"]*)\" link$", mediaTabEdit::clickOnLink);
+        Then("^HUBS I verify \"([^\"]*)\" profile$", mediaTabEdit::verifyStudentProfile);
+        When("^HUBS I validate URL for \"([^\"]*)\"$", mediaTabEdit::validateURLs);
+        Then("^HUBS I verify \"([^\"]*)\" input box with URL \"([^\"]*)\"$", mediaTabEdit::verifyRequestInformationURL);
         When("^HUBS verify contents \"([^\"]*)\" into \"([^\"]*)\" section", mediaTabEdit::verifyContents);
         When("^HUBS verify contents \"([^\"]*)\" in the dropdown \"([^\"]*)\"", mediaTabEdit::verifyContents);
         When("^HUBS verify title \"([^\"]*)\" into \"([^\"]*)\" section", mediaTabEdit::verifyContents);
@@ -23,6 +26,9 @@ public class EditMediaTabStepDefs implements En{
         Then("^HUBS I verify contents \"([^\"]*)\" in Intro tab$",mediaTabEdit::verifyContentsIntroTab);
         Then("^HUBS I verify \"([^\"]*)\" Lock$",mediaTabEdit::verifyPremiumFeatureLock);
         Then("^HUBS I verify the Upgrade Modal$",mediaTabEdit::verifyUpgradeModal);
+        Then("^HUBS I click on Submit Changes$",mediaTabEdit::clickOnSubmitChangesButton);
+        Then("^HUBS I click on Continue editing link$",mediaTabEdit::clickOnContinueEditingLink);
+        Then("^HUBS I click on PUBLISH MY LINKS & PROFILES CHANGES editing  \"([^\"]*)\" new URL$",mediaTabEdit::clickOnPublishMyLinksButton);
     }
 
 }
