@@ -9,7 +9,7 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
   Scenario: As an HE user with the Administrator or Publishing role I want to see multiple 'tabs' in HEM that will
   separate the two kinds of HEM content (data vs premium content) so Premium HEM features can be built in React
   versus Angular
-    Then HUBS all three tabs ie "BASIC INFO", "MEDIA" and "LINKS & PROFILES" should display
+    Then HUBS all three tabs ie "BASIC INFO", "INTRO", "MEDIA" and "LINKS & PROFILES" should display
     Then HUBS I click on "MEDIA" tab in main menu
     And HUBS I check "MEDIA" tab functionality
 
@@ -23,7 +23,7 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
   Scenario: As an HE user with the Administrator or Publishing role that has made 'Media' or 'Links & Profiles'
   updates to my institution's profile in HEM (React) but has not published those updates from within either tab,
   I want to be notified that I need to publish my changes any time I leave HEM (React) to the 'Information' tab of
-  HEM (Angular) or elsewhere in Intersect so I don't lose my work.
+  HEM (Angular) or elsewhere in Intersect
     Then HUBS I click on "MEDIA" tab in main menu
     And HUBS I select an image for logo
     And HUBS I click on "BASIC INFO" tab in main menu

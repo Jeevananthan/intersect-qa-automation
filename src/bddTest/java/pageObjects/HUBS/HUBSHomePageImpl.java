@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.util.ArrayList;
@@ -28,8 +29,9 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
      * @param links
      * Author : Arun
      */
-    public void verifyHubPageMainMenuTabs(String basicInfo, String media, String links){
+    public void verifyHubPageMainMenuTabs(String basicInfo, String intro, String media, String links){
         Assert.assertTrue(basicInfo+" tab is not displaying or by default it's not highlighted.", getBasicInfoTab(basicInfo).isDisplayed());
+        Assert.assertTrue(intro+" tab is not displaying.", getIntroTab(intro).isDisplayed());
         Assert.assertTrue(media+" tab is not displaying.", getMediaTab(media).isDisplayed());
         Assert.assertTrue(links+" tab is not displaying.", getLinksTab(links).isDisplayed());
         Assert.assertTrue("PUBLISH MY INFORMATION CHANGES button is not displaying.", getPublishMyBasicInfoChangesButton().isDisplayed());
@@ -60,7 +62,7 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
      * Author : Arun
      */
     public void clickOnHubsMenuTab(String menuTab){
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li/span[text()='"+menuTab+"']|//a[text()='"+menuTab+"']"))).click();
+        waitForUITransition();
         getMainMenuTab(menuTab).click();
         }
 
@@ -108,38 +110,21 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         clickOnHubsMenuTab("BASIC INFO");
         getPublishButton().click();
         getSubmitChangesButton().click();
-        /*
-        Assert.assertTrue("Great! You've updated your college profile Text is not displaying.", driver.findElement(By.xpath("//span[contains(text(), 'Great! You')]")).isDisplayed());
-        Assert.assertTrue("Great! You've updated your college profile Text is not displaying.", driver.findElement(By.xpath("//span[contains(text(), 've updated your college profile')]")).isDisplayed());
-        continureEditingPopupLink().click();
-*/
-        navColProPageObj.openHUBSEditorMode();
-
-        clickOnHubsMenuTab("MEDIA");
-        clickOnHubsMenuTab("BASIC INFO");
-        getDisregardMyChangesButton().click();
     }
 
     public void selectImageForLogo(){
-        //---------------------------------
-        WebElement logo = driver.findElement(By.xpath("//span[text()='Logo']"));
-        logo.click();
-        //WebElement selectLogo = driver.findElement(By.xpath("//span[text()='Select an image to upload']"));
-        //selectLogo.click();
-        driver.findElement(By.xpath("//input[@accept='image/*']")).sendKeys("D:\\Profile.png");
-        Assert.assertTrue("Back button is not displaying in Publish model.", driver.findElement(By.xpath("//span[text()='Back']")).isDisplayed());
-
-        WebElement previewButton = driver.findElement(By.xpath("//span[text()='PREVIEW AND CONTINUE EDITING']"));
-        previewButton.click();
-        /*
-        waitForUITransition();
-        WebElement element = driver.findElement(By.xpath("//span[text()='Publish my media changes']/.."));
-        String str = element.getAttribute("class");
-        Assert.assertTrue("Publish my media changes button is not enabled.", str.equals("ui secondary button"));
-*/
+        logo().click();
+        String logoPath = System.getProperty("user.dir") + "/src/bddTest/java/utilities/Logo.jpg";
+        selectAnImageToUpload().sendKeys(logoPath);
+        Assert.assertTrue("Back button is not displaying in Publish model.", backButton().isDisplayed());
+        previewButton().click();
     }
 
     //Locators
+    public WebElement selectAnImageToUpload(){ return driver.findElement(By.xpath("//input[@accept='image/*']"));}
+    public WebElement previewButton(){ return driver.findElement(By.xpath("//span[text()='PREVIEW AND CONTINUE EDITING']"));}
+    public WebElement backButton(){ return driver.findElement(By.xpath("//span[text()='Back']"));}
+    public WebElement logo(){ return driver.findElement(By.xpath("//span[text()='Logo']"));}
     public WebElement continureEditingPopupLink(){return driver.findElement(By.id("confirm-close-button"));}
     public WebElement getContinueEditingButton(){return driver.findElement(By.id("publish-close-button"));}
     public WebElement getDisregardMyChangesButton(){return driver.findElement(By.id("publish-continue-button"));}
@@ -152,6 +137,7 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
     public WebElement getMainMenuTab(String menuTab){return driver.findElement(By.xpath("//li/span[text()='"+menuTab+"']|//a[text()='"+menuTab+"']"));}
     public WebElement getPublishMyBasicInfoChangesButton(){return driver.findElement(By.xpath("//span[text()='Publish my basic info changes']"));}
     public WebElement getBasicInfoTab(String basicInfo){return driver.findElement(By.xpath("//li/span[text()='"+basicInfo+"' and @class='active']"));}
+    public WebElement getIntroTab(String intro){return driver.findElement(By.xpath("//li/span[text()='"+intro+"']"));}
     public WebElement getMediaTab(String media){return driver.findElement(By.xpath("//li/span[text()='"+media+"']"));}
     public WebElement getLinksTab(String links){return driver.findElement(By.xpath("//li/span[text()='"+links+"']"));}
 
