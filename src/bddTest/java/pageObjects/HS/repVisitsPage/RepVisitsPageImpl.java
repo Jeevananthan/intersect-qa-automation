@@ -10522,6 +10522,54 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void verifyDateIsDisabledInCollegeFairPage(String date){
+        waitUntilPageFinishLoading();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        WebElement fairs = collegeFairs();
+        waitUntilElementExists(fairs);
+        collegeFairs().click();
+        waitUntilPageFinishLoading();
+        addCollegeButton().click();
+        fairsDatePicker().click();
+        String[] parts;
+        if(date.length()>2){
+             parts = date.split(" ");
+        }else {
+            int Date = Integer.parseInt(date);
+            String currentDate = getSpecificDate(Date,"MMMM d yyyy");
+            parts = currentDate.split(" ");
+        }
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        Assert.assertTrue("Selected date is enabled",getDriver().findElement(By.xpath("//div[@aria-disabled='true'][text()=" + parts[1] + "]")).isDisplayed());
+        fairsDatePicker().click();
+        getDriver().findElement(closeFairPopup()).click();
+        waitUntilPageFinishLoading();
+    }
+
+    public void verifyDateIsDisabledInEditCollegeFairPage(String date){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(editCollegeFairButton()));
+        Assert.assertTrue("Edit button is not displayed", editButtonInCollegeFair().isDisplayed());
+        editButtonInCollegeFair().click();
+        waitUntilPageFinishLoading();
+        fairsDatePicker().click();
+        String[] parts;
+        if(date.length()>2){
+            parts = date.split(" ");
+        }else {
+            int Date = Integer.parseInt(date);
+            String currentDate = getSpecificDate(Date,"MMMM d yyyy");
+            parts = currentDate.split(" ");
+        }
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        Assert.assertTrue("Selected date is enabled",getDriver().findElement(By.xpath("//div[@aria-disabled='true'][text()=" + parts[1] + "]")).isDisplayed());
+        fairsDatePicker().click();
+        getDriver().findElement(closeFairPopup()).click();
+        waitUntilPageFinishLoading();
+    }
+
     /**
      * verifying undefined text is not displaying in college fair attendee page
      * @param firstNameWithUndefinedText

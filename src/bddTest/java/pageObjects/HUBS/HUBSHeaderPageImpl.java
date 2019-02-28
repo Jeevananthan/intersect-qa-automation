@@ -17,8 +17,8 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickLogOut() {
-        waitUntil(ExpectedConditions.elementToBeClickable(logOutButton()));
-        logOutButton().click();
+        waitUntilElementExists(logOutButton());
+        logOutButton().sendKeys(Keys.RETURN);
         waitUntilPageFinishLoading();
         logger.info("User signed out HUBS");
     }
@@ -43,7 +43,7 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
     //Locators
 
     public WebElement logOutButton() {
-        return getDriver().findElement(By.xpath("//button[@class='_2qIuE8s2 _3xfy-kFv _2K6GsXyS _24iuKCJi']"));
+        return getDriver().findElement(By.xpath("//header[@id = 'header']//button[text() = 'LOG OUT']"));
     }
 
     private WebElement heartIcon() {

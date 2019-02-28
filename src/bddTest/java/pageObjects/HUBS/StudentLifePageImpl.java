@@ -239,6 +239,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(college);
         hubsMainMenu.clickStudentLifeTab();
+        waitUntilElementExists(totalStudentsValue());
         for (int i = 0; i < 10; i++) {
             if (!generatedValues.get("School Size").equals(totalStudentsValue().getText().split(" ")[0].replace(",", ""))) {
                 header.clickLogOut();

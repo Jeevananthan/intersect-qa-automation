@@ -793,5 +793,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I go to the calendar page and verify the visit appointment is displaying with gray color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPendingVisitInCalendar);
 
         Then("^HS I go to the calendar page and verify the visit appointment is displaying with blue color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyScheduledVisitInCalendar);
+
+        Then("^HS I verify the date \"([^\"]*)\" is not enabled in college fair page$",repVisits::verifyDateIsDisabledInCollegeFairPage);
+
+        Then("^HS I verify the date \"([^\"]*)\" is not enabled in edit college fair page$",repVisits::verifyDateIsDisabledInEditCollegeFairPage);
+
     }
 }
