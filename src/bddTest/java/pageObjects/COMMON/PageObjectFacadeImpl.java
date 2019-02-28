@@ -326,11 +326,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
      * Checks the page to see if a SuperMatch toast message is displayed, and if so, clicks the close button to dismiss it.
      */
     public void clearSuperMatchToast() {
-        if (getDriver().findElements(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")).size() > 0) {
+        if (getDriver().findElements(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")).size() > 0)
             superMatchToastMessageCloseButton().click();
-            // Toast doesn't clear instantly and can still break things, wait a couple hundred ms.
+        if (getDriver().findElements(By.xpath("//div[@class[contains(.,'supermatch-filter-message-reminder')]]/i[@class='close icon']")).size() > 0)
+            superMatchToastMessageCloseButton().click();
+                // Toast doesn't clear instantly and can still break things, wait a couple hundred ms.
             waitUntilPageFinishLoading();
-        }
     }
 
     protected WebElement superMatchToastMessageCloseButton() { return getDriver().findElement(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")); }

@@ -583,7 +583,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must Have" box.
      */
     public void moveToNiceToHave(String item) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
+        //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
         // Intermittent problems with clicking this in Embedded version, so sending the click directly with JS.
         jsClick(getParent(button(item)).findElement(By.xpath(".//button[3]/i[@class='arrow right icon']")));
     }
@@ -2127,7 +2127,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void selectOptionInMaximumCostDropdown(String option)
     {
-        maximumCostDropdown().findElement(By.xpath("./i")).click();
+        // The alignment of this control is off in the UI, clicking the chevron is not possible currently (Feb. 2019).
+        //maximumCostDropdown().findElement(By.xpath("./i")).click();
+        maximumCostDropdown().click();
         maximumCostDropdown().findElement(By.xpath(".//span[text()='" + option + "']")).click();
     }
 

@@ -679,7 +679,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         button("Find Your Fit").click();
         link("College Match").click();
         waitUntilPageFinishLoading();
-        getCollegeMatchTab("Colleges Looking For Students Like You!").click();
+        getCollegeMatchTab("Colleges Looking For Students Like You").click();
         waitUntilPageFinishLoading();
     }
 
