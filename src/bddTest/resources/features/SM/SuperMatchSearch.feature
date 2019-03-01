@@ -923,7 +923,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Class size < 10"
 
-  @MATCH-4051
+  @MATCH-4051 @concurrency
   Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
   the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
   next time I access SuperMatch and don't have to start my search over again.

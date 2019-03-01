@@ -1013,7 +1013,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             }
         }
         getFitCriteriaCloseButton().click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
     }
 
     public void verifyAdmissionCriteria(DataTable dataTable) {
@@ -1076,8 +1076,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
         clearSuperMatchToast();
         List<WebElement> allPills = getAllPillsCloseIcon();
-        for (WebElement singlePill :
-                allPills) {
+        for (WebElement singlePill : allPills) {
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
             wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
         }
@@ -2628,6 +2627,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMatchScoreByPosition(Integer position, String operator, Integer referenceNumber) {
+        // There is an "empty" row between colleges now, so we need to handle that.
+        position = (position * 2) - 1;
         int matchScore = Integer.parseInt(getMatchScoreByPosition(position.toString()).getText());
         switch (operator) {
             case "<" :
@@ -2983,6 +2984,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     // Locators Below
+    private boolean searchProcessing() {
+        return getDriver().findElements(By.cssSelector(spinnerLocator)).size() > 0;
+    }
     private WebElement leftCompareMoveButton(String collegeName) {
         return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/..//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
     }
