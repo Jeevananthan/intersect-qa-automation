@@ -977,11 +977,11 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I open the Pinned Schools Compare screen
     And SM I verify that left and right arrow buttons are displayed on top of "Williams College" logo in Compare Pinned Schools page
     And SM I verify that left and right arrow buttons are displayed on top of "Bennett College" logo in Compare Pinned Schools page
-    And SM I verify that the left arrow button should be disabled for the school "Williams College" since it is ordered #1
-    And SM I verify that the right arrow button should be disabled for the school "Bennett College" since it is ordered last
-    And SM I move "Williams College" to the "right" in Compare Pinned Schools page
-    And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
-    And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
+    And SM I verify that the left arrow button should be disabled for the school "Bennett College" since it is ordered #1
+    And SM I verify that the right arrow button should be disabled for the school "Williams College" since it is ordered last
+    And SM I move "Bennett College" to the "right" in Compare Pinned Schools page
+    And SM I verify that position of "Williams College" is "1" in Compare Pinned Schools page
+    And SM I verify that position of "Bennett College" is "2" in Compare Pinned Schools page
 
    @MATCH-5419
    Scenario: Verify that a recently pinned college is displayed in position 1 in Compare Pinned Schools page

@@ -289,7 +289,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (Map<String, String> criteria : entities) {
             for (String key : criteria.keySet()) {
                 switch (key) {
-                    // TODO - Some of this is not working yet
                     case "Search Type":
                         if (criteria.get(key).contains("distance"))
                             searchByDistance().click();
@@ -322,10 +321,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                     case "Zip Code":
                         zipCodeInput().sendKeys(criteria.get(key));
                         break;
-
                 }
-                closeFitCriteria().click();
             }
+            closeFitCriteria().click();
         }
     }
 
@@ -1187,9 +1185,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMAndNSyncWithAverageClassSizeFilter() {
-        openFitCriteria("Institution Characteristics");
         getMustHaveBox().findElement(By.xpath(".//div/button[3]")).click();
         getNiceToHaveBox().findElement(By.xpath(".//div/button[2]")).click();
+        openFitCriteria("Institution Characteristics");
         getAverageClassSizeListIcon().click();
         getDriver().findElement(By.xpath("//div[@id='classsize-dropdown-option-close']/span")).click();
         Assert.assertTrue("AVERAGE CLASS SIZE option 40 is displaying in Nice to Have box.", !getNiceToHaveBox().getText().contains("Class size < 40"));
@@ -1469,13 +1467,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void verifyPositionOfCollegeInComparePinnedSchoolsPage(String collegeName, String position) {
         Assert.assertTrue(collegeName + " is not in the position " + position + " in the compare schools page",
-          driver.findElement(By.xpath("(//thead[@class='supermatch-compare-data-header']//p[@class='collegename'])[" + position + "]")).getText().equals(collegeName));
+          driver.findElement(By.xpath("(//thead[@class='supermatch-compare-data-header']//a[@class='college-name-profile-label'])[" + position + "]")).getText().equals(collegeName));
     }
 
     public void openPinnedCompareSchools() {
         waitUntilPageFinishLoading();
         pinnedFooterOption().click();
-        comparePinnedCollegesLink().click();
+        // sending direct click since the menu container eats the click otherwise.
+        jsClick(comparePinnedCollegesLink());
     }
 
     public void verifySaveSearchIsClosedWhenCancelIsClicked() {
@@ -2985,10 +2984,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     // Locators Below
     private WebElement leftCompareMoveButton(String collegeName) {
-        return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
+        return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/..//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'left')]"));
     }
     private WebElement rightCompareMoveButton(String collegeName) {
-        return driver.findElement(By.xpath("//p[@class='collegename' and text()='" + collegeName + "']//ancestor::div[1]//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'right')]"));
+        return driver.findElement(By.xpath("//a[text()='" + collegeName + "']/..//div[@class='supermatch-compare-move-buttons']/div[contains(@class, 'right')]"));
     }
     private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
@@ -3077,7 +3076,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[@class='supermatch-searchfilter-menu-container']"));
     }
     private WebElement selectCriteriaButton1() {
-        return driver.findElement(By.xpath("(//button[text()='Select Criteria To Start'])[2]"));
+        // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
+        // (//button[text()='Select Criteria To Start'])[2]
+        return driver.findElement(By.xpath("//div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']"));
     }
     private WebElement selectCriteriaInstructionalText() {
         return driver.findElement(By.xpath("//div[@class='computer only four wide column']//p"));
@@ -3213,7 +3214,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement pinnedFooterOption() { return driver.findElement(By.cssSelector("div#pinCount + span")); }
 
-    private WebElement comparePinnedCollegesLink() { return driver.findElement(By.cssSelector("div#supermatch-pinned-compare-colleges-link span")); }
+    private WebElement comparePinnedCollegesLink() { return driver.findElement(By.id("supermatch-pinned-compare-colleges-link")); }
 
     private WebElement saveSearchPopupCancelLink() { return driver.findElement(By.xpath(saveSearchPopupCancelLinkLocator)); }
 
