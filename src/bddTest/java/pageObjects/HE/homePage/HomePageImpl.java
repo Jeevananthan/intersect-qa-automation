@@ -254,6 +254,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void openEventList() {
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
         clickEvents();
     }
