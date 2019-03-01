@@ -2714,6 +2714,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void favoriteSchool(String schoolName) {
         try {
             setImplicitWaitTimeout(2);
+            waitUntilPageFinishLoading();
             WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
             WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
                     + "']/../../../../following-sibling::tr"));
@@ -2736,12 +2737,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void unFavoriteSchool(String schoolName) {
         try {
             setImplicitWaitTimeout(2);
+            waitUntilPageFinishLoading();
             WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
+            WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
+                    + "']/../../../../following-sibling::tr"));
+            scrollDown(nextCollege);
             if (favoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
                 favoriteLink.click();
             }
             waitUntilPageFinishLoading();
-            resetImplicitWaitTimeout();
         } catch (Exception e) {
             logger.info("School: '" + schoolName + "' was not found, or was already un-favorited.");
             resetImplicitWaitTimeout();
@@ -2756,7 +2760,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(2);
             WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
-            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[contains(@class, 'empty')]")).isDisplayed()) {
                 whyDrawerFavoriteLink.click();
             }
             waitUntilPageFinishLoading();
@@ -2775,7 +2779,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(2);
             WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
-            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
                 whyDrawerFavoriteLink.click();
             }
             waitUntilPageFinishLoading();

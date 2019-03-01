@@ -347,47 +347,42 @@ Feature: SM - ActiveMatch Next Gen
     And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData4.json" and the following settings:
       | startDate | 2 days before now |
       | endDate   | 2 days after now  |
-    And SP I successfully sign out
-    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    Then I remove all connections for the user id "402692742"
+    Given SM I am logged in to SuperMatch through Family Connection as user "apt" with password "p@ssw0rd" from school "blue1combo"
     And I clear the onboarding popups if present
-    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
-    And SM I remove "Auburn University" from the I'm thinking about list if it is added in the list
-    And SM I remove "Assumption College" from the I'm thinking about list if it is added in the list
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+    And SM I remove "Auburn University" from the Colleges I'm thinking about list via the Look Up page
+    And SM I remove "Assumption College" from the Colleges I'm thinking about list via the Look Up page
     And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
     And SM I navigate to page via URL path "colleges/supermatch-next"
     And SM I clear pinned schools list
-
-    And SM I pin "The University of Alabama" from the search box
-    And SM I pin "Auburn University" from the search box
     And SM I pin "Assumption College" from the search box
-    And SM I navigate to page via URL path "colleges/supermatch-next"
-
-
+    And SM I pin "Auburn University" from the search box
+    And SM I pin "The University of Alabama" from the search box
+    And SM I reload the page
     Then SM I favorite the school "The University of Alabama"
     Then I check if I can see "Great news!" on the page
     Then SM I press button "No, Thanks"
-    Then SM I un-favorite the school "The University of Alabama"
-    Then SM I favorite the school "The University of Alabama"
-    Then I check there is no "Great news!" text on the page
-
-    Then SM I favorite the school "Auburn University" from the why drawer
-    Then I check if I can see "Great news!" on the page
-    Then SM I press button "Connect"
-    Then I check if I can see "Connect with Auburn University" on the page
-    Then I click on close icon
-    Then SM I un-favorite the school "Auburn University" from the why drawer
-    Then SM I favorite the school "Auburn University" from the why drawer
-    Then I check there is no "Great news!" text on the page
-
-    Then SM I favorite the school "Assumption College"
-    Then SM I press button "Connect"
-    Then I check if I can see "Connect with Assumption College" on the page
-    Then I click on close icon
     Then SM I un-favorite the school "Assumption College"
     Then SM I favorite the school "Assumption College"
     Then I check there is no "Great news!" text on the page
-
-
+    And SM I reload the page
+    Then SM I press Why button for "Auburn University" college
+    Then SM I favorite the school "Auburn University" from the why drawer
+    Then I check if I can see "Great news!" on the page
+    Then SM I press button "Connect?"
+    Then I check if I can see "Connect with Auburn University" on the page
+    Then SM I reload the page
+    Then SM I un-favorite the school "Auburn University"
+    Then SM I favorite the school "Auburn University"
+    Then I check there is no "Great news!" text on the page
+    Then SM I favorite the school "Assumption College"
+    Then SM I press button "Connect?"
+    Then I check if I can see "Connect with Assumption College" on the page
+    Then SM I reload the page
+    Then SM I un-favorite the school "Assumption College"
+    Then SM I favorite the school "Assumption College"
+    Then I check there is no "Great news!" text on the page
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
@@ -398,6 +393,8 @@ Feature: SM - ActiveMatch Next Gen
     When SP I select "Assumption College" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+    Then I remove all connections for the user id "402692742"
+
   @MATCH-5493
   Scenario: As a Naviance Student student user, I want to be matched based on my ethnicity when Audience Profiles have
   the diversity set to "Racial and ethnic minorities".
