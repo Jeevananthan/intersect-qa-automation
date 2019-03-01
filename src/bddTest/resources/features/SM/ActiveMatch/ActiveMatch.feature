@@ -13,7 +13,7 @@ Feature: SM - ActiveMatch Next Gen
     Then I click on close icon
     Then HE I click the link "Why are these colleges listed?"
 
-  @MATCH-5031
+  @MATCH-5031 @ignore
   Scenario: As a student in Naviance viewing Colleges Looking for Students Like You page in CollegeMatch,
   I would like to be able to understand better why this HE school is interested in me so that I can make a good decision about connecting.
     When SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
@@ -21,11 +21,11 @@ Feature: SM - ActiveMatch Next Gen
     And SM I clear all pills from Must have  and Nice to have boxes
     Then SM I select the "Bachelor's" radio button from the Academics fit criteria
     And SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
-    |Creative Writing|
+    |Computer Science|
     And SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
     |Philosophy|
-    And SM I navigate to page via URL path "colleges/match/activematch-next"
-    Then SM I click on the "Creative Writing " for the "The University of Alabama" card
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    Then SM I click on the "Computer Science" for the "The University of Alabama" card
     Then I check if I can see "The University of Alabama" on the page
     Then I check if I can see "Tuscaloosa, AL" on the page
     Then I check if I can see "Learn how they fit your interests:" on the page
