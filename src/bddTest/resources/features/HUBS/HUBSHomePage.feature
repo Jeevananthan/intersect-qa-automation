@@ -44,4 +44,3 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
     And HUBS I update Reguest Information field
     And HUBS I click on Intersect
     And HUBS I verify the Publish model for "LINKS & PROFILES" tab
-
