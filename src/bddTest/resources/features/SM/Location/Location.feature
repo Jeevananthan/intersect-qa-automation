@@ -1,7 +1,7 @@
 @SM
 Feature: SM - Location - Location - As a HS student, I need to be able to search for colleges based on the 'Locale' fit criteria
 
-  @MATCH-3848
+  @MATCH-3848 @ignore @unnecessary
   Scenario: As a HS student I want to see validation message when only the 'Select Miles' input has been answered, but not the postal code input
     Given SM I am logged in to SuperMatch through Family Connection
     When SM I select the following data from the Location Fit Criteria
@@ -9,7 +9,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
       | Search by distance | 91203    |
     Then SM I see validation message "Select miles to finish adding this criteria"
 
-  @MATCH-3848
+  @MATCH-3848 @ignore @unnecessary
   Scenario: As a HS student I want to see validation message when only the 'Zip Code' input has been answered, but not the miles input
     Given SM I am logged in to SuperMatch through Family Connection
     When SM I select the following data from the Location Fit Criteria
@@ -26,7 +26,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
     Then SM I see validation message "Enter a valid, 5 digit zip code"
 
   @MATCH-4236
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual location data for the college so I can clearly see what
   matched/did not match/partially matched Search by state region
     Given SM I am logged in to SuperMatch through Family Connection
@@ -54,7 +54,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
     Then I check if I can see "Located in Alabama" on the page
 
   @MATCH-4236
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual location data for the college so I can clearly see what
   matched/did not match/partially matched Search by distance
     Given SM I am logged in to SuperMatch through Family Connection
@@ -83,7 +83,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
     Then I check if I can see "288 miles from 10001" on the page
 
   @MATCH-4236
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual location data for the college so I can clearly see what
   matched/did not match/partially matched Campus surrounding
     Given SM I am logged in to SuperMatch through Family Connection

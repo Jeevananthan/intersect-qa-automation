@@ -256,7 +256,8 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     public void verifyTextDataForCriteria(String fitTab, String criteriaName, Integer collegePosition, String expectedText) {
 
         String actualText = getDataForSpecificFilter(fitTab, criteriaName, collegePosition);
-        Assert.assertEquals(actualText, expectedText);
+        //Assert.assertEquals(expectedText, actualText);
+        softly().assertThat(actualText).isEqualTo(expectedText);
     }
 
     public void verifyResourcesExpandableDrawerOptions(DataTable options) {

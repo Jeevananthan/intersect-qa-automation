@@ -604,7 +604,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must HAae" or "Nice to Have" boxes.
      */
     public void removeFitCriteria(String item) {
-        getParent(button(item)).findElement(By.xpath(".//button[1]")).click();
+        clearSuperMatchToast();
+        WebElement xButton = getParent(button(item)).findElement(By.xpath(".//button[1]"));
+        // This isn't always on the screen, scroll to it first.
+        getDriver().executeScript("arguments[0].scrollIntoView();", xButton);
+        xButton.click();
     }
 
     public void verifyStudentBodyUI() {
@@ -857,6 +861,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param filterCriteria containing the value of filter tab, example:Locale, Admission, etc.
      */
     public void chooseFitCriteriaTab(String filterCriteria) {
+        clearSuperMatchToast();
         checkbox(By.xpath("(//li[contains(.,'" + filterCriteria.split(":")[0] + "')])")).click();
     }
 
