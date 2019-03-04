@@ -89,14 +89,14 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("The approval process can take up to 24-48 hours. Text is not displaying.",
                 driver.findElement(By.xpath("//span[text()= 'The approval process can take up to 24-48 hours.']")).isDisplayed());
 
-        String actText2 = driver.findElement(By.xpath("//span[contains(text(),'Media - Photos')]")).getText();
-        String expText2 = "Media - Photos & Videos, Logo";
-        Assert.assertTrue(expText1+ " Text is not displaying.", actText2.equals(expText2));
-
-        if (!menuTab.equals("MEDIA")) {
-             String actText3 = driver.findElement(By.xpath("//span[contains(text(),'Links ')]")).getText();
-             String expText3 = "Links & Profiles - Links, Profiles";
-             Assert.assertTrue(expText3+ " Text is not displaying.", actText3.equals(expText3));
+        if (menuTab.equals("MEDIA")) {
+            String actText2 = driver.findElement(By.xpath("//span[contains(text(),'Media - Photos')]")).getText();
+            String expText2 = "Media - Photos & Videos, Logo";
+            Assert.assertTrue(expText1+ " Text is not displaying.", actText2.equals(expText2));
+        } else if (menuTab.equals("LINKS & PROFILES")){
+            String actText3 = driver.findElement(By.xpath("(//span[contains(text(),'Links ')])[2]")).getText();
+            String expText3 = "Links & Profiles - Links, Profiles";
+            Assert.assertTrue(expText3+ " Text is not displaying.", actText3.equals(expText3));
         }
 
 
@@ -120,7 +120,12 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         previewButton().click();
     }
 
+    public void clickOnIntersect(){
+        intersectImageLink().click();
+    }
+
     //Locators
+    public WebElement intersectImageLink(){ return driver.findElement(By.className("_2kV1BuYBb3VKdqe1aD7Wpm")); }
     public WebElement selectAnImageToUpload(){ return driver.findElement(By.xpath("//input[@accept='image/*']"));}
     public WebElement previewButton(){ return driver.findElement(By.xpath("//span[text()='PREVIEW AND CONTINUE EDITING']"));}
     public WebElement backButton(){ return driver.findElement(By.xpath("//span[text()='Back']"));}

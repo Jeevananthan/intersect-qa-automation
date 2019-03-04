@@ -21,5 +21,6 @@ public class HUBSHomePageStepDefs implements En{
 
         And("^HUBS I select an image for logo$", hubsHomePage::selectImageForLogo);
 
+        And("^HUBS I click on Intersect$", hubsHomePage::clickOnIntersect);
     }
 }

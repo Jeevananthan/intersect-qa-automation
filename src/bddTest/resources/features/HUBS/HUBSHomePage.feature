@@ -35,3 +35,13 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
     Then HUBS I click on "MEDIA" tab in main menu
     Then HUBS I click on "INTRO" tab in main menu
     And HUBS I check "INTRO" tab functionality
+
+  @MATCH-5840
+  Scenario:  We need to make this modal smarter so that it ONLY displays to the user if they have made changes
+  to React HEM content and are trying to leave and go elsewhere (Angular HEM or some other page in Intersect).
+    Then HUBS I click on "LINKS & PROFILES" tab in main menu
+    And HUBS I click on Links link
+    And HUBS I update Reguest Information field
+    And HUBS I click on Intersect
+    And HUBS I verify the Publish model for "LINKS & PROFILES" tab
+
