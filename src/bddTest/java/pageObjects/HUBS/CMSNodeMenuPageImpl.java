@@ -63,7 +63,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
             for (String handle : driver.getWindowHandles()) {
                 driver.switchTo().window(handle);
             }
-            waitUntilElementExists(approveButton());
+            waitUntil(ExpectedConditions.elementToBeClickable(approveButton()));
             approveButton().click();
             waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
             navigation.closeNewTabAndSwitchToOriginal(originalHandle);

@@ -4,7 +4,7 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
 
   @issue@MATCH-2589@MATCH-5608
   Scenario Outline: In HS RepVisits, The Visit should not be displayed on the blocked days
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS as user type "BlockedDays1"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I Remove the created blocked days
     Then HS I set a date using "<BlockedDate>" and "<EndDate>"
@@ -25,12 +25,13 @@ Feature: HS - RepVisits - Blocked Days -  As an HS user, I can set up block days
     Then HE I select Visits to verify the appointment is not present using "<BlockedDate>" and "<StartTime>" in the RepvisitsAvailability
     Then HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS as user type "BlockedDays1"
     Then HS I click the Remove option for the "<BlockedDate>" and "<EndDate>" in blocked days
+    Then HS I successfully sign out
 
     Examples:
-      |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School                  |
-      |21         |28     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Standalone High School 6|
+      |BlockedDate|EndDate|StartTime|EndTime  |Attendee           |visitLocation|Reason |School                      |
+      |21         |28     |10:25 am |11:25 pm |PurpleHE Automation|USA          |Holiday|Marquette Senior High School|
 
 
 

@@ -198,7 +198,9 @@ public class OverviewPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         for (int i = 0; i < 10; i++) {
             if (!generatedValues.get("Website").equals(getQuickFact("Website").getText())) {
+                waitUntilElementExists(header.logOutButton());
                 header.clickLogOut();
+                waitUntilPageFinishLoading();
                 getDriver().findElement(By.name("username")).sendKeys(userName);
                 getDriver().findElement(By.name("password")).sendKeys(password);
                 button("Login").click();
