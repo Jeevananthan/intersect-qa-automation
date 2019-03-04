@@ -40,4 +40,6 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that the Next button is disabled when all competitors are unchecked$", connectorPage::verifyNextButtonDisabled);
 
+        Then("^SM I verify that the following text is present in the connector dialog:$", connectorPage::verifyTextInConnectorDialog);
+
     }}

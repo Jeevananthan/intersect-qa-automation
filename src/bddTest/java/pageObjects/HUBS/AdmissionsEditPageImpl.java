@@ -4,6 +4,7 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -375,7 +376,14 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
             switch (fieldElement.get(0)) {
                 case "Recommended Courses":
                     recommendedCoursesButton().click();
-                    recommendedCourse(fieldElement.get(1)).click();
+                    for (int i = 0; i < 10; i++) {
+                        try {
+                            recommendedCourse(fieldElement.get(1)).click();
+                            break;
+                        } catch (WebDriverException e) {
+                            publishButton().sendKeys(Keys.PAGE_DOWN);
+                        }
+                    }
                     courseYears(fieldElement.get(2)).clear();
                     courseYears(fieldElement.get(2)).sendKeys(fieldElement.get(3));
                     assertTrue("Error message is not displayed", errorMsg().isDisplayed());
@@ -455,7 +463,7 @@ public class AdmissionsEditPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement appFactorsImportanceDropdownElement() { return getDriver().findElement(By.xpath("//select[contains(@id, 'field_he_importance')]")); }
     private WebElement recommendedCourse(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='"+ label +"']")); }
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '"+ label +"')]")); }
 
     private WebElement courseYears(String requiredOrRecommended) { return getDriver().findElement(By.xpath("//label[text()='" + requiredOrRecommended + "']/following-sibling::input")); }
     private WebElement errorMsg() { return getDriver().findElement(By.cssSelector("ng-form.ng-valid-maxlength.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-pattern span")); }

@@ -39,4 +39,4 @@ Feature: HUBS - Costs - As a community user viewing College Hubs, I want to be a
       | Average Amount of Aid | Grant             |
     #Sometimes, the Average Net Prices take a lot of time to be updated. So, the next
     #setting is the number of times to reload the HUBS page to verify the value.
-      | Number of tries       | 10                |
+      | Number of tries       | 5                 |

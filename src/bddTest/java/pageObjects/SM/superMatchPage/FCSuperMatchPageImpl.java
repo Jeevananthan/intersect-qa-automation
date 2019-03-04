@@ -661,10 +661,15 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
 
     public void addCollegeToImThinkingAboutList(String collegeName) {
         gotToCollegesImThinkingAboutList();
-        if (driver.findElements(By.cssSelector(connectorCloseIconLocator)).size() > 0) {
+        try {
+            link("Add Colleges to List").click();
+        } catch (WebDriverException e) {
+            if (driver.findElements(By.cssSelector(connectorCloseIconLocator)).size() > 0) {
             driver.findElement(By.cssSelector(connectorCloseIconLocator)).click();
+                link("Add Colleges to List").click();
+            }
         }
-        link("Add Colleges to List").click();
+
         Select lookByDropdown = new Select(driver.findElement(By.xpath(lookByDropdownLocator)));
         lookByDropdown.selectByVisibleText("Keyword");
         lookupByNameField().sendKeys(collegeName);

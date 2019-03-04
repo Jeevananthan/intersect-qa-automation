@@ -355,3 +355,21 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
     Then HS I Click on the View Details button for the College Fair Event "qa Fairs"
     Then HS I select Edit button to cancel the college Fair "qa Fairs"
     And HS I successfully sign out
+
+  @MATCH-3924
+  Scenario: As a high school admin user that has previously scheduling College Fairs in RepVisits, I want to be able to schedule a college fair up and through the end of SY
+  (i.e. July 14 date of the year through which the Regular Weekly Hours end date picker can be supported through),
+  so that my end date for Regular Weekly hours doesn't limit when I can schedule a College Fair.
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I verify the date "July 14 2021" is not enabled in college fair page
+# verify earlier than current date is not enabled in college fair
+    Then HS I verify the date "-7" is not enabled in college fair page
+    Then HS I set the following data to On the College Fair page "qa Fairs", "3", "0800AM", "1000AM", "1", "$25", "25", "100", "Save"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    Then HS I Click on the View Details button for the College Fair Event "qa Fairs"
+    Then HS I verify the date "July 14 2021" is not enabled in edit college fair page
+# verify earlier than current date is not enabled in edit college fair
+    Then HS I verify the date "-7" is not enabled in edit college fair page
+    Then HS I select Edit button to cancel the college Fair "qa Fairs"
+    And HS I successfully sign out
