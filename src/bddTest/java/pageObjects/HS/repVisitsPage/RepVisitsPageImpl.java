@@ -1766,6 +1766,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         } catch (Exception e) {
         }
+        getDriver().navigate().refresh();
+        waitUntilPageFinishLoading();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
     }
