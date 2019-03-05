@@ -181,8 +181,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
     And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
-    #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #The following step was needed to avoid MATCH-4830, but causes concurrency problems
+    #And SM I reload the page
     Then SM I verify that "Sistema Universitario Ana G Mendez" displays "$0" in the Cost column
 
   @MATCH-4276
@@ -543,7 +543,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | Acceptance Rate | 25% or Lower |
       | Acceptance Rate | 26%-50%      |
-    And SM I reload the page
+    # This will cause concurrency issues, and doesn't seem to have anything to do with the ticket referenced.
+    #And SM I reload the page
     Then SM I verify that the Must Have box contains "Acceptance Rate [2]"
     When SM I unselect the "26%-50%" checkbox from the "Admission" fit criteria
     Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
@@ -1113,7 +1114,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      Given SM I am logged in to SuperMatch through Family Connection
      And I clear the onboarding popups if present
      Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
-     Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+     Then SM I clear pinned schools list
      Then SM I pin "1" colleges
      And SM I open the Pinned Schools Compare screen
      Then SM I verify the text displayed in Compare Pinned Colleges page

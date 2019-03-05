@@ -420,9 +420,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             searchPage.setResourcesCriteria(res);
             clickSaveSearchButton();
-            searchPage.saveSearchWithName("Search" + counter);
+            String randomSearchName = counter + "Search" + Integer.toString(new Random().nextInt(9999));
+            searchPage.saveSearchWithName(randomSearchName);
             searchPage.verifyConfirmationMessage();
-            verifySavedSearchInDropdown("Search" + counter);
+            verifySavedSearchInDropdown(randomSearchName);
             counter++;
             searchPage.unsetResourcesCriteria(res);
             saveSearchNeedToCreate--;
@@ -434,9 +435,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             searchPage.setResourcesCriteria(resTwo);
             clickSaveSearchButton();
-            searchPage.saveSearchWithName("Search" + counter);
+            String randomSearchName = counter + "Search" + Integer.toString(new Random().nextInt(9999));
+            searchPage.saveSearchWithName(randomSearchName);
             searchPage.verifyConfirmationMessage();
-            verifySavedSearchInDropdown("Search" + counter);
+            verifySavedSearchInDropdown(randomSearchName);
             counter++;
             saveSearchNeedToCreate--;
         }

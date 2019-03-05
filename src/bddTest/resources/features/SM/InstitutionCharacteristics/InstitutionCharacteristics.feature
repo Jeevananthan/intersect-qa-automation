@@ -111,6 +111,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
     And SM I click "Admission" filter criteria tab
     And SM I clean GPA/SAT/ACT scores
     And HS I Click on close button

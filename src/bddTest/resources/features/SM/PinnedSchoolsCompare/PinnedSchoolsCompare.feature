@@ -105,18 +105,19 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | -                        | View Profiles | -                       | -                       |
 
   @MATCH-3448
-  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  Scenario: 00 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all the pinned college
     And SM I search for "The University of Alabama" college in search bar
+    And SM I favorite the school "The University of Alabama"
     And SM I open the Pinned Schools Compare screen
     And SM I verify the following things for pinned college
-      | FAVORITE | The University of Alabama | this.is.yet.another.testing6,14:02 | PINNED |
+      | FAVORITED | The University of Alabama | this.is.another.testing3.net,39:30 | PINNED |
 
   @MATCH-3448
-  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  Scenario: 01 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present

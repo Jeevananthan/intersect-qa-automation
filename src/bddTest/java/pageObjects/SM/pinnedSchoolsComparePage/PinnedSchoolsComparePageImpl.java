@@ -448,17 +448,17 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         for (String itemDetail : list) {
             switch (itemDetail){
                 case "FAVORITE" :
-                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath("//span[text()='"+itemDetail+"']")).isDisplayed());
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//span[text()='"+itemDetail+"']")).isDisplayed());
                     break;
                 case "The University of Alabama" :
-                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//p[text()='"+itemDetail+"']")).isDisplayed());
+                    Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//a[text()='"+itemDetail+"']")).isDisplayed());
                     break;
                 case "this.is.yet.another.testing6,14:02" :
                     Assert.assertTrue(itemDetail+" text is not displaying.", grayBox().findElement(By.xpath(".//a[text()='"+itemDetail+"']")).isDisplayed());
                     break;
                 case "PINNED" :
                     Assert.assertTrue(itemDetail+" text is not displaying.", onlyOnePinnedCollege(itemDetail).isDisplayed());
-                    driver.findElement(By.tagName("button")).sendKeys(Keys.PAGE_DOWN);
+                    //driver.findElement(By.tagName("button")).sendKeys(Keys.PAGE_DOWN);
                     waitForElementTextToEqual(onlyOnePinnedCollege(itemDetail), "PINNED");
                     onlyOnePinnedCollege(itemDetail).click();
                     Assert.assertTrue("Un-Pinning is not working in Compare Pinned College page.", grayBox().findElements(By.xpath(".//span[text()='"+itemDetail+"']")).size()<=0);
@@ -491,7 +491,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement rightArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Next Items']"));}
     private WebElement leftArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Prior Items']"));}
     private WebElement grayBox() { return driver.findElement(By.className("supermatch-compare-data-header"));}
-    private WebElement onlyOnePinnedCollege(String itemDetail){ return grayBox().findElement(By.xpath(".//span[text()='"+itemDetail+"']"));}
+    private WebElement onlyOnePinnedCollege(String itemDetail){ return grayBox().findElement(By.xpath(".//span[text()[contains(.,'"+itemDetail+"')]]"));}
     private WebElement locationDrawerTable() {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Location']/.."));
     }

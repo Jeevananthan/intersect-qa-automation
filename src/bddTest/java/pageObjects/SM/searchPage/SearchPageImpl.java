@@ -2314,8 +2314,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pressWhyForCollegeWithScore(Integer score) {
-        scrollDown(driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../../../following-sibling::tr")));
-        driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
+        // This isn't scrolling far enough to be able to click the why button, so trying scrolling to the button directly.
+        //scrollDown(driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../../../following-sibling::tr")));
+        scrollDown(getDriver().findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")));
+        getDriver().findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
     }
 
     public void pressWhyButtonForCollege(String collegeName) {
