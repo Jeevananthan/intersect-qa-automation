@@ -35,8 +35,10 @@ public class ConfigPageImpl extends PageObjectFacadeImpl {
      */
     public void activateBlockedUser(String inactivatedUserName){
         driver.switchTo().frame(0);
-        inactiveUserCheckbox(inactivatedUserName).click();
-        unblockSelectedAccountsButton().click();
+        if(inactivateUsers(inactivatedUserName).size()==1) {
+            inactiveUserCheckbox(inactivatedUserName).click();
+            unblockSelectedAccountsButton().click();
+        }
         Assert.assertTrue(inactivatedUserName + " is not activated successfully.", inactivateUsers(inactivatedUserName).size()==0);
     }
 
