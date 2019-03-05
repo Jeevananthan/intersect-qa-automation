@@ -49,6 +49,8 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
                 break;
             case "LINKS & PROFILES":
                 Assert.assertTrue("Publish my LINKS & PROFILES changes button is not displaying.", getPublishMyLinksAndProfilesChangesButton().isDisplayed());
+                profilesLink().click();
+                Assert.assertTrue("CREATE A NEW PROFILE Button is not displaying.", createNewProfileButton().isDisplayed());
                 break;
             case "INTRO" :
                 Assert.assertTrue("Publish intro changes button is not displaying.", getPublishIntroChangesButton().isDisplayed());
@@ -125,6 +127,8 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
     }
 
     //Locators
+    public WebElement profilesLink(){ return driver.findElement(By.id("profiles-accordion-title")); }
+    public WebElement createNewProfileButton(){ return driver.findElement(By.xpath("//span[text()='CREATE A NEW PROFILE']"));}
     public WebElement intersectImageLink(){ return driver.findElement(By.className("_2kV1BuYBb3VKdqe1aD7Wpm")); }
     public WebElement selectAnImageToUpload(){ return driver.findElement(By.xpath("//input[@accept='image/*']"));}
     public WebElement previewButton(){ return driver.findElement(By.xpath("//span[text()='PREVIEW AND CONTINUE EDITING']"));}
