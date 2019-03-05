@@ -43,7 +43,7 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
     //Locators
 
     public WebElement logOutButton() {
-        return getDriver().findElement(By.xpath("//header[@id = 'header']//button[text() = 'LOG OUT']"));
+        return getDriver().findElement(By.xpath("//a[text() = 'LOG OUT']"));
     }
 
     private WebElement heartIcon() {
