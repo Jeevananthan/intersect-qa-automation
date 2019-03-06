@@ -33,8 +33,10 @@ public class ProductAnnouncementsImpl extends PageObjectFacadeImpl {
      */
     public void addNewProductAnnouncement(String title, String content,String audience, String status){
         goToProductAnnouncements();
-        getAddNewProductAnnouncementButton().click();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Save']")));
+        getDriver().navigate().refresh();
+        waitUntilPageFinishLoading();
+        jsClick(getAddNewProductAnnouncementButton());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("create-announcement-title")));
         getProductAnnouncementTitleField().sendKeys(title);
         getProductAnnouncementContentField().sendKeys(content);
         selectProductAnnouncementAudience(audience);

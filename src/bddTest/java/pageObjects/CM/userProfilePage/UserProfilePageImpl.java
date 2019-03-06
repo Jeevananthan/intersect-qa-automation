@@ -31,6 +31,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Going to user profile page.");
         iframeExit();
         communityFrame();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
@@ -38,8 +39,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Going to user profile page.");
         link(By.id("js-main-nav-home-menu-link")).click();
         communityFrame();
-        link(By.cssSelector("a[href='/profile']")).click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
