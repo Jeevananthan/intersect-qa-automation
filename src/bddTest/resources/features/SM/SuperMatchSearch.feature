@@ -203,9 +203,12 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4            |
       | Acceptance Rate | 25% or Lower |
-    And SM I reload the page
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |California         |
+    #And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
-      | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
+      | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
   @MATCH-4276
   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
@@ -984,7 +987,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I verify that position of "Williams College" is "1" in Compare Pinned Schools page
     And SM I verify that position of "Bennett College" is "2" in Compare Pinned Schools page
 
-   @MATCH-5419
+   @MATCH-5419 @concurrency
    Scenario: Verify that a recently pinned college is displayed in position 1 in Compare Pinned Schools page
      Given SM I am logged in to SuperMatch through Family Connection
      And I clear the onboarding popups if present
@@ -1076,7 +1079,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Navy                      |
       | Air Force                 |
 
-  @MATCH-3472
+  @MATCH-3472 @ignore @unnecessary
   Scenario:As a HS student I want to pin a specific college that returns when I use the SuperMatch search box so I can
   then compare this newly pinned school with other schools I have already pinned.
     Given SM I am logged in to SuperMatch through Family Connection

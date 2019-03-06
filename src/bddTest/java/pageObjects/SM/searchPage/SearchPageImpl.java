@@ -604,10 +604,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must HAae" or "Nice to Have" boxes.
      */
     public void removeFitCriteria(String item) {
-        clearSuperMatchToast();
         WebElement xButton = getParent(button(item)).findElement(By.xpath(".//button[1]"));
         // This isn't always on the screen, scroll to it first.
         getDriver().executeScript("arguments[0].scrollIntoView();", xButton);
+        clearSuperMatchToast();
         xButton.click();
     }
 
@@ -1618,8 +1618,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         goToCollegeInSearchResults(collegeName);
         List<String> textMessage = dataTable.asList(String.class);
-        Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
-                collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
+        //Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.", collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
+        softly().assertThat(collegeFootnote(collegeName).getText()).as("Footnote for known GPA/Unknown scores").isEqualTo(textMessage.get(0));
     }
 
 

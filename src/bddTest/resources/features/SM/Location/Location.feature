@@ -82,7 +82,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
     Then I check if I can see "Within 250 miles of 10001" on the page
     Then I check if I can see "288 miles from 10001" on the page
 
-  @MATCH-4236
+  @MATCH-4236 @concurrency
   Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual location data for the college so I can clearly see what
   matched/did not match/partially matched Campus surrounding
