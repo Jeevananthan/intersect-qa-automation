@@ -125,9 +125,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.manage().deleteAllCookies();
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © 2018, Hobsons Inc.']")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © "+currentYear+", Hobsons Inc.']")).isDisplayed());
         openNavianceLoginPage();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © 2018']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © "+currentYear+"']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
     }
 
     public void verifyHeaderInProductAnnouncementsReadMoreDrawer(){
