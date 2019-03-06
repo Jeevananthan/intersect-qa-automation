@@ -12,6 +12,7 @@ import pageObjects.CM.loginPage.LoginPageImpl;
 import pageObjects.CM.userProfilePage.UserProfilePageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,6 +45,14 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
 
     public void goToGroupsPage() {
+        logger.info("Going to groups page.");
+        iframeExit();
+        getNavigationBar().goToCommunity();
+        communityFrame();
+        link("Groups").click();
+    }
+
+    public void goToGroupsPageAsAdmin() {
         logger.info("Going to groups page.");
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         waitUntilPageFinishLoading();
@@ -349,6 +358,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    private boolean checkPublicationsAredisplayed() {
+        try {
+            int publications = driver.findElements(publicationsLocator()).size();
+            return publications > 0;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
     private boolean checkItemVisibleByCssSelector(String tag, String cssselector, String selectorvalue) {
         try {
             driver.findElement(By.cssSelector(""+tag+"["+cssselector+"='"+selectorvalue+"']"));
@@ -406,13 +424,13 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfThereArePostsFromPublicGroup() {
         logger.info("Checking if posts from PUBLIC group are visible.");
-        Assert.assertTrue("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
+        Assert.assertTrue("There are no posts from PUBLIC group.", checkPublicationsAredisplayed());
         iframeExit();
     }
 
     public void checkIfThereAreNoPostsFromPublicGroup() {
         logger.info("Checking if posts from PUBLIC group are not visible.");
-        Assert.assertFalse("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
+        Assert.assertFalse("There are no posts from PUBLIC group.",checkPublicationsAredisplayed());
     }
 
     public void setGroupVisibility(String visibility) {
@@ -557,4 +575,5 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn() {return driver.findElement(By.id("edit-update"));}
     private WebElement searchIcon() {return driver.findElement(By.cssSelector("i[class='search link icon']"));}
     private WebElement groupsTabUnderSearch() {return driver.findElement(By.id("searchResultsTabgroups"));}
+    public By publicationsLocator(){ return By.xpath("//article[contains(@id,'node-')]"); }
 }
