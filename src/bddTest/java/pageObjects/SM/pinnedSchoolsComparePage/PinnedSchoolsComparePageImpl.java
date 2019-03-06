@@ -286,12 +286,20 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    public void pinCollegeFromBottomSearchResult(String collegeName){
+    public void pinCollegeFromBottomSearchResult(String collegeName) {
         searchBar().clear();
         searchBar().sendKeys(collegeName);
-        String searchedCollegePinString = "//*[text()='"+collegeName+"']/../../div/a/span[text()='PIN']";
-        WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
-        searchedCollegePinButton.click();
+        waitUntilElementExists(getDriver().findElement(By.xpath("//div[contains(@class,'search-college-by-name-term')]/a[text()[contains(.,'"+collegeName+"')]]")));
+        if (getDriver().findElements(By.xpath("//*[text()='" + collegeName + "']/../../div/a/span[text()='PIN']")).size() > 0) {
+            String searchedCollegePinString = "//*[text()='" + collegeName + "']/../../div/a/span[text()='PIN']";
+            WebElement searchedCollegePinButton = driver.findElement(By.xpath(searchedCollegePinString));
+            searchedCollegePinButton.click();
+            logger.info("Pinned " + collegeName);
+        } else if (getDriver().findElements(By.xpath("//*[text()='" + collegeName + "']/../../div/a/span[text()='PINNED']")).size() > 0) {
+            logger.info(collegeName + " is already pinned.");
+        } else {
+            softly().fail(collegeName + " was not found in the search bar, or was not pinned/pinable.");
+        }
     }
 
     public void verifyStudentLifeExpandableDrawerOptions(DataTable options) {
@@ -546,7 +554,8 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//div[@class='ui segment supermatch-compare-content']/table/caption[text()='Resources']/.."));
     }
 
-    private String drawersListLocator = "thead.toggle-enabled";
+    ////table[contains(@class,'supermatch-expandable-table')]/thead
+    private String drawersListLocator = "div.supermatch-compare-content > table > thead";
     private String drawersArrowsLocator = "div.ui.segment.supermatch-compare-content i.caret";
 
     private WebElement collapseExpandAllButton() {

@@ -100,6 +100,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void logOutOfSuperMatchAndCloseBrowser() {
         getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+        clearSuperMatchToast();
         getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
         getDriver().quit();
    }
