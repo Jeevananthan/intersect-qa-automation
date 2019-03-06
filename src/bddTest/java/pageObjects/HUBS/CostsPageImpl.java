@@ -113,7 +113,7 @@ public class CostsPageImpl extends PageObjectFacadeImpl {
         hubsMainMenu.clickCostsTab();
         hubsMainMenu.clickCostsTab();
         waitUntilPageFinishLoading();
-        if (!driver.getCurrentUrl().contains("#/Costs")) {
+        if (!driver.getCurrentUrl().contains("/Costs")) {
             hubsMainMenu.clickCostsTab();
         }
         waitUntilPageFinishLoading();
