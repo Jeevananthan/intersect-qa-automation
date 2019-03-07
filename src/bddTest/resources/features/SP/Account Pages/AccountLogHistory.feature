@@ -28,7 +28,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
   Scenario Outline: As a Support App I need to add log entries to HE Accounts View Log History page when Support users are using the Login As feature
                     so the appropriate information is available for auditing.
   #precondition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS as user type "LogHistory2"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option1>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
@@ -65,7 +65,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     And SP I successfully sign out
 
   #postcondition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
+    Given HS I am logged in to Intersect HS as user type "LogHistory2"
     Then HS I remove the Time Slot created with "<StartDate>","<StartTime>" in Regular Weekly Hours Tab
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I set the RepVisits Visits Confirmations option to "<Option2>"
@@ -73,10 +73,11 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
     And HS I set the Accept option of RepVisits Visit Scheduling to "visits until I am fully booked."
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
+    And HS I successfully sign out
 
     Examples:
-      |user                                   |supportUser         |profileName |institution              |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime |Option1                                              |Option2                           |School                  |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |option|
-      |purpleheautomation+LogHistory@gmail.com|Match Support UI QA4|purple he   |Alpena Community College |7   |11:20am  |12:25pm |3        |7        |42      |12:25pm   |No, I want to manually review all incoming requests. |Yes, accept all incoming requests.|Standalone High School 6|11:20am     |11:20am |QAs Fairs tests       |7   |0900AM    |1000AM  |5            |$25 |25                    |100                        | Save          |1     |
+      |user                                   |supportUser         |profileName |institution              |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime |Option1                                              |Option2                           |School           |heStartTime |heTime  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |option|
+      |purpleheautomation+LogHistory@gmail.com|Match Support UI QA4|purple he   |Alpena Community College |7   |11:20am  |12:25pm |3        |7        |42      |12:25pm   |No, I want to manually review all incoming requests. |Yes, accept all incoming requests.|Wayne High School|11:20am     |11:20am |QAs Fairs tests       |7   |0900AM    |1000AM  |5            |$25 |25                    |100                        | Save          |1     |
 
   @MATCH-4305
   Scenario: We should add a message into the audit log history whenever we update a user in community.

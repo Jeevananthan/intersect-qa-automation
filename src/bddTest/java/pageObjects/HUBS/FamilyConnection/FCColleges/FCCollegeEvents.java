@@ -2,6 +2,7 @@ package pageObjects.HUBS.FamilyConnection.FCColleges;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,6 +13,7 @@ import pageObjects.HE.eventsPage.EventsPageImpl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -199,9 +201,20 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
         if (listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
             FCCollegeEventsPage.getSignUpButton(EventsPageImpl.staticEventName).click();
+            setDateofBirthInSignUpEvent();
             clickSignUpButton();
             waitUntil(ExpectedConditions.visibilityOf(FCCollegeEventsPage.registeredEventSaveChangesButton()));
         }
+    }
+
+    public void setDateofBirthInSignUpEvent(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(dateButtonInEvents()));
+        getDriver().findElement(dateButtonInEvents()).click();
+        getDriver().findElement(dateButtonInEvents()).sendKeys(Keys.ENTER);
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        String getYear = Integer.toString(year-18);
+        getDriver().findElement(dateButtonInEvents()).sendKeys("1111"+getYear);
     }
 
     public void signUpForEvent(String eventForAttendee) {
@@ -220,4 +233,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
     }
     private String rightUpperArrowDisabled = "//label[text()='Show me:']/../../../following-sibling::p/ul/li[3]";
     private String eventsListHeaderLocator = "div.events-list__header";
+    private By dateButtonInEvents(){
+        return By.cssSelector("input[id='birthdate']");
+    }
 }

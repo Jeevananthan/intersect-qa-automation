@@ -5,7 +5,7 @@ Feature: HE Community User - Prepopulate Community User Profile Fields Upon Acti
 
   @MATCH-480
   Scenario: As an HE Community user I want my Purple user account details to autopopulate my Community user profile when initially activated.
-    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
     And I am sure that HE user will be logged in for the first time and Welcome page will be opened
     And I go to Counselor Community page
     #Then I upload Profile and Banner pictures

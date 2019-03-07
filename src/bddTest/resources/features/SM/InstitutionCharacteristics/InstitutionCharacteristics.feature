@@ -21,7 +21,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
       | High Retention Rate     |
       | High Job Placement Rate |
 
-  @MATCH-3343 @MATCH-4149
+  @MATCH-3343 @MATCH-4149 @ignore @unnecessary @unstable
   Scenario: As a HS student, I want to filter colleges I am searching for by Average Class Size within the Institution Characteristics category so I can see relevant colleges that match my Average Class Size requirements.
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I clear all pills from Must have  and Nice to have boxes
@@ -31,7 +31,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Then SM I verify the Average Class Size text under Institution Characteristics in the results list is correct
 
   @MATCH-4243
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
+  Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched Institution Type
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
@@ -49,7 +49,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Then I check if I can see "Institution Type" on the page
 
   @MATCH-4243
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
+  Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched High Graduate Rate/High Retention Rate/High Job Placement Rate
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
@@ -79,7 +79,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Then I check if I can see "Job placement rate is 96% within a year and 87% within 6 months" on the page
 
   @MATCH-4243
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
+  Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched Average class size
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
@@ -106,7 +106,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
     Then I check if I can see "Data unknown" on the page
 
   @MATCH-4243
-  Scenario Outline: As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
+  Scenario Outline: 03 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched Student Body size
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals
@@ -137,7 +137,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
 
 
   @MATCH-4243
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
+  Scenario: 04 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched On-Campus Housing
     Given SM I am logged in to SuperMatch through Family Connection
     And SM I skip the onboarding modals

@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.COMMON.NavBarImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import static org.junit.Assert.fail;
 
@@ -96,6 +95,13 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         logger.info("Logged in to Community successfully");
     }
 
+    public void verifyUserIsLoggedInSuportUser() {
+        waitUntilPageFinishLoading();
+        //Check if user Profile element is present
+        Assert.assertTrue("User did not sign in successfully",welcomeSupportTitle().getText().contains("Welcome to the Support Application"));
+        logger.info("Logged in to Community successfully");
+    }
+
     public void logoutHE() {
         getDriver().switchTo().defaultContent();
         userDropdown().click();
@@ -106,7 +112,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void accessCounselorCommunityPage() {
         logger.info("Going to Counselor Community page.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        counselorCommunity().click();
         communityFrame();
     }
 
@@ -119,7 +125,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void goToHomePage() {
         logger.info("Going to home page.");
         iframeExit();
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        getNavigationBar().goToCommunity();
         communityFrame();
 //        link(By.cssSelector("a[href='/']")).click();
     }
@@ -193,9 +199,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void writeCommentOnHobsonsPost(String commentText) {
         logger.info("Writing comment to the post.");
-        driver.findElement(By.id("node-6976-comments-link")).click();
-        driver.findElement(By.id("edit-comment-body")).sendKeys(commentText);
-        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
+        driver.findElement(lastComment()).click();
+        driver.findElement(commentBody()).sendKeys(commentText);
+        driver.findElement(postComment()).click();
         waitUntilPageFinishLoading();
     }
 
@@ -241,7 +247,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void navigateToCounselorCommunityPage() {
-      participateButton().click();
+        participateButton().click();
     }
 
     public void verifyInstructionalTextInPostBox() {
@@ -265,6 +271,11 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement participateButton() {return driver.findElement(By.xpath("//a[text()='Participate']"));}
     private WebElement postBoxInstructionalMessage() {return driver.findElement(By.xpath("//div[@id='edit-post-instructions']"));}
     private WebElement yourGroupsLink() {return driver.findElement(By.xpath("//a[text()='Your Groups']"));}
+    private WebElement welcomeSupportTitle() {return driver.findElement(By.xpath("//*[@id='app']/div/div/main/div/p"));}
+    private WebElement counselorCommunity() {return driver.findElement(By.xpath("//*[@id='app']/div/div[1]/div/div/header/nav/a[2]/div/div[1]"));}
+    private By lastComment() {return By.xpath("(//*[contains(@id,'-comments-link')])[1]"); }
+    private By commentBody() {return By.id("edit-comment-body"); }
+    private By postComment() {return By.cssSelector("//*[@id='edit-save--2']");}
 
 
 }

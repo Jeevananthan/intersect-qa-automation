@@ -30,7 +30,9 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     public void goToUserProfilePage() {
         logger.info("Going to user profile page.");
         iframeExit();
+        getNavigationBar().goToCommunity();
         communityFrame();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
@@ -38,8 +40,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Going to user profile page.");
         link(By.id("js-main-nav-home-menu-link")).click();
         communityFrame();
-        link(By.cssSelector("a[href='/profile']")).click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
@@ -488,7 +489,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Writing comment to the post.");
         driver.findElement(By.xpath("//p[contains(text(), '"+postText+"')]/../../../../div[@class='post-comments-link']")).click();
         driver.findElement(By.id("edit-comment-body")).sendKeys(commentText);
-        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
+        updateBtn().click();
         waitUntilPageFinishLoading();
     }
 
@@ -581,7 +582,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void clickOnThePostBtn() {
         logger.info("Clicking on the Post button.");
-        driver.findElement(By.xpath("//div[contains(@id, 'comment-reply-form-wrapper')]//input[@class='form-submit ajax-processed no-input']")).click();
+        editPostTextbox().click();
 //        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
     }
 

@@ -7,8 +7,8 @@ Feature: Community User - Follow Institution
   Scenario: As a premium HE, HS, or Hobsons staff Community user when viewing an institution's profile, I have a follow action available.
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I go to institution page
-    And I am not following institution with id "10226"
-    Then I go to institution page with institution id "10226"
+    And I am not following institution with id "703"
+    Then I go to institution page with institution id "703"
     And I check if follow institution button is visible
 
 
@@ -17,12 +17,12 @@ Feature: Community User - Follow Institution
   Scenario: As a premium HE, HS, or Hobsons staff Community user when I take the follow action for an institution, that institution is automatically added to the list of institutions I am following in the Connections tab - Institutions I'm Following page.
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I go to institution page
-    And I am not following institution with id "10226"
-    Then I go to institution page with institution id "10226"
+    And I am not following institution with id "703"
+    Then I go to institution page with institution id "703"
     And I click on Follow institution button
     And I go to connections page
     And I go to Institutions that I'm following page
-    Then I check if institution with id "10226" is in the list
+    Then I check if institution with id "703" is in the list
 
 
   #This scenario cannot be done, missing credentials for freemium user

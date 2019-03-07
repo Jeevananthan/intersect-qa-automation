@@ -1766,6 +1766,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             }
         } catch (Exception e) {
         }
+        getDriver().navigate().refresh();
+        waitUntilPageFinishLoading();
         getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
     }
@@ -4780,6 +4782,20 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         getNavigationBar().goToRepVisits();
         calendar().click();
         waitUntilElementExists(calendarsTitle());
+        pendingCheckBoxInCalendarPage().click();
+        String month = month(date);
+        String currentMonth = currentMonthInCalendarPage().getText();
+        String selectMonth[] = currentMonth.split(" ");
+        String Month = selectMonth[0];
+        while (!month.equals(Month)) {
+            nextMonthButton().click();
+            waitForUITransition();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOf(currentMonthInCalendarPage()));
+            currentMonth = currentMonthInCalendarPage().getText();
+            selectMonth = currentMonth.split(" ");
+            Month = selectMonth[0];
+        }
         List<WebElement> moreLinks = driver.findElements(calendarMoreLinks());
         if (driver.findElements(By.xpath(fairInCalendarLocator(FairName))).size() == 0) {
             if (moreLinks.size() > 0) {
@@ -6336,11 +6352,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public String dateConverter(String rsvpDeadline) {
 
-        java.util.Date date;
-        date = new Date(rsvpDeadline);
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String format = formatter.format(date);
-        return format;
+        return "";
     }
 
     public Boolean cancelNewEvent(String collegeFairName) {

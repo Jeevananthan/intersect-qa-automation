@@ -37,6 +37,7 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void verifyInstitutionalProfilePage(){
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//h3[text()='Edit your college profile']"), 0));
         Assert.assertTrue("'Edit your college profile' page title is not displayed",driver.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed());
         Assert.assertTrue("Text 'To get started – choose a category.'",driver.findElement(By.xpath("//div[text()='To get started – choose a category.']")).isDisplayed());
