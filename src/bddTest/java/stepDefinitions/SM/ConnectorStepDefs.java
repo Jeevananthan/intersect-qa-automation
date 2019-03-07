@@ -42,4 +42,8 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that the following text is present in the connector dialog:$", connectorPage::verifyTextInConnectorDialog);
 
+        Then("^SM I \"([^\"]*)\" the checkbox for \"([^\"]*)\" in the connector dialog$", connectorPage::checkUncheckCollegeInConnector);
+
+        Then("^SM I verify that no connector dialog is displayed$", connectorPage::verifyNoConnectorIsDisplayed);
+
     }}
