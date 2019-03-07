@@ -17,12 +17,12 @@ Feature: Community User - Leave Group
     And I am sure that user is a member of the group
     Then I open my groups tab
     Then I see 'Leave' action on the page
+
   @MATCH-677
   Scenario: As a Community user when I perform the 'Leave' action that group's content no longer displays in my aggregate feed moving forward.
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PUBLIC Group" group
     And I am sure that user is a member of the group
-    Then I open home tab
     And I check if I see posts from the group
     Then I search for "**Test Automation** HE Community PUBLIC Group" group
     And I am sure that user is not a member of the group

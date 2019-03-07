@@ -13,7 +13,7 @@ Feature: Community User - Approve/Ignore Request to Connect
     And I click on connect button
     And I send the connection invitation
     Then As a HS user I accept the invitation
-    And I check if user is connected to "PurpleHSUser" user
+    And I check if user is connected to "PurpleHS User" user
 
 
   @MATCH-406

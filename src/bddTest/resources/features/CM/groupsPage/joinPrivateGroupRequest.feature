@@ -19,14 +19,15 @@ Feature: Community User - Approve/Reject Request to Join Private Group
     And I check if user is a member of the group
     And I open Notifications list
     And I check if user has new notification that my request to join private group is approved
-
-  #This scenario could fail on ste when denying join group request due to session issue (not possible to go to /groups page)
+#
+#  #This scenario could fail on ste when denying join group request due to session issue (not possible to go to /groups page)
   @MATCH-697
   Scenario: As a Community user and Private group owner/manager I can deny another Community member's request to join my private group.
     Given HE I am logged in to Intersect HE as user type "administrator"
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I am sure that user is not a member of the group
     Then I request to join the group
+    Given SP I am logged in to the Admin page as an Admin user
     And I deny request to join the group
     Then SP I successfully sign out
     Then HE I am logged in to Intersect HE as user type "administrator"
