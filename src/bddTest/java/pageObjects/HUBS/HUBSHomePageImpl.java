@@ -46,14 +46,26 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         switch (menuOption){
             case "MEDIA" :
                 Assert.assertTrue("Publish my media changes button is not displaying.", getPublishMyMediaChangesButton().isDisplayed());
+                WebElement disablePublishLinkMedia = driver.findElement(By.xpath("(//span[text()='Publish my media changes']|//button[text()='Publish my media changes'])/.."));
+                String actDisablePublishLinkMedia = disablePublishLinkMedia.getAttribute("class");
+                String expDisablePublishLink = "ui secondary disabled button";
+                Assert.assertTrue("Publish my media changes button is not disable.", actDisablePublishLinkMedia.equals(expDisablePublishLink));
                 break;
             case "LINKS & PROFILES":
                 Assert.assertTrue("Publish my LINKS & PROFILES changes button is not displaying.", getPublishMyLinksAndProfilesChangesButton().isDisplayed());
+                WebElement disablePublishLinkLinks = driver.findElement(By.xpath("//button[text()='Publish my links']|//span[text()='Publish my links & profiles changes']/.."));
+                String actDisablePublishLinkLinks = disablePublishLinkLinks.getAttribute("class");
+                String expDisablePublishLinkLinks = "ui secondary disabled button";
+                Assert.assertTrue("Publish my links & profiles changes button is not disable.", actDisablePublishLinkLinks.equals(expDisablePublishLinkLinks));
                 profilesLink().click();
                 Assert.assertTrue("CREATE A NEW PROFILE Button is not displaying.", createNewProfileButton().isDisplayed());
                 break;
             case "INTRO" :
                 Assert.assertTrue("Publish intro changes button is not displaying.", getPublishIntroChangesButton().isDisplayed());
+                WebElement disablePublishLinkIntro = driver.findElement(By.xpath("//button[text()='Publish intro changes']|//span[text()='Publish intro changes']/.."));
+                String actDisablePublishLinkIntro = disablePublishLinkIntro.getAttribute("class");
+                String expDisablePublishLinkIntro = "ui secondary disabled button";
+                Assert.assertTrue("Publish my media changes button is not disable.", actDisablePublishLinkIntro.equals(expDisablePublishLinkIntro));
                 break;
         }
     }

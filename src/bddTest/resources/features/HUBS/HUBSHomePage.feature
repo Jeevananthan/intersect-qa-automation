@@ -11,7 +11,7 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
   versus Angular
     Then HUBS all three tabs ie "BASIC INFO", "INTRO", "MEDIA" and "LINKS & PROFILES" should display
 
-  @MATCH-5587 @MATCH-5840
+  @MATCH-5587 @MATCH-5840 @MATCH-5588 @MATCH-5941
   Scenario: As an HE user with the Administrator or Publishing role I need to be able to navigate between different
   tabs of HEM seamlessly so I can manage my institution's profile content.
     Then HUBS I click on "LINKS & PROFILES" tab in main menu
@@ -21,7 +21,7 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
     And HUBS I click on Intersect
     And HUBS I verify the Publish model for "LINKS & PROFILES" tab
 
-  @MATCH-5701
+  @MATCH-5701 @MATCH-5588 @MATCH-5172 @MATCH-5941
   Scenario: As an HE user with the Administrator or Publishing role that has made 'Media' or 'Links & Profiles'
   updates to my institution's profile in HEM (React) but has not published those updates from within either tab,
   I want to be notified that I need to publish my changes any time I leave HEM (React) to the 'Information' tab of
@@ -32,7 +32,7 @@ Feature: HUBS - Naviance College Profile Home page, which have mainly 3 tabs ie 
     And HUBS I click on "BASIC INFO" tab in main menu
     And HUBS I verify the Publish model for "MEDIA" tab
 
-  @MATCH-5897
+  @MATCH-5897 @MATCH-5941
   Scenario: As an HE user with the Administrator or Publishing role I want an 'Intro' tab in Premium HEM so I can
   manage my institution's 'college profile' without Support needing to get involved.
     Then HUBS I click on "MEDIA" tab in main menu
