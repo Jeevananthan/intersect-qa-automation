@@ -8,4 +8,4 @@ Feature: As an HE or Support user I want to login to the Community
   @MATCH-1179
   Scenario: As a Support user I'm able to log in to the Community
     Given SP I am logged in to the Admin page as an Admin user
-    Then I am able to successfully login
+    Then I am able to successfully login as a support user
