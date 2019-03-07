@@ -1767,8 +1767,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable",
-                comparePinnedCollegesLink().findElement(By.xpath(".//ancestor::div[1]")).getAttribute("aria-disabled").equals("true"));
+        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable", comparePinnedCollegesLink().getAttribute("aria-disabled").equals("true"));
+                //.findElement(By.xpath(".//ancestor::div[1]"))
 
         //close the PINNED dropdown
         pinnedDropdown().click();
