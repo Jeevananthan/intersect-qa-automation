@@ -60,9 +60,19 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
             submitButton().click();
             waitUntilPageFinishLoading();
             String originalHandle = driver.getWindowHandle();
-            actionsLink(details.get(2), "Approve").click();
-            for (String handle : driver.getWindowHandles()) {
-                driver.switchTo().window(handle);
+            if (driver.findElements(By.cssSelector(noDataLabel)).size() == 0 ) {
+                actionsLink(details.get(2), "Approve").click();
+                for (String handle : driver.getWindowHandles()) {
+                    driver.switchTo().window(handle);
+                }
+                driver.manage().timeouts().implicitlyWait(70, TimeUnit.SECONDS);
+                waitUntil(ExpectedConditions.elementToBeClickable(approveButton()));
+                approveButton().click();
+                waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
+                navigation.closeNewTabAndSwitchToOriginal(originalHandle);
+                workflowOverviewButton().click();
+            } else {
+                logger.info("No changes to approve.");
             }
             driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
             waitUntil(ExpectedConditions.elementToBeClickable(approveButton()));
@@ -127,4 +137,5 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement logOutButton() { return driver.findElement(By.xpath("//a[text()='Log out']")); }
     private WebElement schoolNameField() { return driver.findElement(By.cssSelector("input#edit-school-name")); }
     private WebElement actionsLink(String collegeName, String action) { return driver.findElement(By.xpath("//tr/td[2]/a[text() = '" + collegeName + "']/../../td[9]/a[text() = '" + action + "']")); }
+    private String noDataLabel = "td.empty.message";
 }
