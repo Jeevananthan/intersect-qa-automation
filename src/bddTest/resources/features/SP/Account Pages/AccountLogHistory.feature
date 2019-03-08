@@ -38,6 +38,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
   #visit
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
+    Then HS I clear the time slot for the particular day "<StartDate>" in Regular Weekly Hours Tab
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
   #Fairs
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
@@ -85,6 +86,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     When HE I access the Account Settings page
     And HE I add a random suffix to the First Name value
     And HE I save the changes
+    Then HE I successfully sign out
 
     Given SP I am logged in to the Admin page as an Admin user
     When SP I go to the Log History for "The University of Alabama" from the institution dashboard
@@ -95,6 +97,7 @@ Feature: SP - Account Pages - AccountLogHistory - View Account Audit Log History
     And HE I access the Account Settings page
     And HE I set the First Name field to the original value "Mark"
     And HE I save the changes
+    Then HE I successfully sign out
 
   @MATCH-5269
   Scenario: As a Support App I need to add log entries and verify log entry details
