@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
 
@@ -63,6 +64,7 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
             for (String handle : driver.getWindowHandles()) {
                 driver.switchTo().window(handle);
             }
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
             waitUntil(ExpectedConditions.elementToBeClickable(approveButton()));
             approveButton().click();
             waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
