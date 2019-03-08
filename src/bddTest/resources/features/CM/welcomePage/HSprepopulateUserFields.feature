@@ -8,7 +8,6 @@ Feature: HS Community User - Prepopulate Community User Profile Fields Upon Acti
   Scenario: As an HS Community user I want my Naviance Succeed user account details to autopopulate my Community user profile when initially activated.
     Given HS I am logged in to Intersect HS as user type "resetAccount"
     And I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
-    And I go to HS Counselor Community page
     #Then I upload Profile and Banner pictures
     And I populate all the fields on Welcome page
     Then I set work email and office phone privacy to 'Connections Only'
@@ -27,11 +26,7 @@ Feature: HS Community User - Prepopulate Community User Profile Fields Upon Acti
 #Non-Naviance
 #Cleanup steps
     Given HS I am logged in to Intersect HS as user type "resetAccount"
-    And HS I go to the Counselor Community
-    And I clear the account to get the community welcome page again
-    Then HS I successfully sign out
-
-    Given HS I am logged in to Intersect HS as user type "resetAccount"
+    And I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
     When I verify that I am redirected to the Community activate profile page when accessing RepVisits
     Then I verify the new user required to complete the Counselor Community profile form before they can access the following fields
       |Counselor Community|RepVisits|

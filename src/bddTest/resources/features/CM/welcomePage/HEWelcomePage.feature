@@ -14,7 +14,7 @@ Feature: HE - Community - Welcome - As an HE User, Prepopulate Community User Pr
     Then HE I am logged in to Intersect HE as user type "resetAccount"
     When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
     Then HE I verify the new user required to complete the Counselor Community profile form before they can access the following fields
-      |Counselor Community|RepVisits|ActiveMatch|
+      |Counselor Community|RepVisits|
     When HE I go to the Welcome Counselor Community page
     And HE I verify the Welcome page has a header that says: "Please take a moment to complete the form below to activate your profile. This is the first step in utilizing Intersect solutions, including updating your Naviance college profile and accessing RepVisits. Based on your institution's partnership with Intersect, you may also have access to Counselor Community, Naviance Events, and Active Match. Once this step is complete you will be ready to start using Intersect."
     And HE I verify the agreements label that says: "Please confirm your agreement to the following:"
@@ -25,5 +25,5 @@ Feature: HE - Community - Welcome - As an HE User, Prepopulate Community User Pr
     And HE I activate my community profile by providing OfficePhone as "1234567892" JobTitle as "Counselor" and EU citizen as "Yes"
     And HE I verify clicking on RepVisits will redirect to Search and Schedule tab of RepVisits
     Then HE I verify the user can access the following fields
-      |Counselor Community|RepVisits|ActiveMatch|
+      |Counselor Community|RepVisits|
     And HE I clear the account to get the community welcome page again

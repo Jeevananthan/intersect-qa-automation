@@ -32,6 +32,7 @@ public class UserProfilePageStepDefs implements En {
         And("^I check if second state \"([^\"]*)\" is saved with counties \"([^\"]*)\" and \"([^\"]*)\"$", userProfile::checkSecondStateWithCounties);
         Then("^I like post \"([^\"]*)\"$", userProfile::likePost);
         And("^I open Notifications list$", userProfile::openNotifications);
+        And("^I open Notifications Support list$", userProfile::openNotificationsSupport);
         And("^I check if user has new notification for post like$", userProfile::checkNewNotificationRaised);
         Then("^I unlike post \"([^\"]*)\"$", userProfile::unlikePost);
         And("^I check if new notification for post like is not raised$", userProfile::checkNewNotificationNotRaised);
@@ -49,6 +50,7 @@ public class UserProfilePageStepDefs implements En {
         Then("^I check if user post is created with text \"([^\"]*)\" and hyperlink \"([^\"]*)\"$", userProfile::checkIfRichContentPostWithHyperlinkIsCreated);
         Then("^I check if user post is created with text \"([^\"]*)\" and embedded video$", userProfile::checkIfRichContentPostWithVideoIsCreated);
         And("^I clear all the notifications$", userProfile::clearAllNotifications);
+        And("^I clear all the notifications from support$", userProfile::clearAllNotificationsSupport);
         Then("^I check if user has new notification$", userProfile::checkNewNotificationRaised);
         Then("^I edit post with text \"([^\"]*)\"$", userProfile::editCreatedPost);
         And("^I check if the post is created with text \"([^\"]*)\"$", userProfile::checkIfUserPostIsCreatedNoDelete);

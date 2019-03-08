@@ -22,16 +22,6 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public UserInstitutionPageImpl()  {
         logger = Logger.getLogger(UserInstitutionPageImpl.class);}
 
-    public void iframeEnter()  {
-        //Thread.sleep(3000); //Implicitly wait does not work on Mac (should be fixed soon)
-        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
-    }
-
-    public void iframeExit() {
-        driver.switchTo().defaultContent();
-    }
-
-
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
         getNavigationBar().goToCommunity();
@@ -241,7 +231,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitutionAdditionalInfo() {
         logger.info("Going to the Alabama Institution Aditional Info.");
-        driver.navigate().to("https://qa-he.intersect.hobsons.com/counselor-community/institution/636/info");
+        link(infoTab()).click();
     }
 
     public void goToInstitutionFollowersList() {
@@ -271,7 +261,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void checkHSInstitutionAdditionalInfoPageItems() {
         logger.info("Checking if all items are displayed on the Institution page.");
-//        Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
+        Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
         Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
         Assert.assertTrue("Enrollment field is not displayed!", checkItemVisibleByCssSelector("div", "class", "type-enrolled"));
         Assert.assertTrue("Collage Bord ID is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-hs-colllege-board-id"));
@@ -318,5 +308,5 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     private WebElement editInstitutionBtn() {return driver.findElement(By.cssSelector("a[class='edit-institution-link']"));}
     private WebElement institutionLink() { return driver.findElement(By.cssSelector("a[href='/institution']")); }
     private By homeLink(){ return By.id("js-main-nav-home-menu-link"); }
-
+    private By infoTab(){ return By.xpath("//a[contains(@href, '/info')]"); }
 }
