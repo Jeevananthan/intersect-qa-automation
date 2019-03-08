@@ -488,7 +488,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     }
 
     // Locators Below
-    private WebElement numberOfCollegeDisplayBar(){ return driver.findElement(By.xpath("//strong[text()='Viewing 5 - 5 of 5']"));}
+    private WebElement numberOfCollegeDisplayBar(){ return driver.findElement(By.xpath("//strong[text()[contains(.,'Viewing 5 -')]]"));}
     private WebElement rightArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Next Items']"));}
     private WebElement leftArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Prior Items']"));}
     private WebElement grayBox() { return driver.findElement(By.className("supermatch-compare-data-header"));}
