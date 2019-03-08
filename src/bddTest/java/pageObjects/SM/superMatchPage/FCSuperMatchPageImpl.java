@@ -324,7 +324,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickSaveSearchButton() {
-        chooseFitCriteria().click();
+        //chooseFitCriteria().click();
         saveSearchButton().sendKeys(Keys.RETURN);
     }
 
