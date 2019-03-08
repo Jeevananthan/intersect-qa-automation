@@ -20,6 +20,9 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
     Scenario: As a Support user, I need the ability to add a state subscription so that I can configure the correct subscription for the HE client.
       Given SP I am logged in to the Admin page as a Super Admin user
       When SP I select "The University of Alabama" from the institution dashboard
+      Then SP I set the "Connection" module to "active" with the start date "-1" and end date "35" in the institution page
+      And SP I Click the Save Changes button
+      When SP I select "The University of Alabama" from the institution dashboard
       Then HE I click the link "Connection"
       Then SP I delete all the subscriptions for school
       Then I check number of records in the ".subscriptions-table" table
@@ -46,6 +49,9 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
   @MATCH-4372
   Scenario: As a Support user, I need the ability to add a county subscription so that I can configure the correct subscription for the HE client.
     Given SP I am logged in to the Admin page as a Super Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Connection" module to "active" with the start date "-1" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     When SP I select "The University of Alabama" from the institution dashboard
     Then HE I click the link "Connection"
     Then SP I delete all the subscriptions for school
@@ -75,6 +81,9 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
   Scenario: As a Support user, I need the ability to add a zip subscription so that I can configure the correct subscription for the HE client.
     Given SP I am logged in to the Admin page as a Super Admin user
     When SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Connection" module to "active" with the start date "-1" and end date "35" in the institution page
+    And SP I Click the Save Changes button
+    When SP I select "The University of Alabama" from the institution dashboard
     Then HE I click the link "Connection"
     Then SP I delete all the subscriptions for school
     Then I check number of records in the ".subscriptions-table" table
@@ -101,6 +110,9 @@ Feature: SP - Community - Community - Verify access to Community and HUBS view m
   @MATCH-4371 @MATCH-4372 @MATCH-4373
   Scenario Outline: As a Support user, I need to see error messages when required fields are not set while adding subscription.
     Given SP I am logged in to the Admin page as a Super Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Connection" module to "active" with the start date "-1" and end date "35" in the institution page
+    And SP I Click the Save Changes button
     When SP I select "The University of Alabama" from the institution dashboard
     Then HE I click the link "Connection"
     Then I check number of records in the ".subscriptions-table" table

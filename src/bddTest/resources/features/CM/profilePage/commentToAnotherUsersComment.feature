@@ -30,7 +30,7 @@ Feature: As a Community user I want to comment directly to another Community use
   Scenario: Notification is generated to the user that wrote the comment that was commented on
     Given HE I am logged in to Intersect HE as user type "administrator"
     When I am connected to HS user
-    And I go to the home page
+    And I go to HS institution page
     Then I create new user post with text "Test post is created by test automation script"
     And I write a comment with text "New comment to this post" on the post "Test post is created by test automation script"
     Then I clear all the notifications

@@ -35,18 +35,21 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
         getNavigationBar().goToCommunity();
+        communityFrame();
+        link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void goToHSUserInstitutionPage() {
         logger.info("Going to user profile page.");
-        link(By.id("js-main-nav-home-menu-link")).click();
+        getNavigationBar().goToCommunityInHS();
         communityFrame();
         link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void clickInstitutionTab() {
         logger.info("Going to institution tab.");
-        link(By.cssSelector("a[href='/institution']")).click();
+        driver.findElement(homeLink()).click();
+        institutionLink().click();
     }
 
     public void createNewInstitutionPost(String postText) {
@@ -254,7 +257,6 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         logger.info("Checking if all items are displayed on the Institution page.");
         Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
         Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
-        Assert.assertTrue("Website field is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-website-url"));
         Assert.assertTrue("Institution location is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-location"));
         Assert.assertTrue("Institution type not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-type"));
         Assert.assertTrue("Undergraduate enrollment not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-undergraduate-enrollment"));
@@ -314,5 +316,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     private WebElement unfollowBtnById(String id) {return driver.findElement(By.id("unfollow-"+id+""));}
     private WebElement followBtn() {return driver.findElement(By.cssSelector("a[title='Follow Institution']"));}
     private WebElement editInstitutionBtn() {return driver.findElement(By.cssSelector("a[class='edit-institution-link']"));}
+    private WebElement institutionLink() { return driver.findElement(By.cssSelector("a[href='/institution']")); }
+    private By homeLink(){ return By.id("js-main-nav-home-menu-link"); }
 
 }

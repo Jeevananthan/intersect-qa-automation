@@ -6352,11 +6352,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public String dateConverter(String rsvpDeadline) {
 
-        java.util.Date date;
-        date = new Date(rsvpDeadline);
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String format = formatter.format(date);
-        return format;
+        return "";
     }
 
     public Boolean cancelNewEvent(String collegeFairName) {
@@ -7576,6 +7572,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify Timeslot
         if (time.equals("PreviouslySetTime"))
             time = StartTime;
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='" + formattedDate + "']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='" + time + "']")));
         Assert.assertTrue("Timeslot is not displayed", driver.findElement(By.xpath("//div/span[text()='" + formattedDate + "']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='" + time + "']")).isDisplayed());
     }
 

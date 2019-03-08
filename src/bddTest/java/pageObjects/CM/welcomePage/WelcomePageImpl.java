@@ -3,7 +3,10 @@ package pageObjects.CM.welcomePage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -44,7 +47,9 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
 
     public void makeSureHEWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+
+        driver.findElement(homeLink()).click();
+        counselorLink().click();
         communityFrame();
 
         if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome to the Counselor Community!')]")).size() != 0) {
@@ -349,4 +354,6 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     private WebElement activeMatchMenuLink(){
         return driver.findElement(By.id("js-main-nav-am-plus-menu-link"));
     }
+    private WebElement counselorLink() { return driver.findElement(By.id("js-main-nav-counselor-community-menu-link")); }
+    private By homeLink(){ return By.id("js-main-nav-home-menu-link"); }
 }

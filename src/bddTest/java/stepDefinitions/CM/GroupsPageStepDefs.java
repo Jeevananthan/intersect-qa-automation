@@ -1,6 +1,5 @@
 package stepDefinitions.CM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.CM.groupsPage.GroupsPageImpl;
 
@@ -14,6 +13,7 @@ public class GroupsPageStepDefs implements En {
         GroupsPageImpl groupsPage = new GroupsPageImpl();
 
         Then("^I navigate to Groups page$", groupsPage::goToGroupsPage);
+        Then("^I navigate to Groups page as admin$", groupsPage::goToGroupsPageAsAdmin);
         And("^I click on Add Group button$", groupsPage::clickAddGroupButton);
         Then("^I populate fields for new Group with name \"([^\"]*)\"$", groupsPage::populateGroupFields);
         And("^I select institution type \"([^\"]*)\"$", groupsPage::selectInstitutionType);

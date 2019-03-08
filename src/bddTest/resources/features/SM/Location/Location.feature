@@ -17,7 +17,7 @@ Feature: SM - Location - Location - As a HS student, I need to be able to search
       | Search by distance | Within 25 miles |
    Then SM I see validation message "Enter postal code to finish adding this criteria"
 
-  @MATCH-3848 @MATCH-4104
+  @MATCH-3848 @MATCH-4104 @ignore @unnecessary
   Scenario: As a HS student I want to see validation message when enter incorrect 'Zip Code' value
     Given SM I am logged in to SuperMatch through Family Connection
     When SM I select the following data from the Location Fit Criteria

@@ -5,16 +5,16 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
-//import sun.rmi.runtime.Log;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+//import sun.rmi.runtime.Log;
 
 /**
  * Created by bojan on 6/2/17.
@@ -23,7 +23,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
-//    private LoginPageImpl lp;
+    //    private LoginPageImpl lp;
 //    private HomePageImpl hp;
     HomePageImpl hp = new HomePageImpl();
     LoginPageImpl lp = new LoginPageImpl();
@@ -63,7 +63,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkMutualConnectionsDisplayed() {
         logger.info("Checking if there are mutual connection section displayed.");
-        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "institutions-wrapper"));
     }
 
     public void checkConnectionsDisplayed() {
@@ -109,13 +109,13 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void searchForUser(String user){
         iframeExit();
-        textbox(By.id("global-search-box-input")).clear();
-        textbox(By.id("global-search-box-input")).sendKeys(user);
+        searchUser().clear();
+        searchUser().sendKeys(user);
         logger.info("Searching for user.");
         waitUntilElementExists(link(By.id("global-search-box-item-0")));
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
-        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
+        link(By.xpath("//div[@id='global-search-box-item-0']")).click();
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
     }
@@ -176,7 +176,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(1);
             String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
-            if (buttonText.equals("Invited")) {
+            if (buttonText.equals("INVITED")) {
                 acceptConnectionRequestByHSUser();
                 searchForUser(user);
                 communityFrame();
@@ -630,5 +630,6 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveBtn(){return driver.findElement(By.id("edit-save"));}
     private WebElement editCustomCategory(String category) {return driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]/..//a[@title='Edit category']"));}
+    private WebElement  searchUser()  {return driver.findElement(By.id("global-search-box-input"));}
 
 }

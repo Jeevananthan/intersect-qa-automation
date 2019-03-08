@@ -74,6 +74,12 @@ public class CMSNodeMenuPageImpl extends PageObjectFacadeImpl {
             } else {
                 logger.info("No changes to approve.");
             }
+            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+            waitUntil(ExpectedConditions.elementToBeClickable(approveButton()));
+            approveButton().click();
+            waitUntil(ExpectedConditions.elementToBeClickable(confirmationMessage()));
+            navigation.closeNewTabAndSwitchToOriginal(originalHandle);
+            workflowOverviewButton().click();
         }
 
         logger.info("Changes were approved in CMS");
