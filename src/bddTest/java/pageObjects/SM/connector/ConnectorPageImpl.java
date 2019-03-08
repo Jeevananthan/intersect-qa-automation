@@ -211,6 +211,19 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(connectorTextSecondLine().getText()).as("The text in the connector dialog is incorrect.").isEqualTo(dataList.get(1));
     }
 
+    public void checkUncheckCollegeInConnector(String action, String college) {
+        if (action.equals("check")) {
+            checkCheckbox(college);
+        } else {
+            uncheckCheckbox(college);
+        }
+    }
+
+    public void verifyNoConnectorIsDisplayed() {
+        waitForUITransition();
+
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";
