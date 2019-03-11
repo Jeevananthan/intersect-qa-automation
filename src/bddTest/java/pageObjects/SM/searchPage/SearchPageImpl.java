@@ -2990,6 +2990,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 firstPinnedCollege().getText().equals(collegeName));
     }
 
+    public void verifyConnectorBannerIsDisplayed() {
+        softly().assertThat(ExpectedConditions.visibilityOf(bannerConnectButton())).as("The Connector banner was not displayed");
+    }
+
     // Locators Below
     private boolean searchProcessing() {
         return getDriver().findElements(By.cssSelector(spinnerLocator)).size() > 0;
@@ -3622,5 +3626,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private String addedElementsInDropdownField = "a.ui.label";
 
     private WebElement topBlueBanner() { return driver.findElement(By.cssSelector("div.content")); }
+    private WebElement bannerConnectButton() { return driver.findElement(By.cssSelector("button.button-accept")); }
+    private WebElement whyDrawerEmptyHeartIcon() { return driver.findElement(By.xpath("//div[@class = 'six wide column']//span/i[contains(@class, 'empty')]")); }
+    private WebElement whyDrawerFullHeartIcon() { return driver.findElement(By.xpath("//div[@class = 'six wide column']//span/i[(@class = 'heart icon')]")); }
 }
 

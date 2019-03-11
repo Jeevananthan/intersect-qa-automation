@@ -485,6 +485,21 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Fifth pinned college display bar ie "+expectedDisplayBarText+" is not displaying.", actualDisplayBarText.equals(expectedDisplayBarText));
     }
 
+    public void favSchoolFromPinnedColleges(String college) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(subTitle), 0));
+        searchPage.scrollDown(heartIcon(college));
+        if (heartIcon(college).getAttribute("class").contains("empty")) {
+            heartIcon(college).click();
+        }
+    }
+
+    public void unfavSchoolFromPinnedColleges(String college) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(subTitle), 0));
+        if (!heartIcon(college).getAttribute("class").contains("empty")) {
+            heartIcon(college).click();
+        }
+    }
+
     // Locators Below
     private WebElement numberOfCollegeDisplayBar(){ return driver.findElement(By.xpath("//strong[text()='Viewing 5 - 5 of 5']"));}
     private WebElement rightArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Next Items']"));}
@@ -623,4 +638,10 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement exportButton() {
         return driver.findElement(By.cssSelector("a.ui.teal.basic.button"));
     }
+
+    private WebElement heartIcon(String college) {
+        return driver.findElement(By.xpath("//a[contains(text(), '" + college + "')]/..//i[contains(@class, 'heart')]"));
+    }
+
+    private String subTitle = "//h1[text() = 'An in-depth comparison of your pinned schools']";
 }

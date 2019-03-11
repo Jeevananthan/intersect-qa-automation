@@ -63,5 +63,8 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify the displaying more then four colleges in compare pinned college page$", pinnedSchoolsComparePage::verifyPinnedCollegesFunctionality);
 
+        And("^SM I favorite the school \"([^\"]*)\" from the Pinned Colleges screen$", pinnedSchoolsComparePage::favSchoolFromPinnedColleges);
+
+        And("^SM I un-favorite the school \"([^\"]*)\" from the Pinned Colleges screen$", pinnedSchoolsComparePage::unfavSchoolFromPinnedColleges);
     }
 }

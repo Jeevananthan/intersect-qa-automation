@@ -310,8 +310,79 @@ Feature: AMNG - AM NextGen Connector
     And SP I delete all the subscriptions for school
     When I remove all connections for the user id "402661187"
 
+  @MATCH-5153
+  Scenario: As a Naviance Student student user, I would like to be able to connect with an HE Connection client within
+  SuperMatch when I have met the AM NextGen match criteria, have added to Colleges I'm Thinking About list (favorited)
+  so that I can send my information to the college.
 
+    #Add and remove proper college from CITA
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    When SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
 
+    #Clean existing connections, subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
 
+    #Verification in Results
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I pin "The University of Alabama" from the search box
+    When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | African-American/Black Studies              |
+    And SM I favorite the school "The University of Alabama"
+    Then SM I verify that the connector banner is displayed
+    And HE I click the button "Connect?" in the connector dialog
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    And SM I un-favorite the school "The University of Alabama"
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+    #Verification in Why Drawer
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I press Why button for "The University of Alabama" college
+    And SM I favorite the school "The University of Alabama" from the why drawer
+    Then SM I verify that the connector banner is displayed
+    And HE I click the button "Connect?" in the connector dialog
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    And SM I un-favorite the school "The University of Alabama" from the why drawer
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+    #Verification in Pinned Schools
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I open the Pinned Schools Compare screen
+    And SM I favorite the school "The University of Alabama" from the Pinned Colleges screen
+    Then SM I verify that the connector banner is displayed
+    And HE I click the button "Connect?" in the connector dialog
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    And SM I un-favorite the school "The University of Alabama" from the Pinned Colleges screen
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When I remove all connections for the user id "402661187"
 
 
