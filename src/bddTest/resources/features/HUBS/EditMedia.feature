@@ -1,5 +1,5 @@
 @HUBS
-Feature: HUBS - Edit Media
+Feature: HUBS - Edit Media - HS - Edit Media - As an HS user, I should be able to Edit User Profile
   Background:
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HUBS I access HUBS Edit Mode
@@ -106,11 +106,14 @@ Feature: HUBS - Edit Media
     When HUBS I click on "LINKS & PROFILES" tab
     Then HUBS I expanded the "Profiles" link
     Then HUBS I verify "Student Profile" profile
-#    Then HUBS I verify " - Grace" profile
-#    Then HUBS verify title "Links & Profiles" into "Title Links" section
-#    Then HUBS verify title "Links" into "Title Links" section
-#    Then HUBS verify contents "COMMUNICATE" into "Links" section
-#    Then HUBS verify contents "APPLY ONLINE" into "Links" section
-#    Then HUBS verify contents "LEARN MORE" into "Links" section
-#    Then HUBS verify contents "Request Information" in the dropdown "COMMUNICATE"
-#    Then HUBS verify contents "lttest.tt" in the dropdown "LEARN MORE"
+
+
+  @HUBS-5232
+  Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Awareness
+  subscription activated, I want to be able to remove links within Premium HEM so I do not have to rely on Intersect
+  Support to do this for me.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Links" link
+    Then HUBS I verify "Student Profile" profile
+    Then HUBS I create a new "http://test.org" link with "Test" title
+    Then HUBS I verify Remove link
