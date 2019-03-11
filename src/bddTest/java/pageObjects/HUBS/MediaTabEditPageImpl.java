@@ -4,7 +4,9 @@ import org.apache.log4j.Logger;
 import org.apache.xpath.operations.Bool;
 import org.assertj.core.api.BooleanAssert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
@@ -75,6 +77,21 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
     public void verifyStudentProfile(String contents) {
         waitUntilPageFinishLoading();
         softly().assertThat(getDriver().findElement(By.xpath("//*/*[contains(text(), '"+ contents +"')]")).getText()).as("Profile verification").isEqualTo(contents);
+    }
+
+    public void createANewLink(String URL, String Title) {
+        waitUntilPageFinishLoading();
+        createNewLink().click();
+        linkURL().sendKeys(URL);
+        linkTitle().sendKeys(Title);
+        addButton().click();
+    }
+
+    public void verifyRemoveLink() {
+        waitUntilPageFinishLoading();
+        softly().assertThat(removeLink().getText()).as("Verify Remove link button").isEqualTo("Remove");
+        removeLink().click();
+
     }
 
     public void clickOnPublishMyMediaChangesButton(String buttonName) {
@@ -218,6 +235,21 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'MEDIA')]"));
     }
 
+    private WebElement createNewLink() {
+        linkInput().sendKeys("Text1");
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'CREATE A NEW LINK')]"));
+    }
+
+    /**
+     * The below method is to scroll down the webpage till the specific webelement, which method is collecting in method parameter
+     */
+    public void scrollDown(WebElement element){
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,350)", "");
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
+    }
+
     private WebElement requestInformationInputBox() {
         return  getDriver().findElement(By.cssSelector("input[id ='request-info-link-input"));
     }
@@ -274,8 +306,27 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.xpath("//*[@class='_4MiKKhtvn8oXpH1abXjg0']/div"));
     }
 
+    private WebElement linkURL() {
+        return getDriver().findElement(By.cssSelector("input[id='linkURL']"));
+    }
+
+    private WebElement linkTitle() {
+        return getDriver().findElement(By.cssSelector("input[id='linkTitle']"));
+    }
+
+    private WebElement linkInput() {
+        return getDriver().findElement(By.cssSelector("input[aria-label='Test1']"));
+    }
+
+    private WebElement addButton() {
+        return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));
+    }
 
     private WebElement premiumFeaturesButton() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Premium Features')]"));
+    }
+
+    private WebElement removeLink() {
+        return getDriver().findElement(By.cssSelector("button[id='remove-link-0']"));
     }
 }
