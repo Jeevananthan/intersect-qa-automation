@@ -6722,9 +6722,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             fairCancelButton().click();
         }
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsClose()));
-        closeButtonInFairsPopup().click();
-        waitUntilPageFinishLoading();
+        try{
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsClose()));
+            closeButtonInFairsPopup().click();
+            waitUntilPageFinishLoading();
+        }catch (Exception e){
+            getDriver().navigate().refresh();
+            waitUntilPageFinishLoading();
+        }
     }
 
     public String selectdateforExportAppointmentsIncalendar(String addDays) {
