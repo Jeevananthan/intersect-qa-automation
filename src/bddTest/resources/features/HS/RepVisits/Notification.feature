@@ -214,40 +214,42 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
-    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I register for the "<College Fair Name>" college fair at "<School>"
-
     Given HS I am logged in to Intersect HS as user type "Notification1"
     Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
-#FOR DECLINE
-    Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
-    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<FairsSTime>","<Date>" for Fairs
-    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
-#VERIFY ACTIVITY
-    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 #FOR RESCHEDULE
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the edit fair popup "<College Fair Name>","<FairSTimeforReschedule>","<Date>"
     And HS I reschedule the fair using "<newFairsSTime>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+#FOR DECLINE
+    Given HS I am logged in to Intersect HS as user type "Notification1"
+    Then HS I verify the Notification "<HEUser>","<institution>","<newFairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<newFairsSTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<newFairsSTime>","<Date>" for Fairs
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
 #FOR CANCEL
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
-    Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
     Then HS I verify the Paginate the ACTIVITY subtab via 25 entries with a "Show More" action to display the next 25 entries
+    Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
     And HS I successfully sign out
 
     Examples:
       |activityDate |HEUser   |HSuser                 |institution               |School               |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|FairSTimeforReschedule|
-      |14           |purple   |PurpleHS Notification1 |Alpena Community College  |Geneva Co High School|Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |12:00am   |12:00am      |12:00am          |fairNewqa  |12:00 AM              |
+      |14           |purple   |PurpleHS Notification1 |Alpena Community College  |Geneva Co High School|Qa Fair for testng    |14  |1000AM    |1200PM  |5            |$25 |25                    |100                        |Save          |10:00am   |11:00am      |10:00am          |fairNewqa  |11:00 AM              |
 
   @MATCH-2168
   Scenario Outline: As a Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,
