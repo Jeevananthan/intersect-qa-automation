@@ -104,7 +104,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | Photos/Videos on Profile | Profiles      | Upcoming College Events | Upcoming College Visits |
       | -                        | View Profiles | -                       | -                       |
 
-  @MATCH-3448
+  @MATCH-3448 @concurrency
   Scenario: 00 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
     Given SM I am logged in to SuperMatch through Family Connection
