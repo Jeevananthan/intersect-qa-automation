@@ -787,5 +787,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement lookupByNameField() { return driver.findElement(By.cssSelector("input[name='name']")); }
     private WebElement heartIconInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/preceding-sibling::button")); }
     private WebElement getCollegeMatchTab(String tabName) { return driver.findElement(By.xpath("//div//a[text() = '" + tabName + "']")); }
-    private String connectorCloseIconLocator = "i.close.icon";
+    public String connectorCloseIconLocator = "i.close.icon";
 }

@@ -487,6 +487,8 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
 
     public void favSchoolFromPinnedColleges(String college) {
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(subTitle), 0));
+        //This fixed wait is necessary because the heart icon takes a moment to set its actual status
+        waitForUITransition();
         searchPage.scrollDown(heartIcon(college));
         if (heartIcon(college).getAttribute("class").contains("empty")) {
             heartIcon(college).click();

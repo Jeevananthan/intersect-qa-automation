@@ -340,6 +340,7 @@ Feature: AMNG - AM NextGen Connector
     And SM I pin "The University of Alabama" from the search box
     When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       | African-American/Black Studies              |
+      | American/United States Studies/Civilization |
     And SM I favorite the school "The University of Alabama"
     Then SM I verify that the connector banner is displayed
     And HE I click the button "Connect?" in the connector dialog
