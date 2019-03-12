@@ -29,6 +29,7 @@ public class userConnectionsStepDefs implements En {
         And("^I check if I can navigate to an individual user$", userConnections::navigateToIndividualUser);
         And("^I am connected to HS user$", userConnections::connectToHSUser);
         And("^I am not connected to \"([^\"]*)\" user$", userConnections::disconnectFromUser);
+        And("^I am not connected to \"([^\"]*)\" HE user$", userConnections::disconnectFromUserHE);
         And("^I check if I am not following HS user's institution$", userConnections::checkIfNotFollowingLebanonHighSchool);
         And("^I check if I am following HS user's institution$", userConnections::checkIfFollowingLebanonHighSchool);
         Then("^I open connections tab$", userConnections::clickConnectionsTab);

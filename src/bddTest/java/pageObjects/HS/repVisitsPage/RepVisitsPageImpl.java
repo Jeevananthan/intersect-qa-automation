@@ -6722,9 +6722,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             fairCancelButton().click();
         }
         waitUntilPageFinishLoading();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsClose()));
-        closeButtonInFairsPopup().click();
-        waitUntilPageFinishLoading();
+        try{
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(fairsClose()));
+            closeButtonInFairsPopup().click();
+            waitUntilPageFinishLoading();
+        }catch (Exception e){
+            getDriver().navigate().refresh();
+            waitUntilPageFinishLoading();
+        }
     }
 
     public String selectdateforExportAppointmentsIncalendar(String addDays) {
@@ -7572,6 +7577,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         //verify Timeslot
         if (time.equals("PreviouslySetTime"))
             time = StartTime;
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='" + formattedDate + "']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='" + time + "']")));
         Assert.assertTrue("Timeslot is not displayed", driver.findElement(By.xpath("//div/span[text()='" + formattedDate + "']/parent::div/parent::th/parent::tr/parent::thead/following-sibling::tbody/tr/td/div/button[text()='" + time + "']")).isDisplayed());
     }
 

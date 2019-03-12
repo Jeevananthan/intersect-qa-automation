@@ -76,27 +76,33 @@ public class StudiesPageImpl extends PageObjectFacadeImpl {
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Student/Faculty Ratio" :
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully edited. Expected: " +
+                                    generatedValues.get(key) + ", Actual: " + studentFacultyRatioText().getText(),
                             generatedValues.get(key).equals(studentFacultyRatioText().getText()));
                     break;
                 case "Student Retention (%)" :
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully edited. Expected: " +
+                                    generatedValues.get(key) + ", Actual: " + studentRetentionText().getText(),
                             generatedValues.get(key).equals(studentRetentionText().getText()));
                     break;
                 case "Graduation Rate (%)" :
-                    assertTrue("The value for " + key + " was not successfully generated. UI: " + graduationRateText().getText(),
+                    assertTrue("The value for " + key + " was not successfully edited. Expected:" +
+                                    generatedValues.get(key) + ", Actual: " + graduationRateText().getText(),
                             generatedValues.get(key).equals(graduationRateText().getText()));
                     break;
                 case "Top Areas of Study" :
-                    assertTrue("The value for " + key + " was not successfully generated",
+                    assertTrue("The value for " + key + " was not successfully edited. Expected: " +
+                                    generatedValues.get(key) + ", Actual: " + topAreasOfStudyList().get(0).getText(),
                             generatedValues.get(key).equals(topAreasOfStudyList().get(0).getText()));
                     break;
                 case "Study Options" :
                     if (studyOption(studentOptionLabel).getAttribute("class").contains("--yes")) {
-                        assertTrue("The value for " + key + " was not successfully generated",
+                        assertTrue("The value for " + key + " was not successfully edited. Expected: " +
+                                        generatedValues.get(key),
                                 generatedValues.get(key).equals("enabled"));
                     } else {
-                        assertTrue("The value for " + key + " was not successfully generated",
+                        assertTrue("The value for " + key + " was not successfully edited. Expected: " +
+                                        generatedValues.get(key),
                                 generatedValues.get(key).equals("disabled"));
                     }
             }

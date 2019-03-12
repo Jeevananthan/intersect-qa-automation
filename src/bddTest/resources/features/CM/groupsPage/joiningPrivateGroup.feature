@@ -15,15 +15,16 @@ Feature: Community User - Joining Private Groups
   @MATCH-690
   Scenario: As a Community user when I take the 'Request to Join' action on a Private group the group owner/manager is presented with a notification in the Community of my request.
     Given SP I am logged in to the Admin page as an Admin user
-    And I clear all the notifications
+    And I clear all the notifications from support
     And SP I successfully sign out
     Then HE I am logged in to Intersect HE as user type "administrator"
+    And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I search for "**Test Automation** HE Community PRIVATE Group" group
     And I am sure that user is not a member of the group
     Then I request to join the group
     And HE I successfully sign out
     And SP I am logged in to the Admin page as an Admin user
-    Then I open Notifications list
+    Then I open Notifications Support list
     And I check if user has new notification
     Then I deny request to join the group
 

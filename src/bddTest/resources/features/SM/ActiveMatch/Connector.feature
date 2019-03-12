@@ -258,6 +258,60 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
+  @MATCH-5929
+  Scenario: HS student's in Naviance student are seeing the connector for the same institution automagically popup for
+  them more than once, which is against the rules.
+
+    #Add and remove proper college from CITA
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
+
+    #Clean existing connections, subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5324SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Create the connection for one of the colleges
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to the Colleges I'm thinking about list
+    Then SM I "uncheck" the checkbox for "Auburn University" in the connector dialog
+    And HE I click the button "Next" in the connector dialog
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+
+    #Verify that the connector is not displayed again
+    Given SM I reload the page
+    Then SM I verify that no connector dialog is displayed
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When I remove all connections for the user id "402661187"
+
+
+
 
 
 

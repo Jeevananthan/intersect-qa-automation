@@ -189,12 +189,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void assertHobsonsPostLiked() {
         logger.info("Asserting that Hobsons post is liked.");
-        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='like-node-841']/a[@title='Unlike this']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(unlikePost()).isDisplayed());
     }
 
     public void assertHobsonsPostNotLiked() {
         logger.info("Asserting that Hobsons post is not liked.");
-        Assert.assertTrue(driver.findElement(By.xpath("//div[@id='like-node-841']/a[@title='like this']")).isDisplayed());
+        Assert.assertTrue(driver.findElement(likePost()).isDisplayed());
     }
 
     public void writeCommentOnHobsonsPost(String commentText) {
@@ -267,15 +267,17 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement signOutBtn() {return driver.findElement(By.id("user-dropdown-signout"));}
     private WebElement signOutBtnHS() {return driver.findElement(By.cssSelector("i[class='sign out icon']"));}
     private WebElement profilePicOnPostsFeed() {return driver.findElement(By.xpath("//img[contains(@src, 'https://qa.community.hobsons.com/sites/default/files/styles/post_thumbnail/public/')]"));}
-    private WebElement likeHobsonsPostBtn() {return  driver.findElement(By.xpath("//*[@id='like-node-841']/a[1]"));}
+    private WebElement likeHobsonsPostBtn() {return  driver.findElement(By.xpath("(//a[@class='use-ajax like-btn ajax-processed reply-processed'])[1]"));}
     private WebElement participateButton() {return driver.findElement(By.xpath("//a[text()='Participate']"));}
     private WebElement postBoxInstructionalMessage() {return driver.findElement(By.xpath("//div[@id='edit-post-instructions']"));}
     private WebElement yourGroupsLink() {return driver.findElement(By.xpath("//a[text()='Your Groups']"));}
     private WebElement welcomeSupportTitle() {return driver.findElement(By.xpath("//*[@id='app']/div/div/main/div/p"));}
-    private WebElement counselorCommunity() {return driver.findElement(By.xpath("//*[@id='app']/div/div[1]/div/div/header/nav/a[2]/div/div[1]"));}
+    private WebElement counselorCommunity() {return driver.findElement(By.id("js-main-nav-counselor-community-menu-link"));}
     private By lastComment() {return By.xpath("(//*[contains(@id,'-comments-link')])[1]"); }
     private By commentBody() {return By.id("edit-comment-body"); }
-    private By postComment() {return By.cssSelector("//*[@id='edit-save--2']");}
+    private By postComment() {return By.xpath("//*[@id='edit-save--2']");}
+    private By unlikePost() {return By.xpath("//a[@title='Unlike this']");}
+    private By likePost() {return By.xpath("//a[@title='like this']");}
 
 
 }
