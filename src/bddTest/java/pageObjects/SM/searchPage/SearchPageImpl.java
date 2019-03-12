@@ -2405,20 +2405,32 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param delta : date to select
      */
     public void setDate(String delta){
-        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+        Calendar cal;
+        if (delta.length() > 2) {
+            String date[] = delta.split("/");
+            cal = Calendar.getInstance();
+            cal.set(Integer.parseInt(date[2]),Integer.parseInt(date[0])-1,Integer.parseInt(date[1]));
+        } else {
+            cal = getDeltaDate(Integer.parseInt(delta));
+        }
 
         String month = getMonth(cal);
         String dateNo = getDay(cal);
         if (dateNo.startsWith("0"))
             dateNo = dateNo.substring(1);
+
         String year = getYear(cal);
-        Select selectYear = new Select(driver.findElement(By.id("year-select")));
-        selectYear.selectByVisibleText(year);
+        //Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        //selectYear.selectByVisibleText(year);
 
-        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        selectMonth.selectByVisibleText(month);
+        do {
+            superMatchCalendarWidgetNextArrow().click();
+        } while (!superMatchCalendarWidgetMonthHeading().getText().equalsIgnoreCase(month));
 
-        WebElement dateTemp = getDriver().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        //Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        //selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='"+dateNo+"']"));
         dateTemp.click();
     }
 
@@ -3011,6 +3023,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
     private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    private WebElement superMatchCalendarWidget() { return getDriver().findElement(By.xpath("//button[contains(@class,'supermatch-application-deadline-date-picker-trigger')]")); }
+    private WebElement superMatchCalendarWidgetMonthHeading() { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Caption']/div")); }
+    private WebElement superMatchCalendarWidgetNextArrow() { return getDriver().findElement(By.xpath("//div[@class='DayPicker-NavBar']/span[contains(@class,'DayPicker-NavButton--next')]")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
 

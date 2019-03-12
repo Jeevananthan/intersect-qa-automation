@@ -613,7 +613,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
 
-  @MATCH-3555
+  @MATCH-3555 @concurrency
   Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
   results table so I am reminded that those colleges were already pinned.
     Given SM I am logged in to SuperMatch through Family Connection
