@@ -2717,12 +2717,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param schoolName Name of the school to be favorited
      */
     public void favoriteSchool(String schoolName) {
+        waitForUITransition();
         try {
-            setImplicitWaitTimeout(2);
-            waitUntilPageFinishLoading();
             WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
             WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
-                    + "']/../../../../following-sibling::tr"));
+                    + "']/../../../../following-sibling::tr[3]"));
             scrollDown(nextCollege);
             if (favoriteLink.findElement(By.xpath("./span/span/i[contains(@class, 'empty')]")).isDisplayed()) {
                 favoriteLink.click();
