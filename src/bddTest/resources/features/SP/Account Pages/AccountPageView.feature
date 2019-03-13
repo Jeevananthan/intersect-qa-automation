@@ -12,39 +12,34 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
   @MATCH-264
   Scenario: As a Hobsons Sales Ops user I can view an institutional account
     Given SP I am logged in to the Admin page as a Sales Ops user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I do not have access to "Community" sub menu in left navigation
 
   @MATCH-3007
   Scenario: As a Hobsons Super Admin user I can view an institutional account
     Given SP I am logged in to the Admin page as a Super Admin user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I do have access to "Community" sub menu in left navigation
 
   @MATCH-264
   Scenario: As a Hobsons Admin user I can view an institutional account
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I do have access to "Community" sub menu in left navigation
 
   @MATCH-264
   Scenario: As a Hobsons Support user I can view an institutional account
     Given SP I am logged in to the Admin page as a Support user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
 
   @MATCH-958
   Scenario: As a Hobsons Support user I should not activate any module where the end date is earlier than the start date and vice-versa.
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I am able to view the individual account page
     Then SP I set the "Legacy: Hub page management" module to "active" in the institution page
     Then SP I verify subscription end date restrictions
@@ -65,8 +60,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
   @MATCH-650
   Scenario: As a Hobsons staff user I can see the institutional account address, city, state/province, postal code, SCID
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "5533660"
-    And SP I select the following institution "Docufide Institute of Technology (not a real school)" from the results
+    When SP I select "Docufide Institute of Technology (not a real school)" from the institution dashboard
     Then SP I should see Additional Contact Details on Institutional Account Page
 
   @MATCH-1895  @MATCH-1496
@@ -81,8 +75,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
               Activate/Inactivate modules/products within the institutional accounts
 
       Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2100209"
-      And SP I select the following institution "<University>" from the results
+      When SP I select "<University>" from the institution dashboard
       Then SP I set the "<HubsModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       Then SP I set the "<CommunityModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       Then SP I set the "<IntersectAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
@@ -92,8 +85,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I set the "<AdvancedAwarenessModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       Then SP I set the "<ConnectionModule>" module to "<Active>" with the start date "<StartDate>" and end date "<EndDate>" in the institution page
       And SP I Click the Save Changes button
-      When SP I search for "2100209"
-     And SP I select the following institution "<University>" from the results
+      When SP I select "<University>" from the institution dashboard
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<HubsModule>"
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<CommunityModule>"
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<IntersectAwarenessModule>"
@@ -102,8 +94,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<ActiveMatch Plus>"
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<AdvancedAwarenessModule>"
       Then SP I verify the status "<Active>" with the start date "<StartDate>" and end date "<EndDate>" for the module "<ConnectionModule>"
-      When SP I search for "2100209"
-     And SP I select the following institution "<University>" from the results
+      When SP I select "<University>" from the institution dashboard
       Then SP I set the "<HubsModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<CommunityModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" in the institution page
@@ -113,8 +104,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
       Then SP I set the "<AdvancedAwarenessModule>" module to "<Inactive>" in the institution page
       Then SP I set the "<ConnectionModule>" module to "<Inactive>" in the institution page
       And SP I Click the Save Changes button
-      When SP I search for "2100209"
-     And SP I select the following institution "<University>" from the results
+      When SP I select "<University>" from the institution dashboard
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<CommunityModule>"
       Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectAwarenessModule>"
@@ -132,8 +122,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
                     So that I can provision and activate multi-year subscriptions without issues.
 
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2100209"
-    And SP I select the following institution "<University>" from the results
+    When SP I select "<University>" from the institution dashboard
 #Hubs Module
     Then SP I set the "<HubsModule>" module to "<Active>" in the institution page
     Then SP I verify the rolling update behaviour changed to "-1" and "+12" for "<HubsModule>" in institution calendar page
@@ -183,8 +172,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     Then SP I verify the user can able to select a "<year>" from the year list in calendar using "<ConnectionModule>","<startDate>","<endDate>"
     Then SP I verify the "<color>" is present in the selected date "<startDate>","<endDate>" in calendar of the institution page for "<ConnectionModule>"
 
-    When SP I search for "2100209"
-    And SP I select the following institution "<University>" from the results
+    When SP I select "<University>" from the institution dashboard
     Then SP I set the "<HubsModule>" module to "<Inactive>" in the institution page
     Then SP I set the "<CommunityModule>" module to "<Inactive>" in the institution page
     Then SP I set the "<IntersectAwarenessModule>" module to "<Inactive>" in the institution page
@@ -194,8 +182,7 @@ Feature: SP - Account Pages - AccountPageView - Manage Institution account and s
     Then SP I set the "<AdvancedAwarenessModule>" module to "<Inactive>" in the institution page
     Then SP I set the "<ConnectionModule>" module to "<Inactive>" in the institution page
 
-    When SP I search for "2100209"
-    And SP I select the following institution "<University>" from the results
+    When SP I select "<University>" from the institution dashboard
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<HubsModule>"
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<CommunityModule>"
     Then SP I verify the status "<Inactive>" with the start date "" and end date "" for the module "<IntersectAwarenessModule>"
