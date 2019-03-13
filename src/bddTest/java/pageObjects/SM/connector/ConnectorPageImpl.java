@@ -224,6 +224,14 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    public void verifyStringInURL(String stringToVerify) {
+        softly().assertThat(driver.getCurrentUrl()).as("The current URL does not contain the specified string.").contains(stringToVerify);
+    }
+
+    public void closeConnectorWithCloseIcon() {
+        closeIcon().click();
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";
@@ -251,4 +259,5 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     private WebElement connectionModalHeader() { return driver.findElement(By.cssSelector("div.connection-modal-header.header")); }
     private WebElement connectorTextFirstLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(1)")); }
     private WebElement connectorTextSecondLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(2)")); }
+    private WebElement closeIcon() { return driver.findElement(By.cssSelector("i.close.icon")); }
 }

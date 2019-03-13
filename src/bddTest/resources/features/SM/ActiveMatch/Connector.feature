@@ -258,7 +258,7 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5929
+  @MATCH-5929 @MATCH-5154
   Scenario: HS student's in Naviance student are seeing the connector for the same institution automagically popup for
   them more than once, which is against the rules.
 
@@ -310,7 +310,7 @@ Feature: AMNG - AM NextGen Connector
     And SP I delete all the subscriptions for school
     When I remove all connections for the user id "402661187"
 
-  @MATCH-5153
+  @MATCH-5153 @MATCH-5154
   Scenario: As a Naviance Student student user, I would like to be able to connect with an HE Connection client within
   SuperMatch when I have met the AM NextGen match criteria, have added to Colleges I'm Thinking About list (favorited)
   so that I can send my information to the college.
@@ -333,7 +333,45 @@ Feature: AMNG - AM NextGen Connector
       | endDate   | 2 days after now  |
     And SP I successfully sign out
 
-    #Verification in Results
+    #Verifications MATCH-5154: 'No, Thanks' button
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    And HE I click the button "No, Thanks" in the connector dialog
+    Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+     #Verifications MATCH-5154: close icon
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    And SM I close the connector with the close icon
+    Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+    #Verifications MATCH-5154: Submit
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    And HE I click the button "Yes, I do" in the connector dialog
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
+    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+    #Verifications MATCH-5153: Results
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -353,7 +391,7 @@ Feature: AMNG - AM NextGen Connector
     Given SP I am logged in to the Admin page as an Admin user
     When I remove all connections for the user id "402661187"
 
-    #Verification in Why Drawer
+    #Verifications MATCH-5153: Why Drawer
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I press Why button for "The University of Alabama" college
     And SM I favorite the school "The University of Alabama" from the why drawer
@@ -368,7 +406,7 @@ Feature: AMNG - AM NextGen Connector
     Given SP I am logged in to the Admin page as an Admin user
     When I remove all connections for the user id "402661187"
 
-    #Verification in Pinned Schools
+    #Verifications MATCH-5153: Pinned Schools
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I open the Pinned Schools Compare screen
     And SM I favorite the school "The University of Alabama" from the Pinned Colleges screen
@@ -385,5 +423,4 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
     When I remove all connections for the user id "402661187"
-
 
