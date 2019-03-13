@@ -322,6 +322,80 @@ Feature: SM - ActiveMatch Next Gen
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
+
+  @MATCH-3578
+  Scenario: As a HS student who has favorited a college, I want to be presented with a new 'Connect' action/text+icon
+  for that college when viewing search results or the SuperMatch 'Why?' drawer so I am always presented with the option
+  to change my mind to 'Connect'.
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Art Academy of Cincinnati" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData1.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData3.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I create a new subscription via GraphiQL with the data in "match-5707SubscriptionData4.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    Then I remove all connections for the user id "402692742"
+    Given SM I am logged in to SuperMatch through Family Connection as user "apt" with password "p@ssw0rd" from school "blue1combo"
+    And I clear the onboarding popups if present
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+    And SM I remove "Auburn University" from the Colleges I'm thinking about list via the Look Up page
+    And SM I remove "Art Academy of Cincinnati" from the Colleges I'm thinking about list via the Look Up page
+    And SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to page via URL path "colleges/supermatch-next"
+    And SM I clear pinned schools list
+    And SM I pin "The University of Alabama" from the search box
+    And SM I pin "Art Academy of Cincinnati" from the search box
+    And SM I pin "Auburn University" from the search box
+    And SM I reload the page
+    Then SM I favorite the school "The University of Alabama"
+    Then I check if I can see "Great news!" on the page
+    Then SM I press button "No, Thanks"
+    Then SM I un-favorite the school "The University of Alabama"
+    Then SM I favorite the school "The University of Alabama"
+    Then I check there is no "Great news!" text on the page
+    And SM I reload the page
+    Then SM I press Why button for "Auburn University" college
+    Then SM I favorite the school "Auburn University" from the why drawer
+    Then I check if I can see "Great news!" on the page
+    Then SM I press button "Connect?"
+    Then I check if I can see "Connect with Auburn University" on the page
+    Then SM I reload the page
+    Then SM I un-favorite the school "Auburn University"
+    Then SM I favorite the school "Auburn University"
+    Then I check there is no "Great news!" text on the page
+    Then SM I reload the page
+    Then SM I favorite the school "Art Academy of Cincinnati"
+    Then SM I press button "Connect?"
+    Then I check if I can see "Connect with Art Academy of Cincinnati" on the page
+    Then SM I reload the page
+    Then SM I un-favorite the school "Art Academy of Cincinnati"
+    Then SM I favorite the school "Art Academy of Cincinnati"
+    Then I check there is no "Great news!" text on the page
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Art Academy of Cincinnati" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    Then I remove all connections for the user id "402692742"
+
   @MATCH-5493
   Scenario: As a Naviance Student student user, I want to be matched based on my ethnicity when Audience Profiles have
   the diversity set to "Racial and ethnic minorities".

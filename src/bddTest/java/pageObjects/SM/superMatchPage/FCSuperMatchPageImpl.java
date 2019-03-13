@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import pageObjects.CM.groupsPage.GroupsPageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
+import utilities.GetProperties;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -676,6 +677,18 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         if (heartIconInList(collegeName).getAttribute("aria-label").equals("Favorite")) {
             heartIconInList(collegeName).click();
             waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Unfavorite"));
+        }
+    }
+
+    public void removeCollegeViaLookupPage(String collegeName){
+        load(GetProperties.get("fc.app.url")+ "colleges/college-lookup/thinking-about");
+        Select lookByDropdown = new Select(driver.findElement(By.xpath(lookByDropdownLocator)));
+        lookByDropdown.selectByVisibleText("Keyword");
+        lookupByNameField().sendKeys(collegeName);
+        button("Go").click();
+        if (heartIconInList(collegeName).getAttribute("aria-label").equals("Unfavorite")) {
+            heartIconInList(collegeName).click();
+            waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Favorite"));
         }
     }
 
