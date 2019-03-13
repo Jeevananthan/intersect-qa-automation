@@ -209,11 +209,11 @@
                                     <goal>test</goal>
                                 </goals>
                                 <configuration>
-                                    <forkCount>1</forkCount>
+                                    <forkCount>10</forkCount>
                                     <parallel>classes</parallel>
                                     <useSystemClassLoader>false</useSystemClassLoader>
                                     <perCoreThreadCount>false</perCoreThreadCount>
-                                    <threadCount>1</threadCount>
+                                    <threadCount>10</threadCount>
                                     <reuseForks>true</reuseForks>
                                     <useUnlimitedThreads>false</useUnlimitedThreads>
                                     <includes>
