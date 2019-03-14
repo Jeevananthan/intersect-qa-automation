@@ -3853,7 +3853,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyTimeZoneInSearchAndSchedulePopup(){
         String timeZone = getTimeZone().getText();
-        Assert.assertTrue("Time zone is not displayed",timeZone.contains("EST"));
+        Assert.assertTrue("Time zone is not displayed",timeZone.contains("EST")||timeZone.contains("EDT"));
     }
 
     public void verifyHSNameInVisitSchedulePopup(String school){
