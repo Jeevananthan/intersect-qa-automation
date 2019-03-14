@@ -117,3 +117,21 @@ Feature: HUBS - Edit Media - HS - Edit Media - As an HS user, I should be able t
     Then HUBS I verify "Student Profile" profile
     Then HUBS I create a new "http://test.org" link with "Test" title
     Then HUBS I verify Remove link
+
+  @HUBS-5759
+  Scenario: As an HE user with either the Publishing or Administrator role, I want to see my existing Profiles premium
+  HEM content in the right area of the 'Links & Profiles' tab so I can see what currently exists on my College's
+  Naviance profile.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Profiles" link
+    Then HUBS I verify "Student Profile" profile
+    Then HUBS I verify the "READ MORE" button
+    Given HE I am logged in to Intersect HE as user type "HEMadmin"
+    And HUBS I access HUBS Edit Mode
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I verify "Premium Features" Lock
+    Given HE I am logged in to Intersect HE as user type "HEMnoprofile"
+    And HUBS I access HUBS Edit Mode
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I verify no Profiles "No profiles created" in Premium
+

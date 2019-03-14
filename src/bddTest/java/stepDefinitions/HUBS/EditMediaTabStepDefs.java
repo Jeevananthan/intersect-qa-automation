@@ -11,6 +11,7 @@ public class EditMediaTabStepDefs implements En{
 
         When("^HUBS I click on \"([^\"]*)\" tab$", mediaTabEdit::clickOnHEMTab);
         When("^HUBS I expanded the \"([^\"]*)\" link$", mediaTabEdit::clickOnLink);
+        When("^HUBS I verify the \"([^\"]*)\" button$", mediaTabEdit::clickOnButton);
         Then("^HUBS I verify \"([^\"]*)\" profile$", mediaTabEdit::verifyStudentProfile);
         Then("^HUBS I create a new \"([^\"]*)\" link with \"([^\"]*)\" title$", mediaTabEdit::createANewLink);
         Then("^HUBS I verify Remove link$", mediaTabEdit::verifyRemoveLink);
@@ -27,6 +28,7 @@ public class EditMediaTabStepDefs implements En{
         Then("^HUBS I verify Arrows and Slots in the Photos and Videos panel$",mediaTabEdit::verifyArrowsAndSlotsInPhotosAndVideos);
         Then("^HUBS I verify contents \"([^\"]*)\" in Intro tab$",mediaTabEdit::verifyContentsIntroTab);
         Then("^HUBS I verify \"([^\"]*)\" Lock$",mediaTabEdit::verifyPremiumFeatureLock);
+        Then("^HUBS I verify no Profiles \"([^\"]*)\" in Premium$",mediaTabEdit::verifyNoProfilesInPremium);
         Then("^HUBS I verify the Upgrade Modal$",mediaTabEdit::verifyUpgradeModal);
         Then("^HUBS I click on Submit Changes$",mediaTabEdit::clickOnSubmitChangesButton);
         Then("^HUBS I click on Continue editing link$",mediaTabEdit::clickOnContinueEditingLink);
