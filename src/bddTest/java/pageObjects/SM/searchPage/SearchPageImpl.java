@@ -604,7 +604,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param item String containing the value to look for in the "Must HAae" or "Nice to Have" boxes.
      */
     public void removeFitCriteria(String item) {
-        getParent(button(item)).findElement(By.xpath(".//button[1]")).click();
+        WebElement xButton = getParent(button(item)).findElement(By.xpath(".//button[1]"));
+        // This isn't always on the screen, scroll to it first.
+        getDriver().executeScript("arguments[0].scrollIntoView();", xButton);
+        clearSuperMatchToast();
+        xButton.click();
     }
 
     public void verifyStudentBodyUI() {
@@ -857,6 +861,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param filterCriteria containing the value of filter tab, example:Locale, Admission, etc.
      */
     public void chooseFitCriteriaTab(String filterCriteria) {
+        clearSuperMatchToast();
         checkbox(By.xpath("(//li[contains(.,'" + filterCriteria.split(":")[0] + "')])")).click();
     }
 
@@ -1613,8 +1618,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         goToCollegeInSearchResults(collegeName);
         List<String> textMessage = dataTable.asList(String.class);
-        Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.",
-                collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
+        //Assert.assertTrue("The text in the footnote for known GPA but unknown scores is incorrect.", collegeFootnote(collegeName).getText().equals(textMessage.get(0)));
+        softly().assertThat(collegeFootnote(collegeName).getText()).as("Footnote for known GPA/Unknown scores").isEqualTo(textMessage.get(0));
     }
 
 
@@ -1762,8 +1767,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //open the PINNED dropdown
         pinnedDropdown().click();
 
-        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable",
-                comparePinnedCollegesLink().findElement(By.xpath(".//ancestor::div[1]")).getAttribute("aria-disabled").equals("true"));
+        Assert.assertTrue("'COMPARE PINNED COLLEGES' option is enabled/clickable", comparePinnedCollegesLink().getAttribute("aria-disabled").equals("true"));
+                //.findElement(By.xpath(".//ancestor::div[1]"))
 
         //close the PINNED dropdown
         pinnedDropdown().click();
@@ -2309,8 +2314,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void pressWhyForCollegeWithScore(Integer score) {
-        scrollDown(driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../../../following-sibling::tr")));
-        driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
+        // This isn't scrolling far enough to be able to click the why button, so trying scrolling to the button directly.
+        //scrollDown(driver.findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../../../following-sibling::tr")));
+        scrollDown(getDriver().findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")));
+        getDriver().findElement(By.xpath("//*[@class='supermatch-number'][text()='" + score + "']/../../../button")).click();
     }
 
     public void pressWhyButtonForCollege(String collegeName) {
@@ -2425,6 +2432,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         gpaTextBox().sendKeys("0");
         satScoreTextBox().sendKeys("1");
         actScoreTextBox().sendKeys("0");
+        actScoreTextBox().sendKeys(Keys.TAB);
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".triangle.supermatch-error-icon"),2));
     }
 

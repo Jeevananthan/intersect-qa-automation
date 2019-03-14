@@ -68,7 +68,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
       | Men                 |
 
   @MATCH-4242
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual Specific Representation for the college so I can clearly see
   what matched/did not match/partially matched my search/fit criteria requirements
     Given SM I am logged in to SuperMatch through Family Connection
@@ -92,7 +92,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     Then I check if I can see "48% are Native Hawaiian or other Pacific Islander students" on the page
 
   @MATCH-4242
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual Religious Affiliation for the college so I can clearly see
   what matched/did not match/partially matched my search/fit criteria requirements
     Given SM I am logged in to SuperMatch through Family Connection
@@ -114,7 +114,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
 
 
   @MATCH-4242
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual Religious Affiliation for the college so I can clearly see
   what matched/did not match matched my search/fit criteria requirements
     Given SM I am logged in to SuperMatch through Family Connection
@@ -134,7 +134,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     Then I check if I can see "Gender Concentration " on the page
 
   @MATCH-4242
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 03 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual International Students for the college so I can clearly see
   what matched/did not match/partially matched my search/fit criteria requirements
     Given SM I am logged in to SuperMatch through Family Connection
@@ -157,7 +157,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
 
 
   @MATCH-4242
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 04 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual %Make vs. Female for the college so I can clearly see
   what matched/did not match/partially matched my search/fit criteria requirements
     Given SM I am logged in to SuperMatch through Family Connection
@@ -182,7 +182,7 @@ Feature: SM - Diversity - Diversity - As a HS student, I need to be able to sear
     Then I check if I can see "71% are male students" on the page
 
   @MATCH-4242
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 05 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual out of States Students for the college so I can clearly see
   what matched/did not match/partially matched my search/fit criteria requirements
     Given SM I am logged in to SuperMatch through Family Connection

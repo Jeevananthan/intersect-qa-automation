@@ -54,7 +54,7 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
     Then I check if I can see "Cost < $5000" on the page
     Then I check if I can see "$5,140 out-of-state tuition & fees for one year" on the page
 
-  @MATCH-4247
+  @MATCH-4247 @concurrency
   Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results, I want to see
   the actual cost data for the college so I can clearly see what matched/did not match/partially matched
   Maximum Tuition & Fees for Home state

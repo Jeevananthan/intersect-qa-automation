@@ -109,14 +109,14 @@ public class StudentLifeImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         List<WebElement> addedElements = driver.findElements(By.cssSelector(addedElementsInDropdownField));
         boolean isElementPresent = false;
+        String elementText = "NOT FOUND";
         for (WebElement element : addedElements) {
             if (element.getAttribute("value").equals(optionName)) {
-                isElementPresent = true;
+                elementText = element.getAttribute("value");
             }
-            Assert.assertTrue("The option was not added to the Organizations and Clubs text field: " + optionName + " UI: " + element.getText(),
-                    isElementPresent);
         }
-
+        //Assert.assertTrue("The option was not added to the Organizations and Clubs text field: " + optionName + " UI: " + element.getText(), isElementPresent);
+        softly().assertThat(elementText).as("Value added to selection field").isEqualTo(optionName);
     }
 
     public void verifyNumberOfAddedOptions(Integer numberOfAddedOptions) {
