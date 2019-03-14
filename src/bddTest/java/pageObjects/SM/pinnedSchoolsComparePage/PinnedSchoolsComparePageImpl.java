@@ -3,10 +3,7 @@ package pageObjects.SM.pinnedSchoolsComparePage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -483,6 +480,13 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         String actualDisplayBarText = numberOfCollegeDisplayBar().getText();
         String expectedDisplayBarText = "Viewing 5 - 5 of 5";
         Assert.assertTrue("Fifth pinned college display bar ie "+expectedDisplayBarText+" is not displaying.", actualDisplayBarText.equals(expectedDisplayBarText));
+    }
+
+    public void verifyCollegeHyperlink(){
+        ((JavascriptExecutor)driver).executeScript("scroll(0,400)");
+        driver.findElement(By.xpath("//a[text()='The University of Alabama']")).click();
+        int winCount = driver.getWindowHandles().size();
+        softly().assertThat(2).as("College name is not a hyperlink.").isEqualTo(2);
     }
 
     // Locators Below
