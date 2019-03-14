@@ -692,6 +692,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
             heartIconInList(collegeName).click();
             waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Favorite"));
         }
+        waitUntilPageFinishLoading();
     }
 
     public void goToCollegesLookingForStudentsLikeYou() {

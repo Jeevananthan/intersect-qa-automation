@@ -310,14 +310,14 @@ Feature: AMNG - AM NextGen Connector
     And SP I delete all the subscriptions for school
     When I remove all connections for the user id "402661187"
 
-  @MATCH-5153 @MATCH-5154
+  @MATCH-5153 @MATCH-5154 @debugMATCH-5154
   Scenario: As a Naviance Student student user, I would like to be able to connect with an HE Connection client within
   SuperMatch when I have met the AM NextGen match criteria, have added to Colleges I'm Thinking About list (favorited)
   so that I can send my information to the college.
 
     #Add and remove proper college from CITA
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
-    When SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
     When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
 
     #Clean existing connections, subscriptions and create new ones
@@ -339,7 +339,7 @@ Feature: AMNG - AM NextGen Connector
     And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
     And HE I click the button "No, Thanks" in the connector dialog
     Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
-    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
 
     #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
@@ -351,7 +351,7 @@ Feature: AMNG - AM NextGen Connector
     And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
     And SM I close the connector with the close icon
     Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
-    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
 
     #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
@@ -365,7 +365,7 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the button "Submit" in the connector dialog
     And HE I click the button "Close" in the connector dialog
     Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
-    And SM I remove "The University of Alabama" from the I'm thinking about list if it is added in the list
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
 
     #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
@@ -385,9 +385,10 @@ Feature: AMNG - AM NextGen Connector
     Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
     And HE I click the button "Submit" in the connector dialog
     And HE I click the button "Close" in the connector dialog
-    And SM I un-favorite the school "The University of Alabama"
+    And SM I reload the page
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
 
-    #Clean existing connections
+#    #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
     When I remove all connections for the user id "402661187"
 
@@ -400,7 +401,7 @@ Feature: AMNG - AM NextGen Connector
     Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
     And HE I click the button "Submit" in the connector dialog
     And HE I click the button "Close" in the connector dialog
-    And SM I un-favorite the school "The University of Alabama" from the why drawer
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
 
     #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
@@ -415,7 +416,7 @@ Feature: AMNG - AM NextGen Connector
     Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
     And HE I click the button "Submit" in the connector dialog
     And HE I click the button "Close" in the connector dialog
-    And SM I un-favorite the school "The University of Alabama" from the Pinned Colleges screen
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
 
     #Clean subscriptions
     Given SP I am logged in to the Admin page as an Admin user
