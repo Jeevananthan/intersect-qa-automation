@@ -2991,6 +2991,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyConnectorBannerIsDisplayed() {
+        waitUntilPageFinishLoading();
         softly().assertThat(ExpectedConditions.visibilityOf(bannerConnectButton())).as("The Connector banner was not displayed");
     }
 
