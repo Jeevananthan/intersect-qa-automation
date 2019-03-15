@@ -688,6 +688,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         lookByDropdown.selectByVisibleText("Keyword");
         lookupByNameField().sendKeys(collegeName);
         button("Go").click();
+        waitUntilPageFinishLoading();
         if (heartIconInList(collegeName).getAttribute("aria-label").equals("Unfavorite")) {
             heartIconInList(collegeName).click();
             waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Favorite"));
