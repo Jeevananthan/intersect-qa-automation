@@ -30,10 +30,10 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
      * Author : Arun
      */
     public void verifyHubPageMainMenuTabs(String basicInfo, String intro, String media, String links){
-        Assert.assertTrue(basicInfo+" tab is not displaying or by default it's not highlighted.", getBasicInfoTab(basicInfo).isDisplayed());
-        Assert.assertTrue(intro+" tab is not displaying.", getIntroTab(intro).isDisplayed());
-        Assert.assertTrue(media+" tab is not displaying.", getMediaTab(media).isDisplayed());
-        Assert.assertTrue(links+" tab is not displaying.", getLinksTab(links).isDisplayed());
+        softly().assertThat(getBasicInfoTab(basicInfo).getText()).as(basicInfo+" is not displaying.").isEqualTo(basicInfo);
+        softly().assertThat(getIntroTab(intro).getText()).as(intro+" is not displaying.").isEqualTo(intro);
+        softly().assertThat(getMediaTab(media).getText()).as(media+" is not displaying.").isEqualTo(media);
+        softly().assertThat(getLinksTab(links).getText()).as(links+" is not displaying.").isEqualTo(links);
         Assert.assertTrue("PUBLISH MY INFORMATION CHANGES button is not displaying.", getPublishMyBasicInfoChangesButton().isDisplayed());
     }
 
@@ -45,27 +45,27 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
     public void checkHEMMainMenuTabFunctionality(String menuOption){
         switch (menuOption){
             case "MEDIA" :
-                Assert.assertTrue("Publish my media changes button is not displaying.", getPublishMyMediaChangesButton().isDisplayed());
+                softly().assertThat(getPublishMyMediaChangesButton().getText()).as("Publish my media changes button is not displaying.").isEqualTo("Publish my media changes");
                 WebElement disablePublishLinkMedia = driver.findElement(By.xpath("(//span[text()='Publish my media changes']|//button[text()='Publish my media changes'])/.."));
                 String actDisablePublishLinkMedia = disablePublishLinkMedia.getAttribute("class");
                 String expDisablePublishLink = "ui secondary disabled button";
-                Assert.assertTrue("Publish my media changes button is not disable.", actDisablePublishLinkMedia.equals(expDisablePublishLink));
+                softly().assertThat(actDisablePublishLinkMedia).as("Publish my media changes button is not disable.").isEqualTo(expDisablePublishLink);
                 break;
             case "LINKS & PROFILES":
-                Assert.assertTrue("Publish my LINKS & PROFILES changes button is not displaying.", getPublishMyLinksAndProfilesChangesButton().isDisplayed());
+                softly().assertThat(getPublishMyLinksAndProfilesChangesButton().getText()).as("Publish my LINKS & PROFILES changes button is not displaying.").isEqualTo("Publish intro changes");
                 WebElement disablePublishLinkLinks = driver.findElement(By.xpath("//button[text()='Publish my links']|//span[text()='Publish my links & profiles changes']/.."));
                 String actDisablePublishLinkLinks = disablePublishLinkLinks.getAttribute("class");
                 String expDisablePublishLinkLinks = "ui secondary disabled button";
-                Assert.assertTrue("Publish my links & profiles changes button is not disable.", actDisablePublishLinkLinks.equals(expDisablePublishLinkLinks));
+                softly().assertThat(actDisablePublishLinkLinks).as("Publish my links & profiles changes button is not disable.").isEqualTo(expDisablePublishLinkLinks);
                 profilesLink().click();
-                Assert.assertTrue("CREATE A NEW PROFILE Button is not displaying.", createNewProfileButton().isDisplayed());
+                softly().assertThat(createNewProfileButton().getText()).as("CREATE A NEW PROFILE Button is not displaying.").isEqualTo("CREATE A NEW PROFILE");
                 break;
             case "INTRO" :
-                Assert.assertTrue("Publish intro changes button is not displaying.", getPublishIntroChangesButton().isDisplayed());
+                softly().assertThat(getPublishIntroChangesButton().getText()).as("Publish intro changes button is not displaying.").isEqualTo("Publish intro changes");
                 WebElement disablePublishLinkIntro = driver.findElement(By.xpath("//button[text()='Publish intro changes']|//span[text()='Publish intro changes']/.."));
                 String actDisablePublishLinkIntro = disablePublishLinkIntro.getAttribute("class");
                 String expDisablePublishLinkIntro = "ui secondary disabled button";
-                Assert.assertTrue("Publish my media changes button is not disable.", actDisablePublishLinkIntro.equals(expDisablePublishLinkIntro));
+                softly().assertThat(actDisablePublishLinkIntro).as("Publish my media changes button is not disable.").isEqualTo(expDisablePublishLinkIntro);
                 break;
         }
     }
@@ -85,40 +85,42 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
      * Author : Arun
      */
     public void verifyPublishYourMediaChangesModel(String menuTab){
-        Assert.assertTrue("Continue Editing button is not displaying.", getContinueEditingButton().isDisplayed());
-        Assert.assertTrue("Disregard my changes button is not displaying.", getDisregardMyChangesButton().isDisplayed());
-        Assert.assertTrue("Publish button is not displaying.", getPublishButton().isDisplayed());
+        softly().assertThat(getContinueEditingButton().getText()).as("Continue Editing button is not displaying.").isEqualTo("Continue editing");
+        softly().assertThat(getDisregardMyChangesButton().getText()).as("Disregard my changes button is not displaying.").isEqualTo("Disregard my changes");
+        softly().assertThat(getPublishButton().getText()).as("Publish button is not displaying.").isEqualTo("Publish");
+
         getContinueEditingButton().click();
 
         clickOnHubsMenuTab("BASIC INFO");
         getPublishButton().click();
 
-        Assert.assertTrue("You’re almost done! text is not displaying", driver.findElement(
-                By.xpath("//span[text()='You’re almost done!']")).isDisplayed());
+        softly().assertThat(driver.findElement(By.xpath("//span[text()='You’re almost done!']")).getText()).as("You’re almost done! text is not displaying")
+                .isEqualTo("You’re almost done!");
 
         String actText1 = driver.findElement(By.xpath("//span[contains(text(), 'The following items you')]")).getText();
         String expText1 = "The following items you've updated need approval by Hobsons.";
-        Assert.assertTrue(expText1+ "Text is not displaying.", actText1.equals(expText1));
+        softly().assertThat(actText1).as(expText1+ "Text is not displaying.").isEqualTo(expText1);
 
-        Assert.assertTrue("The approval process can take up to 24-48 hours. Text is not displaying.",
-                driver.findElement(By.xpath("//span[text()= 'The approval process can take up to 24-48 hours.']")).isDisplayed());
+        softly().assertThat(driver.findElement(By.xpath("//span[text()= 'The approval process can take up to 24-48 hours.']")).getText())
+                .as("The approval process can take up to 24-48 hours. Text is not displaying.").isEqualTo("The approval process can take up to 24-48 hours.");
 
         if (menuTab.equals("MEDIA")) {
             String actText2 = driver.findElement(By.xpath("//span[contains(text(),'Media - Photos')]")).getText();
             String expText2 = "Media - Photos & Videos, Logo";
-            Assert.assertTrue(expText1+ " Text is not displaying.", actText2.equals(expText2));
+            softly().assertThat(actText2).as(expText1+ " Text is not displaying.").isEqualTo(expText2);
         } else if (menuTab.equals("LINKS & PROFILES")){
             String actText3 = driver.findElement(By.xpath("(//span[contains(text(),'Links ')])[2]")).getText();
             String expText3 = "Links & Profiles - Links, Profiles";
-            Assert.assertTrue(expText3+ " Text is not displaying.", actText3.equals(expText3));
+            softly().assertThat(actText3).as(expText3+ " Text is not displaying.").isEqualTo(expText3);
         }
 
+        softly().assertThat(driver.findElement(By.xpath("//span[text()='Please provide a brief explanation for the changes:']")).getText()).as("Please provide a brief explanation for the changes: text is not displaying.")
+                .isEqualTo("Please provide a brief explanation for the changes:");
 
-        Assert.assertTrue("Please provide a brief explanation for the changes: text is not displaying.",
-                driver.findElement(By.xpath("//span[text()='Please provide a brief explanation for the changes:']")).isDisplayed());
-
-        Assert.assertTrue("Cancel And Continue Editing is not displaying.", getCancelAndContinueEditingButton().isDisplayed());
-        Assert.assertTrue("Submit changes button is not displaying.", getSubmitChangesButton().isDisplayed());
+        softly().assertThat(getCancelAndContinueEditingButton().getText()).as("Cancel And Continue Editing is not displaying.")
+                .isEqualTo("Cancel and continue editing");
+        softly().assertThat(getSubmitChangesButton().getText()).as("Submit changes button is not displaying.")
+                .isEqualTo("Submit changes");
 
         getCancelAndContinueEditingButton().click();
         clickOnHubsMenuTab("BASIC INFO");
@@ -130,7 +132,7 @@ public class HUBSHomePageImpl extends PageObjectFacadeImpl {
         logo().click();
         String logoPath = System.getProperty("user.dir") + "/src/bddTest/java/utilities/Logo.jpg";
         selectAnImageToUpload().sendKeys(logoPath);
-        Assert.assertTrue("Back button is not displaying in Publish model.", backButton().isDisplayed());
+        softly().assertThat(backButton().getText()).as("Back button is not displaying in Publish model.").isEqualTo("Back");
         previewButton().click();
     }
 
