@@ -49,6 +49,16 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         link(By.cssSelector("a[href='/connections']")).click();
     }
 
+    public void goToUserConnectionsHSPage() {
+        logger.info("Going to user connections page.");
+        iframeExit();
+        link(homeSupport()).click();
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        communityFrame();
+        link(By.cssSelector("a[href='/connections']")).click();
+    }
+
+
     public void clickConnectionsTab() {
         logger.info("Going to connections tab.");
         link(By.cssSelector("a[href='/connections']")).click();
@@ -67,7 +77,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkConnectionsDisplayed() {
         logger.info("Checking if I see user's connections.");
-        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "group-name-loc-wrapp field-group-div"));
     }
 
     public void goToHSUserConnectionsPage() {
@@ -245,7 +255,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         driver.navigate().refresh();
         goToHSUserConnectionsPage();
         pendingRequestsLink().click();
-        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Community')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
         waitUntilPageFinishLoading();
         hp.logoutHSDefault();
         lp.defaultLoginHE();
@@ -260,9 +270,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         link(homeSupport()).click();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         communityFrame();
-        link(By.cssSelector("a[href='/profile']")).click();
-        driver.navigate().refresh();
-        goToUserConnectionsPage();
+        link(By.cssSelector("a[href='/connections']")).click();;
         pendingRequestsLink().click();
         waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//div[contains(text(), 'PurpleHS User')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
@@ -305,10 +313,11 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         driver.navigate().refresh();
         goToHSUserConnectionsPage();
         pendingRequestsLink().click();
-        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Ignore Connect Request']")).click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Community')]/../../../../../td[2]/div/a[@title='Ignore Connect Request']")).click();
         waitUntilPageFinishLoading();
         hp.logoutHSDefault();
         lp.defaultLoginHE();
+        waitUntilPageFinishLoading();
     }
 
     public void checkIfConfirmationMsgDisplayed() {
@@ -398,7 +407,10 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
             driver.get("https://qa-he.intersect.hobsons.com/counselor-community/profile/5539");
             communityFrame();
             connectToUserButton().click();
-            sendInvitationToUserButton().click();
+            String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
+            if (!buttonText.equals("INVITED")) {
+                sendInvitationToUserButton().click();
+            }
             waitUntilPageFinishLoading();
             hp.logoutHEDefault();
             waitUntilPageFinishLoading();
@@ -462,8 +474,17 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void checkIfuserIsConencted(String user) {
         logger.info("Checking if users are connected.");
         goToUserConnectionsPage();
+
         Assert.assertTrue("Cannot find the user in users connections list!!", checkItemVisible(user));
     }
+
+    public void checkIfHSUserIsConencted(String user) {
+        logger.info("Checking if users are connected.");
+        goToUserConnectionsHSPage();
+        Assert.assertTrue("Cannot find the user in users connections list!!", checkItemVisible(user));
+    }
+
+
     public void checkIfHeIsNotConnected(String user) {
         logger.info("Checking if users are not connected.");
         goToUserConnectionsPage();
@@ -646,7 +667,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     private WebElement msgBody() {return driver.findElement(By.id("edit-message"));}
     private WebElement searchUserField() {return driver.findElement(By.id("edit-search"));}
     private WebElement searchBtn() {return driver.findElement(By.id("edit-search-btn"));}
-    private WebElement connectToSpecificUserBtn(String user){return driver.findElement(By.xpath("//div[contains(text(), '"+user+"')]/../../../../..//div[@class='cp-ur-link-wrapper']"));}
+    private WebElement connectToSpecificUserBtn(String user){return driver.findElement(By.xpath("//div[contains(text(), '"+user+"')]/../../../../..//div[@class='ctools-dropdown-link-wrapper']"));}
     private WebElement addToSpecificCategory(String category) {return driver.findElement(By.xpath("//div[@style='display: block;']//a[contains(text(), '+ "+category+"')]"));}
     private WebElement removeFromSpecificCategory(String category) {return driver.findElement(By.xpath("//div[@style='display: block;']//a[contains(text(), '- "+category+"')]"));}
     private WebElement specificApproveNewConnectionBtn(String user){return driver.findElement(By.xpath("//div[contains(text(), '"+user+"')]/../../../../..//a[@title='Accept Connect Request']"));}
@@ -654,8 +675,9 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     private WebElement saveBtn(){return driver.findElement(By.id("edit-save"));}
     private WebElement editCustomCategory(String category) {return driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]/..//a[@title='Edit category']"));}
     private WebElement  searchUser()  {return driver.findElement(By.id("global-search-box-input"));}
-    private By linkConnections() {return By.xpath("a[href='/connections']");}
+    private By linkConnections() {return By.cssSelector("a[href='/connections']");}
     private By searchUserResult()  {return By.id("global-search-box-item-0");}
     private By homeSupport() {return By.xpath("(//div[text()='Home'])[1]");}
+    private By getCounselorCommunity(){return By.id("js-main-nav-counselor-community-menu-link");}
 
 }
