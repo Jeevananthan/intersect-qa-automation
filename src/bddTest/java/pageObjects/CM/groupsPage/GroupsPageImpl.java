@@ -172,7 +172,7 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         driver.findElement(searchUser()).sendKeys(groupname);
         logger.info("Searching for the group.");
         waitUntilElementExists(link(searchUser()));
-        getDriver().findElement(searchUser()).findElement(searchUserTitle()).click();
+        getDriver().findElement(searchUserResult()).findElement(searchUserTitle()).click();
         communityFrame();
         waitUntilPageFinishLoading();
     }

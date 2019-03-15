@@ -6,7 +6,7 @@ Feature: Community User - New Connection Request Notification
 
   @MATCH-409
   Scenario: As a Community user I see a notification within the Community that I have pending connection requests.
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "community"
     And I am not connected to "PurpleHS User" user
     And I clear all the notifications
     And I am connected to HS user

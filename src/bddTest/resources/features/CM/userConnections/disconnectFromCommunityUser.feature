@@ -6,7 +6,7 @@ Feature: Community User - Disconnect from Community User
 
   @MATCH-421
   Scenario: As a Community User I can disconnect from another Community user when viewing that user's profile.
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "community"
     And I am connected to HS user
     Then I search for "PurpleHS User" and open profile page of this user
     And I click disconnect button
@@ -21,7 +21,7 @@ Feature: Community User - Disconnect from Community User
 
   @MATCH-423
   Scenario: As a Community user I can disconnect from another Community user when on the Manage Connections screen.
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "community"
     And I am connected to HS user
     Then I go to connections page
     And I disconnect from the "PurpleHS User" user
