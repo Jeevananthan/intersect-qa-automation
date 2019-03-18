@@ -63,5 +63,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         And("^SM I verify the displaying more then four colleges in compare pinned college page$", pinnedSchoolsComparePage::verifyPinnedCollegesFunctionality);
 
+        And("^SM I verify that college name should be hyperlink and open in new tab$", pinnedSchoolsComparePage::verifyCollegeHyperlink);
+
     }
 }
