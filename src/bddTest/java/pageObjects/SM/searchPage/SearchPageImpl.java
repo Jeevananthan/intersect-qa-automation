@@ -2327,8 +2327,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
         WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
                 + "']/../../../../following-sibling::tr[2]"));
+        clearSuperMatchToast();
         scrollDown(nextCollege);
-        whyButtonForCollege.click();
+        jsClick(whyButtonForCollege);
     }
 
     public void verifyCheckboxIsDisplayed(String checkboxText) {
@@ -2423,9 +2424,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //Select selectYear = new Select(driver.findElement(By.id("year-select")));
         //selectYear.selectByVisibleText(year);
 
-        do {
+        while (!superMatchCalendarWidgetMonthHeading().getText().equalsIgnoreCase(month)) {
+            logger.info("Calendar Heading: "+superMatchCalendarWidgetMonthHeading().getText() +" -- Expected Month: " +month);
             superMatchCalendarWidgetNextArrow().click();
-        } while (!superMatchCalendarWidgetMonthHeading().getText().equalsIgnoreCase(month));
+        }
 
         //Select selectMonth = new Select(driver.findElement(By.id("month-select")));
         //selectMonth.selectByVisibleText(month);

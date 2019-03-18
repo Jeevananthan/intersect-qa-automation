@@ -1,7 +1,7 @@
 @SM
 Feature: AMNG - AM NextGen Connector
 
-  @MATCH-5593 @MATCH-5813 @concurrency
+  @MATCH-5593 @MATCH-5813 @concurrency @DataMissing
   Scenario: As a student using Naviance Student, when I match with an AM NextGen Connection client, I would like to see
   a Visual Step Progress Indicator on a connector form that would allow me to connect with that college so that I can send my information to them.
 

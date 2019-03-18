@@ -71,7 +71,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 1 college is "Unknown"
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 2 college is "Yes"
 
-  @MATCH-4860
+  @MATCH-4860 @DataMissing
   Scenario Outline:  I want to see links to Upcoming College Visits in Highlights details about each college side by side so
   I can determine which pinned college is a best fit for me based on their highlights.
     Given SM I am logged in to SuperMatch through Family Connection as user "<user>" with password "Hobsons!23" from school "blue1combo"
@@ -92,7 +92,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | linussupermatch | How you compare with | Visits to your High School |
       | tenthGradeUser  | Quick Links          | College Visits             |
 
-  @MATCH-4458 @MATCH-4896 @MATCH-5825
+  @MATCH-4458 @MATCH-4896 @MATCH-5825 @DataMissing
   Scenario: As a HS student that is comparing my pinned schools, I want to see institution highlight details about
   each college side by side so I can determine which pinned college is a best fit for me based on their highlights.
     Given SM I am logged in to SuperMatch through Family Connection

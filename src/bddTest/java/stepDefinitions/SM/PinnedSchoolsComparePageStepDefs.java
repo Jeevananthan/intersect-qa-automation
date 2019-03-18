@@ -49,7 +49,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         Then("^SM I verify that the appropriate section in the college's profile is displayed after clicking the following links:$", pinnedSchoolsComparePage::verifyHousingInfoIsDisplayedAfterClickingSections);
 
-        And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchool);
+        And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchoolFromCompareSchools);
 
         And("^SM I search for \"([^\"]*)\" college in search bar$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
 
