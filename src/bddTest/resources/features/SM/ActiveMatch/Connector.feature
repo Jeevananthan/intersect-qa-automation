@@ -369,6 +369,7 @@ Feature: AMNG - AM NextGen Connector
 
     #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
+    Then SM I reload the page
     When I remove all connections for the user id "402661187"
 
     #Verifications MATCH-5153: Results
@@ -390,6 +391,7 @@ Feature: AMNG - AM NextGen Connector
 
 #    #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
+    Then SM I reload the page
     When I remove all connections for the user id "402661187"
 
     #Verifications MATCH-5153: Why Drawer
@@ -405,6 +407,7 @@ Feature: AMNG - AM NextGen Connector
 
     #Clean existing connections
     Given SP I am logged in to the Admin page as an Admin user
+    Then SM I reload the page
     When I remove all connections for the user id "402661187"
 
     #Verifications MATCH-5153: Pinned Schools
