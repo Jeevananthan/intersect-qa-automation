@@ -115,8 +115,7 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
   @MATCH-2378
   Scenario: As a Support user I want to be able to update the primary user info for a non-Naviance HS
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I verify that I can edit the Primary User Details
 
   @MATCH-5014
