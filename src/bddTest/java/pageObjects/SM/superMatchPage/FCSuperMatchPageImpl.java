@@ -691,6 +691,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOf(heartIconInList(collegeName)));
         if (heartIconInList(collegeName).getAttribute("aria-label").equals("Unfavorite")) {
             heartIconInList(collegeName).click();
+            waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Favorite"));
         }
         waitUntilPageFinishLoading();
