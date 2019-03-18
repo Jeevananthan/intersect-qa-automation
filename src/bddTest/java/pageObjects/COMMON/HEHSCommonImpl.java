@@ -218,7 +218,7 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement getCloseIcon(){
-      return getDriver().findElement(By.cssSelector(".remove.circle.icon.close"));
+      return getDriver().findElement(By.cssSelector(".icon.close"));
     }
 
     private WebElement getBigDeleteButton(){

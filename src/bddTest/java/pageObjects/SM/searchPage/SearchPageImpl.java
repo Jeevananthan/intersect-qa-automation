@@ -2488,6 +2488,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void navigateToPageViaURLPath(String path) {
         load(GetProperties.get("fc.app.url")+path);
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".ui.active.loader")));
     }
 
     public void verifyPinnedCollegeCountInFooter(String numberOfCollegesPinned) {
@@ -2745,10 +2746,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param schoolName Name of the school to be favorited
      */
     public void favoriteSchool(String schoolName) {
+        waitForUITransition();
         try {
-            setImplicitWaitTimeout(2);
             WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
-            if (favoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+            WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
+                    + "']/../../../../following-sibling::tr[3]"));
+            scrollDown(nextCollege);
+            if (favoriteLink.findElement(By.xpath("./span/span/i[contains(@class, 'empty')]")).isDisplayed()) {
                 favoriteLink.click();
             }
             waitUntilPageFinishLoading();
@@ -2766,12 +2770,15 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void unFavoriteSchool(String schoolName) {
         try {
             setImplicitWaitTimeout(2);
+            waitUntilPageFinishLoading();
             WebElement favoriteLink = getSchoolResultsRow(schoolName).findElement(By.className("supermatch-college-action-favorite"));
-            if (favoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+            WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
+                    + "']/../../../../following-sibling::tr"));
+            scrollDown(nextCollege);
+            if (favoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
                 favoriteLink.click();
             }
             waitUntilPageFinishLoading();
-            resetImplicitWaitTimeout();
         } catch (Exception e) {
             logger.info("School: '" + schoolName + "' was not found, or was already un-favorited.");
             resetImplicitWaitTimeout();
@@ -2786,7 +2793,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(2);
             WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
-            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[contains(@class, 'empty')]")).isDisplayed()) {
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[contains(@class, 'empty')]")).isDisplayed()) {
                 whyDrawerFavoriteLink.click();
             }
             waitUntilPageFinishLoading();
@@ -2805,7 +2812,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(2);
             WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
-            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span[@class='heart icon')]")).isDisplayed()) {
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
                 whyDrawerFavoriteLink.click();
             }
             waitUntilPageFinishLoading();
@@ -3018,7 +3025,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement getStateInput() { return getDriver().findElement(By.xpath("//div[contains(@class,'sm-filter-search-dropdown')]/div/input")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(".DayPicker-Caption")); }
-    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("a[text()='"+schoolName+"']")))));}
+    private WebElement getSchoolResultsRow(String schoolName) { return getParent(getParent(getParent(getDriver().findElement(By.xpath("//a[text()='"+schoolName+"']")))));}
     private WebElement getPinnedValue() { return pinnedDropdown().findElement(By.xpath("./span/div"));}
     private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
     private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }

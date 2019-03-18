@@ -19,6 +19,7 @@ public class userConnectionsStepDefs implements En {
         Then("^I check if confirmation message includes message box and Send Invite button$", userConnections::checkIfConfirmationMsgIncludesMsgBox);
         And("^I write \"([^\"]*)\" to the box$", userConnections::enterConnectionRequestMsg);
         And("^I go to connections page$", userConnections::goToUserConnectionsPage);
+        And("^I go to connections page as HS user$", userConnections::goToUserConnectionsHSPage);
         And("^I go to Institutions that I'm following page$", userConnections::goToInstituionFollowingPage);
         Then("^I export my connections$", userConnections::exportConnections);
         And("^I check if connections CSV file \"([^\"]*)\" is exported successfully to location \"([^\"]*)\"$", userConnections::assertConnectionsCSVDownloaded);
@@ -38,6 +39,7 @@ public class userConnectionsStepDefs implements En {
         And("^I send the connection invitation$", userConnections::sendConnectionInvitation);
         Then("^As a HS user I accept the invitation$", userConnections::acceptConnectionRequestByHSUser);
         And("^I check if user is connected to \"([^\"]*)\" user$", userConnections::checkIfuserIsConencted);
+        And("^I check if HS user is connected to \"([^\"]*)\" user$", userConnections::checkIfHSUserIsConencted);
         Then("^As a HS user I ignore the invitation$", userConnections::ignoreConnectionRequestByHSUser);
         And("^I check if user is not connected to \"([^\"]*)\" user$", userConnections::checkIfHeIsNotConnected);
         Then("^I see 'Invited' status$", userConnections::statusInvitedVisible);

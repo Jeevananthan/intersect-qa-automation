@@ -45,6 +45,14 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void clickOnButton(String button) {
+        waitUntilPageFinishLoading();
+        switch (button) {
+            case "READ MORE" : clickOnButtons(button).click();
+                break;
+        }
+    }
+
     public void validateURLs(String link) {
         switch (link) {
             case "Request Information" : validateRequestInformationFormatURLs();
@@ -158,6 +166,11 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + premiumText + "')]")).getText()).as("Elements verifications").isEqualTo(premiumText);
     }
 
+    public void verifyNoProfilesInPremium(String premiumText) {
+        waitUntilPageFinishLoading();
+        softly().assertThat(getDriver().findElement(By.xpath("//span[contains(text(), '" + premiumText + "')]")).getText()).as("Elements verifications").isEqualTo(premiumText);
+    }
+
     public void verifyArrowsAndSlotsInPhotosAndVideos() {
         waitUntilPageFinishLoading();
         softly().assertThat(rightArrow().isDisplayed());
@@ -264,6 +277,10 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
 
     private WebElement clickOnLinks() {
         return getDriver().findElement(By.cssSelector("li[id='links-accordion-title"));
+    }
+
+    private WebElement clickOnButtons(String button) {
+        return getDriver().findElement(By.xpath("//span[contains(text(), '"+ button +"')]"));
     }
 
     private WebElement clickOnProfilesLink() {

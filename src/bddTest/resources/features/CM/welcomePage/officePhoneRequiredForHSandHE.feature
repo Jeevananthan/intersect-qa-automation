@@ -1,7 +1,7 @@
 @MATCH-1796
 Feature: As an HE or HS user I want my office phone number to be required so that information can be used for additional RepVisit features.
 
-@ignore
+
 Scenario: The HS user profile activation page requires Office Phone
   Given HS I am logged in to Intersect HS as user type "resetAccount"
   When I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
@@ -14,7 +14,7 @@ Scenario: The HS user profile activation page requires Office Phone
   Then I Save changes
 
 
-@ignore
+
 Scenario: The HE user profile activation page requires Office Phone
   Given HE I am logged in to Intersect HE as user type "resetAccount"
   When I am sure that HE user will be logged in for the first time and Welcome page will be opened

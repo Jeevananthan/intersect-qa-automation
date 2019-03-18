@@ -277,8 +277,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         getDriver().navigate().refresh();
         driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomeForm()));
-        Assert.assertTrue("Community Profile Welcome Page is not displaying...", getDriver().findElement(communityWelcomeForm()).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomePage()));
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", getDriver().findElement(communityWelcomePage()).isDisplayed());
         driver.switchTo().defaultContent();
     }
 
@@ -439,5 +439,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
      */
     private By loginButton(){
         return By.xpath("//button/span[text()='Login']");
+    }
+
+    private By communityWelcomePage(){
+        return By.cssSelector("div[class='welcome-title']");
     }
 }
