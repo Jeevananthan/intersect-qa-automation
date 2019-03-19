@@ -28,7 +28,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @debugMATCH-5154</cucumber.options>
+                <cucumber.options>--tags @HE --tags ~@ignore</cucumber.options>
             </properties>
             <build>
                 <plugins>

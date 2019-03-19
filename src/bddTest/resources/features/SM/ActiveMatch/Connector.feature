@@ -310,7 +310,7 @@ Feature: AMNG - AM NextGen Connector
     And SP I delete all the subscriptions for school
     When I remove all connections for the user id "402661187"
 
-  @MATCH-5153 @MATCH-5154 @debugMATCH-5154
+  @MATCH-5153 @MATCH-5154
   Scenario: As a Naviance Student student user, I would like to be able to connect with an HE Connection client within
   SuperMatch when I have met the AM NextGen match criteria, have added to Colleges I'm Thinking About list (favorited)
   so that I can send my information to the college.
