@@ -92,7 +92,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | linussupermatch | How you compare with | Visits to your High School |
       | tenthGradeUser  | Quick Links          | College Visits             |
 
-  @MATCH-4458 @MATCH-4896
+  @MATCH-4458 @MATCH-4896 @MATCH-5825
   Scenario: As a HS student that is comparing my pinned schools, I want to see institution highlight details about
   each college side by side so I can determine which pinned college is a best fit for me based on their highlights.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -105,18 +105,19 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | -                        | View Profiles | -                       | -                       |
 
   @MATCH-3448
-  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  Scenario: 00 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I clear all the pinned college
     And SM I search for "The University of Alabama" college in search bar
+    And SM I favorite the school "The University of Alabama"
     And SM I open the Pinned Schools Compare screen
     And SM I verify the following things for pinned college
-      | FAVORITE | The University of Alabama | this.is.yet.another.testing6,14:02 | PINNED |
+      | FAVORITED | The University of Alabama | this.is.another.testing3.net,39:30 | PINNED |
 
   @MATCH-3448
-  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  Scenario: 01 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
@@ -128,3 +129,12 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I search for "York College" college in search bar
     And SM I open the Pinned Schools Compare screen
     And SM I verify the displaying more then four colleges in compare pinned college page
+
+  @MATCH-5825
+  Scenario: The display name of pinned colleges on the Compare page are not hyperlinks to the college's profile page.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "The University of Alabama" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify that college name should be hyperlink and open in new tab
