@@ -10,6 +10,7 @@ public class EditMediaTabStepDefs implements En{
         MediaTabEditPageImpl mediaTabEdit = new MediaTabEditPageImpl();
 
         When("^HUBS I click on \"([^\"]*)\" tab$", mediaTabEdit::clickOnHEMTab);
+        Then("^HUBS I verify the modal with \"([^\"]*)\" for Create a New Profile$", mediaTabEdit::verifyModalCreateNewProfile);
         When("^HUBS I expanded the \"([^\"]*)\" link$", mediaTabEdit::clickOnLink);
         When("^HUBS I verify the \"([^\"]*)\" button$", mediaTabEdit::clickOnButton);
         Then("^HUBS I verify \"([^\"]*)\" profile$", mediaTabEdit::verifyStudentProfile);
@@ -21,6 +22,7 @@ public class EditMediaTabStepDefs implements En{
         When("^HUBS verify contents \"([^\"]*)\" in the dropdown \"([^\"]*)\"", mediaTabEdit::verifyContents);
         When("^HUBS verify title \"([^\"]*)\" into \"([^\"]*)\" section", mediaTabEdit::verifyContents);
         Then("^HUBS I click on \"([^\"]*)\" button$", mediaTabEdit::clickOnPublishMyMediaChangesButton);
+        Then("^HUBS I click on the \"([^\"]*)\" button$", mediaTabEdit::clickOnTheButton);
         Then("^HUBS I verify the Publishing Modal Confirmation with the \"([^\"]*)\" element$",mediaTabEdit::verifyPublishingModalConfirmation);
         Then("^HUBS I verify functionality of Publishing Modal Confirmation$",mediaTabEdit::verifyFunctionalityForPublishingModalConfirmation);
         And("^HUBS I click on EDIT button$", mediaTabEdit::clickOnEditButton);

@@ -49,7 +49,7 @@ Feature: HUBS - Edit Media - HS - Edit Media - As an HS user, I should be able t
   Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Awareness
             subscription activated, I want to be able to manage my institution's college profile (about us area) so
             I do not have to rely on Intersect Support to do this for me.
-    Given HE I am logged in to Intersect HE as user type "HEMadministrator"
+    Given HEM I am logged in to Intersect HEM as user type "HEMadministrator"
     And HUBS I access HUBS Edit Mode
     When HUBS I click on "MEDIA" tab
     And HUBS I click on "INTRO" tab
@@ -134,4 +134,21 @@ Feature: HUBS - Edit Media - HS - Edit Media - As an HS user, I should be able t
     And HUBS I access HUBS Edit Mode
     When HUBS I click on "LINKS & PROFILES" tab
     Then HUBS I verify no Profiles "No profiles created" in Premium
+
+  @HUBS-5236
+  Scenario: As an HE user with either the Publishing or Administrator role tied to an HE account with the Awareness
+  subscription activated, I want to create new profiles in Premium HEM so I don't have to rely on Support to do this for me.
+    When HUBS I click on "LINKS & PROFILES" tab
+    Then HUBS I expanded the "Profiles" link
+    Then HUBS I click on "CREATE A NEW PROFILE" tab
+    Then HUBS I verify the modal with "What type of profile would you like to create?" for Create a New Profile
+    Then HUBS I verify the modal with "Create a New Profile" for Create a New Profile
+    Then HUBS I verify the modal with "X Action" for Create a New Profile
+    Then HUBS I verify the modal with "Cancel" for Create a New Profile
+    Then HUBS I verify the modal with "Next" for Create a New Profile
+    Then HUBS I verify the modal with "Student Profile" for Create a New Profile
+    Then HUBS I verify the modal with "Alumni Profile" for Create a New Profile
+    Then HUBS I verify the modal with "Faculty Profile" for Create a New Profile
+    Then HUBS I verify the modal with "Program Profile" for Create a New Profile
+    Then HUBS I click on the "NEXT" button
 
