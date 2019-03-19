@@ -539,12 +539,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitUntilElementExists(getEventsTab(tabName));
         try {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsTab(tabName)));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
             getEventsTab(tabName).click();
         } catch(WebDriverException e) {
             mainEventsTitle().click();
             waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsTab(tabName)));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
             getEventsTab(tabName).click();
         }
 
@@ -557,6 +560,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void verifyFilterIsPresentInList(String eventName) {
         waitUntilPageFinishLoading();
         List<String> filtersNamesStrings = new ArrayList<>();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(filter(eventName)));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(filtersList)));
         List<WebElement> filtersNames = driver.findElements(By.cssSelector(filtersList));
         for (WebElement filterName : filtersNames) {
             filtersNamesStrings.add(filterName.getText());
@@ -950,4 +955,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String progressBarLocator = "div[role='progressbar']";
     private String collegeNameHeader = "div.events-list__column-head.events-list__column-head--name";
     private String loadingIconLocator = "div.ui.active.loader";
+    private By eventsTab(String tabName) {
+        return By.xpath("//span[contains(text(), '" + tabName + "')]/..");
+    }
+    private By eventsHeader() {
+        return By.xpath("//main//div//a");
+    }
+    private By filter(String filterName) { return By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]"); }
 }
