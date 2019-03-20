@@ -782,7 +782,9 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";
     private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
     private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
-    private WebElement getMainMenuTab(String tabName) { return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
+    private WebElement getMainMenuTab(String tabName) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul//div[text() = '" + tabName + "']")));
+        return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
     private String lookByDropdownLocator = "//label[text() = 'Lookup by:']//select";
     private WebElement lookupByNameField() { return driver.findElement(By.cssSelector("input[name='name']")); }
     private WebElement heartIconInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/preceding-sibling::button")); }
