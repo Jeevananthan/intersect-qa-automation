@@ -96,7 +96,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Examples:
       |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
-      |navianceAdmin  |navianceMember  |administrator      |member              |
+      |navianceAdmin  |navianceMember1 |administrator      |member              |
 
   @MATCH-4224
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user, I want to understand why I can't submit the "Re-assign Appointments" modal form,
@@ -173,7 +173,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
