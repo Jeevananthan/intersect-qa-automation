@@ -3208,7 +3208,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMoreResultButtonInSearchAndSchedulePage(String moreResults){
-        List<WebElement> schoolCount = getDriver().findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
+        List<WebElement> schoolCount = getDriver().findElements(searchResult());
         if(schoolCount.size()>25){
             Assert.assertTrue("More results button is displayed",button(moreResults).isDisplayed());
         }else {
@@ -3226,7 +3226,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyInternationalSchoolsListIsNotDisplayedforFreemium(){
         getDriver().get(currentURL);
-        List<WebElement> results = getDriver().findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(searchResult(),0));
+        List<WebElement> results = getDriver().findElements(searchResult());
         Assert.assertTrue("International school list is displayed",results.size()==0);
     }
 
@@ -5161,6 +5163,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement availabilityCloseButton(){
         return getDriver().findElement(By.cssSelector("i[class='close large circular fitted link icon']"));
+    }
+
+    private By searchResult(){
+        return By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']");
     }
 }
 
