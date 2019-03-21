@@ -121,7 +121,7 @@ Feature:  HS - RepVisits - CalendarView - As an HS user, I should be able to vie
 
     Examples:
       |Date |StartTime|EndTime |NumVisits|StartDate |EndDate |Option                                               |newVisitSTime|newVisitETime|visitLocation|Attendees           |institution               |Day |FName    |LName |EMail                           |Phone       |Position|option|
-      |35   |10:09am  |12:25pm |3        |14        |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |14  |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |1      |
+      |85   |10:09am  |12:25pm |3        |29      |42      |No, I want to manually review all incoming requests. |11:02am      |10:58pm      |Cbba         |PurpleHE Automation |The University of Alabama |29 |Intersect|QA    |purpleheautomation@gmail.com    |999999999999|QA      |1      |
 
   @MATCH-2391
   Scenario: As a HS user, I should not be able to add visits in the past

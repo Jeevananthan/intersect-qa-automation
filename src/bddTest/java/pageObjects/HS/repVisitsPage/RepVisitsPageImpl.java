@@ -4645,6 +4645,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[class$='_3GJIUrSQadO6hk9FZvH28D']"), 1));
         doubleClick(DateButton());
+        goToDateButton().click();
         waitForUITransition();
         setSpecificDate(date);
         waitForUITransition();
@@ -5130,6 +5131,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         addVisitButton().click();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(goToDateButtonLocator), 1));
         doubleClick(goToDateButton());
+        goToDateButton().click();
         setSpecificDateforManuallyCreatingVisit(date);
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(timePill(StartTime)), 0));
         WebElement button = driver.findElement(By.xpath(timePill(StartTime)));
@@ -5141,6 +5143,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         selectAttendeeOrInstitution(attendee).click();
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.id("calendar-search-reps"), 0));
         String selectedAttendeeValue = driver.findElement(By.id("calendar-search-reps")).getAttribute("value");
+        waitForUITransition();
         Assert.assertTrue("Representative is not present in the Representative text box", selectedAttendeeValue.equals(attendee));
         eventLocationNewVisit().clear();
         eventLocationNewVisit().sendKeys(location);
@@ -5213,7 +5216,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         waitUntilElementExists(selectDateButton());
         doubleClick(selectDateButton());
-        setSpecificDateforManuallyCreatingVisit(date);
+        setSpecificDateforManuallyCreatingNewVisit(date);
         ManualStartTime = startTime(startTime);
         logger.info("Start Time = " + ManualStartTime);
         moveToElement(manualEndTime());
@@ -5745,7 +5748,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (!date.equals("")) {
             Assert.assertTrue("Date Textbox are not displayed", collegeFairsDateTextBox().isDisplayed());
             fairsDatePicker().click();
-            setSpecificDate(date);
+            setSpecificDateCollegeFairs(date);
         }
         if (!startTime.equals("")) {
             Assert.assertTrue("Start Time TextBox is not displayed", fairsStartTimeTextBox().isDisplayed());
@@ -5758,7 +5761,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         if (!RSVPDate.equals("")) {
             Assert.assertTrue("RSVP Deadline TextBox is not displayed", fairsRSVPDateTextBox().isDisplayed());
             fairsRSVPDatePicker().click();
-            setSpecificDate(RSVPDate);
+            setSpecificDateCollegeFairs(RSVPDate);
         }
         if (!cost.equals("")) {
             Assert.assertTrue("Cost TextBox is not displayed", fairsCostTextBox().isDisplayed());
@@ -5935,6 +5938,34 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
+        goToDateButton().click();
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void setSpecificDateCollegeFairs(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        if (addDays.length() > 2) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy", Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(addDays, formatter);
+            int days = date.getMonthValue();
+            cal.add(Calendar.DATE, days);
+        } else {
+            cal = getDeltaDate(Integer.parseInt(addDays));
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+        driver.findElement(By.xpath("//input[@id='college-fair-date']/following-sibling::i[@class='calendar alternate outline large link icon _33WZE2kSRNAgPqnmxrKs-o']")).click();
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
     }
 
     public void setSpecificDateforManuallyCreatingVisit(String addDays) {
@@ -5946,6 +5977,24 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String currentDate = sdf.format(cal.getTime());
         String[] parts = currentDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        goToDateButton().click();
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void setSpecificDateforManuallyCreatingNewVisit(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        int days = Integer.parseInt(addDays);
+        cal.add(Calendar.DATE, days);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        goToNewDateButton().click();
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
@@ -8333,7 +8382,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return button;
     }
 
+    private WebElement goToNewDateButton() {
+        WebElement button = driver.findElement(By.xpath(goToNewDateButtonLocator));
+        return button;
+    }
+
     private String goToDateButtonLocator = "//button/span/span[text()='Go to date']";
+
+    private String goToNewDateButtonLocator = "//button/span/span[text()='Select Date']";
 
     private WebElement attendeeTextBox() {
         WebElement id = driver.findElement(By.id("calendar-search-reps"));
