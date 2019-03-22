@@ -1081,10 +1081,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
         clearSuperMatchToast();
         List<WebElement> allPills = getAllPillsCloseIcon();
-        for (WebElement singlePill : allPills) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
-            wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
+        if (allPills.size() > 0) {
+            startOverButton().click();
+            yesStartOverLink().click();
         }
+        //for (WebElement singlePill : allPills) {
+        //    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
+        //    wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
+        //}
         waitUntilElementExists(selectCriteriaButton1());
     }
 
@@ -3116,8 +3120,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement selectCriteriaButton1() {
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
+        // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // (//button[text()='Select Criteria To Start'])[2]
-        return driver.findElement(By.xpath("//div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']"));
+        return driver.findElement(By.xpath("//button[text()='Select Criteria To Start']"));
     }
     private WebElement selectCriteriaInstructionalText() {
         return driver.findElement(By.xpath("//div[@class='computer only four wide column']//p"));
@@ -3421,9 +3426,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.xpath("//div[@id='on-campus-housing-dropdown']//span"));
     }
 
-    private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
+    private WebElement startOverButton() { return driver.findElement(By.xpath("//button[text()='Start Over']")); }
 
-    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
+    private WebElement yesStartOverLink() { return driver.findElement(By.xpath("//button[text()='Yes, Start Over']")); }
 
     private WebElement noCancelLink() { return driver.findElement(By.cssSelector("div.actions button[default='']")); }
 
