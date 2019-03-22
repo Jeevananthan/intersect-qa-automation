@@ -862,7 +862,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading);
         WebElement Date = driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[text()=" + parts[1] + "]"));
         doubleClick(Date);
-        jsClick(Date);
+        WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
+        selectReason.click();
         waitUntilPageFinishLoading();
     }
 
@@ -5497,7 +5498,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private void doubleClick(WebElement elementLocator) {
         Actions actions = new Actions(driver);
-        actions.doubleClick(elementLocator).perform();
+        actions.doubleClick(elementLocator).build().perform();
 
     }
 
@@ -7815,7 +7816,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         }
         WebElement selectReason = driver.findElement(By.xpath("//div/div[@class='text']"));
         selectReason.click();
-        selectReason.click();
         waitUntilPageFinishLoading();
         WebElement element = driver.findElement(By.xpath("//span[text()='" + reason + "']"));
         moveToElement(element);
@@ -7845,7 +7845,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     public void verifyBlockedDayInException(String date) {
         Assert.assertTrue("Date button is not displayed", dateButtonInException().isDisplayed());
         dateButtonInException().click();
-        setSpecificDate(date);
+        setSpecificDateForException(date);
         waitForUITransition();
         String currentDate = getcurrentBlockedDate(date);
         waitUntil(ExpectedConditions.visibilityOfElementLocated(blockedDayInException(currentDate)));
