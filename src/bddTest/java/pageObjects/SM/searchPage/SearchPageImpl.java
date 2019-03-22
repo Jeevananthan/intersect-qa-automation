@@ -1089,7 +1089,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         //    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
         //    wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
         //}
-        waitUntilElementExists(selectCriteriaButton1());
+        waitUntil(ExpectedConditions.numberOfElementsToBe((By.xpath("//button[text()='Select Criteria To Start']")),3));
+        //waitUntilElementExists(selectCriteriaButton1());
     }
 
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
@@ -3123,6 +3124,10 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // (//button[text()='Select Criteria To Start'])[2]
         return driver.findElement(By.xpath("//button[text()='Select Criteria To Start']"));
+    }
+
+    private List<WebElement> selectCriteriaButtons() {
+        return getDriver().findElements(By.xpath("//button[text()='Select Criteria To Start']"));
     }
     private WebElement selectCriteriaInstructionalText() {
         return driver.findElement(By.xpath("//div[@class='computer only four wide column']//p"));
