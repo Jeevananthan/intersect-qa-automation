@@ -5944,6 +5944,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void setSpecificDateForException(String addDays) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        if (addDays.length() > 2) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy", Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(addDays, formatter);
+            int days = date.getMonthValue();
+            cal.add(Calendar.DATE, days);
+        } else {
+            cal = getDeltaDate(Integer.parseInt(addDays));
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
     public void setSpecificDateCollegeFairs(String addDays) {
         String DATE_FORMAT_NOW = "MMMM dd yyyy";
         Calendar cal = Calendar.getInstance();
@@ -7840,7 +7860,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[title='previous week']"), 1));
         waitUntilPageFinishLoading();
         driver.findElement(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
-        setSpecificDate(startDate);
+        setSpecificDateForException(startDate);
         String date = selectCurrentDate(startDate);
         waitUntilPageFinishLoading();
         if (reason.equals("Max visits met") || reason.equals("Fully booked")) {
@@ -8026,7 +8046,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Previous week button is not displayed", driver.findElement(By.cssSelector("button[title='previous week']")).isDisplayed());
         Assert.assertTrue("Next week button is not displayed", driver.findElement(By.cssSelector("button[title='next week']")).isDisplayed());
         driver.findElement(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
-        setSpecificDate(Date);
+        setSpecificDateForException(Date);
         String currentDate = selectdateSpecificformat(Date);
         String originalDate = getDateInDateButton();
         String date = selectCurrentDate(Date);
