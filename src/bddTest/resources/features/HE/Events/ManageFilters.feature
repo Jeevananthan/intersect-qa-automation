@@ -6,7 +6,7 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the Events section
     And HE I open the "Filters" tab in the Events section
-    And HE I delete the filter of name "FilterTest123" if it is present
+    And HE I delete the filter of name "FilterTest123"
     And HE I open the Create Filter screen
     When HE I create a new filter based on the following details:
     | Gender | Male |
@@ -23,6 +23,9 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
   Scenario: As a HE Intersect user, I can create a filter in AM Events from the Create Event Screen (MATCH-5414 - fixed)
     Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I open the Events section
+    And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "FilterTestxx937"
+    And HE I open the "Events" tab in the Events section
     And HE I open the Create Event screen
     And HE I open the Create Filter dialog from the Event Audience field
     When HE I create a new filter based on the following details:
@@ -33,9 +36,11 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
       | Grade Level        | Freshman |
       | GPA                | B     |
       | Filter Name        | FilterTestxx937 |
+    And HE I open the Events section
     And HE I open the "Events" tab in the Events section
     And HE I open the Create Event screen
     Then HE A filter of name "FilterTestxx937" is displayed in the Event Audience list
+    And HE I open the Events section
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of name "FilterTestxx937"
 
@@ -63,6 +68,7 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
   | Location | 50 miles;12345 |
   | Filter Name        | FilterTestYY498 |
     Then HE I verify that the filter of generated name is displayed by default in the Event Audience field
+    And HE I open the Events section
     And HE I open the "Filters" tab in the Events section
     And HE I delete the filter of generated name
 
@@ -71,6 +77,7 @@ Feature: HE - Events - ManageFilters - As an HE Events user, I can create filter
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "FilterMATCH3338"
     And HE I open the Create Filter screen
     When HE I create a new filter based on the following details:
       | Gender | Male |
