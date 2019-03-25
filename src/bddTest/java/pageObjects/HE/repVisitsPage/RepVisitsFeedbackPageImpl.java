@@ -26,7 +26,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
 
         for(int i=0; i < itemsInStaffMemberMenu.size(); i++)
         {
-            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column qExyVMs6TGqygeqR5kg_D')]")).getText();
+            String fullNameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(staffMember())).getText();
             listContainingFullNamesOfStaffMembers.add(fullNameOfStaffMember);
         }
 
@@ -44,12 +44,12 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         {
             try {
                 isCommunityAvatarDisplayed = itemsInStaffMemberMenu.get(i).
-                        findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column qExyVMs6TGqygeqR5kg_D')]/img | .//div[contains(@class, 'middle aligned twelve wide column qExyVMs6TGqygeqR5kg_D')]/i")).isDisplayed();
+                        findElement(By.xpath(staffMember()+"/img | "+staffMember()+"/i")).isDisplayed();
             } catch(Exception ex) {
                 isCommunityAvatarDisplayed = false;
             }
 
-            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column qExyVMs6TGqygeqR5kg_D')]")).getText();
+            String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(staffMember())).getText();
             Assert.assertTrue("Community avatar for staff member - " + nameOfStaffMember + " - is not displayed", isCommunityAvatarDisplayed);
         }
     }
@@ -69,7 +69,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
                 isIndividualAverageRatingWithStarIconDisplayedToRightOfStaffMemberName = false;
             }
 
-            String nameOfStaffMember = itemsInStaffMemberMenuWithNoRatings.get(i).findElement(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column qExyVMs6TGqygeqR5kg_D')]")).getText();
+            String nameOfStaffMember = itemsInStaffMemberMenuWithNoRatings.get(i).findElement(By.xpath(staffMember())).getText();
             Assert.assertFalse("Average rating and star icon displayed to the right of staff member with name - " + nameOfStaffMember , isIndividualAverageRatingWithStarIconDisplayedToRightOfStaffMemberName);
 
         }
@@ -619,5 +619,15 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
      */
     private List<WebElement> getFeedbackSchoolLinks(String school){
         return getDriver().findElements(By.xpath(String.format("//a[text()='%s']",school)));
+    }
+    private String staffMember(){
+        String staffMenu;
+        List<WebElement> staff = getDriver().findElements(By.xpath(".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]"));
+        if(staff.size()==1){
+            staffMenu = ".//div[contains(@class, 'middle aligned twelve wide column p2KoskEYI_DvLmnUMMQ2V')]";
+        }else {
+            staffMenu = ".//div[contains(@class, 'middle aligned twelve wide column qExyVMs6TGqygeqR5kg_D')]";
+        }
+        return staffMenu;
     }
 }
