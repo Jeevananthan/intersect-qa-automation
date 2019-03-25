@@ -103,7 +103,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     }
 
     public void selectCheckbox(String option){
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.className("_2NX7sEemExJO2064BSLXHB")));
         getCompetitors().get(0).findElement(getOption(option)).click();
     }
 
@@ -182,7 +182,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     }
 
     private By getOption(String option){
-        return By.xpath("..//label[text()='" + option + "']");
+        return By.xpath("//label[text()='" + option + "']");
     }
 
     private By textFieldForCOmpatitorMessage(){
