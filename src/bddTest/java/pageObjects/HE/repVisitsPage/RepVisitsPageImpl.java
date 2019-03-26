@@ -1624,12 +1624,45 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             String[] dateParts = startDate.split(" ");
             visitDate = getShortMonth(dateParts[0]) + " " + dateParts[1];
         }
-        setDate(gotoDate, "Go To Date");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(dateButton()));
+        getDriver().findElement(dateButton()).click();
+        setDateFixed(gotoDate);
         time = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime==null?time:pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
         waitUntil(ExpectedConditions.visibilityOfElementLocated(availabilityButtonLocator(visitDate,time)));
         Assert.assertTrue("Availability is not displayed",avialabilityButton(visitDate,time).isDisplayed());
         avialabilityButton(visitDate,time).click();
         waitUntilPageFinishLoading();
+    }
+
+    public void setDateFixed(String inputDate) {
+        String[] parts = inputDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonthInCalendar(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    public void findMonthInCalendar(String month) {
+        waitUntilPageFinishLoading();
+        boolean monthStatus = compareDate(month);
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try {
+            while (!DayPickerCaption.contains(month)) {
+
+                if (monthStatus) {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                } else {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+            }
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected it's out of RANGE.");
+        }
     }
 
     public String getShortMonth(String month) {
@@ -1925,6 +1958,33 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
         boolean before = (first.before(second));
         return  before;
+
+    }
+
+    public Boolean compareDate(String month) {
+
+        String dateCaption = null;
+        DateFormat format = new SimpleDateFormat("MMM yyyy");
+        DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='DayPicker-Caption']")));
+        dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        //Logic to compare dates before? or not
+        Date first = null;
+        try {
+            first = format.parse(dateCaption);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date second = null;
+        try {
+            second = formatDate.parse(month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean before = (first.before(second));
+        return before;
 
     }
 
@@ -2569,6 +2629,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     public void removeAppointmentfromCalendar(){
         waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelVisitButton()));
+        moveToElement(cancelThisVisitButton());
         Assert.assertTrue("Cancel This Visit is not displayed",cancelThisVisitButton().isDisplayed());
         cancelThisVisitButton().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(cancelMessageText()));
@@ -5161,6 +5222,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement availabilityCloseButton(){
         return getDriver().findElement(By.cssSelector("i[class='close large circular fitted link icon']"));
+    }
+
+    private By dateButton(){
+        return By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']");
     }
 }
 
