@@ -1884,6 +1884,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
             findMonth(calendarHeading);
         } else if(startOrEndDate.equals("Go to date")){
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[class='ui small basic icon right labeled button']")));
             getDriver().findElement(By.cssSelector("button[class='ui small basic icon right labeled button']")).click();
             findMonth(calendarHeading);
         } else {
@@ -2092,7 +2093,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         navigateToRepVisitsSection("Travel Plan");
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h1/span[text()='Travel Plan']")));
         String fairDate = getSpecificDateforTravelPlan(date);
-        WebElement fairDetails = getDriver().findElement(By.xpath("//h3[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//a/span/span[text()='College Fair,']/../../span[text()='"+fairDate+"']"));
+        WebElement fairDetails = getDriver().findElement(By.xpath("//h3[text()='"+school+"']/ancestor::div[@class='row _2Hy63yUH9iXIx771rmjucr']//div[@class='content _1SfpP2fklL5GVWMyfqjq4q']//a/span/span[text()='College Fair,']/../../span/following-sibling::span[text()='"+fairDate+"']"));
         Assert.assertTrue("FairDetails is not displayed",fairDetails.isDisplayed());
         fairDetails.click();
         waitUntilPageFinishLoading();

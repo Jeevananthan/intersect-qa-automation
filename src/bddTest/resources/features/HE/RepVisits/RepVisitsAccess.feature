@@ -152,7 +152,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
-    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I create a College Fair using the following data "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register a Fair
     Given HE I am logged in to Intersect HE as user type "administrator"
@@ -411,6 +411,7 @@ Examples:
     Then HE I verify the pill is clickable in search and schedule page
     Then HE I verify "Yes, Request this time" button to submit request to the high school
     Then HE I verify the success message "Visit requested! You will receive an email notification when your request has been confirmed." is displaying in search and schedule page
+    Then HE I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "Int Qa High School 4" in RepVisits page
@@ -422,6 +423,7 @@ Examples:
     Then HE I verify the High school name is displaying in the schedule popup "Int Qa High School 4"
     Then HE I verify the "Yes, Request this time" button is displaying in the schedule popup
     Then HE I verify that i can close the schedule popup by clicking "CANCEL" button if i do not want to submit request
+    Then HE I successfully sign out
 
     Then HE I logged in to Intersect HE as another HE user type "community"
     And HE I search for "Int Qa High School 4" in RepVisits page
@@ -435,6 +437,7 @@ Examples:
 
     Then HE I am logged in to Intersect HE as user type "administrator"
     Then HE I go to the calendar page and verify the visit appointment is displaying with gray color "Int Qa High School 4","14","Scheduled"
+    Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to the calendar page and verify the visit appointment is displaying with gray color "The University of Alabama","14","Scheduled"
@@ -476,6 +479,7 @@ Examples:
     Then HE I verify the pill is clickable in search and schedule page
     Then HE I verify "Yes, Request this time" button to submit request to the high school
     Then HE I verify the success message "Visit confirmed! Your request has been automatically confirmed by the high school." is displaying in search and schedule page
+    Then HE I successfully sign out
 
     Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "Int Qa High School 4" in RepVisits page
@@ -487,6 +491,7 @@ Examples:
     Then HE I verify the High school name is displaying in the schedule popup "Int Qa High School 4"
     Then HE I verify the "Yes, Request this time" button is displaying in the schedule popup
     Then HE I verify that i can close the schedule popup by clicking "CANCEL" button if i do not want to submit request
+    Then HE I successfully sign out
 
     Then HE I logged in to Intersect HE as another HE user type "community"
     And HE I search for "Int Qa High School 4" in RepVisits page
@@ -503,6 +508,7 @@ Examples:
 #verify school in travel plan list
     Then HE I navigate to "Travel Plan"
     Then HE I verify "Int Qa High School 4" is displayed in the Travel Plan list
+    Then HE I successfully sign out
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     Then HS I go to the calendar page and verify the visit appointment is displaying with blue color "The University of Alabama","14","Scheduled"
