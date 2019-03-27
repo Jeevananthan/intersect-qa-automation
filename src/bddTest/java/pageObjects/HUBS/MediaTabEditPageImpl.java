@@ -32,6 +32,8 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
                 break;
             case "LINKS & PROFILES" : linksAndProfilesTab().click();
                 break;
+            case "CREATE A NEW PROFILE" : createNewProfile().click();
+                break;
         }
     }
 
@@ -49,6 +51,14 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         switch (button) {
             case "READ MORE" : clickOnButtons(button).click();
+                break;
+        }
+    }
+
+    public void clickOnTheButton(String button) {
+        waitUntilPageFinishLoading();
+        switch (button) {
+            case "NEXT" : clickOnNextButton(button).click();
                 break;
         }
     }
@@ -85,6 +95,31 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
     public void verifyStudentProfile(String contents) {
         waitUntilPageFinishLoading();
         softly().assertThat(getDriver().findElement(By.xpath("//*/*[contains(text(), '"+ contents +"')]")).getText()).as("Profile verification").isEqualTo(contents);
+    }
+
+    public void verifyModalCreateNewProfile(String itemValidation) {
+        waitUntilPageFinishLoading();
+        switch (itemValidation) {
+            case "What type of profile would you like to create?" : softly().assertThat(getDriver().findElement(By.xpath("//*/*[contains(text(), '"+itemValidation+"')]")).getText()).as("New Modal verification").isEqualTo("What type of profile would you like to create?");;
+                break;
+            case "Create a New Profile" : softly().assertThat(getDriver().findElement(By.xpath("//*/*[contains(text(), '"+itemValidation+"')]")).getText()).as("New Modal verification").isEqualTo("Create a New Profile");
+                break;
+            case "X Action" :  getDriver().findElement(By.cssSelector("i[class ='close icon")).isDisplayed();
+                break;
+            case "Cancel" : getDriver().findElement(By.xpath("//button[contains(text(), '"+ itemValidation +"')]"));
+                break;
+            case "Next" : getDriver().findElement(By.xpath("//button[contains(text(), '"+ itemValidation +"')]"));
+                break;
+            case "Student Profile" : getDriver().findElement(By.xpath("//span[contains(text(), '"+ itemValidation +"')]"));
+                break;
+            case "Alumni Profile" : getDriver().findElement(By.xpath("//span[contains(text(), '"+ itemValidation +"')]"));
+                break;
+            case "Faculty Profile" : getDriver().findElement(By.xpath("//span[contains(text(), '"+ itemValidation +"')]"));
+                break;
+            case "Program Profile" : getDriver().findElement(By.xpath("//span[contains(text(), '"+ itemValidation +"')]"));
+                break;
+        }
+
     }
 
     public void createANewLink(String URL, String Title) {
@@ -275,12 +310,20 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'LINKS & PROFILES')]"));
     }
 
+    private WebElement createNewProfile() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'CREATE A NEW PROFILE')]"));
+    }
+
     private WebElement clickOnLinks() {
         return getDriver().findElement(By.cssSelector("li[id='links-accordion-title"));
     }
 
     private WebElement clickOnButtons(String button) {
         return getDriver().findElement(By.xpath("//span[contains(text(), '"+ button +"')]"));
+    }
+
+    private WebElement clickOnNextButton(String button) {
+        return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));
     }
 
     private WebElement clickOnProfilesLink() {
@@ -332,8 +375,8 @@ public class MediaTabEditPageImpl extends PageObjectFacadeImpl {
     }
 
     private WebElement linkInput() {
-        return getDriver().findElement(By.cssSelector("input[aria-label='Test1']"));
-    }
+        return getDriver().findElement(By.cssSelector("input[aria-label='Test']"));
+}
 
     private WebElement addButton() {
         return getDriver().findElement(By.cssSelector("button[class='ui primary button']"));

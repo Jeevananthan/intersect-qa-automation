@@ -86,13 +86,25 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteFilter(String filterName) {
-        threePointsMenu(filterName).click();
-        threePointsMenuElement("Delete").click();
-        deleteConfirmationButton().click();
-        //added below wait instead of waitForUITransition
-         waitUntilPageFinishLoading();
-        //Commenting the below line to increase the performance
-        //waitForUITransition();
+        int filter;
+       try{
+           waitUntil(ExpectedConditions.visibilityOfElementLocated(filter(filterName)));
+           filter = filterSize(filterName).size();
+           if (filter > 0) {
+               threePointsMenu(filterName).click();
+               threePointsMenuElement("Delete").click();
+               deleteConfirmationButton().click();
+               waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
+           }
+       }catch (Exception e) {
+           filter = filterSize(filterName).size();
+           if (filter > 0) {
+               threePointsMenu(filterName).click();
+               threePointsMenuElement("Delete").click();
+               deleteConfirmationButton().click();
+               waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
+           }
+       }
     }
 
     public void renameFilter(String originalName, String newName) {
@@ -232,4 +244,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private String filterNameUniqueErrorMessageLocator = "div.ui.error.message span";
     private String createFilterCancelButtonLocator = "form.ui.small.form button.ui.basic.right.floated.button span";
     private String filterNameLocator(String filterName) { return "//strong[text() = '" + filterName + "']";}
+    private List<WebElement> filterSize(String filterName) { return driver.findElements(By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]")); }
+    private By filter(String filterName) { return By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]"); }
+    public By eventsHeader() { return By.xpath("//main//div//a"); }
 }

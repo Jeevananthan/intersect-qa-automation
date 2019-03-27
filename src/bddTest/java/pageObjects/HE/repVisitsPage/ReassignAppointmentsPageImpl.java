@@ -194,8 +194,8 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
         goToReassignAppointment();
         selectStaffMemberDropdown().click();
         jsClick(selectStaff(staffMember));
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(errorText(errorMessage)));
-        Assert.assertTrue("Error message is not displayed",errorMessage(errorMessage).isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(noAppointmentsErrorMessage(errorMessage)));
+        Assert.assertTrue("Error message is not displayed",getDriver().findElement(noAppointmentsErrorMessage(errorMessage)).isDisplayed());
         buttonGoBack().click();
         waitUntil(ExpectedConditions.visibilityOfElementLocated(calendarText()));
     }
@@ -445,7 +445,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private List<WebElement> getReAssignLink(){ return getDriver().findElements(By.xpath("//span[text()='Re-assign appointments']")); }
     private WebElement newAssigneeButton(){ return getDriver().findElement(By.xpath("//div[text()='Select new assignee']")); }
     private WebElement disabledNewAssigneeDropdown(){ return getDriver().findElement(By.cssSelector("div[class='ui disabled selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC'][aria-disabled='true']")); }
-    public List<WebElement> getUsers() { return getDriver().findElements(By.cssSelector("div[class='menu transition visible']>div")); }
+    public List<WebElement> getUsers() { return getDriver().findElements(By.cssSelector("div[class='visible menu transition']>div")); }
     private WebElement selectStaffMemberButton(){ return getDriver().findElement(By.xpath("//div[text()='Select staff member']")); }
     private WebElement showMoreButtonInReassignAppointments(){ return button("Show More"); }
     private WebElement reAssignAppointments(){ return link("Re-assign appointments"); }
@@ -481,4 +481,7 @@ public class ReassignAppointmentsPageImpl extends RepVisitsPageImpl {
     private WebElement selectInActiveUserInSelectNewAssignee(String user){return getDriver().findElement(By.xpath("//div/div[text()='Select new assignee']/following-sibling::div/div//span[text()='Inactive User']/preceding-sibling::div[text()='"+user+"']"));}
     private List<WebElement> selectedUserInSelectNewAssignee(String user){return getDriver().findElements(By.xpath("//div[@class='ui selection dropdown staffSelect _1fyAdfnHhLDFoE1OCXnbCC']/div[text()='"+user+"']"));}
     private WebElement getUserFromDropdown(int index){ return getDriver().findElement(By.cssSelector("div[class='menu transition visible']>div:nth-of-type("+index+")")); }
+    private By noAppointmentsErrorMessage(String errorMessage){
+        return By.xpath("//div//span[contains(text(),'"+errorMessage+"')]");
+    }
 }
