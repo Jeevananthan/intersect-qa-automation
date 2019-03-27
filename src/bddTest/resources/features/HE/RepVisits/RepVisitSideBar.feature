@@ -52,6 +52,7 @@
       Then HS I verify Fair unpublished message on the repvisits sidebar
       And HS I Click on the "Close" button in the success page of the college fair
       And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
+      And  HS I successfully sign out
 
       Given HE I am logged in to Intersect HE as user type "administrator"
       When  I navigate to Counselor Community page
