@@ -13,6 +13,8 @@ public class LoginPageStepDefs implements En {
 
         Given("^HE I am logged in to Intersect HE as user type \"([^\"]*)\"$",loginPage::defaultLogin);
 
+        Given("^HEM I am logged in to Intersect HEM as user type \"([^\"]*)\"$",loginPage::defaultHEMLogin);
+
         Given("^HE I want to request for a New User account via the Request User Account page$",loginPage::createNewUser);
 
         Given("^HE I am prevented from logging in as user type \"([^\"]*)\"$",loginPage::failedLogin);

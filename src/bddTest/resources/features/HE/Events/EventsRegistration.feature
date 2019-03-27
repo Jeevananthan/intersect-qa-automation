@@ -7,9 +7,9 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     When HE I open the Events list
     And HE I create and publish a new event with the following details:
       | Event Name | TestEventAttendees65778 |
-      | Event Start | 13-31-2018;10:00AM |
+      | Event Start | 14;10:00AM |
       | Max Attendees | 30 |
-      | RSVP Deadline | 13-30-2018;10:00AM |
+      | RSVP Deadline | 7;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I verify that the Attendees tab in the event of name "TestEventAttendees65778" is opened by clicking the attendee status bar/students area
@@ -23,9 +23,9 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     When HE I open the Events list
     And HE I create and publish a new event with the following details:
       | Event Name | TestEventAttendees2 |
-      | Event Start | 13-31-2018;10:00AM |
+      | Event Start | 14;10:00AM |
       | Max Attendees | 30 |
-      | RSVP Deadline | 13-30-2018;10:00AM |
+      | RSVP Deadline | 7;10:00AM |
       | EVENT LOCATION BY POSITION       | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     Then HE I verify that the Attendees tab in the event of name "TestEventAttendees2" is opened by clicking the Attendees option in the edit menu

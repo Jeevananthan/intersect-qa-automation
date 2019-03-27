@@ -138,7 +138,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 
     Examples:
       |College Fair Name           |Date            |RSVP Deadline   |Start Time |End Time |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Attendees          |VerifyDate       |instructionsforCollegeRepresentatives|Name                     |Contact                      |Notes|Status   |Action|cancellationMessage             |buttonToClickNo,go back|buttonToClickYes, cancel visit|StatusCanceled  |ActionCanceled |
-      |QA Fair Cancel Fair Attendee|3               |2               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|3                |                                     |PurpleHE Automation      |PurpleHE Automation          |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
+      |QA Fair Cancel Fair Attendee|2               |1               |0500AM     |0600AM   |$25 |25                    |100                        |Save         |PurpleHE Automation|1                |                                     |PurpleHE Automation      |PurpleHE Automation          |     |Attending|yes   |QA Test for canceling Attendees |No, go back            |Yes, cancel visit             |Canceled        |               |
 
   @MATCH-1775
   Scenario: As a High School Community user, I want to be able to cancel my college fair and notify attendees
@@ -179,7 +179,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
 
   Examples:
     |CollegeFairName      |Date            |StartTime|EndTime|RSVPDate        |Cost  |MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|date        |CollegesRegistered   |RSVPBy	    |Time             |ViewDetails|
-    |QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |3           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
+    |QA Test Fair Overview|3               |1012AM   |1112AM |2               |$25   |25                 |100                     |Save         |2           |0 of 25 spots filled |2             |10:12am - 11:12am|Yes        |
 
   @MATCH-1937
   Scenario: As a high school RepVisits user, I want to be able to specify who is notified of changes to college fairs,
@@ -254,7 +254,7 @@ Feature: HS - RepVisits - CollegeFair - As an HS user, I should be able to manag
   Scenario: As a HS RepVisits user,
   I need to be able to access all college fairs from the dashboard
   So i know what's upcoming and can see previous fairs' data.
-    Given HS I am logged in to Intersect HS as user type "HSadmin1"
+    Given HS I am logged in to Intersect HS as user type "HSadmin"
     Then HS I create a dynamic College Fair with the following data
       | College Fair Name                                         | MATCH-2080 Fair         |
       | Automatically Confirm Incoming Requestions From Colleges? | no                      |

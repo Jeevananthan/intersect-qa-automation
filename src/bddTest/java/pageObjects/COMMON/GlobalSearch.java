@@ -477,7 +477,7 @@ public class GlobalSearch extends SeleniumBase {
         String searchPageURL = getDriver().getCurrentUrl();
         doSearch(searchRequest);
         waitUntilPageFinishLoading();
-        selectResult(searchRequest);
+        selectSearchedResult(searchRequest);
         waitUntilPageFinishLoading();
         String searchResultsURL = getDriver().getCurrentUrl();
         Assert.assertNotEquals("Real-time search option was not clickable/actionable",searchPageURL,searchResultsURL);
@@ -934,6 +934,30 @@ public class GlobalSearch extends SeleniumBase {
                     Assert.fail(categoryTab + " is not a valid search tab.  Valid categories: People, Institutions, or Groups");
             }
         }
+    }
+
+    public void selectSearchedResult(String optionToSelect) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='global-search-box-results']")));
+        waitUntil(ExpectedConditions.elementToBeClickable(By.cssSelector("div[id='global-search-box-results']")));
+
+        boolean institutionsReturned = false;
+        boolean institutionClickedOn = false;
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.name div.name")));
+        String sectionName = getDriver().findElement(By.cssSelector("div.name div.name")).getText();
+        if (sectionName.equalsIgnoreCase("HE Accounts") || sectionName.equalsIgnoreCase("College Core") || sectionName.equalsIgnoreCase("People")
+                || sectionName.equalsIgnoreCase("Institutions") || sectionName.equalsIgnoreCase("HS Accounts")) {
+            institutionsReturned = true;
+            List<WebElement> options = getDriver().findElements(By.className("result"));
+            for (WebElement option : options) {
+                if (option.findElement(By.className("title")).getText().toLowerCase().contains(optionToSelect.toLowerCase())) {
+                    option.click();
+                    institutionClickedOn = true;
+                    waitUntilPageFinishLoading();
+                }
+            }
+        }
+        Assert.assertTrue("No HE Institutions where returned on the search", institutionsReturned);
+        Assert.assertTrue("Unable to click on " + optionToSelect, institutionClickedOn);
     }
 
     //Getters
