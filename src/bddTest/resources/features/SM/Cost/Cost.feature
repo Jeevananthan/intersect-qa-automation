@@ -30,7 +30,7 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
   Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results, I want to see
   the actual cost data for the college so I can clearly see what matched/did not match/partially matched
   Maximum Tuition & Fees
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4247-00"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -58,7 +58,7 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
   Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results, I want to see
   the actual cost data for the college so I can clearly see what matched/did not match/partially matched
   Maximum Tuition & Fees for Home state
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4247-01"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -87,7 +87,7 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
   Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results, I want to see
   the actual cost data for the college so I can clearly see what matched/did not match/partially matched
   Maximum Total Cost
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4247-02"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -113,7 +113,7 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
   Scenario: 03 As a HS student viewing the Why drawer of a particular college in my search results, I want to see
   the actual cost data for the college so I can clearly see what matched/did not match/partially matched
   Maximum Total Cost for home state
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4247-03"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list

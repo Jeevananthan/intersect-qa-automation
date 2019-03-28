@@ -895,7 +895,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
   the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
   next time I access SuperMatch and don't have to start my search over again.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4051"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
@@ -906,7 +906,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
     Then SM I log out of SuperMatch and close the browser
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4051"
     And I clear the onboarding popups if present
     Then SM I verify that the Must Have box contains "Learning Differences Support"
     Then SM I verify that the Nice to Have box contains "Tutoring Services"

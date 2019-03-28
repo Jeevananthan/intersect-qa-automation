@@ -14,7 +14,7 @@ Feature: SM - LinksToCollegeProfiles - LinksToCollegeProfiles - As a SuperMatch 
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     Then SM I verify the College Profile page for "Bates College" in the following sections:
       | Search results         |
       | Why? drawer            |

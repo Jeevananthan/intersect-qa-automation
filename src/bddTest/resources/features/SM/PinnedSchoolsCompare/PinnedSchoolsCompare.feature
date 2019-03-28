@@ -16,7 +16,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
     Then SM I verify that "10" drawers are displayed
@@ -42,7 +42,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
     And SM I export the data in the Pinned Schools Compare screen
@@ -107,19 +107,22 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
   @MATCH-3448 @concurrency
   Scenario: 00 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "3448-00"
     And I clear the onboarding popups if present
     And SM I clear all the pinned college
     And SM I search for "The University of Alabama" college in search bar
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Ohio               |
     And SM I favorite the school "The University of Alabama"
     And SM I open the Pinned Schools Compare screen
     And SM I verify the following things for pinned college
       | FAVORITED | The University of Alabama | this.is.another.testing3.net,39:30 | PINNED |
 
-  @MATCH-3448
+  @MATCH-3448 @concurrency
   Scenario: 01 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "3448-01"
     And I clear the onboarding popups if present
     And SM I clear all the pinned college
     And SM I search for "Curtis Institute of Music" college in search bar
