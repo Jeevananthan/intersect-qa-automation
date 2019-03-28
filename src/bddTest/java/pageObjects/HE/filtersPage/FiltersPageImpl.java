@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
@@ -50,7 +51,8 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         List<List<String>> filterData = newFilterData.asLists(String.class);
         fillFilterForm(filterData);
         saveFilterButton().click();
-        waitUntilPageFinishLoading();
+        try{
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(createFilter()));
         if(driver.findElements(By.cssSelector(filterNameUniqueErrorMessageLocator)).size() > 0) {
             softly().assertThat(false).as("A filter with the same name already exists.");
             if (driver.findElements(By.cssSelector(createFilterCancelButtonLocator)).size() > 0) {
@@ -59,6 +61,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                 eventsPage.getEventsTab("Filters");
             }
         }
+        }catch (Exception e){}
     }
 
     public void clickCreateFilter() {
@@ -195,8 +198,11 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFilterOfGenNameIsDefaultInEventAudience() {
-        Assert.assertTrue("The filter " + world.string + " is not displayed in the Event Audience field.",
-                eventsPage.audienceField().getAttribute("value").equals(world.string));
+        waitForUITransition();
+        moveToElement(eventsPage.audienceField());
+        eventsPage.audienceField().click();
+        eventsPage.audienceField().click();
+        Assert.assertTrue("The filter " + world.string + " is not displayed in the Event Audience field.",filterName().isDisplayed());
     }
 
     public void deleteFilterOfGenName() {
@@ -247,4 +253,12 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private List<WebElement> filterSize(String filterName) { return driver.findElements(By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]")); }
     private By filter(String filterName) { return By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]"); }
     public By eventsHeader() { return By.xpath("//main//div//a"); }
+    private void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
+    private WebElement filterName(){
+        return getDriver().findElement(By.xpath("//td/div[text()='"+world.string+"']"));
+    }
+    private By createFilter(){return By.xpath("//span[text()='Create filter']");}
 }

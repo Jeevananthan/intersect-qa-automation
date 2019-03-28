@@ -423,7 +423,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
             clickSaveSearchButton();
             String randomSearchName = counter + "Search" + Integer.toString(new Random().nextInt(9999));
             searchPage.saveSearchWithName(randomSearchName);
-            searchPage.verifyConfirmationMessage();
+            //searchPage.verifyConfirmationMessage();
             verifySavedSearchInDropdown(randomSearchName);
             counter++;
             searchPage.unsetResourcesCriteria(res);
@@ -438,7 +438,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
             clickSaveSearchButton();
             String randomSearchName = counter + "Search" + Integer.toString(new Random().nextInt(9999));
             searchPage.saveSearchWithName(randomSearchName);
-            searchPage.verifyConfirmationMessage();
+            //searchPage.verifyConfirmationMessage();
             verifySavedSearchInDropdown(randomSearchName);
             counter++;
             saveSearchNeedToCreate--;
@@ -662,12 +662,14 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addCollegeToImThinkingAboutList(String collegeName) {
-        gotToCollegesImThinkingAboutList();
+
         try {
+            gotToCollegesImThinkingAboutList();
             link("Add Colleges to List").click();
         } catch (WebDriverException e) {
             if (driver.findElements(By.cssSelector(connectorCloseIconLocator)).size() > 0) {
             driver.findElement(By.cssSelector(connectorCloseIconLocator)).click();
+                gotToCollegesImThinkingAboutList();
                 link("Add Colleges to List").click();
             }
         }
@@ -688,10 +690,13 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         lookByDropdown.selectByVisibleText("Keyword");
         lookupByNameField().sendKeys(collegeName);
         button("Go").click();
+        waitUntil(ExpectedConditions.visibilityOf(heartIconInList(collegeName)));
         if (heartIconInList(collegeName).getAttribute("aria-label").equals("Unfavorite")) {
             heartIconInList(collegeName).click();
+            waitUntilPageFinishLoading();
             waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Favorite"));
         }
+        waitUntilPageFinishLoading();
     }
 
     public void goToCollegesLookingForStudentsLikeYou() {
@@ -789,5 +794,5 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private WebElement lookupByNameField() { return driver.findElement(By.cssSelector("input[name='name']")); }
     private WebElement heartIconInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/preceding-sibling::button")); }
     private WebElement getCollegeMatchTab(String tabName) { return driver.findElement(By.xpath("//div//a[text() = '" + tabName + "']")); }
-    private String connectorCloseIconLocator = "i.close.icon";
+    public String connectorCloseIconLocator = "i.close.icon";
 }

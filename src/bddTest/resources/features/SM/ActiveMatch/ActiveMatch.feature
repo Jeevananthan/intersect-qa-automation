@@ -432,7 +432,7 @@ Feature: SM - ActiveMatch Next Gen
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5485
+  @MATCH-5485 @AMNG
   Scenario: As a student I do not want to see duplicate matches on College Match so I am not confused.
     #Clean existing subscriptions and create new ones
     Given SP I am logged in to the Admin page as an Admin user
