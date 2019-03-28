@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HE.eventsPage.EventsPageImpl;
@@ -50,7 +51,8 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
         List<List<String>> filterData = newFilterData.asLists(String.class);
         fillFilterForm(filterData);
         saveFilterButton().click();
-        waitUntilPageFinishLoading();
+        try{
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(createFilter()));
         if(driver.findElements(By.cssSelector(filterNameUniqueErrorMessageLocator)).size() > 0) {
             softly().assertThat(false).as("A filter with the same name already exists.");
             if (driver.findElements(By.cssSelector(createFilterCancelButtonLocator)).size() > 0) {
@@ -59,6 +61,7 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
                 eventsPage.getEventsTab("Filters");
             }
         }
+        }catch (Exception e){}
     }
 
     public void clickCreateFilter() {
@@ -86,13 +89,25 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteFilter(String filterName) {
-        threePointsMenu(filterName).click();
-        threePointsMenuElement("Delete").click();
-        deleteConfirmationButton().click();
-        //added below wait instead of waitForUITransition
-         waitUntilPageFinishLoading();
-        //Commenting the below line to increase the performance
-        //waitForUITransition();
+        int filter;
+       try{
+           waitUntil(ExpectedConditions.visibilityOfElementLocated(filter(filterName)));
+           filter = filterSize(filterName).size();
+           if (filter > 0) {
+               threePointsMenu(filterName).click();
+               threePointsMenuElement("Delete").click();
+               deleteConfirmationButton().click();
+               waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
+           }
+       }catch (Exception e) {
+           filter = filterSize(filterName).size();
+           if (filter > 0) {
+               threePointsMenu(filterName).click();
+               threePointsMenuElement("Delete").click();
+               deleteConfirmationButton().click();
+               waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
+           }
+       }
     }
 
     public void renameFilter(String originalName, String newName) {
@@ -183,8 +198,11 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFilterOfGenNameIsDefaultInEventAudience() {
-        Assert.assertTrue("The filter " + world.string + " is not displayed in the Event Audience field.",
-                eventsPage.audienceField().getAttribute("value").equals(world.string));
+        waitForUITransition();
+        moveToElement(eventsPage.audienceField());
+        eventsPage.audienceField().click();
+        eventsPage.audienceField().click();
+        Assert.assertTrue("The filter " + world.string + " is not displayed in the Event Audience field.",filterName().isDisplayed());
     }
 
     public void deleteFilterOfGenName() {
@@ -232,4 +250,15 @@ public class FiltersPageImpl extends PageObjectFacadeImpl {
     private String filterNameUniqueErrorMessageLocator = "div.ui.error.message span";
     private String createFilterCancelButtonLocator = "form.ui.small.form button.ui.basic.right.floated.button span";
     private String filterNameLocator(String filterName) { return "//strong[text() = '" + filterName + "']";}
+    private List<WebElement> filterSize(String filterName) { return driver.findElements(By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]")); }
+    private By filter(String filterName) { return By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]"); }
+    public By eventsHeader() { return By.xpath("//main//div//a"); }
+    private void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
+    private WebElement filterName(){
+        return getDriver().findElement(By.xpath("//td/div[text()='"+world.string+"']"));
+    }
+    private By createFilter(){return By.xpath("//span[text()='Create filter']");}
 }

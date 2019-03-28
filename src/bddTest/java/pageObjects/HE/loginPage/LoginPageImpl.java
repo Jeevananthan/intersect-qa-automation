@@ -51,6 +51,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         login(username, password);
     }
 
+    //Log in as an HE administrator
+    public void defaultHEMLogin(String usertype) {
+        String username = GetProperties.get("hem."+ usertype + ".username");
+        String password = GetProperties.get("hem."+ usertype + ".password");
+        login(username, password);
+    }
+
     /**
      * Login actions, fill textboxes and click on login button
      * @param username

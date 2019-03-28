@@ -1081,11 +1081,16 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void clearAllPillsFromMustHaveAndNiceToHaveBox(){
         clearSuperMatchToast();
         List<WebElement> allPills = getAllPillsCloseIcon();
-        for (WebElement singlePill : allPills) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
-            wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
+        if (allPills.size() > 0) {
+            startOverButton().click();
+            yesStartOverLink().click();
         }
-        waitUntilElementExists(selectCriteriaButton1());
+        //for (WebElement singlePill : allPills) {
+        //    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", singlePill);
+        //    wait.until(ExpectedConditions.elementToBeClickable(singlePill)).click();
+        //}
+        waitUntil(ExpectedConditions.numberOfElementsToBe((By.xpath("//button[text()='Select Criteria To Start']")),3));
+        //waitUntilElementExists(selectCriteriaButton1());
     }
 
     /**The below method is to check after clicking on Select Criteria To Start Buttons is opening Location fit criteria */
@@ -2327,8 +2332,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
                 + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
         WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
                 + "']/../../../../following-sibling::tr[2]"));
+        clearSuperMatchToast();
         scrollDown(nextCollege);
-        whyButtonForCollege.click();
+        jsClick(whyButtonForCollege);
     }
 
     public void verifyCheckboxIsDisplayed(String checkboxText) {
@@ -2405,20 +2411,33 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
      * @param delta : date to select
      */
     public void setDate(String delta){
-        Calendar cal = getDeltaDate(Integer.parseInt(delta));
+        Calendar cal;
+        if (delta.length() > 2) {
+            String date[] = delta.split("/");
+            cal = Calendar.getInstance();
+            cal.set(Integer.parseInt(date[2]),Integer.parseInt(date[0])-1,Integer.parseInt(date[1]));
+        } else {
+            cal = getDeltaDate(Integer.parseInt(delta));
+        }
 
         String month = getMonth(cal);
         String dateNo = getDay(cal);
         if (dateNo.startsWith("0"))
             dateNo = dateNo.substring(1);
+
         String year = getYear(cal);
-        Select selectYear = new Select(driver.findElement(By.id("year-select")));
-        selectYear.selectByVisibleText(year);
+        //Select selectYear = new Select(driver.findElement(By.id("year-select")));
+        //selectYear.selectByVisibleText(year);
 
-        Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        selectMonth.selectByVisibleText(month);
+        while (!superMatchCalendarWidgetMonthHeading().getText().equalsIgnoreCase(month)) {
+            logger.info("Calendar Heading: "+superMatchCalendarWidgetMonthHeading().getText() +" -- Expected Month: " +month);
+            superMatchCalendarWidgetNextArrow().click();
+        }
 
-        WebElement dateTemp = getDriver().findElement(By.xpath("//div[text()='"+dateNo+"']"));
+        //Select selectMonth = new Select(driver.findElement(By.id("month-select")));
+        //selectMonth.selectByVisibleText(month);
+
+        WebElement dateTemp = getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='"+dateNo+"']"));
         dateTemp.click();
     }
 
@@ -2429,8 +2448,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     public void clearGPASATACTScores() {
 
+        gpaTextBox().clear();
         gpaTextBox().sendKeys("0");
+        satScoreTextBox().clear();
         satScoreTextBox().sendKeys("1");
+        actScoreTextBox().clear();
         actScoreTextBox().sendKeys("0");
         actScoreTextBox().sendKeys(Keys.TAB);
         waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".triangle.supermatch-error-icon"),2));
@@ -3020,6 +3042,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement getApplyingToValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Applying To']/div")); }
     private WebElement getThinkingAboutValue() { return getDriver().findElement(By.xpath("//div[@aria-label='Thinking About']/div")); }
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }
+    private WebElement superMatchCalendarWidget() { return getDriver().findElement(By.xpath("//button[contains(@class,'supermatch-application-deadline-date-picker-trigger')]")); }
+    private WebElement superMatchCalendarWidgetMonthHeading() { return getDriver().findElement(By.xpath("//div[@class='DayPicker-Caption']/div")); }
+    private WebElement superMatchCalendarWidgetNextArrow() { return getDriver().findElement(By.xpath("//div[@class='DayPicker-NavBar']/span[contains(@class,'DayPicker-NavButton--next')]")); }
     private WebElement clearCalendarIconButton() { return driver.findElement(By.className("supermatch-application-deadline-clear-icon")); }
 
 
@@ -3101,8 +3126,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     }
     private WebElement selectCriteriaButton1() {
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
+        // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // (//button[text()='Select Criteria To Start'])[2]
-        return driver.findElement(By.xpath("//div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']"));
+        return driver.findElement(By.xpath("//button[text()='Select Criteria To Start']"));
+    }
+
+    private List<WebElement> selectCriteriaButtons() {
+        return getDriver().findElements(By.xpath("//button[text()='Select Criteria To Start']"));
     }
     private WebElement selectCriteriaInstructionalText() {
         return driver.findElement(By.xpath("//div[@class='computer only four wide column']//p"));
@@ -3406,9 +3436,9 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElements(By.xpath("//div[@id='on-campus-housing-dropdown']//span"));
     }
 
-    private WebElement startOverButton() { return driver.findElement(By.cssSelector("button.ui.teal.basic.button.supermatch-start-over-button")); }
+    private WebElement startOverButton() { return driver.findElement(By.xpath("//button[text()='Start Over']")); }
 
-    private WebElement yesStartOverLink() { return driver.findElement(By.cssSelector("div.actions button:not([default=''])")); }
+    private WebElement yesStartOverLink() { return driver.findElement(By.xpath("//button[text()='Yes, Start Over']")); }
 
     private WebElement noCancelLink() { return driver.findElement(By.cssSelector("div.actions button[default='']")); }
 

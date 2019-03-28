@@ -190,7 +190,7 @@
                 </property>
             </activation>
             <properties>
-                <cucumber.options>--tags @SM --tags ~@ignore --tags ~@NotInQA</cucumber.options>
+                <cucumber.options>--tags @SM --tags ~@ignore --tags ~@NotInQA --tags ~@DataMissing</cucumber.options>
             </properties>
             <build>
                 <plugins>

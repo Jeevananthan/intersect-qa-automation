@@ -78,7 +78,7 @@ Feature: HE - Events - ManageEvents - As an HE Events user, I can manage and pub
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
     And HE I successfully sign out
-    When SM I am logged in to SuperMatch through Family Connection as user "benhubs" with password "Hobsons!23" from school "rtsa"
+    When SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I go to College Events from the SuperMatch main menu
     And I look for the host "The University of Alabama"
     Then I sign up for the event of generated name

@@ -258,7 +258,7 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5929 @MATCH-5154
+  @MATCH-5929 @MATCH-5154 @concurrency
   Scenario: HS student's in Naviance student are seeing the connector for the same institution automagically popup for
   them more than once, which is against the rules.
 
