@@ -3037,6 +3037,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<String> list = dataTable.asList(String.class);
         for(String fields:list){
             dropdownInSearchAndSchedule().click();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+fields+"']")));
             Assert.assertTrue(fields+" is not displayed in the dropdown",getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
             getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
             Assert.assertTrue(fields+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/span[text()='"+fields+"']")).isDisplayed());
@@ -3286,8 +3287,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyInternationalSchoolsListIsNotDisplayedforFreemium(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("user-dropdown")));
         getDriver().get(currentURL);
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("user-dropdown")));
         waitUntil(ExpectedConditions.numberOfElementsToBe(searchResult(),0));
         List<WebElement> results = getDriver().findElements(searchResult());
         Assert.assertTrue("International school list is displayed",results.size()==0);
