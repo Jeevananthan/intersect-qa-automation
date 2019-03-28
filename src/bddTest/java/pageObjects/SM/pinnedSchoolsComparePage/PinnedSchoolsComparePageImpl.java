@@ -226,13 +226,14 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         navigation.closeNewTabAndSwitchToOriginal(originalHandle);
     }
 
-    public void unpinSchool(String collegeName) {
+    public void unpinSchoolFromCompareSchools(String collegeName) {
         searchPage.scrollDown(exportButton());
-        if (pinLink(collegeName).getText().contains("PINNED")) {
-            pinLink(collegeName).click();
-            waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(pinLinkLocator(collegeName)), 0));
-            waitUntilPageFinishLoading();
-        }
+        pinnedLink(collegeName).click();
+       // if (pinLink(collegeName).getText().contains("PINNED")) {
+       //     pinLink(collegeName).click();
+       //     waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(pinLinkLocator(collegeName)), 0));
+       //     waitUntilPageFinishLoading();
+       // }
     }
 
     public void clickExportButton() {
@@ -618,13 +619,13 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.cssSelector("td[aria-label=\"Student Life Clubs & Organizations\"] + td a"));
     }
 
-    private WebElement pinLink(String collegeName) {
-        return driver.findElement(By.xpath(pinLinkLocator(collegeName)));
+    private WebElement pinnedLink(String collegeName) {
+        return driver.findElement(By.xpath("//a[@class='college-name-profile-label' and text() = '"+collegeName+"']/..//a[@class='supermatch-college-action-pin-to-compare']"));
     }
 
-    private String pinLinkLocator(String collegeName) {
-        return "//p[@class='collegename' and text() = '" + collegeName + "']/../div/p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']";
-    }
+   // private String pinLinkLocator(String collegeName) {
+   //     return "//p[@class='collegename' and text() = '" + collegeName + "']/../div/p/a/span[@class = 'supermatch-toggle-icon supermatch-college-button-selected']";
+   // }
 
     private WebElement exportButton() {
         return driver.findElement(By.cssSelector("a.ui.teal.basic.button"));
