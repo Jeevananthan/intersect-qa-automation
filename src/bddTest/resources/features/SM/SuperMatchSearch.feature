@@ -261,7 +261,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-4350
   Scenario: As a HS student, if I pin the 26th school from the Why? drawer, an error message should be displayed
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4350"
     And I clear the onboarding popups if present
     Then SM I clear pinned schools list
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
@@ -357,7 +357,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
 
-  @MATCH-4348
+  @MATCH-4348 @unnecessary @NotInQA
   Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present

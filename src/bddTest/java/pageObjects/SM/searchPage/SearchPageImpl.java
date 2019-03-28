@@ -3123,7 +3123,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // (//button[text()='Select Criteria To Start'])[2]
-        return driver.findElement(By.xpath("//button[text()='Select Criteria To Start']"));
+        return driver.findElement(By.xpath("//div[contains(@class,'computer')]//button[text()='Select Criteria To Start']"));
     }
 
     private List<WebElement> selectCriteriaButtons() {

@@ -107,7 +107,7 @@ Feature: SM - ActiveMatch Next Gen
       And HE I click the link "Advanced Awareness"
       And SP I delete all the subscriptions for school
 
-  @MATCH-5004
+  @MATCH-5004 @DataMissing
   Scenario: As a Naviance Student student user, I'd like to see why I matched with an HE institution who has
   an Advanced Awareness subscription configuration, because I am interested in a particular major.
     Given SP I am logged in to the Admin page as an Admin user
