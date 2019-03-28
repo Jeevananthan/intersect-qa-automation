@@ -2,9 +2,11 @@ package pageObjects.SM.collegesImThinkingAbout;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
+import pageObjects.SM.superMatchPage.FCSuperMatchPageImpl;
 
 public class CollegesImThinkingAboutPageImpl extends PageObjectFacadeImpl {
 
@@ -13,17 +15,32 @@ public class CollegesImThinkingAboutPageImpl extends PageObjectFacadeImpl {
     }
 
     private Logger logger;
+    FCSuperMatchPageImpl fcSuperMatchPage = new FCSuperMatchPageImpl();
 
     public void removeCollegeFromImThinkingAboutList(String collegeName) {
         waitUntilPageFinishLoading();
         link("/colleges").click();
         button("Research Colleges").click();
         link("I'm Thinking About").click();
+        waitForUITransition();
         if (driver.findElements(By.xpath(collegeCheckBoxInListLocator(collegeName))).size() > 0) {
-            collegeCheckBoxInList(collegeName).click();
-            removeButton().click();
-            removeButtonInModal().click();
-            waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(confirmationBanner), 0));
+            try {
+                collegeCheckBoxInList(collegeName).click();
+                removeButton().click();
+                removeButtonInModal().click();
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(confirmationBanner), 0));
+            } catch (WebDriverException e) {
+                if (driver.findElements(By.cssSelector(fcSuperMatchPage.connectorCloseIconLocator)).size() > 0) {
+                    driver.findElement(By.cssSelector(fcSuperMatchPage.connectorCloseIconLocator)).click();
+                }
+                collegeCheckBoxInList(collegeName).click();
+                removeButton().click();
+                removeButtonInModal().click();
+                waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(confirmationBanner), 0));
+            }
+        }
+        if (driver.findElements(By.cssSelector(fcSuperMatchPage.connectorCloseIconLocator)).size() > 0) {
+            driver.findElement(By.cssSelector(fcSuperMatchPage.connectorCloseIconLocator)).click();
         }
     }
 
