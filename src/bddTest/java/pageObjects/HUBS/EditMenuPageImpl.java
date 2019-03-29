@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageObjects.COMMON.PageObjectFacadeImpl;
@@ -39,7 +40,8 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
                 break;
             case "Admissions" : admissionsButton().click();
                 break;
-            case "GPA" : gpaButton().click();
+            case "GPA" : moveToElement(gpaButton());
+                jsClick(gpaButton());
                 break;
         }
         logger.info(label + " button was clicked");
@@ -65,6 +67,7 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
             if(errorMessage.equals("Please use a GPA between 0.1 and 4.0")) {
                 switch (row.get(0)) {
                     case "25th Percentile (visible only in SuperMatch)":
+                        waitUntil(ExpectedConditions.visibilityOfElementLocated(gpaPercentileTextBox()));
                         gpa25PercentileTextBox().clear();
                         gpa25PercentileTextBox().sendKeys(row.get(1));
                         Assert.assertTrue("The error message is incorrect. UI: " + gpa25PercentileError().getText(), gpa25PercentileError().getText().equals(errorMessage));
@@ -89,6 +92,7 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
         for(List<String> row : details) {
             switch (row.get(0)) {
                 case "25th Percentile (visible only in SuperMatch)" :
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(gpaPercentileTextBox()));
                     gpa25PercentileTextBox().clear();
                     gpa25PercentileTextBox().sendKeys(row.get(1));
                     break;
@@ -147,4 +151,9 @@ public class EditMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement gpa75PercentileTextBox() { return driver.findElement(By.cssSelector("input[id $= '-field_he_gpa_75th_percentile']")); }
     private WebElement gpa75PercentileError() { return driver.findElement(By.cssSelector("input[id $= '-field_he_gpa_75th_percentile'] + span")); }
     private WebElement gpaButton() { return driver.findElement(By.cssSelector("field-group[title='GPA'] h3")); }
+    private void moveToElement (WebElement element){
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
+    private By gpaPercentileTextBox() { return By.cssSelector("input[id $= '-field_he_gpa_25th_percentile']"); }
 }
