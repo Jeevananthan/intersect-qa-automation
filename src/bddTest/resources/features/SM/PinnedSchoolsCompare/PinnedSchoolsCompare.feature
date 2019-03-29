@@ -29,7 +29,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I expand the drawer in position "1"
     Then SM I verify that Expand All button changes to "Collapse All" when at least "1" drawer is expanded
 
-  @MATCH-3523
+  @MATCH-3523 @NotInQA
   Scenario: As a HS student that is comparing my pinned schools, I want to export those schools and their data so I can
   view this information outside of SuperMatch.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -46,6 +46,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
     And SM I export the data in the Pinned Schools Compare screen
+    #This does not work when run on the Grid.  Assume changes are needed to handle file interation when running on GridDriver
     Then HE I verify the downloaded ActiveMatch Cvs file "PinnedColleges.csv" contains the following headers
     #The first empty space in the data table is for the first empty cell in the exported document
       | ﻿  |Colorado College|

@@ -190,7 +190,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4406
   Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
   return to the results to continue my college research.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4406"
     And I clear the onboarding popups if present
     Then SM I create till fifteen different save search from Resources tab
     When I select the following data from the Admission Fit Criteria
@@ -368,7 +368,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4745
   Scenario: Verify warning or error message is displayed when the saved search name is blank.
   Also verify the error message when the save search name is a duplicate.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4745"
     And I clear the onboarding popups if present
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
     Then SM I open the Save Search popup
@@ -856,7 +856,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: The 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
   , the bluepurple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
   highest.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4669"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -1079,7 +1079,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
    @MATCH-3447
    Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
              manage my list.
-     Given SM I am logged in to SuperMatch through Family Connection
+     Given SM I am logged in to SuperMatch through Family Connection as user type "3447"
      And I clear the onboarding popups if present
      Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
      Then SM I clear pinned schools list

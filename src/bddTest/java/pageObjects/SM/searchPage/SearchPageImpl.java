@@ -2053,15 +2053,14 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             pinnedDropdown().click();
         }
 
-        //TODO - COMMENTED OUT AS A TEMPORARY FIX FOR PINNED LIST NOT CLEARING PROPERY
-        /*try {
+        try {
             waitUntil(ExpectedConditions.textToBePresentInElement(pinCount(), "0"));
         } catch (Exception ex)
         {
             isPinnedListCleared = false;
         }
 
-        Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);*/
+        Assert.assertTrue("The pinned list is not cleared", isPinnedListCleared);
 
     }
 
@@ -2783,8 +2782,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
                     + "']/../../../../following-sibling::tr"));
             scrollDown(nextCollege);
-            if (favoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
-                favoriteLink.click();
+            if (favoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon']")).isDisplayed()) {
+                jsClick(favoriteLink);
             }
             waitUntilPageFinishLoading();
         } catch (Exception e) {
@@ -2820,7 +2819,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(2);
             WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
-            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon']")).isDisplayed()) {
                 whyDrawerFavoriteLink.click();
             }
             waitUntilPageFinishLoading();
