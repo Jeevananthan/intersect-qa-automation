@@ -288,6 +288,7 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     public void pinCollegeFromBottomSearchResult(String collegeName) {
         searchBar().clear();
         searchBar().sendKeys(collegeName);
+        waitUntilPageFinishLoading();
         waitUntilElementExists(getDriver().findElement(By.xpath("//div[contains(@class,'search-college-by-name-term')]/a[text()[contains(.,'"+collegeName+"')]]")));
         if (getDriver().findElements(By.xpath("//*[text()='" + collegeName + "']/../../div/a/span[text()='PIN']")).size() > 0) {
             String searchedCollegePinString = "//*[text()='" + collegeName + "']/../../div/a/span[text()='PIN']";
@@ -492,6 +493,23 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
         softly().assertThat(2).as("College name is not a hyperlink.").isEqualTo(2);
     }
 
+    public void favSchoolFromPinnedColleges(String college) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(subTitle), 0));
+        //This fixed wait is necessary because the heart icon takes a moment to set its actual status
+        waitForUITransition();
+        searchPage.scrollDown(heartIcon(college));
+        if (heartIcon(college).getAttribute("class").contains("empty")) {
+            heartIcon(college).click();
+        }
+    }
+
+    public void unfavSchoolFromPinnedColleges(String college) {
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(subTitle), 0));
+        if (!heartIcon(college).getAttribute("class").contains("empty")) {
+            heartIcon(college).click();
+        }
+    }
+
     // Locators Below
     private WebElement numberOfCollegeDisplayBar(){ return driver.findElement(By.xpath("//strong[text()[contains(.,'Viewing 5 -')]]"));}
     private WebElement rightArrowInComparePage(){return driver.findElement(By.xpath("//button[@aria-roledescription='Select Next Items']"));}
@@ -630,4 +648,10 @@ public class PinnedSchoolsComparePageImpl extends PageObjectFacadeImpl {
     private WebElement exportButton() {
         return driver.findElement(By.cssSelector("a.ui.teal.basic.button"));
     }
+
+    private WebElement heartIcon(String college) {
+        return driver.findElement(By.xpath("//a[contains(text(), '" + college + "')]/..//i[contains(@class, 'heart')]"));
+    }
+
+    private String subTitle = "//h1[text() = 'An in-depth comparison of your pinned schools']";
 }

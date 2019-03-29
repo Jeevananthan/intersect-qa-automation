@@ -46,4 +46,8 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that no connector dialog is displayed$", connectorPage::verifyNoConnectorIsDisplayed);
 
+        Then("^SM I verify that the URL of the current page contains \"([^\"]*)\"$", connectorPage::verifyStringInURL);
+
+        And("^SM I close the connector with the close icon$", connectorPage::closeConnectorWithCloseIcon);
+
     }}

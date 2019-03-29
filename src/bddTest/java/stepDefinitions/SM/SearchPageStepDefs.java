@@ -379,5 +379,7 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify if pagination buttons are displayed in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsInComparePinnedCollegesPage);
 
         Then("^SM I verify that the college \"([^\"]*)\" pinned from the search box is displayed at the top of the list$", searchPage::verifyCollegeAtTopOfList);
+
+        Then("^SM I verify that the connector banner is displayed$", searchPage::verifyConnectorBannerIsDisplayed);
     }
 }
