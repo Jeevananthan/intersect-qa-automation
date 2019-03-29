@@ -1312,7 +1312,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String handle : driver.getWindowHandles()) {
             driver.switchTo().window(handle);
         }
-
+        waitForUITransition();
         Assert.assertTrue("The Profile Page is not displayed. UI: " + profilePageCollegeName().getText() + ". Data: " + collegeName, profilePageCollegeName().getText().trim().equals(collegeName));
 
         navigation.closeNewTabAndSwitchToOriginal(originalHandle);

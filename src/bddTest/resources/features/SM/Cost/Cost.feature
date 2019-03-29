@@ -21,6 +21,7 @@ Feature: SM - Cost - As a HS student, I need to be able to search for colleges b
   @MATCH-4194
   Scenario: We need to incorporate the word 'annual' or the words 'per year' into the dropdown UI
     Given SM I am logged in to SuperMatch through Family Connection
+    And SM I clear all pills from Must have  and Nice to have boxes
     When SM I open the "Cost" tab
     Then SM I verify that the appropriate wording is used for dropdowns of the following options:
     | Maximum Tuition and Fees                         | Select Max | per year |

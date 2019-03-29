@@ -129,7 +129,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | ACT Composite   | 3            |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     Then SM I verify the content of the popup that is opened by the Start Over button
     Then SM I verify that the search results remain after clicking the No, Cancel button
     And SM I open the Start Over popup
@@ -377,6 +377,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I cancel the Save Search popup
     #Verify that duplicate names are not allowed
     Then SM I delete the saved search named "duplicatename"
+    Then SM I delete all the saved searches
     Then SM I open the Save Search popup
     Then SM I save the search with the name "duplicatename"
     Then SM I open the Save Search popup

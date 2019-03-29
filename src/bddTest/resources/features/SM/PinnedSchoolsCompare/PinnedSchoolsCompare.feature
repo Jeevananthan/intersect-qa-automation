@@ -4,7 +4,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
   @MATCH-3450
   Scenario: As a HS student that is comparing my pinned schools, I want to expand and collapse buckets of data about my
   pinned colleges so I can control how much data is showing on my screen at a time. (MATCH-4787)
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "3450"
     And I clear the onboarding popups if present
     And SM I start the search over
     Then SM I select the following data from the Location Fit Criteria

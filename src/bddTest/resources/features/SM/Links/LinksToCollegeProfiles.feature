@@ -13,6 +13,9 @@ Feature: SM - LinksToCollegeProfiles - LinksToCollegeProfiles - As a SuperMatch 
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Maine              |
     #The following step is needed to avoid MATCH-4830
     #And SM I reload the page
     Then SM I verify the College Profile page for "Bates College" in the following sections:
@@ -31,6 +34,9 @@ Feature: SM - LinksToCollegeProfiles - LinksToCollegeProfiles - As a SuperMatch 
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |California         |
     #The following step is needed to avoid MATCH-4830
     #And SM I reload the page
     And SM I pin "Pomona College"
