@@ -6624,7 +6624,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private String verifyStartDate() {
-        String startDate = getSpecificDate("-1");
+        String startDate = getSpecificDate("0");
         button(By.cssSelector("button[class='ui button _1RspRuP-VqMAKdEts1TBAC']:nth-child(1)")).click();
         String[] parts = startDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
