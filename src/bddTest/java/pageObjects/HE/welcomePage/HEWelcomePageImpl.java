@@ -91,6 +91,13 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        if(getDriver().findElements(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")).size()==0){
+            load(GetProperties.get("he.community.clear"));
+            waitUntilPageFinishLoading();
+        }
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomeFormLocator()));
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
