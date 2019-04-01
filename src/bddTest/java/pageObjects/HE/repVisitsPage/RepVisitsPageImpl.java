@@ -3043,6 +3043,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         List<String> list = dataTable.asList(String.class);
         for(String fields:list){
             dropdownInSearchAndSchedule().click();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/span[text()='"+fields+"']")));
             Assert.assertTrue(fields+" is not displayed in the dropdown",getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).isDisplayed());
             getDriver().findElement(By.xpath("//div/span[text()='"+fields+"']")).click();
             Assert.assertTrue(fields+" is not displayed",getDriver().findElement(By.xpath("//div/label[text()='"+defaultValue[0]+"']/parent::div/div/span[text()='"+fields+"']")).isDisplayed());
@@ -3275,7 +3276,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyMoreResultButtonInSearchAndSchedulePage(String moreResults){
-        List<WebElement> schoolCount = getDriver().findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
+        List<WebElement> schoolCount = getDriver().findElements(searchResult());
         if(schoolCount.size()>25){
             Assert.assertTrue("More results button is displayed",button(moreResults).isDisplayed());
         }else {
@@ -3292,8 +3293,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyInternationalSchoolsListIsNotDisplayedforFreemium(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("user-dropdown")));
         getDriver().get(currentURL);
-        List<WebElement> results = getDriver().findElements(By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']"));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("user-dropdown")));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(searchResult(),0));
+        List<WebElement> results = getDriver().findElements(searchResult());
         Assert.assertTrue("International school list is displayed",results.size()==0);
     }
 
@@ -5232,6 +5236,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
     private By dateButton(){
         return By.cssSelector("button[class='ui tiny icon right floated right labeled button _1alys3gHE0t2ksYSNzWGgY']");
+    }
+  
+    private By searchResult(){
+      return By.xpath("//td[@class='_2i9Ix-ZCUb0uO32jR3hE3x']");
     }
 }
 
