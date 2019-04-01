@@ -64,8 +64,8 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
       | Automatically Confirm Incoming Requestions From Colleges? | yes                     |
       | Cost                                                      | 10                      |
       | Start Time                                                | 0600AM                  |
-      | Date                                                      | 2                       |
-      | RSVP Deadline                                             | 1                       |
+      | Date                                                      | 14                       |
+      | RSVP Deadline                                             | 7                       |
       | End Time                                                  | 0800AM                  |
       | Max Number of Colleges                                    | 10                      |
       | Number of Students Expected                               | 10                      |
@@ -78,8 +78,8 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HE I open the fairs tab
     Then HE I register to the "PreviouslySetFair" fair from Search and Schedule screen
     Then HE I verify that the message for registered fairs with auto approval is displayed
-    Then HE I verify that the registered fair "PreviouslySetFair" is displayed in the calendar for the date "In 2 days" and time "6:00AM"
-    Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "In 2 days" and time "6:00AM"
+    Then HE I verify that the registered fair "PreviouslySetFair" is displayed in the calendar for the date "In 14 days" and time "6:00AM"
+    Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "In 14 days" and time "6:00AM"
     And HE I successfully sign out
     When HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
@@ -94,7 +94,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
 #    Then HE I register to the "NoAutoApprovals" fair from Search and Schedule screen
 #    Then HE I verify that the message for registered fairs without auto approval is displayed
 #    Then HE I verify that the registered fair is displayed in the calendar for the date "November 17 8:34AM"
-#    Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "November 17 8:34AM"
+#    Then HE I verify that the registered fair is displayed for "Int Qa High School 4" in the Search and Schedule quickview in the date "November 17 2019 8:34AM"
 #    And HE I successfully sign out
 #    When HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
 #    And HS I cancel the fair of name "NoAutoApprovals" with the reason "test"
