@@ -597,20 +597,26 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFairInQuickView(String schoolName, String date, String hour) {
-        if(date.contains("In") && date.contains("day")){
-            int relativeDays =  Integer.parseInt(date.replaceAll("[^0-9]",""));
-            date = getRelativeDate(relativeDays).split(" ")[1]+" "+
-                    getRelativeDate(relativeDays).split(" ")[0]+" "+hour;
-        }
-        boolean result = false;
+        String gotoDate="",Date="";
         navigateToRepVisitsSection("Search and Schedule");
         getSearchBox().sendKeys(schoolName);
         getSearchButton().click();
         selectHighSchoolFromResults(schoolName);
         waitUntilPageFinishLoading();
-        calendarIcon().click();
-        pressMiniCalendarArrowUntil("right", date.split(" ")[0], 10);
-        miniCalendarDayCell(date.split(" ")[1]).click();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(dateButton()));
+        getDriver().findElement(dateButton()).click();
+        if(date.contains("In") && date.contains("day")){
+            int relativeDays =  Integer.parseInt(date.replaceAll("[^0-9]",""));
+            date = getRelativeDate(relativeDays).split(" ")[1]+" "+
+                    getRelativeDate(relativeDays).split(" ")[0]+" "+hour;
+            Date = date.split(" ")[1];
+            int currentDate = Integer.parseInt(Date);
+            gotoDate = getSpecificDate(currentDate,"MMMM d yyyy");
+        }else if (date.length()>2){
+            gotoDate = date.split(" ")[0]+" "+date.split(" ")[1]+" "+date.split(" ")[2];
+        }
+        boolean result = false;
+        setDateFixed(gotoDate);
         waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div.ui.medium.inverted.loader")));
         for (WebElement fairElement : quickViewFairsList()) {
             if (fairElement.getText().contains(schoolName) && fairElement.getText().contains(date.split(" ")[2].toLowerCase())) {
