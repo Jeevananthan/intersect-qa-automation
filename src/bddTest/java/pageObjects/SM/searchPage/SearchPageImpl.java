@@ -1312,7 +1312,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         for (String handle : driver.getWindowHandles()) {
             driver.switchTo().window(handle);
         }
-
+        waitForUITransition();
         Assert.assertTrue("The Profile Page is not displayed. UI: " + profilePageCollegeName().getText() + ". Data: " + collegeName, profilePageCollegeName().getText().trim().equals(collegeName));
 
         navigation.closeNewTabAndSwitchToOriginal(originalHandle);
@@ -2782,8 +2782,8 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + schoolName
                     + "']/../../../../following-sibling::tr"));
             scrollDown(nextCollege);
-            if (favoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
-                favoriteLink.click();
+            if (favoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon']")).isDisplayed()) {
+                jsClick(favoriteLink);
             }
             waitUntilPageFinishLoading();
         } catch (Exception e) {
@@ -2819,7 +2819,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(2);
             WebElement whyDrawerFavoriteLink = whyDrawer().findElement(By.className("supermatch-college-action-favorite"));
-            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon')]")).isDisplayed()) {
+            if (whyDrawerFavoriteLink.findElement(By.xpath("./span/span/i[@class='heart icon']")).isDisplayed()) {
                 whyDrawerFavoriteLink.click();
             }
             waitUntilPageFinishLoading();
@@ -3128,7 +3128,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // //div[contains(@class,'call-to-action')]/button[text()='Select Criteria To Start']
         // (//button[text()='Select Criteria To Start'])[2]
-        return driver.findElement(By.xpath("//button[text()='Select Criteria To Start']"));
+        return driver.findElement(By.xpath("//div[contains(@class,'computer')]//button[text()='Select Criteria To Start']"));
     }
 
     private List<WebElement> selectCriteriaButtons() {

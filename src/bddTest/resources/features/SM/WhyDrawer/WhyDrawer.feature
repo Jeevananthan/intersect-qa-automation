@@ -116,7 +116,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     When SM I click "Student Life" filter criteria tab
     And SM I pick "Business" from the dropdown "sm-filter-search-dropdown"
     And SM I pick "Choir" from the dropdown "sm-filter-search-dropdown"
-    And SM I pick "Gay and Lesbian" from the dropdown "sm-filter-search-dropdown"
+    And SM I pick "LGBTQ+" from the dropdown "sm-filter-search-dropdown"
     And SM I press Why button for the first college in results with score 100%
     Then I check if I can see "Organizations and Clubs [3]" on the page
     And  I check if I can see "The following organizations and clubs are offered:" on the page
