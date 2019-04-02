@@ -244,8 +244,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyRepVisitsLandingPage(){
         getNavigationBar().goToRepVisits();
-        waitUntilElementExists(getSearchAndScheduleHeading());
-        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(searchButton()));
+        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getDriver().findElement(searchButton()).isDisplayed());
     }
 
 
@@ -416,4 +416,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getBackToProfileLink(){
         return getDriver().findElement(backToProfileLinkLocator());
     }
+
+    private By searchButton(){return By.cssSelector("button[aria-label='search-btn']");}
 }
