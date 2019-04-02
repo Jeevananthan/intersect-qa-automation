@@ -34,6 +34,7 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     }
 
     public void clickButtonInConnectDialog(String buttonText) {
+        waitUntilPageFinishLoading();
         connectDialogButton(buttonText).click();
     }
 
@@ -64,7 +65,7 @@ public class CollegesLookingForStudentsLikeYouPageImpl extends PageObjectFacadeI
     private WebElement stepTitle2() { return driver.findElement(By.cssSelector("div.ui.header")); }
     public WebElement stepTitle3() { return driver.findElement(By.cssSelector("div.connect-message h1")); }
     public WebElement yesIDoButton() { return driver.findElement(By.cssSelector(yesIDoButtonLocator)); }
-    private String yesIDoButtonLocator = "button#yesIDoButton";
+    public String yesIDoButtonLocator = "button#yesIDoButton";
     public WebElement noThanksButton() { return driver.findElement(By.cssSelector("button#onCloseButton")); }
     private WebElement submitButton() { return driver.findElement(By.cssSelector("button#submitForm")); }
     public WebElement closeButton() { return driver.findElement(By.cssSelector("button#finishButton")); }

@@ -153,9 +153,9 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyConnectorDialogInURL(String url) {
-        waitUntilElementExists(collegesLookingForStudentsLikeYouPage.yesIDoButton());
-        Assert.assertTrue("The connector dialog was opened in the incorrect page", driver.getCurrentUrl().equals(url));
-        collegesLookingForStudentsLikeYouPage.noThanksButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(collegesLookingForStudentsLikeYouPage.yesIDoButtonLocator), 0));
+        Assert.assertTrue("The connector dialog was opened in the incorrect page: " + driver.getCurrentUrl(), driver.getCurrentUrl().equals(url));
+        waitUntil(ExpectedConditions.elementToBeClickable(collegesLookingForStudentsLikeYouPage.noThanksButton()));
     }
 
     public void verifyConnectionCheckboxes(String checkboxStatus) {
