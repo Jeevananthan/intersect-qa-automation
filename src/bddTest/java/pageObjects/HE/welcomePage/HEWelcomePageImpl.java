@@ -100,6 +100,14 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
     public void clearCommunityProfile(){
         load(GetProperties.get("he.community.clear"));
         waitUntilPageFinishLoading();
+        getNavigationBar().goToRepVisits();
+        communityFrame();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span[class='messages--remove status']+p")));
+        String errorMessage = getDriver().findElement(By.cssSelector("span[class='messages--remove status']+p")).getText();
+        if(errorMessage.contains("This account can't be destroyed")){
+            getNavigationBar().goToRepVisits();
+            waitUntilPageFinishLoading();
+        }
     }
 
     public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle, String euCitizen){
