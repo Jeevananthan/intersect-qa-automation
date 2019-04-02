@@ -124,7 +124,7 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
   Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual admission data for the college so I can clearly see what
   matched/did not match/partially matched Acceptance rate.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4241-00"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I click "Admission" filter criteria tab
@@ -150,7 +150,7 @@ Feature: SM - Admission - Admission - As a HS student, I need to be able to sear
   Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual admission data for the college so I can clearly see what
   matched/did not match/partially matched Application Deadline.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4241-01"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I click "Admission" filter criteria tab

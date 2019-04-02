@@ -4,11 +4,11 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   @MATCH-1582
   Scenario: As an HS user, I want to be able to add/remove time slots
     Given HS I am logged in to Intersect HS as user type "Exceptions"
-    Then HS I clean the visits for particular Month "14"
-    And HS I set a date using "-20" and "20" in Regular Weekly Hours Tab
+    Then HS I clean the visits for particular Month "24"
+    And HS I set a date using "10" and "18" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     When HS I open the Exceptions page
-    And HS I select a date "10" days ahead from now
+    And HS I select a date "12" days ahead from now
     And HS I add a new time slot with the following data:
       | Start time | 07:03 am |
       | End time   | 08:00 am |
@@ -21,8 +21,8 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   @MATCH-1582
   Scenario: As an HS User, I want to be able to clear a day
     Given HS I am logged in to Intersect HS as user type "Exceptions"
-    Then HS I clean the visits for particular Month "14"
-    And HS I set a date using "-30" and "30" in Regular Weekly Hours Tab
+    Then HS I clean the visits for particular Month "24"
+    And HS I set a date using "10" and "18" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     When HS I open the Exceptions page
     And HS I select a date "11" days ahead from now
@@ -30,7 +30,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
       | Start time | 07:04 am |
       | End time   | 08:00 am |
       | Max Visits | 3        |
-    And HS I select a date "11" days ahead from now
+    And HS I select a date "12" days ahead from now
     Then HS I clear the day
     And HS I verify that the time slot was removed from the generated date, with the start time "7:04am"
     And HS I successfully sign out

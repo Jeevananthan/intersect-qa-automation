@@ -588,7 +588,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteAllSavedSearches() {
-        if (driver.findElements(By.cssSelector(disabledSavedSearchesButtonLocator)).size() == 0) {
+        if (driver.findElements(By.xpath(disabledSavedSearchesButtonLocator)).size() == 0) {
             savedSearchesDropdown().click();
             List<WebElement> deleteIconList = driver.findElements(By.cssSelector(savedSearchesListLocator + " + i"));
             savedSearchesDropdown().click();
@@ -781,7 +781,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String gpaTooltipIconInResultsLocator = "td.you-column button.supermatch-tooltip-trigger";
     private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
     private WebElement yesDeleteButton() { return driver.findElement(By.cssSelector("div.actions button.ui.teal.basic.button:nth-of-type(1)")); }
-    private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true']";
+    private String disabledSavedSearchesButtonLocator = "//div[@class='supermatch-saved-searches']/div[@aria-disabled='true']";
     private String letterGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(1)";
     private String percentGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(2)";
     private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";

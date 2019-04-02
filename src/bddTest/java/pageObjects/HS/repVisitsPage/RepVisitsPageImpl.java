@@ -11914,6 +11914,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         return By.cssSelector("input[title=\"start time\"]");
     }
     private  WebElement UnpublishedTextEle(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'success-message-grid')]//p")));
         return driver.findElement(By.xpath("//div[contains(@id,'success-message-grid')]//p"));
     }
 

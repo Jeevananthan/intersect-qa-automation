@@ -129,7 +129,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | ACT Composite   | 3            |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     Then SM I verify the content of the popup that is opened by the Start Over button
     Then SM I verify that the search results remain after clicking the No, Cancel button
     And SM I open the Start Over popup
@@ -190,7 +190,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4406
   Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
   return to the results to continue my college research.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4406"
     And I clear the onboarding popups if present
     Then SM I create till fifteen different save search from Resources tab
     When I select the following data from the Admission Fit Criteria
@@ -261,7 +261,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-4350
   Scenario: As a HS student, if I pin the 26th school from the Why? drawer, an error message should be displayed
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4350"
     And I clear the onboarding popups if present
     Then SM I clear pinned schools list
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
@@ -357,7 +357,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
 
-  @MATCH-4348
+  @MATCH-4348 @unnecessary @NotInQA
   Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
@@ -368,7 +368,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4745
   Scenario: Verify warning or error message is displayed when the saved search name is blank.
   Also verify the error message when the save search name is a duplicate.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4745"
     And I clear the onboarding popups if present
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
     Then SM I open the Save Search popup
@@ -377,6 +377,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I cancel the Save Search popup
     #Verify that duplicate names are not allowed
     Then SM I delete the saved search named "duplicatename"
+    Then SM I delete all the saved searches
     Then SM I open the Save Search popup
     Then SM I save the search with the name "duplicatename"
     Then SM I open the Save Search popup
@@ -855,7 +856,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: The 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
   , the bluepurple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
   highest.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4669"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -895,7 +896,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
   the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
   next time I access SuperMatch and don't have to start my search over again.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4051"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
@@ -906,7 +907,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
     Then SM I log out of SuperMatch and close the browser
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4051"
     And I clear the onboarding popups if present
     Then SM I verify that the Must Have box contains "Learning Differences Support"
     Then SM I verify that the Nice to Have box contains "Tutoring Services"
@@ -1078,7 +1079,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
    @MATCH-3447
    Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
              manage my list.
-     Given SM I am logged in to SuperMatch through Family Connection
+     Given SM I am logged in to SuperMatch through Family Connection as user type "3447"
      And I clear the onboarding popups if present
      Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
      Then SM I clear pinned schools list

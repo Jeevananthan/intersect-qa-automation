@@ -88,8 +88,7 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
 
     Examples:
       |Day              | HourStartTime | HourEndTime| MinuteStartTime| MinuteEndTime | MeridianStartTime | MeridianEndTime | NumVisits  | StartDate            |EndDate           |
-      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
-#      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2018         |August 30 2018      |
+      |Monday           | 1             |02          | 11             | 07             | am                | am              | 3          | August 29 2019         |August 30 2019      |
 
   @MATCH-1574
   Scenario: As a high school staff member,
@@ -145,9 +144,9 @@ Feature:  HS - RepVisits - Availability - As an HS user, I should be able to set
     And HS I successfully sign out
     Examples:
       |StartDate            |EndDate      |
-      |July 19 2018         |July 14 2019 |
-      |August 15 2018       |June 11 2019 |
-      |July 19 2018         |July 14 2019 |
+      |July 19 2019         |July 14 2020 |
+      |August 15 2019      |June 11 2020 |
+      |July 19 2019         |July 14 2020 |
 
   @MATCH-1578 @MATCH-2124
   Scenario: As a HS RepVisits user I want to be able to use the Availability and Settings tab of RepVisits to Set Visit Scheduling

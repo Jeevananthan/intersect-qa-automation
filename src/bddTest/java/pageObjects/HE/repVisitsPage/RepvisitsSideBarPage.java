@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import java.util.Calendar;
 import java.time.format.DateTimeFormatter;
@@ -230,7 +231,8 @@ public class RepvisitsSideBarPage extends PageObjectFacadeImpl {
         return driver.findElements(By.className("_3eg-EWDKKG9GY-4leG7Rcr"));
     }
     private WebElement communityElement(){
-        return driver.findElement(By.xpath("//a[contains(text(),'Feed')]"));
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.cssSelector("ul[id='main-menu']")));
+        return driver.findElement(By.cssSelector("ul[id='main-menu']"));
     }
     private  List<WebElement> allListedFairs(){
         return driver.findElements(By.className("bdmGO6RgPWFfr654p02yx"));
