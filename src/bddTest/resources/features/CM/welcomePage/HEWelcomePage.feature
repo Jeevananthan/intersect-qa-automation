@@ -6,12 +6,12 @@ Feature: HE - Community - Welcome - As an HE User, Prepopulate Community User Pr
             users coming through intersect including all subscription levels and HE user is required to complete the Counselor Community profile page,
             So that I can ensure that all users coming into Intersect have consented to terms, account creation, and specified whether they're an EU citizen.
     #Cleanup steps
-    Then HE I am logged in to Intersect HE as user type "resetAccount"
+    Then HE I am logged in to Intersect HE as user type "resetAccount2"
     And HE I go to the Counselor Community
     And HE I clear the account to get the community welcome page again
     Then HE I successfully sign out
     # Testcase
-    Then HE I am logged in to Intersect HE as user type "resetAccount"
+    Then HE I am logged in to Intersect HE as user type "resetAccount2"
     When HE I verify that I am redirected to the Community activate profile page when accessing RepVisits
     Then HE I verify the new user required to complete the Counselor Community profile form before they can access the following fields
       |Counselor Community|RepVisits|

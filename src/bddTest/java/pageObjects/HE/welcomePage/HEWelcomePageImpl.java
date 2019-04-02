@@ -100,6 +100,8 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
     public void clearCommunityProfile(){
         load(GetProperties.get("he.community.clear"));
         waitUntilPageFinishLoading();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
     }
 
     public void fillCommunityWelcomeMandatoryFields(String OfficePhone, String JobTitle, String euCitizen){
@@ -134,8 +136,8 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
                 case "RepVisits":
                     waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-rep-visits-menu-link")));
                     repVisitsMenuLink().click();
-                    waitUntilElementExists(getSearchAndScheduleHeading());
-                    Assert.assertTrue("Search and schedule tab is not displayed", getSearchAndScheduleHeading().isDisplayed());
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(searchButton()));
+                    Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getDriver().findElement(searchButton()).isDisplayed());
                     break;
                 case "Events":
                     waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-am-events-menu-link")));
@@ -261,4 +263,6 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
     private WebElement editPrivacyInfoLabel(){
         return getDriver().findElement(By.id("edit-cp-privacy-info"));
     }
+
+    private By searchButton(){return By.cssSelector("button[aria-label='search-btn']");}
 }

@@ -27,8 +27,8 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
       |Last Name        |Automation                     |
       |Your institution |The University of Alabama (636)|
 
-
-  @MATCH-1134
+#Ignore this branch , due to the throttle error while updating user details in Account settings page in the qa environment .
+  @MATCH-1134 @ignore
   Scenario: As an HE user, I can update my Account Settings.
     Given HE I am logged in to Intersect HE as user type "updates"
     Then HE I access the Account Settings page
@@ -98,8 +98,8 @@ Feature: HE - Settings - AccountSettings - As an HE user, I should be able to ma
       |limited    |ADMIN    |
       |community  |NON-ADMIN|
 
-
-  @MATCH-3062 @Unstable
+#Ignore this branch , due to the throttle error while updating user details in Account settings page in the qa environment .
+  @MATCH-3062 @Unstable @ignore
   Scenario Outline: As a HE RepVisits User,I need to be able to update my contact information and reset my password
                     So I can effectively manage my RepVisits Account.
 
