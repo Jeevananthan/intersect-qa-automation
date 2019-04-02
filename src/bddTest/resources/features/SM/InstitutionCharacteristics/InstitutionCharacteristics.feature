@@ -33,7 +33,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
   @MATCH-4243
   Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched Institution Type
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4243-00"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I click "Admission" filter criteria tab
@@ -51,7 +51,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
   @MATCH-4243
   Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched High Graduate Rate/High Retention Rate/High Job Placement Rate
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4243-01"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I click "Admission" filter criteria tab
@@ -81,7 +81,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
   @MATCH-4243
   Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched Average class size
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4243-02"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -108,7 +108,7 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
   @MATCH-4243
   Scenario Outline: 03 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched Student Body size
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4243-03"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -136,11 +136,10 @@ Feature: SM - Institution Characteristics - Institution Characteristics - As a H
       | All students                | total students         |
       | Undergraduate students only | undergraduate students |
 
-
   @MATCH-4243
   Scenario: 04 As a HS student viewing the Why drawer of a particular college in my search results, I want clearly see
   what matched/did not match/partially matched On-Campus Housing
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4243-04"
     And SM I skip the onboarding modals
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
