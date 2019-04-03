@@ -798,5 +798,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I verify the date \"([^\"]*)\" is not enabled in edit college fair page$",repVisits::verifyDateIsDisabledInEditCollegeFairPage);
 
+        Then("^HS I create a College Fair using the following data \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$",repVisits::hsCreateCollegeFair);
+
     }
 }

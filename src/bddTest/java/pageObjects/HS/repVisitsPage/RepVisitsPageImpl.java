@@ -9129,6 +9129,86 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Appointment is not displayed", calendarAppointment(startTime, university).isDisplayed());
     }
 
+    public void hsCreateCollegeFair(String collegeFairName, String date, String startTime, String endTime, String RSVPDate, String cost, String maxNumberofColleges, String numberofStudentsExpected, String buttonToClick) {
+        waitUntilPageFinishLoading();
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        WebElement fairs = collegeFairs();
+        waitUntilElementExists(fairs);
+        collegeFairs().click();
+        waitUntilPageFinishLoading();
+        addCollegeButton().click();
+        FairName = randomizeFairName(collegeFairName);
+
+        if (!collegeFairName.equals("")) {
+            Assert.assertTrue("College Fair TextBox is not displayed", collegeFairsNameTextBox().isDisplayed());
+            collegeFairsNameTextBox().sendKeys(FairName);
+        }
+        if (!date.equals("")) {
+            Assert.assertTrue("Date Textbox are not displayed", collegeFairsDateTextBox().isDisplayed());
+            fairsDatePicker().click();
+            setDateForFair(date);
+        }
+        if (!startTime.equals("")) {
+            Assert.assertTrue("Start Time TextBox is not displayed", fairsStartTimeTextBox().isDisplayed());
+            fairsStartTimeTextBox().sendKeys(startTime);
+        }
+        if (!endTime.equals("")) {
+            Assert.assertTrue("End Time TextBox is not displayed", fairsEndTimeTextBox().isDisplayed());
+            fairsEndTimeTextBox().sendKeys(endTime);
+        }
+        if (!RSVPDate.equals("")) {
+            Assert.assertTrue("RSVP Deadline TextBox is not displayed", fairsRSVPDateTextBox().isDisplayed());
+            fairsRSVPDatePicker().click();
+            setDateForFair(RSVPDate);
+        }
+        if (!cost.equals("")) {
+            Assert.assertTrue("Cost TextBox is not displayed", fairsCostTextBox().isDisplayed());
+            fairsCostTextBox().sendKeys(cost);
+        }
+        if (!maxNumberofColleges.equals("")) {
+            Assert.assertTrue("'Max Number of Colleges' TextBox is not displayed", fairsMaxCollegeTextBox().isDisplayed());
+            fairsMaxCollegeTextBox().sendKeys(maxNumberofColleges);
+        }
+        if (!numberofStudentsExpected.equals("")) {
+            Assert.assertTrue("'Number of Students Expected' TextBox is not displayed", fairsExpectedStudentsTextBox().isDisplayed());
+            fairsExpectedStudentsTextBox().sendKeys(numberofStudentsExpected);
+        }
+        // Send a JavaScript click to this control because it will be off-screen.
+        jsClick(fairsAutomaticRequestConfirmation());
+        fairsExpectedStudentsTextBox().sendKeys(Keys.PAGE_DOWN);
+        eMailMessageTextBox().sendKeys(Keys.PAGE_DOWN);
+
+        if (!buttonToClick.equals("")) {
+            if (buttonToClick.equals("Cancel This College Fair")) {
+                Assert.assertTrue("'Cancel This College Fair' Button is not displayed", cancelFairsButton().isDisplayed());
+                cancelFairsButton().click();
+                waitUntilPageFinishLoading();
+            } else if (buttonToClick.equals("Save")) {
+                waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button/span[text()='Save']")));
+                Assert.assertTrue("'Save' Button is not displayed", fairsSaveButton().isDisplayed());
+                jsClick(fairsSaveButton());
+                waitUntilPageFinishLoading();
+            } else {
+                Assert.fail("The option for the button to click =" + buttonToClick + " is not a valid one");
+            }
+        }
+    }
+
+    public void setDateForFair(String addDays) {
+        int date = Integer.parseInt(addDays);
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, date);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
     // Locators
 
     private WebElement getUserNameHS() {
