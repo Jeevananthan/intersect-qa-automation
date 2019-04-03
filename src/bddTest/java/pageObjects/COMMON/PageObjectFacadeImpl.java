@@ -152,7 +152,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
                     datePickerNextMonthButton().click();
                 }
             }
+        } else{
+                while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                    datePickerNextMonthButton().click();
+                }
         }
+
         waitForUITransition();
 
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +

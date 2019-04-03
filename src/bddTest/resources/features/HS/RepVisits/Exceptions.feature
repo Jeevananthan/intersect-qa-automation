@@ -5,7 +5,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   Scenario: As an HS user, I want to be able to add/remove time slots
     Given HS I am logged in to Intersect HS as user type "Exceptions"
     Then HS I clean the visits for particular Month "24"
-    And HS I set a date using "10" and "18" in Regular Weekly Hours Tab
+    And HS I set a date using "1" and "18" in Regular Weekly Hours Tab
     And HS I verify the update button appears and I click update button
     When HS I open the Exceptions page
     And HS I select a date "12" days ahead from now
@@ -30,7 +30,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
       | Start time | 07:04 am |
       | End time   | 08:00 am |
       | Max Visits | 3        |
-    And HS I select a date "12" days ahead from now
+    And HS I select a date "11" days ahead from now
     Then HS I clear the day
     And HS I verify that the time slot was removed from the generated date, with the start time "7:04am"
     And HS I successfully sign out
@@ -48,7 +48,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
   Scenario Outline: When entering an appointment that starts between 12:00 pm and 12:59 pm and ends at 1:00 pm or later,
                     the appointment should not be blocked by the "Start time must be before end time" error.
   #visit
-    Given HS I am logged in to Intersect HS as user type "Exceptions"
+    Given HS I am logged in to Intersect HS as user type "Exceptions1"
     Then HS I clean the visits for particular Month "14"
     Then HS I set my RepVisits availability to the current school year
   #Start Time:12:xx pm, EndTime:01:00pm
