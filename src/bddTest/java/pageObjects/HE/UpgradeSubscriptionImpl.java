@@ -45,7 +45,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
     public void clickUpgradeSubscription(String subscriptionName){
 
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//h2[text()='"+subscriptionName+"']/../div/button"),1));
-        upgradeSubscriptionbutton(subscriptionName).click();
+        jsClick(upgradeSubscriptionbutton(subscriptionName));
 
     }
 
@@ -60,7 +60,7 @@ public class UpgradeSubscriptionImpl extends PageObjectFacadeImpl {
     }
 
     public void requestInformationToUpgrade(){
-        requestInformation().click();
+        jsClick(requestInformation());
         Assert.assertTrue("Request Information Confirmation Message in not displayed",requestConfirmationMessage().isDisplayed());
 
     }
