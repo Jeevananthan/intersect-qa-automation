@@ -194,7 +194,7 @@ Feature: HS - RepVisits - Exceptions - As an HS user, I should be able to manage
 
     Examples:
       |StartDate|EndDate|BlockedDate |back-ground color|
-      |14       |21     |14          |rgba(0, 0, 0, 0) |
+      |1      |30     |14          |rgba(0, 0, 0, 0) |
 
 
   @MATCH-1581
