@@ -2,23 +2,18 @@ package pageObjects.HE.loginPage;
 
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
-import org.eclipse.jetty.websocket.api.Session;
 import org.junit.Assert;
 import org.openqa.selenium.*;
-import org.openqa.selenium.remote.SessionNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.HS.repVisitsPage.RepVisitsPageImpl;
 import utilities.GetProperties;
 import utilities.Gmail.Email;
 import utilities.Gmail.GmailAPI;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -53,6 +48,13 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
     public void defaultLogin(String usertype) {
         String username = GetProperties.get("he."+ usertype + ".username");
         String password = GetProperties.get("he."+ usertype + ".password");
+        login(username, password);
+    }
+
+    //Log in as an HE administrator
+    public void defaultHEMLogin(String usertype) {
+        String username = GetProperties.get("hem."+ usertype + ".username");
+        String password = GetProperties.get("hem."+ usertype + ".password");
         login(username, password);
     }
 
@@ -240,8 +242,6 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         if(text("Your request has been submitted.").isDisplayed()){
                 button("OK").click();
         }
-
-
     }
 
 

@@ -100,6 +100,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void logOutOfSuperMatchAndCloseBrowser() {
         getDriver().manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+        clearSuperMatchToast();
         getDriver().findElement(By.xpath("//button[text()='LOG OUT']")).click();
         getDriver().quit();
    }
@@ -108,7 +109,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
      * Navigates to the Family Connection login screen
      * @param hsid - SchoolID that is needed for the hsid paramater in the request URL
      */
-    private void navigateToFamilyConnection(String hsid) {
+    public void navigateToFamilyConnection(String hsid) {
         String url = GetProperties.get("fc.app.url") + hsid;
         load(url);
     }

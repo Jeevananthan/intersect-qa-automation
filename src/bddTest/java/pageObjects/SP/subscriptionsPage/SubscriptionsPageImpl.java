@@ -233,8 +233,8 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         List<WebElement> buttonList = driver.findElements(By.cssSelector(removeButtonListLocator));
         for (WebElement removeButton : buttonList){
             waitUntilPageFinishLoading();
-            removeButton.click();
-            waitUntilPageFinishLoading();
+            jsClick(removeButton);
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/button[text()='Delete']")));
             deleteButton().click();
             waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/h2[text()='Advanced Awareness and Connections Subscriptions']")));
         }
@@ -253,6 +253,69 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
 
     }
 
+    /**
+     * verify Major checkbox can be checked
+     */
+    public void verifyMajorsCheckboxCanBeChecked(){
+        boolean check = getCheckBoxLabelByText("Majors").isSelected();
+        if(check==false){
+            getCheckBoxElementByText("Majors").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Majors"));
+        Assert.assertTrue("CheckBox 'Majors' is not checked", getCheckBoxLabelByText("Majors").isSelected());
+    }
+    /**
+     * verify Major checkbox can be Unchecked
+     */
+    public void verifyMajorsCheckboxCanBeUnchecked(){
+        boolean check = getCheckBoxLabelByText("Majors").isSelected();
+        if(check==true){
+            getCheckBoxElementByText("Majors").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Majors"));
+        Assert.assertFalse("CheckBox 'Majors' is checked", getCheckBoxLabelByText("Majors").isSelected());
+    }
+    /**
+     * verify Connection checkbox can be checked
+     */
+    public void verifyConnectionCheckboxCanBeChecked(){
+        boolean check = getCheckBoxLabelByText("Connection").isSelected();
+        if(check==false){
+            getCheckBoxElementByText("Connection").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Connection"));
+        Assert.assertTrue("CheckBox 'Connection' is not checked", getCheckBoxLabelByText("Connection").isSelected());
+    }
+    /**
+     * verify Connection checkbox can be Unchecked
+     */
+    public void verifyConnectionCheckboxCanBeUnchecked(){
+        boolean check = getCheckBoxLabelByText("Connection").isSelected();
+        if(check==true){
+            getCheckBoxElementByText("Connection").click();
+        }
+        moveToElement(getCheckBoxLabelByText("Connection"));
+        Assert.assertFalse("CheckBox 'Connection' is checked", getCheckBoxLabelByText("Connection").isSelected());
+    }
+
+    /**
+     * close subscriptions popup in subscriptions page
+     */
+    public void closeSubscriptionsPopup(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(subscriptionsPopupCloseButton()));
+        moveToElement(getDriver().findElement(subscriptionsPopupCloseButton()));
+        getDriver().findElement(subscriptionsPopupCloseButton()).click();
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * clicking add new subscription button in subscription page
+     */
+    public void clickAddNewSubscriptionButton(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(andNewSubscriptionButton()));
+        moveToElement(getDriver().findElement(andNewSubscriptionButton()));
+        jsClick(getDriver().findElement(andNewSubscriptionButton()));
+    }
     //Locators
 
     private String subscriptionTypeRadioButtonLocator(String subscriptionType) { return "//label[text() = '" + subscriptionType + "']"; }
@@ -306,7 +369,7 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
     private String removeButtonListLocator = "button.ui:not(.icon)";
 
     private WebElement deleteButton() {
-        return driver.findElement(By.cssSelector("button[class *= 'ui teal basic button']"));
+        return driver.findElement(By.xpath("//div/button[text()='Delete']"));
 
     }
 
@@ -314,6 +377,48 @@ public class SubscriptionsPageImpl extends PageObjectFacadeImpl {
         return  driver.findElement(By.xpath("//a[text()='" + subName + "']"));
     }
     private WebElement getCalender(){ return driver.findElement(By.xpath("//div[@role='application']")); }
+    /**
+     *
+     * @param checkboxText : element to verify(ex: Majors )
+     * @return : checkbox element
+     */
+    private WebElement getCheckBoxLabelByText(String checkboxText) {
+        return getDriver().findElement(By.xpath("//label[text()='" + checkboxText + "']/../input"));
+    }
+
+    /**
+     *
+     * @param checkboxText : element to check(ex: Majors )
+     * @return : checkbox element
+     */
+    private WebElement getCheckBoxElementByText(String checkboxText) {
+        return getDriver().findElement(By.xpath("//label[text()='" + checkboxText + "']/.."));
+    }
+
+    /**
+     * Move to the given element using javascript
+     * @param element : get the element to move
+     */
+    public void moveToElement(WebElement element) {
+        Actions builder = new Actions(driver);
+        builder.moveToElement(element).build().perform();
+    }
+
+    /**
+     * Return subscriptions popup close button
+     * @return
+     */
+    private By subscriptionsPopupCloseButton(){
+        return By.cssSelector("div[id='subscription-modal']>i");
+    }
+
+    /**
+     * return locator for subscription button
+     * @return
+     */
+    private By andNewSubscriptionButton(){
+        return By.xpath("//a[text()='Add New Subscription']");
+    }
 }
 
 

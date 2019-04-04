@@ -6,7 +6,7 @@ Feature: Community User - Send Message to Multiple Community Users
 
   @MATCH-552
   Scenario: As a Community user I want to send a private message to multiple Community users when viewing my connections.
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "community"
     And I go to connections page
     And I am connected to MatchSupportQA3 user
     And I am connected to HS user

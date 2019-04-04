@@ -44,5 +44,14 @@ public class SftpDataTransferStepDef implements En {
         And("^HE I go to the Main Sftp Connection page$",sftpDataTransferPage::goToSftpConnectionMainPageThroughTitleLink);
         And("^HE fill the sftp connection form with the following data$",sftpDataTransferPage::fillSftpConnectionData);
         And("^HE I verify that the warning toast that says \"([^\"]*)\" is displayed$", sftpDataTransferPage::verifyWarningToastText);
+        And("^HE I verify that the message that says \"([^\"]*)\" is displayed when saving fails$", sftpDataTransferPage::verifyFailedSaveMessage);
+        When("^HE I verify that we can able to navigate to the edit connection page$",sftpDataTransferPage::verifyEditConnectionNavigation);
+        Then("^HE I verify \"([^\"]*)\" link still appears on the SFTP main page$",sftpDataTransferPage::verifyConfigurationIssuesLink);
+        And("^HE I verify that validation message for host field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForHostField);
+        And("^HE I verify that validation message for port field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForPortField);
+        And("^HE I verify that validation message for user name field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForUserNameField);
+        And("^HE I verify that validation message for password field that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifyValidationMessageForPasswordField);
+        And("^HE I verify that the error message that says \"([^\"]*)\" is displayed$",sftpDataTransferPage::verifySomethingWentWrongErrorMessage);
+        And("HE I click the \"([^\"]*)\" link$",sftpDataTransferPage::clickConfigurationIssuesLink);
     }
 }

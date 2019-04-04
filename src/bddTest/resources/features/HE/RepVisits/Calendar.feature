@@ -19,8 +19,6 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
   @MATCH-4450
   Scenario Outline: As a HE user with active Presence subscription, I can access Agenda view of my appointments
     Given SP I am logged in to the Admin page as an Admin user
-    #Then SP I select "The University of Alabama" from the institution dashboard
-    #And SP I set the "Intersect Presence Subscription" module to "active" in the institution page
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
@@ -73,7 +71,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
      #HS User
      Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
      Then HE I verify that Re-assign link is not visible
-     
+
   @MATCH-4450
   Scenario Outline: As Hobsons product manager managing value adds to getting HS users to upgrade to RV Presence premium subscription,
   I want the RV>Calendar, Agenda view to be premium level access on the HS side while remaining accessible for HE users,
@@ -96,7 +94,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Examples:
       |hsNavianceAdmin|hsNavianceMember|hsNon-NavianceAdmin|hsNon-NavianceMember|
-      |navianceAdmin  |navianceMember  |administrator      |member              |
+      |navianceAdmin  |navianceMember1 |administrator      |member              |
 
   @MATCH-4224
   Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user, I want to understand why I can't submit the "Re-assign Appointments" modal form,
@@ -162,7 +160,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Examples:
     |user         |alertMessage                                                                                                               |StartTime|EndTime |NumVisits|hsEndTime|School                   |heStartTime   |heTime   |Day|Date|StartDate|EndDate|option|
     |publishing   |RepVisits does not prevent scheduling conflicts. Please confirm availability with the newly assigned rep before proceeding.|12:34am  |12:59pm |3        |12:59pm  |Standalone High School 6 |12:34am       |12:34am  |3  |3    |1       |20     |1     |
- 
+
   @MATCH-4902
   Scenario Outline: As a HE admin with an active Presence subscription reassigns a college fair registration from one HE rep to another at their institution,
   that update is not currently being reflected for the HS admin at RV>College Fairs>View Details for the college fair in question.
@@ -173,7 +171,7 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     Then HS I Click on the "No, I'm Done" button in the success page of the Add Attendees page
     And HS I successfully sign out
 
-    Given HE I want to login to the HE app using "purpleheautomation+publishing@gmail.com" as username and "Password!1" as password
+    Then HE I am logged in to Intersect HE as user type "publishing"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
@@ -184,9 +182,9 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
 
     Then HE I am logged in to Intersect HE as user type "administrator"
     When HE I go to re assign appointments
-    Then HE I select the user "Publishing, PurpleHE" from "Select staff member" dropdown
-    Then HE I select the fair to reassign using "<Date>","<School>","<Number of Students Expected>"
-    Then HE I select the user "Community, PurpleHE" from "Select new assignee" dropdown
+    Then HE I select the user "Publishing, PurpleHE" from 'Select staff member' dropdown
+    Then HE I select the fair to reassign using "<RSVP Deadline>","<School>","<Number of Students Expected>"
+    Then HE I select the user "Community, PurpleHE" from 'Select new assignee' dropdown
     Then HE I click Reassign Appointments button "<appointmentsCount>"
 
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
@@ -255,5 +253,80 @@ Feature: HE - RepVisits - Calendar - As an HE user, I want to use the RepVisits 
     And HS I successfully sign out
 
     Examples:
-      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|Option                                              |School                  |heStartTime|heCT     |heCST   |heCET   |hsAddress                                |contactPhNo  |user          |eMail                                       |option|
-      |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |5555555      |School Manager|school_user_61024USPU@localhost.naviance.com|1     |
+      |Day |Date|StartTime|EndTime|NumVisits|StartDate|EndDate|Option                                              |School                  |heStartTime|heCT     |heCST   |heCET   |hsAddress                                |contactPhNo       |user          |eMail                                       |option|
+      |21  |21  |11:57am  |12:11pm|10       |21       |49     |No, I want to manually review all incoming requests.|Standalone High School 2|11:50am    |11:50AM  |11:50 AM|12:11 PM|1 Eagles Way Milford, OH 45150           |555555555555555555|School Manager|school_user_61024USPU@localhost.naviance.com|1     |
+
+  @MATCH-4147 @MATCH-4700
+  Scenario Outline: As an RepVisits HE admin premium/paid Presence subscription user,
+                    I want the ability to easily access a path to reassign other HE users visits at my institution from RepVisits>Calendar view,
+                    so that I can support rep attritition, rep absences, and so forth while maintaining scheduled appointments and do so from the location in RV that I'm used to managing my own appointments.
+#Pre-condition
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I go to the users list for "<institution>" from the institution dashboard
+    And SP I "inactivate" the user account for "<user>"
+#verify all fields in re assign appointments page
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    When HE I go to re assign appointments
+    Then HE I verify the text 'Re-assign Appointments' is displaying in re assign appointments page
+    Then HE I verify the text 'Select appointments to re-assign:' is displaying in re assign appointments page
+    Then HE I verify the text 'Select a staff member above to see their appointments here' is displaying in re assign appointments page
+    Then HE I verify the dropdown 'Select staff member' is displaying in re assign appointments page
+    Then HE I verify the dropdown 'Select new assignee' is displaying in re assign appointments page
+    Then HE I verify the button 'GO BACK' is displaying in re assign appointments page
+    Then HE I verify the button 'Reassign  Appointments' is displaying in re assign appointments page
+    Then HE I click Go Back button
+#verify staff member dropdown
+    Then HE I verify the current user "Automation, PurpleHE" is displaying in Select staff member dropdown list
+    Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in Select staff member dropdown list
+    Then HE I verify the in active user "AutomationWithoutCCProfile, PurpleHE" is displaying with 'Profile Incomplete' notation in Select staff member dropdown list
+    Then HE I click Go Back button
+    Then HE I verify the users are listed in A-Z order in 'select staff member' dropdown
+#verify new assignee dropdown
+    Then HE I select the user "Publishing, PurpleHE" in select staff member dropdown
+    Then HE I verify the current user "Automation, PurpleHE" is displaying in Select new assignee dropdown list
+    Then HE I verify the in active user "InActive, PurpleHE" is displaying with 'Inactive User' notation in new assignee dropdown list
+    Then HE I verify the in active user "AutomationWithoutCCProfile, PurpleHE" is displaying with 'Profile Incomplete' notation in new assignee dropdown list
+    Then HE I verify the in active user "InActive, PurpleHE" is not selectable in Select new assignee dropdown
+    Then HE I click Go Back button
+    Then HE I verify the users are listed in A-Z order in 'Select new assignee' dropdown using "HE, Purple"
+    Then HE I verify the user "HE, Purple" selected from 'select staff member' drop-down, excluded in 'Select new assignee' dropdown
+#verify 'GO BACK' button
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I cancel registered college fair "<College Fair Name>"
+    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I Click on the "Close" button in the success page of the college fair
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the Attendee details "<Attendee>" in Edit fairs page
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    When HE I go to re assign appointments
+    Then HE I select the user "Publishing, PurpleHE" from 'Select staff member' dropdown
+    Then HE I select the fair to reassign using "<RSVP Deadline>","<School>","<Number of Students Expected>"
+    Then HE I select the user "Community, PurpleHE" from 'Select new assignee' dropdown
+    Then HE I click Go Back button
+    Then HE I successfully sign out
+
+#verify the details is not changed after clicked 'GO BACK' button
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
+    Then HS I verify the Attendee details "<Attendee>" in Edit fairs page
+    Then HS I cancel registered college fair "<College Fair Name>"
+    And HS I successfully sign out
+
+    Examples:
+      |College Fair Name|Date |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|School                  |Attendee              |institution              |user                                   |
+      |4902qaFairs      |24   |0800AM    |1000AM  |7                |$25 |25                    |4902                       |Save         |Standalone High School 2|PurpleHE Publishing   |The University of Alabama|purpleheautomation+heInActive@gmail.com|
+
+  @MATCH-4911
+  Scenario: As an RepVisits HE user I should not be able to select the same name in Re-assign appointments
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I select the user "Publishing, PurpleHE" in select staff member dropdown
+    Then HE I verify that the user: "Publishing, PurpleHE" is not displayed in select new assignee dropdown

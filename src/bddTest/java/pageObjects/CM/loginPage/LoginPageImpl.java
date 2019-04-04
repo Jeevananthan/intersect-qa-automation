@@ -1,8 +1,9 @@
 package pageObjects.CM.loginPage;
 
-import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -54,8 +55,8 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
 
     public void defaultLoginHE() {
         openLoginPageHE();
-        String username = GetProperties.get("he.administrator.username");
-        String password = GetProperties.get("he.administrator.password");
+        String username = GetProperties.get("he.community.username");
+        String password = GetProperties.get("he.community.password");
         //link("Go To Authorized Page").click();
         waitUntilPageFinishLoading();
         logger.info("Logging into the HE app");
@@ -93,6 +94,7 @@ public class LoginPageImpl extends PageObjectFacadeImpl {
         logger.info("Logging into the Support app");
         emailUserNameTextboxForSupport().sendKeys(username);
         nextButtonToSupport().sendKeys(Keys.ENTER);
+        waitUntilPageFinishLoading();
         passwordTextboxForSupport().sendKeys(password);
         signInForSupport().sendKeys(Keys.ENTER);
         yesButtonForSupport().sendKeys(Keys.ENTER);

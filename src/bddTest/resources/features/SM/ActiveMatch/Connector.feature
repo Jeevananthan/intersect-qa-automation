@@ -180,3 +180,251 @@ Feature: AMNG - AM NextGen Connector
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+
+  @MATCH-5324 @MATCH-5944 @ignore
+  Scenario: As a student using Naviance Student, when I match with more than one AM NextGen Connection HE client,
+  I would like to see a connector form that would allow me to connect with more than one college so that I can send my information to them at once.
+
+    #Clean existing subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5324SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Create Majors Messages
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    When HE I navigate to the "advanced-awareness/majors" url
+    And HE I set messages for the following majors:
+      | African-American/Black Studies              | Message 1 |
+      | American/United States Studies/Civilization | Message 2 |
+    And HE I click the advanced awareness save button
+
+    #Make the connector verifications
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I clear all pills from Must have  and Nice to have boxes
+    When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | African-American/Black Studies              |
+      | American/United States Studies/Civilization |
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
+    And SM I navigate to the Colleges I'm thinking about list
+    Then SM I verify that the following text is present in the connector dialog:
+    | Multiple institutions you're interested in would like to communicate with you! |
+    | Select those in which you would like to connect                                |
+    Then SM I verify that all the connection checkboxes are "checked" by default
+    Then SM I verify that the Next button is disabled when all competitors are unchecked
+    And HE I click the button "Next" in the connector dialog
+    Then SM I verify that all the checkboxes are "checked" when "Share all" is "checked"
+    Then SM I verify that "Share all" is unselected when any data checkbox is unselected, for example "Email"
+    Then SM I verify that at least one of the following fields is required for submitting the form: Email, Phone, Address
+    Then SM I verify that the following connector fields are editable:
+      | First Name * |
+      | Last Name *  |
+      | Email      |
+      | Phone      |
+      | Street     |
+      | City       |
+      | State      |
+      | Zip Code   |
+    Then SM I verify that the following connector fields are not editable:
+      | Gender    |
+      | Birthday  |
+      | Your GPA  |
+      | Ethnicity |
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    Then SM I verify that the Successfully Submitted! screen is displayed
+    And HE I click the button "Close" in the connector dialog
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+
+  @MATCH-5929 @MATCH-5154 @concurrency
+  Scenario: HS student's in Naviance student are seeing the connector for the same institution automagically popup for
+  them more than once, which is against the rules.
+
+    #Add and remove proper college from CITA
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
+    And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
+
+    #Clean existing connections, subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5324SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Create the connection for one of the colleges
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to the Colleges I'm thinking about list
+    Then SM I "uncheck" the checkbox for "Auburn University" in the connector dialog
+    And HE I click the button "Next" in the connector dialog
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+
+    #Verify that the connector is not displayed again
+    Given SM I reload the page
+    Then SM I verify that no connector dialog is displayed
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When SP I select "Auburn University" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When I remove all connections for the user id "402661187"
+
+  @MATCH-5153 @MATCH-5154
+  Scenario: As a Naviance Student student user, I would like to be able to connect with an HE Connection client within
+  SuperMatch when I have met the AM NextGen match criteria, have added to Colleges I'm Thinking About list (favorited)
+  so that I can send my information to the college.
+
+    #Add and remove proper college from CITA
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+    When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
+
+    #Clean existing connections, subscriptions and create new ones
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+      | startDate | 2 days before now |
+      | endDate   | 2 days after now  |
+    And SP I successfully sign out
+
+    #Verifications MATCH-5154: 'No, Thanks' button
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    And HE I click the button "No, Thanks" in the connector dialog
+    Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+     #Verifications MATCH-5154: close icon
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    And SM I close the connector with the close icon
+    Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402661187"
+
+    #Verifications MATCH-5154: Submit
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I navigate to page via URL path "colleges/match/looking-for-you"
+    And SM I add the college "The University of Alabama" to the I'm thinking about list using the heart icon in the match card
+    And HE I click the button "Yes, I do" in the connector dialog
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    Then SM I verify that the URL of the current page contains "colleges/match/looking-for-you"
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SM I reload the page
+    When I remove all connections for the user id "402661187"
+
+    #Verifications MATCH-5153: Results
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I clear all pills from Must have  and Nice to have boxes
+    And SM I clear pinned schools list
+    And SM I pin "The University of Alabama" from the search box
+    When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
+      | African-American/Black Studies              |
+      | American/United States Studies/Civilization |
+    And SM I favorite the school "The University of Alabama"
+    Then SM I verify that the connector banner is displayed
+    And HE I click the button "Connect?" in the connector dialog
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    And SM I reload the page
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+
+#    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SM I reload the page
+    When I remove all connections for the user id "402661187"
+
+    #Verifications MATCH-5153: Why Drawer
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I press Why button for "The University of Alabama" college
+    And SM I favorite the school "The University of Alabama" from the why drawer
+    Then SM I verify that the connector banner is displayed
+    And HE I click the button "Connect?" in the connector dialog
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+
+    #Clean existing connections
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SM I reload the page
+    When I remove all connections for the user id "402661187"
+
+    #Verifications MATCH-5153: Pinned Schools
+    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    And SM I open the Pinned Schools Compare screen
+    And SM I favorite the school "The University of Alabama" from the Pinned Colleges screen
+    Then SM I verify that the connector banner is displayed
+    And HE I click the button "Connect?" in the connector dialog
+    Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    And HE I click the button "Submit" in the connector dialog
+    And HE I click the button "Close" in the connector dialog
+    And SM I remove "The University of Alabama" from the Colleges I'm thinking about list via the Look Up page
+
+    #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When SP I select "The University of Alabama" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    When I remove all connections for the user id "402661187"
+

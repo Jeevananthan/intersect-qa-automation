@@ -4,7 +4,6 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -81,11 +80,6 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRequiredFieldsInCCProfileForm(DataTable dataTable){
-        navigationDropDown().sendKeys(Keys.ENTER);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
-        counselorCommunityMenuLink().click();
-        iframeEnter();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
         saveButtonInCommunity().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
@@ -97,13 +91,23 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
+        if(getDriver().findElements(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")).size()==0){
+            load(GetProperties.get("he.community.clear"));
+            waitUntilPageFinishLoading();
+        }
+        getNavigationBar().goToRepVisits();
+        waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomeFormLocator()));
         Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
         driver.switchTo().defaultContent();
     }
 
     public void clearCommunityProfile(){
         load(GetProperties.get("he.community.clear"));
+        waitUntilPageFinishLoading();
+        getNavigationBar().goToRepVisits();
         waitUntilPageFinishLoading();
     }
 
@@ -139,8 +143,8 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
                 case "RepVisits":
                     waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-rep-visits-menu-link")));
                     repVisitsMenuLink().click();
-                    waitUntilElementExists(getSearchAndScheduleHeading());
-                    Assert.assertTrue("Search and schedule tab is not displayed", getSearchAndScheduleHeading().isDisplayed());
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(searchButton()));
+                    Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getDriver().findElement(searchButton()).isDisplayed());
                     break;
                 case "Events":
                     waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-am-events-menu-link")));
@@ -160,7 +164,46 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
         }
     }
 
-    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    /**
+     * Goes to the Welcome Counselor community page
+     */
+    public void goToWelcomeCounselorCommunityPage(){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
+        counselorCommunityMenuLink().click();
+        iframeEnter();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
+    }
+
+    /**
+     * Verifies that the welcome header contains the given text
+     * @param text
+     */
+    public void verifyWelcomeCounselorCommunityPageHeader(String text){
+        softly().assertThat(welcomePageHeader().getText().contains(text));
+    }
+
+    /**
+     *  Verifies that the agreements label has the given text
+     * @param text
+     */
+    public void verifyAgreementsLabel(String text){
+        softly().assertThat(agreementsLabel().getText().contains(text));
+    }
+
+    /**
+     * Verifies that the edit privacy info label has the given text
+     * @param text
+     */
+    public void verifyEditPrivacyInfoLabel(String text){
+        softly().assertThat(editPrivacyInfoLabel().getText().contains(text));
+    }
+
+    private WebElement communityWelcomeForm(){ return driver.findElement(communityWelcomeFormLocator()); }
+
+    private By communityWelcomeFormLocator(){
+        return By.id("user-profile-form");
+    }
 
     private WebElement saveBtn() {return driver.findElement(By.id("edit-submit"));}
    private WebElement navigationDropDown(){
@@ -203,4 +246,30 @@ public class HEWelcomePageImpl extends PageObjectFacadeImpl {
         return driver.findElement(By.xpath("//span[text()='Connections']"));
     }
     private WebElement getSearchAndScheduleHeading(){ return text("Search"); }
+
+    /**
+     * Gets the welcome page header
+     * @return Webelement
+     */
+    private WebElement welcomePageHeader(){
+        return getDriver().findElement(By.xpath("//div[@id='featured']//p"));
+    }
+
+    /**
+     * Gets the agreements label
+     * @return Webelement
+     */
+    private WebElement agreementsLabel(){
+        return getDriver().findElement(By.id("edit-privacy-info"));
+    }
+
+    /**
+     * Gets the edit privacy info label
+     * @return
+     */
+    private WebElement editPrivacyInfoLabel(){
+        return getDriver().findElement(By.id("edit-cp-privacy-info"));
+    }
+
+    private By searchButton(){return By.cssSelector("button[aria-label='search-btn']");}
 }

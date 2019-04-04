@@ -59,4 +59,8 @@ public class HUBSMainMenuPageImpl extends PageObjectFacadeImpl {
     private WebElement admissionsTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Admissions')]"));
     }
+
+    public WebElement profilesTab() {
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Profiles')]"));
+    }
 }

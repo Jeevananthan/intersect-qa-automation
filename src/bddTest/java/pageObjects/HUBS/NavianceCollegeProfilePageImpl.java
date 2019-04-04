@@ -37,16 +37,11 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
     }
 
     public void verifyInstitutionalProfilePage(){
-        WebDriverWait wait = new WebDriverWait(driver, 60);
-        wait.pollingEvery(10000, TimeUnit.MILLISECONDS);
-        wait.until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed();
-            }
-        });
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//h3[text()='Edit your college profile']"), 0));
         Assert.assertTrue("'Edit your college profile' page title is not displayed",driver.findElement(By.xpath("//h3[text()='Edit your college profile']")).isDisplayed());
         Assert.assertTrue("Text 'To get started – choose a category.'",driver.findElement(By.xpath("//div[text()='To get started – choose a category.']")).isDisplayed());
-        Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience.']")).isDisplayed());
+        Assert.assertTrue("Text 'This College Profile Page is using mock student data to replicate a student experience.' is not displayed",driver.findElement(By.xpath("//div/span[text()='This College Profile Page is using mock student data to replicate a student experience. ']")).isDisplayed());
         Assert.assertTrue("Button 'Publish' is not displayed",getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia ng-binding']")).isDisplayed());
     }
 
@@ -55,11 +50,20 @@ public class NavianceCollegeProfilePageImpl extends PageObjectFacadeImpl{
         getNavigationBar().goToCommunity();
         waitForUITransition();
         communityFrame();
-        driver.findElement(By.xpath("//a[text()='Institution']")).click();
+        clickOnInstitutionTab().click();
     }
+
+    public void verifyHEMLoads() {
+        driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.tagName("iframe")));
+        verifyInstitutionalProfilePage();
+        waitUntilPageFinishLoading();
+    }
+
     //Locators
     public WebElement getStartedButton() {
         return button("Get Started");
     }
     private WebElement welcomeText1() { return driver.findElement(By.cssSelector("div.ui.centered.stackable.two.column.grid div.row:nth-of-type(2) div.column:nth-of-type(1) p:nth-of-type(1)")); }
+    public WebElement clickOnInstitutionTab() {return getDriver().findElement(By.xpath("//a[text()='Institution']")); }
 }

@@ -27,7 +27,6 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     Given SP I am logged in to the Admin page as an Admin user
     Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I "inactivate" the user account for "purpleheautomation+12103@gmail.com"
-    Then SP I go to the users list for "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I verify that I can create a new primary user
 
@@ -116,8 +115,7 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
   @MATCH-2378
   Scenario: As a Support user I want to be able to update the primary user info for a non-Naviance HS
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2400006"
-    And SP I select the following institution "The University of Alabama" from the results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I verify that I can edit the Primary User Details
 
   @MATCH-5014
@@ -133,7 +131,5 @@ Feature: SP - Account Pages - UserListPage - Manage User accounts
     When SP I am logged in to the Admin page as a Support user
     And SP I go to the users list for "HS" user, institution "Homeconnection" from the institution dashboard
     And SP I use "Login As" feature for login as "adminHS"
-    And SP I check the impersonated window ie "2"
-    And SP I use "Login As" feature for login as "admin"
-    And SP I check the impersonated window ie "2"
+    Then SP I verify the "You're currently logged in as PurpleHS Automation from HOMECONNECTION. Changes you make will reflect in their account." message in the homepage
     And SP I check the "Account Settings" option will be hidden for impersonation

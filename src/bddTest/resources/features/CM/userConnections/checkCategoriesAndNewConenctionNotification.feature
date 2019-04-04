@@ -11,7 +11,7 @@ Feature: As a Community user I want to be able to see subtab/category called "Pe
 
 
   Scenario: The Pending Requests subtab/category displays a red dot indicator with the appropriate number in the dot for the number of pending connections requests the user needs to respond to
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "community"
     When I am not connected to "PurpleHS User" user
     Then I search for "PurpleHS User" and open profile page of this user
     And I click on connect button
@@ -22,4 +22,4 @@ Feature: As a Community user I want to be able to see subtab/category called "Pe
     And I go to HS connections page
     Then I check if I see a red indicator which indicates pending connections
     And I click on Pending requests link
-    And I click Approve button for "PurpleHE Automation" user
+    And I click Approve button for "PurpleHE Community" user

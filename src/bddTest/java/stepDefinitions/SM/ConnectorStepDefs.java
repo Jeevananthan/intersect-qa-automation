@@ -32,4 +32,22 @@ public class ConnectorStepDefs implements En {
 
         Then("^SM I verify that the connector dialog is displayed in the page of URL \"([^\"]*)\"$", connectorPage::verifyConnectorDialogInURL);
 
+        Then("^SM I verify that all the connection checkboxes are \"([^\"]*)\" by default$", connectorPage::verifyConnectionCheckboxes);
+
+        Then("^SM I verify that it is possible to select the value \"([^\"]*)\" in the Majors dropdown$", connectorPage::verifyValueSelectionMajors);
+
+        Then("^SM I verify that the Successfully Submitted! screen is displayed$", connectorPage::verifySubmittedScreen);
+
+        Then("^SM I verify that the Next button is disabled when all competitors are unchecked$", connectorPage::verifyNextButtonDisabled);
+
+        Then("^SM I verify that the following text is present in the connector dialog:$", connectorPage::verifyTextInConnectorDialog);
+
+        Then("^SM I \"([^\"]*)\" the checkbox for \"([^\"]*)\" in the connector dialog$", connectorPage::checkUncheckCollegeInConnector);
+
+        Then("^SM I verify that no connector dialog is displayed$", connectorPage::verifyNoConnectorIsDisplayed);
+
+        Then("^SM I verify that the URL of the current page contains \"([^\"]*)\"$", connectorPage::verifyStringInURL);
+
+        And("^SM I close the connector with the close icon$", connectorPage::closeConnectorWithCloseIcon);
+
     }}

@@ -94,57 +94,21 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Pick what to show |
     Then SM I verify if the option selected or defaulted in column header can be changed to "Athletics"
 
-  @MATCH-3506
-  Scenario: As a HS student, I want to be able to close the Save Search popup
-    Given SM I am logged in to SuperMatch through Family Connection
-    Then SM I verify that the Save Search button is disabled
-    And I clear the onboarding popups if present
-    When I select the following data from the Admission Fit Criteria
-      | GPA (4.0 scale) | 4            |
-      | SAT Composite   | 400          |
-      | ACT Composite   | 3            |
-      | Acceptance Rate | 25% or Lower |
-    And SM I open the Save Search popup
-    Then SM I verify that the Save Search popup is closed when I use the Cancel action
-
-  @MATCH-3506
-  Scenario: As a HS student, I want to verify that all the text displayed in the Save Search popup is correct
-    Given SM I am logged in to SuperMatch through Family Connection
-    And I clear the onboarding popups if present
-    When I select the following data from the Admission Fit Criteria
-      | GPA (4.0 scale) | 4            |
-      | SAT Composite   | 400          |
-      | ACT Composite   | 3            |
-      | Acceptance Rate | 25% or Lower |
-    And SM I open the Save Search popup
-    Then SM I verify that the text inside the Save Search popup is correct
-
-  @MATCH-3506
-  Scenario: As a HS student, I want to verify the error messages in the Save Search popup
-    Given SM I am logged in to SuperMatch through Family Connection
-    And I clear the onboarding popups if present
-    When I select the following data from the Admission Fit Criteria
-      | GPA (4.0 scale) | 4            |
-      | SAT Composite   | 400          |
-      | ACT Composite   | 3            |
-      | Acceptance Rate | 25% or Lower |
-    And SM I open the Save Search popup
-    Then SM I verify the error message for more than "50" characters
-    And SM I verify the error message for less than "3" characters
-
   @MATCH-3506 @MATCH-3508
   Scenario: As a HS student, I want to verify that the save/load search functionality (MATCH-4703)
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
     And SM I delete all the saved searches
     And SM I start the search over
-    When I select the following data from the Admission Fit Criteria
-      | GPA (4.0 scale) | 4            |
-      | SAT Composite   | 400          |
-      | ACT Composite   | 3            |
-      | Acceptance Rate | 25% or Lower |
-    And SM I reload the page
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Ohio               |
     Then SM I delete the saved search named "SavedTestSearch"
+    And SM I open the Save Search popup
+    Then SM I verify that the text inside the Save Search popup is correct
+    Then SM I verify the error message for more than "50" characters
+    And SM I verify the error message for less than "3" characters
+    Then SM I verify that the Save Search popup is closed when I use the Cancel action
     And SM I open the Save Search popup
     And SM I save the search with the name "SavedTestSearch"
     Then SM I verify the confirmation message
@@ -165,7 +129,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | ACT Composite   | 3            |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     Then SM I verify the content of the popup that is opened by the Start Over button
     Then SM I verify that the search results remain after clicking the No, Cancel button
     And SM I open the Start Over popup
@@ -181,8 +145,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
     And SM I select the "$5,000" option from the "Maximum Tuition and Fees" dropdown in Cost
-    #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #The following step was needed to avoid MATCH-4830, but causes concurrency problems
+    #And SM I reload the page
     Then SM I verify that "Sistema Universitario Ana G Mendez" displays "$0" in the Cost column
 
   @MATCH-4276
@@ -203,9 +167,12 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4            |
       | Acceptance Rate | 25% or Lower |
-    And SM I reload the page
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |California         |
+    #And SM I reload the page
     Then SM I verify the footnote for known GPA but unknown test scores for "Pomona College", with the text:
-      | To determine if you're an academic match for this institution, enter your GPA and/or standardized test scores. |
+      | To best determine if you're an academic match for this institution, enter both your GPA and standardized test scores. |
 
   @MATCH-4276
   Scenario: As a HS student, I want to see specific footnotes when SuperMatch does know my test scores, but not my GPA
@@ -223,7 +190,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4406
   Scenario: As a HS student, I want to be able to save my searches for colleges in SuperMatch so I can quickly
   return to the results to continue my college research.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4406"
     And I clear the onboarding popups if present
     Then SM I create till fifteen different save search from Resources tab
     When I select the following data from the Admission Fit Criteria
@@ -294,7 +261,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
 
   @MATCH-4350
   Scenario: As a HS student, if I pin the 26th school from the Why? drawer, an error message should be displayed
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4350"
     And I clear the onboarding popups if present
     Then SM I clear pinned schools list
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
@@ -390,7 +357,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | talka10grade | password | blue1combo |
       | uat_user6    | password | blue1combo |
 
-  @MATCH-4348
+  @MATCH-4348 @unnecessary @NotInQA
   Scenario: Verify that on double clicking the PIN TO COMPARE link, the second click is bounced off
     Given SM I am logged in to SuperMatch through Family Connection
     And I clear the onboarding popups if present
@@ -401,7 +368,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   @MATCH-4745
   Scenario: Verify warning or error message is displayed when the saved search name is blank.
   Also verify the error message when the save search name is a duplicate.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4745"
     And I clear the onboarding popups if present
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
     Then SM I open the Save Search popup
@@ -410,6 +377,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     Then SM I cancel the Save Search popup
     #Verify that duplicate names are not allowed
     Then SM I delete the saved search named "duplicatename"
+    Then SM I delete all the saved searches
     Then SM I open the Save Search popup
     Then SM I save the search with the name "duplicatename"
     Then SM I open the Save Search popup
@@ -543,7 +511,8 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     When I select the following data from the Admission Fit Criteria
       | Acceptance Rate | 25% or Lower |
       | Acceptance Rate | 26%-50%      |
-    And SM I reload the page
+    # This will cause concurrency issues, and doesn't seem to have anything to do with the ticket referenced.
+    #And SM I reload the page
     Then SM I verify that the Must Have box contains "Acceptance Rate [2]"
     When SM I unselect the "26%-50%" checkbox from the "Admission" fit criteria
     Then SM I verify that the Must Have box contains "Acceptance Rate [1]"
@@ -645,7 +614,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Out of State Students ≥ 10%"
 
-  @MATCH-3555
+  @MATCH-3555 @concurrency
   Scenario: As a HS student who has pinned colleges in SuperMatch, I want those schools to show at the top of my search
   results table so I am reminded that those colleges were already pinned.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -887,7 +856,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
   Scenario: The 'Clear Pinned Schools' action is taken by the HS student when results are currently being displayed
   , the bluepurple bar goes away but those schools remain at the top of the results even if their fit scores aren't the
   highest.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4669"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     And SM I clear pinned schools list
@@ -923,11 +892,11 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I close the fit criteria selection window
     And SM I verify that the Must Have box contains "Class size < 10"
 
-  @MATCH-4051
+  @MATCH-4051 @concurrency
   Scenario: As a HS student, I want the SuperMatch tool to remember my most recent search (fit criteria selected including
   the GPA, ACT, and SAT score used) even if I don't formally save the search so I can be presented with this search the
   next time I access SuperMatch and don't have to start my search over again.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4051"
     And I clear the onboarding popups if present
     And SM I clear all pills from Must have  and Nice to have boxes
     Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
@@ -938,7 +907,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | SAT Composite   | 1000 |
       | ACT Composite   | 26   |
     Then SM I log out of SuperMatch and close the browser
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "4051"
     And I clear the onboarding popups if present
     Then SM I verify that the Must Have box contains "Learning Differences Support"
     Then SM I verify that the Nice to Have box contains "Tutoring Services"
@@ -977,13 +946,13 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I open the Pinned Schools Compare screen
     And SM I verify that left and right arrow buttons are displayed on top of "Williams College" logo in Compare Pinned Schools page
     And SM I verify that left and right arrow buttons are displayed on top of "Bennett College" logo in Compare Pinned Schools page
-    And SM I verify that the left arrow button should be disabled for the school "Williams College" since it is ordered #1
-    And SM I verify that the right arrow button should be disabled for the school "Bennett College" since it is ordered last
-    And SM I move "Williams College" to the "right" in Compare Pinned Schools page
-    And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
-    And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
+    And SM I verify that the left arrow button should be disabled for the school "Bennett College" since it is ordered #1
+    And SM I verify that the right arrow button should be disabled for the school "Williams College" since it is ordered last
+    And SM I move "Bennett College" to the "right" in Compare Pinned Schools page
+    And SM I verify that position of "Williams College" is "1" in Compare Pinned Schools page
+    And SM I verify that position of "Bennett College" is "2" in Compare Pinned Schools page
 
-   @MATCH-5419
+   @MATCH-5419 @concurrency
    Scenario: Verify that a recently pinned college is displayed in position 1 in Compare Pinned Schools page
      Given SM I am logged in to SuperMatch through Family Connection
      And I clear the onboarding popups if present
@@ -995,7 +964,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
      And SM I verify that position of "Bennett College" is "1" in Compare Pinned Schools page
      And SM I verify that position of "Williams College" is "2" in Compare Pinned Schools page
 
-  @MATCH-3441 @MATCH-4896
+  @MATCH-3441 @MATCH-4896 @DataMissing
   Scenario: As a HS student reviewing results in SuperMatch, I want to be able to see Highlights details about each
   college in my results table so I can quickly see additional information about the college.
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
@@ -1075,7 +1044,7 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
       | Navy                      |
       | Air Force                 |
 
-  @MATCH-3472
+  @MATCH-3472 @ignore @unnecessary
   Scenario:As a HS student I want to pin a specific college that returns when I use the SuperMatch search box so I can
   then compare this newly pinned school with other schools I have already pinned.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -1096,13 +1065,24 @@ Feature: SM - SuperMatchSearch - As a HS student accessing SuperMatch through Fa
     And SM I pick "66%" from the dropdown "on-campus-housing-dropdown"
     And SM I verify that the Must Have box contains "On-campus Housing > 66%"
 
+  @MATCH-3378
+  Scenario:As a HS student, I want to see an Add Sport button within the Athletics category so I can walk through a
+  workflow that allows me to specify my Sport requirements during my search for colleges in SuperMatch.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And SM I clear all pills from Must have  and Nice to have boxes
+    Then SM I verify the Add Sports workflow
+      |GENDER|SPORT      |LEVEL     |ASSOCIATION|DIVISION|TEXT DISPLAYED IN PILL                      |
+      |Female|Spring Golf|Varsity   |NCAA       |Div I   |Spring Golf ( Female, Varsity, NCAA, Div I )|
+      |Male  |Badminton  |Intramural|           |        |Badminton ( Male, Intramural )              |
+      |Coed  |Soccer     |Varsity   |NJCAA      |        |Soccer ( Coed, Varsity, NJCAA )             |
+
    @MATCH-3447
    Scenario: As a HS student that is comparing my pinned schools, I want actions available so I can more easily view and
              manage my list.
-     Given SM I am logged in to SuperMatch through Family Connection
+     Given SM I am logged in to SuperMatch through Family Connection as user type "3447"
      And I clear the onboarding popups if present
      Then SM I select the "Learning Differences Support" checkbox from the Resources fit criteria
-     Then SM I verify that the pinned colleges are cleared when the the YES, CLEAR MY LIST button is clicked in the modal
+     Then SM I clear pinned schools list
      Then SM I pin "1" colleges
      And SM I open the Pinned Schools Compare screen
      Then SM I verify the text displayed in Compare Pinned Colleges page

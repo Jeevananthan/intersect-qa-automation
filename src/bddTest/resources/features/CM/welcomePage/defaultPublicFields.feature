@@ -6,9 +6,8 @@ Feature: Community User - Default Profile Contact Field Settings to Public Upon 
 
   @MATCH-512
   Scenario: As a Community user I need my profile fields privacy settings to be defaulted to 'public' when my Community user profile is first activated.
-    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "resetAccount"
     And I am sure that HE user will be logged in for the first time and Welcome page will be opened
-    And I go to Counselor Community page
     Then I check if my profile fields are set to 'public' by default
     #Post conditions
     And I populate all the fields on Welcome page
@@ -22,9 +21,8 @@ Feature: Community User - Default Profile Contact Field Settings to Public Upon 
 
   @MATCH-513
   Scenario: As a Community user I need the ability to change my profile fields privacy settings if I don't want them all to be public.
-    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
+    Given HE I want to login to the HE app using "purpleheautomation+resetaccount@gmail.com" as username and "Password!1" as password
     And I am sure that HE user will be logged in for the first time and Welcome page will be opened
-    And I go to Counselor Community page
     #Then I upload Profile and Banner pictures
     And I populate all the fields on Welcome page
     Then I set work email and office phone privacy to 'Connections Only'

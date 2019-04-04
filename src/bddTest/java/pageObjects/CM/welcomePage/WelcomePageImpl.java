@@ -3,7 +3,10 @@ package pageObjects.CM.welcomePage;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import utilities.GetProperties;
@@ -44,34 +47,37 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
 
     public void makeSureHEWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+
+        driver.findElement(By.xpath("(//div[text()='Home'])[1]")).click();
+        counselorLink().click();
         communityFrame();
 
         if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome to the Counselor Community!')]")).size() != 0) {
-
             iframeExit();
         }
         else {
             destroyHEUser();
+            link(counselorCommunity()).click();
+            link(By.id("js-main-nav-counselor-community-menu-link")).click();
             iframeExit();
         }
-
     }
 
     public void makeSureHSWelcomeScreenIsOpened() {
         logger.info("Making sure that Welcome screen will be opened when user logs in for the first time.");
-        link(By.id("js-main-nav-home-menu-link")).click();
+        link(By.xpath("(//div[text()='Home'])[1]")).click();
+        link(counselorCommunityMenuLink()).click();
         communityFrame();
-
-        if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome to the Counselor Community!')]")).size() != 0) {
+        if (driver.findElements(By.xpath("//*[contains(text(), 'Welcome')]")).size() != 0) {
 
             iframeExit();
         }
         else {
             destroyHSUser();
+            link(counselorCommunity()).click();
+            link(counselorCommunityMenuLink()).click();
             iframeExit();
         }
-
     }
 
     public void profileAndBannerPicturesUpload() {
@@ -88,6 +94,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void popupateWelcomeUserForm() {
+        communityFrame();
         waitUntil(ExpectedConditions.visibilityOf(getWelcomeToCounselorCommunityLabel()));
         logger.info("Populating welcome user form.");
         emailTextbox().sendKeys("testemail@personal.com");
@@ -139,6 +146,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
 
     public void checkFieldsPublic() {
         logger.info("Checking if fields are public.");
+        communityFrame();
         Assert.assertEquals("Work Email is not public by default.", "true", privacyWorkEmail("public").getAttribute("selected"));
         Assert.assertEquals("Personal Email is not public by default.", "true", privacyPersonalEmail("public").getAttribute("selected"));
         Assert.assertEquals("Office Phone is not public by default.", "true", privacyOfficePhone("public").getAttribute("selected"));
@@ -199,8 +207,8 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
             navigationDropDown().sendKeys(Keys.ENTER);
             switch (tab){
                 case "Counselor Community":
-                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
-                    counselorCommunityMenuLink().click();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(counselorCommunityMenuLink()));
+                    driver.findElement(counselorCommunityMenuLink()).click();
                     iframeEnter();
                     waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='welcome-text']")));
                     Assert.assertTrue("Counselor Community profile form is not displayed",ccProfileForm().isDisplayed());
@@ -221,11 +229,6 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyRequiredFieldsInCCProfileForm(DataTable dataTable){
-        navigationDropDown().sendKeys(Keys.ENTER);
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
-        counselorCommunityMenuLink().click();
-        iframeEnter();
-        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
         saveButtonInCommunity().click();
         waitUntilPageFinishLoading();
         List<String> list = dataTable.asList(String.class);
@@ -235,6 +238,14 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         iframeExit();
     }
 
+    public void goToWelcomeCounselorCommunityPage(){
+        navigationDropDown().sendKeys(Keys.ENTER);
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(counselorCommunityMenuLink()));
+        driver.findElement(counselorCommunityMenuLink()).click();
+        iframeEnter();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("edit-submit")));
+    }
+
     public void verifyingTabNavigation(DataTable dataTable){
         List<String> list = dataTable.asList(String.class);
         for(String tab:list){
@@ -242,8 +253,8 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
             navigationDropDown().sendKeys(Keys.ENTER);
             switch (tab) {
                 case "Counselor Community":
-                    waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("js-main-nav-home-menu-link")));
-                    counselorCommunityMenuLink().click();
+                    waitUntil(ExpectedConditions.visibilityOfElementLocated(counselorCommunityMenuLink()));
+                    driver.findElement(counselorCommunityMenuLink()).click();
                     iframeEnter();
                     waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li/a[text()='Home']")));
                     Assert.assertTrue("Counselor Community profile form is not displayed",homeTabInCommunity().isDisplayed());
@@ -280,6 +291,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+
     private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
     private WebElement emailTextbox() {
         return textbox("Personal Email");
@@ -305,9 +317,7 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     private WebElement navigationDropDown(){
         return driver.findElement(By.xpath("//a[@name='mainmenu']"));
     }
-    private WebElement counselorCommunityMenuLink(){
-        return driver.findElement(By.id("js-main-nav-home-menu-link"));
-    }
+
     private WebElement repVisitsMenuLink(){
         return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
     }
@@ -345,4 +355,8 @@ public class WelcomePageImpl extends PageObjectFacadeImpl {
     private WebElement activeMatchMenuLink(){
         return driver.findElement(By.id("js-main-nav-am-plus-menu-link"));
     }
+    private WebElement counselorLink() { return driver.findElement(By.id("js-main-nav-counselor-community-menu-link")); }
+    private By counselorCommunityMenuLink(){ return By.id("js-main-nav-home-menu-link");}
+    private By counselorCommunity() {return By.xpath("(//div[text()='Counselor Community'])[1]");}
+
 }

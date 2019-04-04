@@ -13,6 +13,8 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "ViewFilterTest6674"
+    And HE I delete the filter of name "ViewFilterTest6674Edited"
     And HE I open the Create Filter screen
     When HE I create a new filter based on the following details:
       | Gender | Male |
@@ -32,6 +34,7 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "FilterToBeRemoved777"
     And HE I open the Create Filter screen
     When HE I create a new filter based on the following details:
       | Gender | Male |
@@ -65,6 +68,7 @@ Feature: HE - Events - ViewFilters - As an HE Events user, I can manage event fi
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events section
     And HE I open the "Filters" tab in the Events section
+    And HE I delete the filter of name "AssignedFilter88663"
     And HE I open the Create Filter screen
     When HE I create a new filter based on the following details:
       | Gender | Male |

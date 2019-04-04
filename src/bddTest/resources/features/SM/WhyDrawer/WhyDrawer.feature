@@ -26,7 +26,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     | X out of X Nice to Have criteria are a match |
 
   @MATCH-4249 @MATCH-3295
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 00 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what matched
     When SM I click "Athletics" filter criteria tab
     And SM I press button "ADD SPORT"
@@ -40,7 +40,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     Then I check if I can see "Your Fit Score:" on the page
 
   @MATCH-4249
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 01 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what matched (multiple sports)
     When SM I click "Athletics" filter criteria tab
     And SM I press button "ADD SPORT"
@@ -57,7 +57,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     And  I check if I can see "The following athletics are offered:" on the page
 
   @MATCH-4249
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 02 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see what doesn't match
     And SM I select the "Central" checkbox from "Location" fit criteria
     And SM I unselect the "Privat" checkbox from the "Institution Characteristics" fit criteria
@@ -71,7 +71,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     And  I check if I can see "Doesn't offer any of your athletics selection(s)" on the page
 
   @MATCH-4249
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 03 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual athletics data for the college so I can clearly see that there is no information about sports
     And SM I select the "Central" checkbox from "Location" fit criteria
     And SM I unselect the "Privat" checkbox from the "Institution Characteristics" fit criteria
@@ -85,7 +85,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     And  I check if I can see "Data unknown" on the page
 #
   @MATCH-4248
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 04 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual student life for the college so I can clearly see what matched
     When SM I click "Student Life" filter criteria tab
     And SM I pick "Business" from the dropdown "sm-filter-search-dropdown"
@@ -95,7 +95,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     And  I check if I can see "Business" on the page
 
   @MATCH-4248
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 05 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual student life for the college so I can clearly see what desn't match
     When SM I click "Location" filter criteria tab
     And SM I pick "Minnesota" from the dropdown "div-state-or-region-search"
@@ -111,12 +111,12 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
     And  I check if I can see "Doesn't offer any of your organizations and clubs selection(s)." on the page
 
   @MATCH-4248
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 06 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual student life data for the college so I can clearly see what matched (multiple sports)
     When SM I click "Student Life" filter criteria tab
     And SM I pick "Business" from the dropdown "sm-filter-search-dropdown"
     And SM I pick "Choir" from the dropdown "sm-filter-search-dropdown"
-    And SM I pick "Gay and Lesbian" from the dropdown "sm-filter-search-dropdown"
+    And SM I pick "LGBTQ+" from the dropdown "sm-filter-search-dropdown"
     And SM I press Why button for the first college in results with score 100%
     Then I check if I can see "Organizations and Clubs [3]" on the page
     And  I check if I can see "The following organizations and clubs are offered:" on the page
@@ -124,7 +124,7 @@ Feature: SM - WhyDrawer - WhyDrawer - In order for the Why? drawer fit score bre
 #    To add one more scenario w\o data a college with appropriate data is needed. TODO
 
   @MATCH-3427
-  Scenario: As a HS student viewing the Why drawer of a particular college in my search results,
+  Scenario: 07 As a HS student viewing the Why drawer of a particular college in my search results,
   I want to see the actual out of States Students for the college so I can clearly see
   what matched/did not match/partially matched my search/fit criteria requirements
     When SM I click "Admission" filter criteria tab

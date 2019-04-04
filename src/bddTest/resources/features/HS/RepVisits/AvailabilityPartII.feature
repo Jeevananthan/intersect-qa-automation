@@ -57,6 +57,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
             I want to be able to enter a primary contact number for my school,
             So that Colleges trying to schedule visits have the correct contact number for me.
     Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I complete the setup wizard
     And HS I go to the Availability & Settings
     Then HS I verify the Primary Contact Phone Number is required in Availability & Settings
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
@@ -83,7 +84,7 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
                     who have made their RepVisits availability publicly available
                     so HE users are not presented with high schools in the search results that don't use RepVisits.
 #Pre-condition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
@@ -106,14 +107,16 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
-  #by SchoolName
+    And HE I successfully sign out
+#by SchoolName
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Enabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Disabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+    And HE I successfully sign out
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "Only Me"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
 
@@ -124,20 +127,22 @@ Feature: HS - RepVisits - AvailabilityPartII - As an HS user, I should be able t
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
- #by SchoolName
+    And HE I successfully sign out
+#by SchoolName
     Then HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the default toggle "Visits" is "Disabled" in search and schedule Tab
     Then HE I verify the default toggle "Fairs" is "Enabled" in search and schedule Tab
     Then HE I verify the Availability slot "<heStartTime>" is not displaying in the visit toggle "<Date>","<School>" in search and schedule Tab
+    And HE I successfully sign out
 #Post-Condition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone6"
     And HS I set the Visit Availability of RepVisits Availability Settings to "All RepVisits Users"
     Then HS I verify the success Message "Great!You've updated your settings." in Availability Settings page
 
   Examples:
-   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location               |option |
-   |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Int Qa High School 4    |10:32am     |14  |Liberty Township       |1      |
+   |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |Option                                               |School                  |heStartTime |Date|location         |option |
+   |14  |10:32am  |11:25pm |3        |14       |42      |No, I want to manually review all incoming requests. |Standalone High School 6|10:32am     |14  |California       |1      |
 
 
   @MATCH-1583

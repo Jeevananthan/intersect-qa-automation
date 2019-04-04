@@ -12,6 +12,7 @@ import pageObjects.CM.loginPage.LoginPageImpl;
 import pageObjects.CM.userProfilePage.UserProfilePageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -45,7 +46,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void goToGroupsPage() {
         logger.info("Going to groups page.");
-        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        iframeExit();
+        getNavigationBar().goToCommunity();
+        communityFrame();
+        link("Groups").click();
+    }
+
+    public void goToGroupsPageAsAdmin() {
+        logger.info("Going to groups page.");
+        link(getCounselorCommunity()).click();
         waitUntilPageFinishLoading();
         communityFrame();
         link("Groups").click();
@@ -159,11 +168,11 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     public void searchForGroup(String groupname) {
         waitUntilPageFinishLoading();
         iframeExit();
-        textbox(By.id("global-search-box-input")).clear();
-        textbox(By.id("global-search-box-input")).sendKeys(groupname);
+        driver.findElement(searchUser()).clear();
+        driver.findElement(searchUser()).sendKeys(groupname);
         logger.info("Searching for the group.");
-        waitUntilElementExists(link(By.id("global-search-box-item-0")));
-        getDriver().findElement(By.id("global-search-box-item-0")).findElement(By.className("title")).click();
+        waitUntilElementExists(link(searchUser()));
+        getDriver().findElement(searchUserResult()).findElement(searchUserTitle()).click();
         communityFrame();
         waitUntilPageFinishLoading();
     }
@@ -172,8 +181,8 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         logger.info("Entering search criteria in search box.");
         waitUntilPageFinishLoading();
         iframeExit();
-        textbox(By.id("global-search-box-input")).clear();
-        textbox(By.id("global-search-box-input")).sendKeys(text);
+        textbox(searchUser()).clear();
+        textbox(searchUser()).sendKeys(text);
     }
 
     public void makeSureUserIsMemberOfTheGroup() {
@@ -245,14 +254,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void goToManageGroupMembersPage() {
-        logger.info("Going to the Manage Group Members Page.");
-        // Implementing Brian's fix from @MATCH-654
-        getNavigationBar().goToCommunity();
+        logger.info("Going to groups page.");
+        link(getCounselorCommunity()).click();
+        waitUntilPageFinishLoading();
         communityFrame();
+        logger.info("Going to the Manage Group Members Page.");
         link("Groups").click();
         waitUntilPageFinishLoading();
         link(By.linkText("**Test Automation** HE Community PRIVATE Group")).click();
-        driver.findElement(By.className("manage-group-members-link")).click();
+        driver.findElement(manageGroupLink()).click();
     }
 
     public void goToSpecificManageGroupMembersPage(String group) {
@@ -262,25 +272,50 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         link("Groups").click();
         waitUntilPageFinishLoading();
         link(By.linkText(group)).click();
-        driver.findElement(By.className("manage-group-members-link")).click();
+        driver.findElement(manageGroupLink()).click();
+    }
+
+    public void goToSpecificManageGroupMembersPageAsAdmin(String group) {
+        logger.info("Going to the Manage Group Members Page for group " + group);
+        link(getCounselorCommunity()).click();
+        communityFrame();
+        link("Groups").click();
+        waitUntilPageFinishLoading();
+        link(By.linkText(group)).click();
+        driver.findElement(manageGroupLink()).click();
     }
 
     public void approveRequestToJoinTheGroup() {
         logger.info("Approving request to join the group.");
         loginPage.defaultLoginSupport();
-        goToManageGroupMembersPage();
-        driver.findElement(By.className("accept-link")).click();
-        //homePage.logoutSupport();
-        // LoginLogout.defaultLoginHE();
-      //  searchForGroup("**Test Automation** HE Community PRIVATE Group");
+        logger.info("Going to groups page.");
+        link(getCounselorCommunity()).click();
+        waitUntilPageFinishLoading();
+        iframeExit();
+        logger.info("Searching for the group.");
+        driver.findElement(searchUser()).clear();
+        driver.findElement(searchUser()).sendKeys("**Test Automation** HE Community PRIVATE Group");
+
+        waitUntilElementExists(link(searchUserResult()));
+        getDriver().findElement(searchUserResult()).findElement(By.className("title")).click();
+        communityFrame();
+        driver.findElement(manageGroup()).click();
+        driver.findElement(acceptLink()).click();
     }
 
     public void denyRequestToJoinTheGroup() {
         logger.info("Denying request to join the group.");
-        loginPage.defaultLoginSupport();
-        goToManageGroupMembersPage();
-        driver.findElement(By.className("decline-link")).click();
-        //homePage.logoutSupport();
+        link(getCounselorCommunity()).click();
+        waitUntilPageFinishLoading();
+        iframeExit();
+        driver.findElement(searchUser()).clear();
+        driver.findElement(searchUser()).sendKeys("**Test Automation** HE Community PRIVATE Group");
+        logger.info("Searching for the group.");
+        waitUntilElementExists(link(searchUserResult()));
+        getDriver().findElement(searchUserResult()).findElement(searchUserTitle()).click();
+        communityFrame();
+        driver.findElement(manageGroup()).click();
+        driver.findElement(declineLink()).click();
     }
 
     public void makeSureUserIsNotMemberOfTheGroup() {
@@ -349,6 +384,15 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    private boolean checkPublicationsAredisplayed() {
+        try {
+            int publications = driver.findElements(publicationsLocator()).size();
+            return publications > 0;
+        } catch (NoSuchElementException ex)  {
+            return false;
+        }
+    }
+
     private boolean checkItemVisibleByCssSelector(String tag, String cssselector, String selectorvalue) {
         try {
             driver.findElement(By.cssSelector(""+tag+"["+cssselector+"='"+selectorvalue+"']"));
@@ -406,13 +450,13 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
 
     public void checkIfThereArePostsFromPublicGroup() {
         logger.info("Checking if posts from PUBLIC group are visible.");
-        Assert.assertTrue("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
+        Assert.assertTrue("There are no posts from PUBLIC group.", checkPublicationsAredisplayed());
         iframeExit();
     }
 
     public void checkIfThereAreNoPostsFromPublicGroup() {
         logger.info("Checking if posts from PUBLIC group are not visible.");
-        Assert.assertFalse("There are no posts from PUBLIC group.", checkItemVisible("**Test Automation** HE Community PUBLIC Group post."));
+        Assert.assertFalse("There are no posts from PUBLIC group.",checkPublicationsAredisplayed());
     }
 
     public void setGroupVisibility(String visibility) {
@@ -557,4 +601,14 @@ public class GroupsPageImpl extends PageObjectFacadeImpl {
     private WebElement updateBtn() {return driver.findElement(By.id("edit-update"));}
     private WebElement searchIcon() {return driver.findElement(By.cssSelector("i[class='search link icon']"));}
     private WebElement groupsTabUnderSearch() {return driver.findElement(By.id("searchResultsTabgroups"));}
+    public By publicationsLocator(){ return By.xpath("//article[contains(@id,'node-')]"); }
+    private By searchUser()  {return By.id("global-search-box-input");}
+    private By searchUserResult()  {return By.id("global-search-box-item-0");}
+    private By searchUserTitle()  {return By.className("title");}
+    private By getCounselorCommunity(){return By.id("js-main-nav-counselor-community-menu-link");}
+    private By manageGroup(){return By.xpath("//*[@id='block-cp-og-tools-cp-og-manage-group']/div/div[2]/a");}
+    private By acceptLink() {return By.className("accept-link");}
+    private By declineLink(){return By.className("decline-link");}
+    private By manageGroupLink(){return By.className("manage-group-members-link");}
+
 }

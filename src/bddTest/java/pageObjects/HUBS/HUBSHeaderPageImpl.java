@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
+import java.util.concurrent.TimeUnit;
+
 public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
 
     Logger logger = null;
@@ -17,7 +19,8 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickLogOut() {
-        waitUntil(ExpectedConditions.elementToBeClickable(logOutButton()));
+        driver.manage().timeouts().implicitlyWait(70, TimeUnit.SECONDS);
+        waitUntilElementExists(logOutButton());
         logOutButton().sendKeys(Keys.RETURN);
         waitUntilPageFinishLoading();
         logger.info("User signed out HUBS");
@@ -42,8 +45,8 @@ public class HUBSHeaderPageImpl extends PageObjectFacadeImpl {
 
     //Locators
 
-    private WebElement logOutButton() {
-        return getDriver().findElement(By.cssSelector("span.fc-user-nav__student a.fc-user-nav__link"));
+    public WebElement logOutButton() {
+        return getDriver().findElement(By.linkText("LOG OUT"));
     }
 
     private WebElement heartIcon() {

@@ -3,8 +3,10 @@ package pageObjects.CM.userInstitutionPage;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 
 
@@ -20,31 +22,24 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     public UserInstitutionPageImpl()  {
         logger = Logger.getLogger(UserInstitutionPageImpl.class);}
 
-    public void iframeEnter()  {
-        //Thread.sleep(3000); //Implicitly wait does not work on Mac (should be fixed soon)
-        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
-    }
-
-    public void iframeExit() {
-        driver.switchTo().defaultContent();
-    }
-
-
     public void goToUserInstitutionPage() {
         logger.info("Going to user profile page.");
         getNavigationBar().goToCommunity();
+        communityFrame();
+        link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void goToHSUserInstitutionPage() {
         logger.info("Going to user profile page.");
-        link(By.id("js-main-nav-home-menu-link")).click();
+        getNavigationBar().goToCommunityInHS();
         communityFrame();
         link(By.cssSelector("a[href='/institution']")).click();
     }
 
     public void clickInstitutionTab() {
         logger.info("Going to institution tab.");
-        link(By.cssSelector("a[href='/institution']")).click();
+        driver.findElement(homeLink()).click();
+        institutionLink().click();
     }
 
     public void createNewInstitutionPost(String postText) {
@@ -236,8 +231,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void goToInstitutionAdditionalInfo() {
         logger.info("Going to the Alabama Institution Aditional Info.");
-        link(By.xpath("//a[contains(@href, '/info')]")).click();
-//        link(By.cssSelector("a[href='/institution/636/info']")).click();
+        link(infoTab()).click();
     }
 
     public void goToInstitutionFollowersList() {
@@ -245,11 +239,14 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
         link(By.xpath("//a[contains(@href, '/followers')]")).click();
     }
 
+    public void clickOnViewNavianceCollegeProfile() {
+        driver.navigate().to("https://qa-he.intersect.hobsons.com/naviance-college-profile/view/d5b6754a-f8aa-49e5-8e8c-d3f7ad001830");
+    }
+
     public void checkHEInstitutionAdditionalInfoPageItems() {
         logger.info("Checking if all items are displayed on the Institution page.");
         Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
         Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
-        Assert.assertTrue("Website field is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-website-url"));
         Assert.assertTrue("Institution location is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-location"));
         Assert.assertTrue("Institution type not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-type"));
         Assert.assertTrue("Undergraduate enrollment not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-undergraduate-enrollment"));
@@ -264,7 +261,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
 
     public void checkHSInstitutionAdditionalInfoPageItems() {
         logger.info("Checking if all items are displayed on the Institution page.");
-//        Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
+        Assert.assertTrue("Institution logo is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-logo"));
         Assert.assertTrue("Institution name is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-title"));
         Assert.assertTrue("Enrollment field is not displayed!", checkItemVisibleByCssSelector("div", "class", "type-enrolled"));
         Assert.assertTrue("Collage Bord ID is not displayed!", checkItemVisibleByCssSelector("div", "class", "field-name-field-hs-colllege-board-id"));
@@ -309,5 +306,7 @@ public class UserInstitutionPageImpl extends PageObjectFacadeImpl {
     private WebElement unfollowBtnById(String id) {return driver.findElement(By.id("unfollow-"+id+""));}
     private WebElement followBtn() {return driver.findElement(By.cssSelector("a[title='Follow Institution']"));}
     private WebElement editInstitutionBtn() {return driver.findElement(By.cssSelector("a[class='edit-institution-link']"));}
-
+    private WebElement institutionLink() { return driver.findElement(By.cssSelector("a[href='/institution']")); }
+    private By homeLink(){ return By.id("js-main-nav-home-menu-link"); }
+    private By infoTab(){ return By.xpath("//a[contains(@href, '/info')]"); }
 }

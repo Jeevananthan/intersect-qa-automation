@@ -4,16 +4,19 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
   @MATCH-3450
   Scenario: As a HS student that is comparing my pinned schools, I want to expand and collapse buckets of data about my
   pinned colleges so I can control how much data is showing on my screen at a time. (MATCH-4787)
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "3450"
     And I clear the onboarding popups if present
     And SM I start the search over
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Colorado           |
     When I select the following data from the Admission Fit Criteria
       | GPA (4.0 scale) | 4 |
       | SAT Composite   | 400 |
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
     Then SM I verify that "10" drawers are displayed
@@ -26,7 +29,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I expand the drawer in position "1"
     Then SM I verify that Expand All button changes to "Collapse All" when at least "1" drawer is expanded
 
-  @MATCH-3523
+  @MATCH-3523 @NotInQA
   Scenario: As a HS student that is comparing my pinned schools, I want to export those schools and their data so I can
   view this information outside of SuperMatch.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -39,10 +42,11 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | ACT Composite   | 3   |
       | Acceptance Rate | 25% or Lower |
     #The following step is needed to avoid MATCH-4830
-    And SM I reload the page
+    #And SM I reload the page
     And SM I pin "Colorado College" if it is not pinned already
     And SM I open the Pinned Schools Compare screen
     And SM I export the data in the Pinned Schools Compare screen
+    #This does not work when run on the Grid.  Assume changes are needed to handle file interation when running on GridDriver
     Then HE I verify the downloaded ActiveMatch Cvs file "PinnedColleges.csv" contains the following headers
     #The first empty space in the data table is for the first empty cell in the exported document
       | ﻿  |Colorado College|
@@ -68,7 +72,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 1 college is "Unknown"
       Then SM I verify that in the "Cost" criteria table "Meets 100% of need" criteria for the 2 college is "Yes"
 
-  @MATCH-4860
+  @MATCH-4860 @DataMissing
   Scenario Outline:  I want to see links to Upcoming College Visits in Highlights details about each college side by side so
   I can determine which pinned college is a best fit for me based on their highlights.
     Given SM I am logged in to SuperMatch through Family Connection as user "<user>" with password "Hobsons!23" from school "blue1combo"
@@ -89,7 +93,7 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | linussupermatch | How you compare with | Visits to your High School |
       | tenthGradeUser  | Quick Links          | College Visits             |
 
-  @MATCH-4458 @MATCH-4896
+  @MATCH-4458 @MATCH-4896 @MATCH-5825 @DataMissing
   Scenario: As a HS student that is comparing my pinned schools, I want to see institution highlight details about
   each college side by side so I can determine which pinned college is a best fit for me based on their highlights.
     Given SM I am logged in to SuperMatch through Family Connection
@@ -101,21 +105,25 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
       | Photos/Videos on Profile | Profiles      | Upcoming College Events | Upcoming College Visits |
       | -                        | View Profiles | -                       | -                       |
 
-  @MATCH-3448
-  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  @MATCH-3448 @concurrency
+  Scenario: 00 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "3448-00"
     And I clear the onboarding popups if present
     And SM I clear all the pinned college
     And SM I search for "The University of Alabama" college in search bar
+    Then SM I select the following data from the Location Fit Criteria
+      |State or Province  |
+      |Ohio               |
+    And SM I favorite the school "The University of Alabama"
     And SM I open the Pinned Schools Compare screen
     And SM I verify the following things for pinned college
-      | FAVORITE | The University of Alabama | this.is.yet.another.testing6,14:02 | PINNED |
+      | FAVORITED | The University of Alabama | this.is.another.testing3.net,39:30 | PINNED |
 
-  @MATCH-3448
-  Scenario: As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
+  @MATCH-3448 @concurrency
+  Scenario: 01 As a HS student that is comparing my pinned schools, I want to paginate through my pinned schools so I can
   compare them side by side.
-    Given SM I am logged in to SuperMatch through Family Connection
+    Given SM I am logged in to SuperMatch through Family Connection as user type "3448-01"
     And I clear the onboarding popups if present
     And SM I clear all the pinned college
     And SM I search for "Curtis Institute of Music" college in search bar
@@ -125,3 +133,12 @@ Feature: SM - PinnedSchoolsCompare - PinnedScoolsCompare - Compare Pinned School
     And SM I search for "York College" college in search bar
     And SM I open the Pinned Schools Compare screen
     And SM I verify the displaying more then four colleges in compare pinned college page
+
+  @MATCH-5825
+  Scenario: The display name of pinned colleges on the Compare page are not hyperlinks to the college's profile page.
+    Given SM I am logged in to SuperMatch through Family Connection
+    And I clear the onboarding popups if present
+    And SM I clear all the pinned college
+    And SM I search for "The University of Alabama" college in search bar
+    And SM I open the Pinned Schools Compare screen
+    And SM I verify that college name should be hyperlink and open in new tab

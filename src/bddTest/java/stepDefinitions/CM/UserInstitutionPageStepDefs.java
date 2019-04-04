@@ -1,6 +1,5 @@
 package stepDefinitions.CM;
 
-import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.CM.userInstitutionPage.UserInstitutionPageImpl;
 
@@ -38,6 +37,7 @@ public class UserInstitutionPageStepDefs implements En {
         And("^I check if institutions list is displayed$", institutionPage::checkInstitutionsListDisplayed);
         Then("^I go to Alabama institution page$", institutionPage::goToAlabamaInstitution);
         And("^I click on Additional Info$", institutionPage::goToInstitutionAdditionalInfo);
+        And("^I click on VIEW NAVIANCE COLLEGE PROFILE$", institutionPage::clickOnViewNavianceCollegeProfile);
         Then("^I check items on the Alabama's institution additional info$", institutionPage::checkHEInstitutionAdditionalInfoPageItems);
         Then("^I check items on the Lebanon High School institution additional info$",institutionPage::checkHSInstitutionAdditionalInfoPageItems);
         And("^I go to HS institution page$", institutionPage::goToHSUserInstitutionPage);

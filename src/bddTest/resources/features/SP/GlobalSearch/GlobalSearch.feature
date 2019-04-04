@@ -34,7 +34,7 @@ Feature: SP - GlobalSearch - GlobalSearch - Verify ability to search for Institu
       | Groups       | searchResultsTabgroups       |
     Then SP I verify that only five or less results are listed for advanced search results displayed by category
       | People | Institutions | Groups |
-    Then SP I verify advanced search tab layouts are displayed correctly "admin"
+    Then SP I verify search tab layouts are displayed correctly "admin"
       | People | Institutions | Groups |
 
   @MATCH-932 @MATCH-934 @MATCH-1076 @MATCH-1077 @MATCH-1078 @MATCH-1723
@@ -98,6 +98,6 @@ Feature: SP - GlobalSearch - GlobalSearch - Verify ability to search for Institu
             So the results returned to me are as accurate and relevant as possible.
     Given SP I am logged in to the Admin page as a Support user
     # Only partials are being texted, commented out code to test full Match, MATCH-2231 submitted or HE Accounts full match search
-    Then SP I verify the real-time results return for global search are a partial and full match "Adrian College"
+    Then SP I verify the real-time results return for global search are full match "Babson College"
       #| HE Accounts | People | Institutions |
       | People |

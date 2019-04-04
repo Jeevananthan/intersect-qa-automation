@@ -5,9 +5,8 @@ Feature: Community User - Core User Profile Fields Uneditable
 
   @MATCH-523
   Scenario: As an Community user I cannot modify the name, institution and email profile fields within the Community.
-    Given HE I want to login to the HE app using "purpleheautomation+admin_match_1799@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "resetAccount"
     And I am sure that HE user will be logged in for the first time and Welcome page will be opened
-    And I go to Counselor Community page
     Then I check if fields name, institution and email address are uneditable
     #Post conditions
     And I populate all the fields on Welcome page

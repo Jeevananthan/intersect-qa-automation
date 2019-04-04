@@ -3,16 +3,15 @@ package pageObjects.CM.userConnectionsPage;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.CM.homePage.HomePageImpl;
 import pageObjects.CM.loginPage.LoginPageImpl;
-//import sun.rmi.runtime.Log;
+import pageObjects.COMMON.PageObjectFacadeImpl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
 
-//    private LoginPageImpl lp;
+    //    private LoginPageImpl lp;
 //    private HomePageImpl hp;
     HomePageImpl hp = new HomePageImpl();
     LoginPageImpl lp = new LoginPageImpl();
@@ -50,6 +49,16 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         link(By.cssSelector("a[href='/connections']")).click();
     }
 
+    public void goToUserConnectionsHSPage() {
+        logger.info("Going to user connections page.");
+        iframeExit();
+        link(homeSupport()).click();
+        link(By.id("js-main-nav-counselor-community-menu-link")).click();
+        communityFrame();
+        link(By.cssSelector("a[href='/connections']")).click();
+    }
+
+
     public void clickConnectionsTab() {
         logger.info("Going to connections tab.");
         link(By.cssSelector("a[href='/connections']")).click();
@@ -63,20 +72,18 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void checkMutualConnectionsDisplayed() {
         logger.info("Checking if there are mutual connection section displayed.");
-        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "mutual-wrapper"));
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "institutions-wrapper"));
     }
 
     public void checkConnectionsDisplayed() {
         logger.info("Checking if I see user's connections.");
-        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "connections-wrapper"));
+        Assert.assertTrue("There are no mutual connections displayed!", checkItemVisibleByCssSelector("div", "class", "group-name-loc-wrapp field-group-div"));
     }
 
     public void goToHSUserConnectionsPage() {
         logger.info("Going to user connections page.");
-        iframeExit();
-        link(By.id("js-main-nav-home-menu-link")).click();
         communityFrame();
-        link(By.cssSelector("a[href='/connections']")).click();
+        link(linkConnections()).click();
     }
 
     public void goToInstituionFollowingPage() {
@@ -109,14 +116,13 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     public void searchForUser(String user){
         iframeExit();
-        textbox(By.id("global-search-box-input")).clear();
-        textbox(By.id("global-search-box-input")).sendKeys(user);
+        searchUser().clear();
+        searchUser().sendKeys(Keys.chord(Keys.CONTROL, "a"), user);
         logger.info("Searching for user.");
-        waitUntilElementExists(link(By.id("global-search-box-item-0")));
+        waitUntilElementExists(link(searchUserResult()));
         //link(By.id("global-search-box-item-0")).click();
         waitUntilPageFinishLoading();
-        link(By.xpath("//*[@id=\"global-search-box-item-0\"]/i")).click();
-        //link(By.id("global-search-box-item-0")).click();
+        link(By.xpath("//div[@id='global-search-box-item-0']")).click();
         waitUntilPageFinishLoading();
     }
 
@@ -176,12 +182,37 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         try {
             setImplicitWaitTimeout(1);
             String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
-            if (buttonText.equals("Invited")) {
+            if (buttonText.equals("INVITED")) {
                 acceptConnectionRequestByHSUser();
                 searchForUser(user);
                 communityFrame();
                 clickDisconnectBtn();
-            } else {
+            } else if ( buttonText.equals("CONNECTED")){
+                clickDisconnectBtn();
+            }
+            resetImplicitWaitTimeout();
+        } catch (NoSuchElementException ex) {
+            logger.info("The user is not a connection.");
+            driver.findElement(By.className("close")).click();
+            waitUntilPageFinishLoading();
+            resetImplicitWaitTimeout();
+        }
+    }
+
+    public void disconnectFromUserHE(String user) {
+        logger.info("Making sure that I am not connected to PurpleHS user");
+        iframeExit();
+        searchForUser(user);
+        communityFrame();
+        try {
+            setImplicitWaitTimeout(1);
+            String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
+            if (buttonText.equals("INVITED")) {
+                acceptConnectionRequestByHEUser();
+                searchForUser(user);
+                communityFrame();
+                clickDisconnectBtn();
+            } else if ( buttonText.equals("CONNECTED")){
                 clickDisconnectBtn();
             }
             resetImplicitWaitTimeout();
@@ -216,6 +247,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         lp.defaultLoginHS();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(homeSupport()).click();
         link(By.id("js-main-nav-home-menu-link")).click();
         communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
@@ -223,7 +255,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         driver.navigate().refresh();
         goToHSUserConnectionsPage();
         pendingRequestsLink().click();
-        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Community')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
         waitUntilPageFinishLoading();
         hp.logoutHSDefault();
         lp.defaultLoginHE();
@@ -235,12 +267,10 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         lp.defaultLoginHE();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(homeSupport()).click();
         link(By.id("js-main-nav-counselor-community-menu-link")).click();
         communityFrame();
-        link(By.cssSelector("a[href='/profile']")).click();
-        iframeExit();
-        driver.navigate().refresh();
-        goToUserConnectionsPage();
+        link(By.cssSelector("a[href='/connections']")).click();;
         pendingRequestsLink().click();
         waitUntilPageFinishLoading();
         driver.findElement(By.xpath("//div[contains(text(), 'PurpleHS User')]/../../../../../td[2]/div/a[@title='Accept Connect Request']")).click();
@@ -275,6 +305,7 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         lp.defaultLoginHS();
         //Next 3 lines we have to use because there are some session problems when we are logged in both as HS and HE users in the same browser
+        link(homeSupport()).click();
         link(By.id("js-main-nav-home-menu-link")).click();
         communityFrame();
         link(By.cssSelector("a[href='/profile']")).click();
@@ -282,10 +313,11 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
         driver.navigate().refresh();
         goToHSUserConnectionsPage();
         pendingRequestsLink().click();
-        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Automation')]/../../../../../td[2]/div/a[@title='Ignore Connect Request']")).click();
+        driver.findElement(By.xpath("//div[contains(text(), 'PurpleHE Community')]/../../../../../td[2]/div/a[@title='Ignore Connect Request']")).click();
         waitUntilPageFinishLoading();
         hp.logoutHSDefault();
         lp.defaultLoginHE();
+        waitUntilPageFinishLoading();
     }
 
     public void checkIfConfirmationMsgDisplayed() {
@@ -375,7 +407,10 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
             driver.get("https://qa-he.intersect.hobsons.com/counselor-community/profile/5539");
             communityFrame();
             connectToUserButton().click();
-            sendInvitationToUserButton().click();
+            String buttonText = connectToUserButton().findElement(By.className("cp-ur-link-wrapper")).findElement(By.tagName("a")).getText();
+            if (!buttonText.equals("INVITED")) {
+                sendInvitationToUserButton().click();
+            }
             waitUntilPageFinishLoading();
             hp.logoutHEDefault();
             waitUntilPageFinishLoading();
@@ -439,8 +474,17 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
     public void checkIfuserIsConencted(String user) {
         logger.info("Checking if users are connected.");
         goToUserConnectionsPage();
+
         Assert.assertTrue("Cannot find the user in users connections list!!", checkItemVisible(user));
     }
+
+    public void checkIfHSUserIsConencted(String user) {
+        logger.info("Checking if users are connected.");
+        goToUserConnectionsHSPage();
+        Assert.assertTrue("Cannot find the user in users connections list!!", checkItemVisible(user));
+    }
+
+
     public void checkIfHeIsNotConnected(String user) {
         logger.info("Checking if users are not connected.");
         goToUserConnectionsPage();
@@ -630,5 +674,10 @@ public class userConnectionsPageImpl extends PageObjectFacadeImpl {
 
     private WebElement saveBtn(){return driver.findElement(By.id("edit-save"));}
     private WebElement editCustomCategory(String category) {return driver.findElement(By.xpath("//a[contains(text(), '"+category+"')]/..//a[@title='Edit category']"));}
+    private WebElement  searchUser()  {return driver.findElement(By.id("global-search-box-input"));}
+    private By linkConnections() {return By.cssSelector("a[href='/connections']");}
+    private By searchUserResult()  {return By.id("global-search-box-item-0");}
+    private By homeSupport() {return By.xpath("(//div[text()='Home'])[1]");}
+    private By getCounselorCommunity(){return By.id("js-main-nav-counselor-community-menu-link");}
 
 }

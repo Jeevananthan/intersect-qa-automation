@@ -49,7 +49,7 @@ public class PinnedSchoolsComparePageStepDefs implements En {
 
         Then("^SM I verify that the appropriate section in the college's profile is displayed after clicking the following links:$", pinnedSchoolsComparePage::verifyHousingInfoIsDisplayedAfterClickingSections);
 
-        And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchool);
+        And("^SM I unpin \"([^\"]*)\" from the Schools Compare screen$", pinnedSchoolsComparePage::unpinSchoolFromCompareSchools);
 
         And("^SM I search for \"([^\"]*)\" college in search bar$", pinnedSchoolsComparePage::pinCollegeFromBottomSearchResult);
 
@@ -62,6 +62,12 @@ public class PinnedSchoolsComparePageStepDefs implements En {
         And("^SM I verify the following things for pinned college$", pinnedSchoolsComparePage::verifyPinnedCollege);
 
         And("^SM I verify the displaying more then four colleges in compare pinned college page$", pinnedSchoolsComparePage::verifyPinnedCollegesFunctionality);
+
+        And("^SM I favorite the school \"([^\"]*)\" from the Pinned Colleges screen$", pinnedSchoolsComparePage::favSchoolFromPinnedColleges);
+
+        And("^SM I un-favorite the school \"([^\"]*)\" from the Pinned Colleges screen$", pinnedSchoolsComparePage::unfavSchoolFromPinnedColleges);
+
+        And("^SM I verify that college name should be hyperlink and open in new tab$", pinnedSchoolsComparePage::verifyCollegeHyperlink);
 
     }
 }

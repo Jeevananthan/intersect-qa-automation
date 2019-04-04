@@ -61,7 +61,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Examples:
       |School                   |College Fair Name         |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |fairTime|
-      |Standalone High School 2 |QA4 Fairs for testing     |35  |0900AM    |1000AM  |28           |$25 |25                    |100                        | Save          |9:00am  |
+      |Standalone High School 2 |QA4 Fairs for testing     |35  |1123AM    |1000AM  |28           |$25 |25                    |100                        | Save          |11:23am  |
 
   @MATCH-2565
   Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.
@@ -126,7 +126,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
   so I can efficiently find the updates I am looking for within RepVisits.
 #FOR VISITS
 #precondition
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "Notification1"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
     Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
     Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
@@ -153,7 +153,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     Then HE I select Visits to schedule the appointment for "<School>" using "<Date>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
 
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "Notification1"
     Then HS I verify the Notification "<HEUser>","<institution>","<heStartTime>","<StartDate>" in the Request Notification Tab
     And HS I select "Confirm" option for the Notification using "<HEUser>","<heStartTime>","<institution>"
 #VERIFY ACTIVITY
@@ -197,15 +197,15 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I successfully sign out
 
     Examples:
-      |activityDate |calendarST    |HEUser   |HSuser         |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School                  |heStartTime |heTime  |Date|StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|reason|FName    |LName |EMail                           |Phone       |Position|option|
-      |14           |12:19AM       |purple   |School Manager |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Standalone High School 2|12:19am     |12:19am |14  |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |1     |
+      |activityDate |calendarST    |HEUser   |HSuser                 |institution               |Day |StartTime|EndTime |NumVisits|StartDate|EndDate |hsEndTime    |Option                                               |School               |heStartTime |heTime  |Date|StartDateforNewVisit|newVisitSTime|RescheduleStartTime|RescheduleAvailabilityStartTime|RescheduleAvailabilityEndTime|reason|FName    |LName |EMail                           |Phone       |Position|option|
+      |14           |12:19AM       |purple   |PurpleHS Notification1 |Alpena Community College  |14  |12:19am  |10:59pm |3        |14       |35      |10:59pm      |No, I want to manually review all incoming requests. |Geneva Co High School|12:19am     |12:19am |14  |21                  |12:31am      |12:29 AM           |12:29am                        |10:59pm                      |by QA |purple   |HE    |purpleheautomation@gmail.com    |999999999999|QA      |1     |
 
   @MATCH-2093 @MATCH-2828
   Scenario Outline: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page ACTIVITY subtab
   so I can efficiently find the updates I am looking for within RepVisits.
 #FOR FAIRS
 #FOR CONFIRM
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "Notification1"
     Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<newFairName>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
@@ -214,40 +214,42 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 
-    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
-    And HE I search for "<School>" in RepVisits page
-    Then HE I register for the "<College Fair Name>" college fair at "<School>"
-
-    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Given HS I am logged in to Intersect HS as user type "Notification1"
     Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
     And HS I select "Confirm" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "confirmed" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
-#FOR DECLINE
-    Then HS I verify the Notification "<HEUser>","<institution>","<FairsSTime>","<Date>" in the Request Notification Tab for Fairs
-    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<FairsSTime>","<institution>" for Fairs
-    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<FairsSTime>","<Date>" for Fairs
-    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
-#VERIFY ACTIVITY
-    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<AcitivityFairTime>" for Fairs
 #FOR RESCHEDULE
     Then HS I Click on the View Details button for the College Fair "<College Fair Name>"
     Then HS I verify the edit fair popup "<College Fair Name>","<FairSTimeforReschedule>","<Date>"
     And HS I reschedule the fair using "<newFairsSTime>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "rescheduled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
+    And HS I successfully sign out
+
+    Given HE I want to login to the HE app using "purplehsautomations+alpena@gmail.com" as username and "Password!1" as password
+    And HE I search for "<School>" in RepVisits page
+    Then HE I register for the "<College Fair Name>" college fair at "<School>"
+#FOR DECLINE
+    Given HS I am logged in to Intersect HS as user type "Notification1"
+    Then HS I verify the Notification "<HEUser>","<institution>","<newFairsSTime>","<Date>" in the Request Notification Tab for Fairs
+    And HS I select "Decline" option for the Notification using "<HEUser>","<Date>","<newFairsSTime>","<institution>" for Fairs
+    Then HS I verify the Decline Pop-up in the Notification Tab "<HEUser>","<institution>","<newFairsSTime>","<Date>" for Fairs
+    Then HS I select the "Yes, Decline" button by entering the message "QA Declined" for "<HEUser>"
+#VERIFY ACTIVITY
+    And HS I select Activity in RepVisits to verify "declined" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
 #FOR CANCEL
     Then HS I Click on the View Details button for the College Fair Event "<College Fair Name>"
     Then HS I select Edit button to cancel the college Fair "<College Fair Name>"
 #VERIFY ACTIVITY
     And HS I select Activity in RepVisits to verify "cancelled" notification for "<HSuser>","<institution>","<activityDate>","<newFairsSTime>" for Fairs
-    Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
     Then HS I verify the Paginate the ACTIVITY subtab via 25 entries with a "Show More" action to display the next 25 entries
+    Then HS I verify the message "You currently have no notifications" is displayed in the ACTIVITY subtab
     And HS I successfully sign out
 
     Examples:
-      |activityDate |HEUser   |HSuser         |institution               |School                  |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|FairSTimeforReschedule|
-      |14           |purple   |School Manager |Alpena Community College  |Standalone High School 2|Qa Fair for testng    |14  |1200AM    |0100AM  |5            |$25 |25                    |100                        |Save          |12:00am   |12:00am      |12:00am          |fairNewqa  |12:00 AM              |
+      |activityDate |HEUser   |HSuser                 |institution               |School               |College Fair Name     |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick |FairsSTime|newFairsSTime|AcitivityFairTime|newFairName|FairSTimeforReschedule|
+      |14           |purple   |PurpleHS Notification1 |Alpena Community College  |Geneva Co High School|Qa Fair for testng    |14  |1000AM    |1200PM  |5            |$25 |25                    |100                        |Save          |10:00am   |11:00am      |10:00am          |fairNewqa  |11:00 AM              |
 
   @MATCH-2168
   Scenario Outline: As a Naviance RepVisits user who is looking at Notification entries in the RepVisits notifications page,

@@ -21,6 +21,8 @@ public class FCSuperMatchPageStepDefs implements En {
 
         When("^SM I add \"([^\"]*)\" to the Colleges I'm thinking about list if it is not already there$", fcSuperMatch::addCollegeToImThinkingAboutList);
 
+        When("^SM I remove \"([^\"]*)\" from the Colleges I'm thinking about list via the Look Up page$", fcSuperMatch::removeCollegeViaLookupPage);
+
         And("^SM I go to Colleges Looking for Students Like You list$", fcSuperMatch::goToCollegesLookingForStudentsLikeYou);
 
     }

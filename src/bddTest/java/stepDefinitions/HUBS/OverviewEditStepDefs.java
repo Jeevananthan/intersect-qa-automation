@@ -14,6 +14,6 @@ public class OverviewEditStepDefs implements En{
         OverviewEditPageImpl overviewEdit = new OverviewEditPageImpl();
 
         Then("^HUBS I should be able to edit the following fields for Overview in real time:$", overviewEdit::verifyFieldsInRealTime);
+        Then("^HUBS I should be able to see overlay message \"([^\"]*)\"$", overviewEdit::verifyOverlayMessage);
     }
-
 }

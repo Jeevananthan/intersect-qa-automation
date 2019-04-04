@@ -24,6 +24,7 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyFieldsInRealTime(DataTable stringsDataTable) {
+        String value="";//added this
         List<List<String>> fieldsAndValues = stringsDataTable.cells(0);
         for (List<String> fieldAndValueElement : fieldsAndValues) {
             switch (fieldAndValueElement.get(0)) {
@@ -49,7 +50,9 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
                             internationalPreview.getInternationalFee(fieldAndValueElement.get(1)).getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Test Requirements" :
-                    getEditButton(fieldAndValueElement.get(0)).click();
+                    //getEditButton(fieldAndValueElement.get(0)).click(); added js click
+                    value=""+fieldAndValueElement.get(0)+"";
+                    jsClick(getEditButton(value));
                     getTestRequirementInnerSection(fieldAndValueElement.get(1)).click();
                     Select testReqDropDown = new Select(getTestReqDropDown(fieldAndValueElement.get(1)));
                     testReqDropDown.selectByVisibleText(fieldAndValueElement.get(2));
@@ -67,15 +70,19 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
                             testReqData.get(fieldAndValueElement.get(1)).equals(fieldAndValueElement.get(2).toUpperCase()));
                     break;
                 case "Applications" :
-                    getEditButton(fieldAndValueElement.get(0)).click();
+                    //getEditButton(fieldAndValueElement.get(0)).click();added js click below
+                    jsClick(getEditButton(fieldAndValueElement.get(0)));
                     innerEditSection(fieldAndValueElement.get(1)).clear();
                     innerEditSection(fieldAndValueElement.get(1)).sendKeys(fieldAndValueElement.get(2));
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time: ",
                             internationalPreview.getIntApplication(fieldAndValueElement.get(1).toUpperCase()).getText().equals(fieldAndValueElement.get(2)));
                     break;
                 case "Test Scores" :
-                    getEditButton(fieldAndValueElement.get(0)).click();
-                    getTestScoresInnerSection(fieldAndValueElement.get(1)).click();
+                    //getEditButton(fieldAndValueElement.get(0)).click(); added js click
+                    jsClick(getEditButton(fieldAndValueElement.get(0)));
+                    //getTestScoresInnerSection(fieldAndValueElement.get(1)).click(); //added click with Modified Web Element
+                    value=" "+fieldAndValueElement.get(1)+" ";
+                    jsClick(getTestScoresInnerSection(value));
                     innerEditSection(fieldAndValueElement.get(2).split(";")[0]).clear();
                     innerEditSection(fieldAndValueElement.get(2).split(";")[0]).sendKeys(fieldAndValueElement.get(2).split(";")[1]);
                     assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
@@ -83,27 +90,32 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
                                     fieldAndValueElement.get(2).split(";")[0]).getText().equals(fieldAndValueElement.get(2).split(";")[1]));
                     break;
                 case "Qualifications" :
-                    getEditButton(fieldAndValueElement.get(0)).click();
-                    getQualificationsInnerSection(fieldAndValueElement.get(1)).click();
-                    Select qualificationsDropDown = new Select(getQualificationsDropDown(fieldAndValueElement.get(1)));
+                    //getEditButton(fieldAndValueElement.get(0)).click(); //added Js click below
+                    jsClick(getEditButton(fieldAndValueElement.get(0)));
+                    //getQualificationsInnerSection(fieldAndValueElement.get(1)).click(); //added js click below
+                     value=" "+fieldAndValueElement.get(1)+" ";
+                    jsClick(getQualificationsInnerSection(value));
+                    Select qualificationsDropDown = new Select(getQualificationsDropDown(value));
                     qualificationsDropDown.selectByVisibleText(fieldAndValueElement.get(2));
-                    assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
+                                        assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                             internationalPreview.getIntQualification(fieldAndValueElement.get(1).replace("to", "To")).getText().equals(fieldAndValueElement.get(2).toUpperCase()));
+
                     break;
                 case "Accepted English Tests" :
-                    getEditButton(fieldAndValueElement.get(0)).click();
+                    jsClick(getEditButton(fieldAndValueElement.get(0)));
                     List<String> acceptedLanguageStringList = new ArrayList<>();
 
-
-                    if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-not-empty")) {
-                        innerCheckBox(fieldAndValueElement.get(1)).click();
+                    value=" "+fieldAndValueElement.get(1)+" ";
+                    if (innerCheckBox(value).getAttribute("class").contains("ng-not-empty")) {
+                        jsClick(innerCheckBox(value));
                         for (WebElement acceptedLanguageElement : internationalPreview.getAcceptedLanguagesTests()) {
                             acceptedLanguageStringList.add(acceptedLanguageElement.getText());
                         }
                         assertTrue(fieldAndValueElement.get(0) + " is not successfully edited in real time",
                                 !acceptedLanguageStringList.contains(fieldAndValueElement.get(1)));
-                    } else if (innerCheckBox(fieldAndValueElement.get(1)).getAttribute("class").contains("ng-empty")) {
-                        innerCheckBox(fieldAndValueElement.get(1)).click();
+                        value=" "+fieldAndValueElement.get(1)+" ";
+                    } else if (innerCheckBox(value).getAttribute("class").contains("ng-empty")) {
+                        jsClick(innerCheckBox(value));
                         for (WebElement acceptedLanguageElement : internationalPreview.getAcceptedLanguagesTests()) {
                             acceptedLanguageStringList.add(acceptedLanguageElement.getText());
                         }
@@ -116,6 +128,7 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
     }
 
     public void editFieldValuesWithGeneratedData(HashMap<String, String> generatedValues, List<List<String>> details) {
+        String value=""; //added
         for (String key : generatedValues.keySet()) {
             switch (key) {
                 case "Application Deadline" :
@@ -144,26 +157,34 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
                     innerEditSection(details.get(3).get(1)).sendKeys(generatedValues.get(key));
                     break;
                 case "Test Scores" :
-                    getEditButton(key).click();
-                    getTestScoresInnerSection(details.get(4).get(1).split(";")[0]).click();
+                    //getEditButton(key).click(); //added js click below
+                    jsClick(getEditButton(key));
+                      value=" "+details.get(4).get(1).split(";")[0]+" ";
+                    jsClick(getTestScoresInnerSection(value));
                     innerEditSection(details.get(4).get(1).split(";")[1]).clear();
                     innerEditSection(details.get(4).get(1).split(";")[1]).sendKeys(generatedValues.get(key));
                     break;
                 case "Qualifications" :
-                    getEditButton(key).click();
-                    getQualificationsInnerSection(details.get(5).get(1)).click();
-                    Select qualificationsDropDown = new Select(getQualificationsDropDown(details.get(5).get(1)));
+                    //getEditButton(key).click(); //added js click below
+                    jsClick(getEditButton(key));
+                    value=" "+details.get(5).get(1)+" ";
+                    jsClick(getQualificationsInnerSection(value));
+                    Select qualificationsDropDown = new Select(getQualificationsDropDown(value));
                     qualificationsDropDown.selectByVisibleText(generatedValues.get(key));
                     break;
                 case "Accepted English Tests" :
-                    getEditButton(key).click();
+                    //getEditButton(key).click(); //added js click below
+                    jsClick(getEditButton(key));
                     if (generatedValues.get(key).equals("no")) {
-                        if (innerCheckBox(details.get(6).get(1)).getAttribute("class").contains("ng-not-empty")) {
-                            innerCheckBox(details.get(6).get(1)).click();
+                        value=" "+details.get(6).get(1)+" ";
+                        if (innerCheckBox(value).getAttribute("class").contains("ng-not-empty")) {
+                            jsClick(innerCheckBox(value));
                         }
                     } else if (generatedValues.get(key).equals("yes")) {
-                        if (innerCheckBox(details.get(6).get(1)).getAttribute("class").contains("ng-empty")) {
-                            innerCheckBox(details.get(6).get(1)).click();
+                        value=" "+details.get(6).get(1)+" "; //added this line
+                        if (innerCheckBox(value).getAttribute("class").contains("ng-empty")) {
+                           // innerCheckBox(details.get(6).get(1)).click(); //added js click below
+                            jsClick(innerCheckBox(value));
                         }
                     }
                     break;
@@ -242,7 +263,7 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
 
     //Locators
     private WebElement getEditButton(String label) {
-        return getDriver().findElement(By.xpath("//h3[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//h3[text()='"+label +"']"));
     }
     private WebElement innerEditSection(String section) {
         return getDriver().findElement(By.xpath("//label[text()='" + section + "']/following-sibling::input"));
@@ -285,16 +306,16 @@ public class InternationalEditPageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.xpath("//div[@class='entity-collection']/div/div[" + position + "]/div[2]/select-field/div/select"));
     }
     private WebElement getTestScoresInnerSection(String section) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + section + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + section + "')]"));
     }
     private WebElement getQualificationsDropDown(String section) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + section + "']/../../div[2]/select-field/div/select"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + section + "')]/../../div[2]/select-field/div/select"));
     }
     private WebElement getQualificationsInnerSection(String label) {
-        return getDriver().findElement(By.xpath("//strong[text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//strong[contains(text(), '" + label + "')]"));
     }
     private WebElement innerCheckBox(String label) {
-        return getDriver().findElement(By.xpath("//label[text()='" + label + "']/../input"));
+        return getDriver().findElement(By.xpath("//label[contains(text(), '" + label + "')]/../input"));
     }
     private String getFollowingDropDownValue(String option) {
         String result = "";

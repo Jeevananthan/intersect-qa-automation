@@ -17,7 +17,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
   @MATCH-1610
   Scenario: As an HE Community member,I need to view a calendar of my appointments
             so that I can easily see what my day/week/month schedule looks like.
-    Given HE I am logged in to Intersect HE as user type "community"
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I verify the calendar view in repvisits
 
   @MATCH-1935 @MATCH-1934 @MATCH-1936 @MATCH-2274
@@ -51,8 +51,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
 
     #logging to support app to do pre-requisites that is inactive the ''Intersect Presence Subscription'' module
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2100209"
-    And SP I select the following institution "Bowling Green State University-Main Campus" from the results
+    When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     And SP I set the "Legacy: Hub page management" module to "inactive" in the institution page
     And SP I set the "Legacy: Community" module to "inactive" in the institution page
     And SP I set the "Intersect Awareness Subscription" module to "inactive" in the institution page
@@ -98,8 +97,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
   Scenario: Issue: For HE users viewing their travel plan, the "see details" link for college fairs
   opens the HS in the visits view.ass
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2400006"
-    And SP I select "The University of Alabama" from the global search results
+    When SP I select "The University of Alabama" from the institution dashboard
     Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
     And SP I successfully sign out
 
@@ -110,7 +108,7 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
 
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I verify the see details link in RepVisits
-    
+
   @MATCH-3065 @MATCH-3407
   Scenario: As a RepVisits Admin User I want to be able to configure email forwarding of my ActiveMatch and ActiveMatch
             Events Reports So that I can keep non RV Using members of my school staff informed
@@ -135,14 +133,13 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the "Overview" page in RepVisits
     Then HE I verify the Repvisits Overview Upgrade Subscription page
-    
+
     @MATCH-1604
     Scenario Outline: As an HE user of an HE account with a Presence subscription activated, I want to be able to view all the high schools I've added to my travel plan
               so that I can easily view all the high school I may want to visit on one screen.
 #Pre-Conditions
     Given SP I am logged in to the Admin page as an Admin user
-      When SP I search for "2400006"
-      And SP I select "The University of Alabama" from the global search results
+      Then SP I select "The University of Alabama" from the institution dashboard
       Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
       And SP I successfully sign out
     And HS I want to login to the HS app using "purplehsautomations+LakotaEast@gmail.com" as username and "Password!1" as password
@@ -155,10 +152,10 @@ Feature: HE - RepVisits - RepVisitsAccess - As an HE user, I want to be able to 
     Then HS I set the date using "<StartDate>" and "<EndDate>"
     And HS I verify the update button appears and I click update button
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
-    Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
+    Then HS I create a College Fair using the following data "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
     And HS I successfully sign out
 #Register a Fair
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I register for the "<College Fair Name>" college fair at "<School>"
 #Register a Visit
@@ -218,7 +215,7 @@ Examples:
     Then HE I verify No Appointments Available and blocked text for "<School>"
     Then HE I select high school's Counselor Community institution profile link for "<School>"
   #Check school with a Limited HE account
-    Given HE I want to login to the HE app using "purpleheautomation+limited@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "limited"
     And HE I search for "<School>" in RepVisits page
     Then HE I verify the Intersect Presence Subscription module is Inactive for "<School>"
   #Log in to HS and set an appointment slot
@@ -228,7 +225,7 @@ Examples:
     Then HS I add the new time slot with "<Day>","<StartTime>","<EndTime>" and "<NumVisits>" with "<option>"
     Then HS I set the RepVisits Visits Confirmations option to "<Option>"
   #Log back into HE and make sure that the visit popups work as expected
-    Given HE I want to login to the HE app using "purpleheautomation@gmail.com" as username and "Password!1" as password
+    Given HE I am logged in to Intersect HE as user type "administrator"
     And HE I search for "<School>" in RepVisits page
     Then HE I select Visits to schedule the appointment for "<School>" using "<StartDate>" and "<heStartTime>"
     And HE I verify the schedule pop_up for "<School>" using "<heTime>" and "<hsEndTime>"
@@ -354,3 +351,169 @@ Examples:
     Then HE I select the search category as "Int QA Combined School 2"
     Then HE I select the search result "Int QA Combined School 2"
     Then HE I verify the "Add to Travel Plan" button
+
+  @MATCH-2051
+  Scenario: As an HE user I want the quick view calendar on the Search and Schedule RepVisit page to be a premium feature so non premium HE accounts see more value in upgrading.
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
+    And SP I successfully sign out
+#verify premium feature details  in search and schedule page for limited account
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to "Search and Schedule" page
+    Then HE I verify the premium feature header is displaying in search and schedule page using "Premium Feature"
+    Then HE I verify the lock icon is displaying in search and schedule page using "locked"
+    Then HE I verify learn more hyper link is displaying in search and schedule page using "Learn more"
+
+    Given SP I am logged in to the Admin page as an Admin user
+    Then SP I select "The University of Alabama" from the institution dashboard
+    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+    And SP I successfully sign out
+#verify premium feature details in search and schedule page for premium account
+    Given HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I navigate to "Search and Schedule" page
+    Then HE I verify the premium feature header is not displaying in search and schedule page
+    Then HE I verify the lock icon is not displaying in search and schedule page
+    Then HE I verify learn more hyper link is not displaying in search and schedule page
+
+  @MATCH-1606
+  Scenario: As an HE user I want to submit a visit request to a high school for approval so I can build out my travel plan.
+#High school without auto approvals enabled
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I clean the visits for particular Month "14"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    Then HS I set the RepVisits Visits Confirmations option to "No, I want to manually review all incoming requests."
+
+    Then HS I set the date using "14" and "28"
+    And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "14" in Regular Weekly Hours Tab
+    Then HS I add the new time slot with "14","10:22am","12:22pm" and "2" with "1"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Int QA High School 4" in "Institutions"
+    And HE I select "Int QA High School 4" from the results
+    Then HE I verify the Check RepVisits Availability button
+    Then HE I verify the availability pill is displaying in community availability side bar "14"
+    Then HE I verify the availability pill is clickable in community availability side bar
+    Then HE I verify that i can close the schedule popup in community availability side bar by clicking "CANCEL" button if i do not want to submit request
+    Then HE I close community availability side bar
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify the Availability slot "10:22am" is displaying in the visit toggle "14","Int Qa High School 4" in search and schedule Tab
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify the appointment date is displaying in the schedule popup "14"
+    Then HE I verify the start and end time is displaying in the schedule popup "10:22am","12:22pm"
+    Then HE I verify the time zone is displaying in the schedule popup
+    Then HE I verify the High school name is displaying in the schedule popup "Int Qa High School 4"
+    Then HE I verify the "Yes, Request this time" button is displaying in the schedule popup
+    Then HE I verify that i can close the schedule popup by clicking "CANCEL" button if i do not want to submit request
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify "Yes, Request this time" button to submit request to the high school
+    Then HE I verify the success message "Visit requested! You will receive an email notification when your request has been confirmed." is displaying in search and schedule page
+    Then HE I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify the Availability slot "10:22am" is displaying in the visit toggle "14","Int Qa High School 4" in search and schedule Tab
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify the appointment date is displaying in the schedule popup "14"
+    Then HE I verify the start and end time is displaying in the schedule popup "10:22am","12:22pm"
+    Then HE I verify the time zone is displaying in the schedule popup
+    Then HE I verify the High school name is displaying in the schedule popup "Int Qa High School 4"
+    Then HE I verify the "Yes, Request this time" button is displaying in the schedule popup
+    Then HE I verify that i can close the schedule popup by clicking "CANCEL" button if i do not want to submit request
+    Then HE I successfully sign out
+
+    Then HE I logged in to Intersect HE as another HE user type "community"
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Int Qa High School 4" using "14" and "10:22am"
+    And HE I verify the schedule pop_up for "Int Qa High School 4" using "10:22am" and "12:22pm"
+
+    Then HE I switch to another HE User Tab
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify "Yes, Request this time" button to submit request to the high school
+    Then HE I verify the negative message "Sorry, this appointment is no longer available. Please select another appointment." is displaying in search and schedule page
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I go to the calendar page and verify the visit appointment is displaying with gray color "Int Qa High School 4","14","Scheduled"
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I go to the calendar page and verify the visit appointment is displaying with gray color "The University of Alabama","14","Scheduled"
+    Then HS I remove the Time Slot created with "14","10:22am" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+
+  @MATCH-1606
+  Scenario: As an HE user I want to submit a visit request to a high school for approval so I can build out my travel plan.
+#High school with auto approvals enabled
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I clean the visits for particular Month "14"
+    Then HS I set the Prevent colleges scheduling new visits option of RepVisits Visit Scheduling to "1"
+    Then HS I set the Prevent colleges cancelling or rescheduling option of RepVisits Visit Scheduling to "1"
+    Then HS I set the RepVisits Visits Confirmations option to "Yes, accept all incoming requests."
+
+    Then HS I set the date using "14" and "28"
+    And HS I verify the update button appears and I click update button
+    Then HS I clear the time slot for the particular day "14" in Regular Weekly Hours Tab
+    Then HS I add the new time slot with "14","10:22am","12:22pm" and "2" with "1"
+    And HS I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    And HE I search for "Int QA High School 4" in "Institutions"
+    And HE I select "Int QA High School 4" from the results
+    Then HE I verify the Check RepVisits Availability button
+    Then HE I verify the availability pill is displaying in community availability side bar "14"
+    Then HE I verify the availability pill is clickable in community availability side bar
+    Then HE I verify that i can close the schedule popup in community availability side bar by clicking "CANCEL" button if i do not want to submit request
+    Then HE I close community availability side bar
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify the Availability slot "10:22am" is displaying in the visit toggle "14","Int Qa High School 4" in search and schedule Tab
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify the appointment date is displaying in the schedule popup "14"
+    Then HE I verify the start and end time is displaying in the schedule popup "10:22am","12:22pm"
+    Then HE I verify the time zone is displaying in the schedule popup
+    Then HE I verify the High school name is displaying in the schedule popup "Int Qa High School 4"
+    Then HE I verify the "Yes, Request this time" button is displaying in the schedule popup
+    Then HE I verify that i can close the schedule popup by clicking "CANCEL" button if i do not want to submit request
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify "Yes, Request this time" button to submit request to the high school
+    Then HE I verify the success message "Visit confirmed! Your request has been automatically confirmed by the high school." is displaying in search and schedule page
+    Then HE I successfully sign out
+
+    Then HE I am logged in to Intersect HE as user type "publishing"
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I verify the Availability slot "10:22am" is displaying in the visit toggle "14","Int Qa High School 4" in search and schedule Tab
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify the appointment date is displaying in the schedule popup "14"
+    Then HE I verify the start and end time is displaying in the schedule popup "10:22am","12:22pm"
+    Then HE I verify the time zone is displaying in the schedule popup
+    Then HE I verify the High school name is displaying in the schedule popup "Int Qa High School 4"
+    Then HE I verify the "Yes, Request this time" button is displaying in the schedule popup
+    Then HE I verify that i can close the schedule popup by clicking "CANCEL" button if i do not want to submit request
+    Then HE I successfully sign out
+
+    Then HE I logged in to Intersect HE as another HE user type "community"
+    And HE I search for "Int Qa High School 4" in RepVisits page
+    Then HE I select Visits to schedule the appointment for "Int Qa High School 4" using "14" and "10:22am"
+    And HE I verify the schedule pop_up for "Int Qa High School 4" using "10:22am" and "12:22pm"
+
+    Then HE I switch to another HE User Tab
+    Then HE I verify the pill is clickable in search and schedule page
+    Then HE I verify "Yes, Request this time" button to submit request to the high school
+    Then HE I verify the negative message "Sorry, this appointment is no longer available. Please select another appointment." is displaying in search and schedule page
+
+    Then HE I am logged in to Intersect HE as user type "administrator"
+    Then HE I go to the calendar page and verify the visit appointment is displaying with blue color "Int Qa High School 4","14","Scheduled"
+#verify school in travel plan list
+    Then HE I navigate to "Travel Plan"
+    Then HE I verify "Int Qa High School 4" is displayed in the Travel Plan list
+    Then HE I successfully sign out
+
+    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Then HS I go to the calendar page and verify the visit appointment is displaying with blue color "The University of Alabama","14","Scheduled"
+
+#Clean environment
+    Then HS I remove the Time Slot created with "14","10:22am" in Regular Weekly Hours Tab
+    And HS I successfully sign out
+

@@ -42,7 +42,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         driver.manage().deleteAllCookies();
         waitUntil(ExpectedConditions.elementToBeClickable(loginButton()));
+        waitUntilPageFinishLoading();
         Assert.assertTrue("User did not sign out", getDriver().getCurrentUrl().contains("login"));
+
     }
 
     public void goToCounselorCommunity(){
@@ -123,9 +125,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
         driver.manage().deleteAllCookies();
         load(GetProperties.get("naviance.app.url"));
         waitUntilPageFinishLoading();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © 2018, Hobsons Inc.']")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()='Copyright © "+currentYear+", Hobsons Inc.']")).isDisplayed());
         openNavianceLoginPage();
-        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © 2018']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
+        Assert.assertTrue("Current year is not displayed",driver.findElement(By.xpath("//div[text()=' Copyright © "+currentYear+"']/span[contains(text(),'Hobsons Inc')]")).isDisplayed());
     }
 
     public void verifyHeaderInProductAnnouncementsReadMoreDrawer(){
@@ -273,7 +275,10 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void verifyHSCommunityActivationForRepVisits(){
         getNavigationBar().goToRepVisits();
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe._2ROBZ2Dk5vz-sbMhTR-LJ")));
-        Assert.assertTrue("Community Profile Welcome Page is not displaying...", communityWelcomeForm().isDisplayed());
+        getDriver().navigate().refresh();
+        driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[title=Community]")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(communityWelcomePage()));
+        Assert.assertTrue("Community Profile Welcome Page is not displaying...", getDriver().findElement(communityWelcomePage()).isDisplayed());
         driver.switchTo().defaultContent();
     }
 
@@ -382,7 +387,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement repVisitsMenuLink(){
         return driver.findElement(By.id("js-main-nav-rep-visits-menu-link"));
     }
-    private WebElement communityWelcomeForm(){ return driver.findElement(By.id("user-profile-form")); }
+    private By communityWelcomeForm(){ return By.id("user-profile-form"); }
     private WebElement collageNameLabel() {
         return getDriver().findElement(By.cssSelector("h1.masthead__name"));
     }
@@ -434,5 +439,9 @@ public class HomePageImpl extends PageObjectFacadeImpl {
      */
     private By loginButton(){
         return By.xpath("//button/span[text()='Login']");
+    }
+
+    private By communityWelcomePage(){
+        return By.cssSelector("div[class='welcome-title']");
     }
 }

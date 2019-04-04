@@ -45,7 +45,11 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
     And HUBS I approve the changes in CMS with the user email "purpleheautomation@gmail.com" and the following details:
       | admin | hbcmsxx | The University of Alabama | Published |
     And HUBS I successfully sign out from CMS
-    Then HUBS I should be able to verify the changes for Overview published in HUBS, with username "benhubs", password "Hobsons!23" and college "The University of Alabama", in the following sections
+    Then HUBS I should be able to verify the changes for Overview published in HUBS, with the following details:
+      | userName;linussupermatch |
+      | password;Hobsons!23      |
+      | school;blue1combo        |
+      | college;The University of Alabama |
       | Opening Statement |
       | Website |
       | School Type  |
@@ -63,6 +67,12 @@ Feature: HUBS - Overview - As a community user viewing College Hubs, I want to b
       | 25th Percentile (visible only in SuperMatch) | 2.5 |
       | 75th Percentile (visible only in SuperMatch) | 2.9 |
 
+  @MATCH-5683
+  Scenario: As an HE user with the Publishing or Administrator role I want to see a message on top of my institution's
+  college profile preview in HEM that informs me where I can manage my photos and videos so I know I need to navigate to
+  a different tab of HEM.
+    When HUBS I open "Overview" in the edit menu
+    Then HUBS I should be able to see overlay message "Use the Photos and Videos option under the Media tab to manage your institution's gallery!"
 
 
 

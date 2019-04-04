@@ -100,12 +100,16 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Computing Resources" :
                     computingResourcesTab().click();
-                    fieldValues.put(field.get(0), getComputerResourcesValue(field.get(1).split(";")[0],
+                    //fieldValues.put(field.get(0), getComputerResourcesValue(field.get(1).split(";")[0],
+                    //                            field.get(1).split(";")[1]).getText()); added modified step below
+                    String value=" "+field.get(1).split(";")[0]+" ";
+                    fieldValues.put(field.get(0), getComputerResourcesValue(value,
                             field.get(1).split(";")[1]).getText());
                     break;
                 case "Organizations" :
                     String isOrgPresent = "";
-                    organizationsTab().click();
+                    jsClick(organizationsTab());
+                    //organizationsTab().click(); added js click
                     List<String> orgListStrings = new ArrayList<>();
                     for (WebElement orgElement : driver.findElements(By.cssSelector(organizationsList))) {
                         orgListStrings.add(orgElement.getText());
@@ -118,7 +122,8 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
                     fieldValues.put(field.get(0), isOrgPresent);
                     break;
                 case "Athletics" :
-                    athleticsTab().click();
+                    //athleticsTab().click(); added js click
+                    jsClick(athleticsTab());
                     athleticsInnerSection(field.get(1).split(";")[0]).click();
                     athleticsTableValue(field.get(1).split(";")[1], field.get(1).split(";")[2]);
                     fieldValues.put(field.get(0), athleticsTableValue(field.get(1).split(";")[1], field.get(1).split(";")[2]).getText());
@@ -234,6 +239,7 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         fcMain.clickCollegesTab();
         collegesPage.searchAndOpenCollege(college);
         hubsMainMenu.clickStudentLifeTab();
+        waitUntilElementExists(totalStudentsValue());
         for (int i = 0; i < 10; i++) {
             if (!generatedValues.get("School Size").equals(totalStudentsValue().getText().split(" ")[0].replace(",", ""))) {
                 header.clickLogOut();
@@ -314,19 +320,19 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         return getDriver().findElement(By.cssSelector("div[ng-if=\"vm.studentLifeTabs.getActive() == 'Athletics'\"]"));
     }
     public WebElement greekLifeTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Greek Life']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Greek Life')]"));
     }
     public WebElement servicesTab() {
         return getDriver().findElement(By.xpath("//span[contains(text(), 'Services')]"));
     }
     public WebElement computingResourcesTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Computing Resources']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Computing Resources')]"));
     }
     public WebElement organizationsTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Organizations']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Organizations')]"));
     }
     public WebElement athleticsTab() {
-        return getDriver().findElement(By.xpath("//span[text()='Athletics']"));
+        return getDriver().findElement(By.xpath("//span[contains(text(), 'Athletics')]"));
     }
     public WebElement chartsPercent(String section) {
         String sectionTextLocator = "";
@@ -359,10 +365,10 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
         } else if (typeOfComputer.equals("mac")) {
             columnNumber = 2;
         }
-        return getDriver().findElement(By.xpath("//td[text()='" + location + "']/following-sibling::td[" + columnNumber + "]"));
+        return getDriver().findElement(By.xpath("//td[contains(text(), '" + location + "')]/following-sibling::td[" + columnNumber + "]"));
     }
     public String organizationsList = "div.fc-grid__col.fc-grid__col--xs-12.fc-grid__col--sm-6.organizations__item.ng-binding.ng-scope";
-    public WebElement athleticsInnerSection(String tabLabel) { return getDriver().findElement(By.xpath("//span[text()='" + tabLabel + "']")); }
+    public WebElement athleticsInnerSection(String tabLabel) { return getDriver().findElement(By.xpath("//span[contains(text(), '" + tabLabel + "')]")); }
     public WebElement athleticsTableValue(String sportName, String section) {
         String sectionNumber = "";
         switch (section) {
@@ -373,6 +379,6 @@ public class StudentLifePageImpl extends PageObjectFacadeImpl {
             case "Association" : sectionNumber = "3";
                 break;
         }
-        return getDriver().findElement(By.xpath("//td[text()='" + sportName + "']/following-sibling::td[" + sectionNumber + "]"));
+        return getDriver().findElement(By.xpath("//td[contains(text(), '" + sportName + "')]/following-sibling::td[" + sectionNumber + "]"));
     }
 }

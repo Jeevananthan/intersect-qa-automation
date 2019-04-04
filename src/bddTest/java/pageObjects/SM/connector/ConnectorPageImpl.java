@@ -4,7 +4,9 @@ import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.collegesLookingForStudentsLikeYou.CollegesLookingForStudentsLikeYouPageImpl;
@@ -101,7 +103,7 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickButtonInConnectorDialog(String label) {
-        connectorDialogButton(label).click();
+        connectorDialogButton(label).sendKeys(Keys.RETURN);
     }
 
     public void verifyRequiredFieldsEmailPhoneStreet() {
@@ -156,6 +158,80 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         collegesLookingForStudentsLikeYouPage.noThanksButton().click();
     }
 
+    public void verifyConnectionCheckboxes(String checkboxStatus) {
+        List<WebElement> checkboxesList = driver.findElements(By.cssSelector(connectionCheckboxesLocator));
+        if (checkboxStatus.equals("checked")) {
+            for (WebElement checkbox : checkboxesList) {
+                softly().assertThat(checkbox.getAttribute("class")).as("One or more checkboxes have an incorrect status.").contains("checked");
+            }
+        } else {
+            for (WebElement checkbox : checkboxesList) {
+                softly().assertThat(checkbox.getAttribute("class")).as("One or more checkboxes have an incorrect status.").doesNotContain("checked");
+            }
+        }
+
+    }
+
+    public void verifyValueSelectionMajors(String value) {
+        majorsDropdown().click();
+        majorsTextField().sendKeys(value);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(majorsDropdownValue(value));
+        actions.click();
+        actions.build().perform();
+        Assert.assertTrue("The major was not selected.", majorsPill(value).isDisplayed());
+    }
+
+    public void verifySubmittedScreen() {
+        Assert.assertTrue("The success message is not displayed.", successfulSubmitMessage().isDisplayed());
+    }
+
+    public void verifyNextButtonDisabled() {
+        waitUntilElementExists(connectionModalHeader());
+        List<WebElement> checkboxesList = driver.findElements(By.cssSelector(connectionCheckboxesLocator));
+        for (WebElement checkbox : checkboxesList) {
+            if (checkbox.getAttribute("class").contains("checked")) {
+                checkbox.click();
+            }
+        }
+
+        Assert.assertTrue("The Next button is not disabled when all the connection checkboxes are unselected.",
+                disabledNextButton().isDisplayed());
+
+        for (WebElement checkbox : checkboxesList) {
+            if (!checkbox.getAttribute("class").contains("checked")) {
+                checkbox.click();
+            }
+        }
+    }
+
+    public void verifyTextInConnectorDialog(DataTable dataTable) {
+        List<String> dataList = dataTable.asList(String.class);
+        softly().assertThat(connectorTextFirstLine().getText()).as("The text in the connector dialog is incorrect.").isEqualTo(dataList.get(0));
+        softly().assertThat(connectorTextSecondLine().getText()).as("The text in the connector dialog is incorrect.").isEqualTo(dataList.get(1));
+    }
+
+    public void checkUncheckCollegeInConnector(String action, String college) {
+        if (action.equals("check")) {
+            checkCheckbox(college);
+        } else {
+            uncheckCheckbox(college);
+        }
+    }
+
+    public void verifyNoConnectorIsDisplayed() {
+        waitForUITransition();
+
+    }
+
+    public void verifyStringInURL(String stringToVerify) {
+        softly().assertThat(driver.getCurrentUrl()).as("The current URL does not contain the specified string.").contains(stringToVerify);
+    }
+
+    public void closeConnectorWithCloseIcon() {
+        closeIcon().click();
+    }
+
     //Locators
     private WebElement connectorCheckbox(String label) { return driver.findElement(By.xpath("//label[text() = '" + label + "']/..")); }
     private String connectorCheckboxesLocator = "//label[@class = 'form-checkbox-label']/..";
@@ -173,4 +249,15 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     private String missingEmailPhoneStreetErrorMessageLocator = "//p[text() = 'Please select one method of contact: Email, Phone, or Address.']";
     private WebElement phoneError() { return driver.findElement(By.cssSelector("div#phoneError")); }
     private String phoneErrorMessageString = "Please provide a 10 digit phone number";
+    private String connectionCheckboxesLocator = "div.ui.checkbox";
+    private WebElement majorsDropdown() { return driver.findElement(By.cssSelector("div#majors div.default.text")); }
+    private WebElement majorsTextField() { return driver.findElement(By.cssSelector("input.search")); }
+    private WebElement majorsDropdownValue(String label) { return driver.findElement(By.xpath("//span[text() = '" + label + "' and @class = 'text']")); }
+    private WebElement majorsPill(String label) { return driver.findElement(By.xpath("//li[contains(text(), '" + label + "')]")); }
+    private WebElement successfulSubmitMessage() { return driver.findElement(By.xpath("//h1[text() = 'Successfully Submitted!']")); }
+    private WebElement disabledNextButton() { return driver.findElement(By.cssSelector("button[disabled='']#nextButton")); }
+    private WebElement connectionModalHeader() { return driver.findElement(By.cssSelector("div.connection-modal-header.header")); }
+    private WebElement connectorTextFirstLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(1)")); }
+    private WebElement connectorTextSecondLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(2)")); }
+    private WebElement closeIcon() { return driver.findElement(By.cssSelector("i.close.icon")); }
 }

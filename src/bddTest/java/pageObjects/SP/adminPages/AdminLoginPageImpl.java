@@ -48,7 +48,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         usernameTextbox().sendKeys(username);
         logger.info("Using " + username + " as username");
-        button("Next").click();
+        nextButton().click();
         new WebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(passwordTextbox())).click();
         logger.info("Using " + password + " as password");
         handleAccountTypeDialog(password);
@@ -69,7 +69,7 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
         } else {
             passwordTextbox().sendKeys(password);
         }
-        button("Sign in").click();
+        nextButton().click();
         waitUntilPageFinishLoading();
         List<WebElement> resetLink = driver.findElements(By.xpath("//a[@id='idA_IL_ForgotPassword0']"));
         if (resetLink.size()==1){
@@ -136,4 +136,6 @@ public class AdminLoginPageImpl extends PageObjectFacadeImpl {
     private ButtonImpl loginButton() {
         return button(By.id("cred_sign_in_button"));
     }
+
+    private ButtonImpl nextButton() {return button(By.id("idSIButton9"));}
 }

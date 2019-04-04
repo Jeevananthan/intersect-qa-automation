@@ -34,5 +34,8 @@ public class GlobalSearchStepDefs implements En {
         And("^SP I set HE Account Subscriptions \"([^\"]*)\"$", globalSearch::setHEAccountSubscriptions);
         Then("^SP I verify the real-time results return for global search are a partial and full match \"([^\"]*)\"$", globalSearch::verifyRealTimeSearchMatch);
         Then("^SP I am able to see \"([^\"]*)\" institution in the results for HS school$", globalSearch :: verifyHSSchoolResults);
+        Then("^SP I verify High School client details with following data$",globalSearch::verifyHighSchoolDetails);
+        Then("^SP I verify the real-time results return for global search are full match \"([^\"]*)\"$", globalSearch::verifyRealTimeSearch);
+        Then("^SP I verify search tab layouts are displayed correctly \"([^\"]*)\"$", globalSearch::verifySearchResultsLayout);
     }
 }

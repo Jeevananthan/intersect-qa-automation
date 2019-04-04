@@ -11,21 +11,22 @@ import pageObjects.HE.homePage.HomePageImpl;
 import pageObjects.HUBS.FamilyConnection.FCColleges.FCCollegeEventsPage;
 import pageObjects.HUBS.NavianceCollegeProfilePageImpl;
 import utilities.GetProperties;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import pageObjects.COMMON.PageObjectFacadeImpl;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class EventsPageImpl extends PageObjectFacadeImpl {
 
     private Logger logger;
     public static HashMap<String, String> editedData = new HashMap<>();
-    public static String eventName;
+    public static String staticEventName;
     private HomePageImpl homePage = new HomePageImpl();
     public static Calendar generatedTime;
     private NavianceCollegeProfilePageImpl navianceCollegeProfilePage = new NavianceCollegeProfilePageImpl();
@@ -55,6 +56,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventIsPresent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         driver.get(driver.getCurrentUrl());
@@ -81,10 +84,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyPublishedEventPresent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         verifyEventIsPresent(eventName);
     }
 
     public void deleteEvent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         getEventsInternalTab("Unpublished").click();
         waitUntilPageFinishLoading();
@@ -99,24 +106,36 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         verifyEventIsPresent(eventName);
     }
 
+    /**
+     * Randomizes a passed event name by adding a random number between 1 and 99,999 to the end
+     * @param eventName - Base of the name to be used.  Random number will be appended to this
+     * @return String - Randomized event name
+     */
+    public String randomizeEventName(String eventName) {
+        String randomNo = Integer.toString(new Random().nextInt(99999));
+        logger.info("random suffix = " + randomNo + "\n");
+        String newEventName = eventName + "" + randomNo;
+        logger.info("New Event Name = " + newEventName + "\n");
+        return newEventName;
+    }
+
     public void fillCreateEventForm(List<List<String>> data) {
         for (List<String> row : data) {
             switch (row.get(0)) {
                 case "Event Name":
-                    eventNameField().clear();
-                    eventNameField().sendKeys(row.get(1));
+                    if (row.get(1).equalsIgnoreCase("RandomEventName")) {
+                        staticEventName = randomizeEventName("RandomEventName");
+                        eventNameField().clear();
+                        eventNameField().sendKeys(staticEventName);
+                    } else {
+                        eventNameField().clear();
+                        eventNameField().sendKeys(row.get(1));
+                    }
                     break;
                 case "Event Start":
                     eventStartCalendarButton().click();
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyy");
-                    Calendar date = Calendar.getInstance();
-                    try {
-                        Date formattedDate = formatter.parse(row.get(1).split(";")[0]);
-                        date.setTime(formattedDate);
-                        pickDateInDatePicker(date);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    String formattedDate = row.get(1).split(";")[0];
+                    setSpecificDate(formattedDate,"MMMM dd yyyy");
                     eventStartTimeField().sendKeys(row.get(1).split(";")[1]);
                     break;
                 case "Timezone":
@@ -133,15 +152,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "RSVP Deadline":
                     rsvpCalendarButton().click();
-                    SimpleDateFormat rsvpFormatter = new SimpleDateFormat("MM-dd-yyy");
-                    Calendar rsvpDate = Calendar.getInstance();
-                    try {
-                        Date formattedDate = rsvpFormatter.parse(row.get(1).split(";")[0]);
-                        rsvpDate.setTime(formattedDate);
-                        pickDateInDatePicker(rsvpDate);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    formattedDate = row.get(1).split(";")[0];
+                    setSpecificDate(formattedDate,"MMMM dd yyyy");
                     break;
                 case "EVENT LOCATION":
                     selectLocationByName(row.get(1));
@@ -256,6 +268,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void editEventToPublish(String clickEventName){
+        if (clickEventName.equalsIgnoreCase("RandomEventName"))
+            clickEventName = staticEventName;
         editEventClick(clickEventName).click();
 
     }
@@ -344,6 +358,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyEventNotPresentInList(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         driver.get(driver.getCurrentUrl());
         waitUntilPageFinishLoading();
@@ -353,6 +369,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEvent(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Published")));
         if (driver.findElements(By.cssSelector("input#name")).size() == 1) {
@@ -388,15 +406,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         createEventButton().click();
         fillCreateEventForm(eventDetails);
         eventNameField().sendKeys(dateFormat.format(date));
-        eventName = eventNameField().getAttribute("value");
+        staticEventName = eventNameField().getAttribute("value");
         publishNowButton().sendKeys(Keys.RETURN);
     }
 
     public void cancelCreatedEvent() {
-        menuButtonForEvent(eventName).click();
+        menuButtonForEvent(staticEventName).click();
         getMenuButton("Cancel").click();
         cancelYesButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(eventName)), 0));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(eventsListLocator(staticEventName)), 0));
     }
 
     public void clickCreateEvent() {
@@ -404,7 +422,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyCreatedEventIsInCancelledList() {
-        verifyEventIsInCancelledList(eventName);
+        verifyEventIsInCancelledList(staticEventName);
     }
 
     public void createAndSaveEventWithGenDate(String minutesFromNow, DataTable eventDetailsData) {
@@ -465,8 +483,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void unpublishEventOfGeneratedName() {
-        waitUntil(ExpectedConditions.visibilityOf(menuButtonForEvent(eventName)));
-        menuButtonForEvent(eventName).click();
+        waitUntil(ExpectedConditions.visibilityOf(menuButtonForEvent(staticEventName)));
+        menuButtonForEvent(staticEventName).click();
         getMenuButton("Unpublish").click();
     }
 
@@ -485,17 +503,17 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         List<String> listOfEventNamesStrings = new ArrayList<>();
 
         if (driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).size() > 0) {
-            while (!listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            while (!listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                 waitForUITransition();
                 waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(collegeNameHeader), 0));
                 listOfEventNames = driver.findElements(By.cssSelector(FCCollegeEventsPage.eventNamesList));
                 for (WebElement eventNameElement : listOfEventNames) {
                     listOfEventNamesStrings.add(eventNameElement.getText());
                 }
-                if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+                if (listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                     Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                                    cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                            cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                                    cancelledEventMessage(EventsPageImpl.staticEventName).getText(),
+                            cancelledEventMessage(EventsPageImpl.staticEventName).getText().contains(cancellationMessage));
                     break;
                 }
                 driver.findElements(By.cssSelector(FCCollegeEventsPage.nextArrowsList)).get(0).click();
@@ -505,10 +523,10 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             for (WebElement eventNameElement : listOfEventNames) {
                 listOfEventNamesStrings.add(eventNameElement.getText());
             }
-            if (listOfEventNamesStrings.contains(EventsPageImpl.eventName)) {
+            if (listOfEventNamesStrings.contains(EventsPageImpl.staticEventName)) {
                 Assert.assertTrue("The cancellation message is not dispalyed. UI text: " +
-                                cancelledEventMessage(EventsPageImpl.eventName).getText(),
-                        cancelledEventMessage(EventsPageImpl.eventName).getText().contains(cancellationMessage));
+                                cancelledEventMessage(EventsPageImpl.staticEventName).getText(),
+                        cancelledEventMessage(EventsPageImpl.staticEventName).getText().contains(cancellationMessage));
             }
         }
         waitForUITransition();
@@ -521,12 +539,15 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void openTab(String tabName) {
-        waitUntilElementExists(getEventsTab(tabName));
         try {
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsTab(tabName)));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
             getEventsTab(tabName).click();
         } catch(WebDriverException e) {
             mainEventsTitle().click();
             waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsTab(tabName)));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(eventsHeader()));
             getEventsTab(tabName).click();
         }
 
@@ -539,6 +560,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public void verifyFilterIsPresentInList(String eventName) {
         waitUntilPageFinishLoading();
         List<String> filtersNamesStrings = new ArrayList<>();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(filter(eventName)));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(filtersList)));
         List<WebElement> filtersNames = driver.findElements(By.cssSelector(filtersList));
         for (WebElement filterName : filtersNames) {
             filtersNamesStrings.add(filterName.getText());
@@ -657,12 +680,14 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventStatus(String status, String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         waitUntilPageFinishLoading();
         Assert.assertTrue("The Event status is incorrect. UI: " + eventStatus(eventName).getText(), eventStatus(eventName).getText().equals(status));
     }
 
     public void verifyEventWithGenNameStatus(String status) {
-        verifyEventStatus(status, eventName);
+        verifyEventStatus(status, staticEventName);
     }
 
     public void verifyDefaultFilter(String filterName) {
@@ -678,7 +703,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void openEventOfGeneratedName() {
         waitUntilPageFinishLoading();
-        menuButtonForEvent(eventName).click();
+        menuButtonForEvent(staticEventName).click();
         getMenuButton("Attendees").click();
     }
 
@@ -691,7 +716,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAttendeesErrorMessage(DataTable dataTable) {
         List<String> details = dataTable.asList(String.class);
-        attendeeStatusBarStudent(eventName).click();
+        attendeeStatusBarStudent(staticEventName).click();
         Assert.assertTrue("The error message is not correct", attendeesErrorMessage().getText().equals(details.get(0)));
     }
 
@@ -703,7 +728,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         fillEventStartDateTimeFields(xDaysFromNow);
         fillCreateEventForm(eventDetails);
         eventNameField().sendKeys(dateFormat.format(date));
-        eventName = eventNameField().getAttribute("value");
+        staticEventName = eventNameField().getAttribute("value");
         publishNowButton().sendKeys(Keys.RETURN);
     }
 
@@ -719,6 +744,108 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
             deleteYesButton().click();
             waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(progressBarLocator), 0));
         }
+    }
+
+    /**
+     * select date by given value
+     * @param addDays : number of days to add (ex 10 )
+     * @param format : date format
+     */
+    public void setSpecificDate(String addDays,String format) {
+        String DATE_FORMAT_NOW = "MMMM dd yyyy";
+        if (format != null)
+            DATE_FORMAT_NOW = format;
+        Calendar cal = Calendar.getInstance();
+        if (addDays.length() > 2) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_NOW, Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(addDays, formatter);
+            int days = date.getMonthValue();
+            cal.add(Calendar.DATE, days);
+        } else {
+            cal = getDeltaDate(Integer.parseInt(addDays));
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        String currentDate = sdf.format(cal.getTime());
+        String[] parts = currentDate.split(" ");
+        String calendarHeading = parts[0] + " " + parts[2];
+        findMonth(calendarHeading);
+        clickOnDay(parts[1]);
+        waitUntilPageFinishLoading();
+    }
+
+    /**
+     * select the month by given value
+     * @param month Ex : july
+     */
+    public void findMonth(String month) {
+        waitUntilPageFinishLoading();
+        boolean monthStatus = compareDate(month);
+
+        String DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        try {
+            while (!DayPickerCaption.contains(month)) {
+
+                if (monthStatus) {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--next']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                } else {
+                    driver.findElement(By.cssSelector("span[class='DayPicker-NavButton DayPicker-NavButton--prev']")).click();
+                    DayPickerCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+                }
+            }
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected it's out of RANGE.");
+        }
+    }
+
+    /**
+     *
+     * @param month : compare month by given value
+     * @return
+     */
+    public Boolean compareDate(String month) {
+
+        String dateCaption = null;
+        DateFormat format = new SimpleDateFormat("MMM yyyy");
+        DateFormat formatDate = new SimpleDateFormat("MMM yyyy");
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='DayPicker-Caption']")));
+        dateCaption = driver.findElement(By.cssSelector("div[class='DayPicker-Caption']")).getText();
+
+        //Logic to compare dates before? or not
+        Date first = null;
+        try {
+            first = format.parse(dateCaption);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date second = null;
+        try {
+            second = formatDate.parse(month);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean before = (first.before(second));
+        return before;
+
+    }
+
+    /**
+     * click the day in the month
+     * @param date : date to click
+     */
+    public void clickOnDay(String date) {
+
+        try {
+
+            driver.findElement(By.cssSelector("div[class='DayPicker-Day']")).findElement(By.xpath("//div[@aria-disabled='false'][text()=" + date + "]")).click();
+
+        } catch (Exception e) {
+            Assert.fail("The Date selected is out of RANGE.");
+        }
+
     }
 
     //locators
@@ -828,4 +955,11 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     private String progressBarLocator = "div[role='progressbar']";
     private String collegeNameHeader = "div.events-list__column-head.events-list__column-head--name";
     private String loadingIconLocator = "div.ui.active.loader";
+    private By eventsTab(String tabName) {
+        return By.xpath("//span[contains(text(), '" + tabName + "')]/..");
+    }
+    private By eventsHeader() {
+        return By.xpath("//main//div//a");
+    }
+    private By filter(String filterName) { return By.xpath("//strong[text()='"+filterName+"']/../..//i[@class[contains(.,'ellipsis')]]"); }
 }

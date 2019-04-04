@@ -684,6 +684,8 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I complete the set up wizard that not yet completed by selecting \"([^\"]*)\" option on the 'One Last Step' page$",repVisits::completeSetupWizard);
 
+        Then("^HS I complete the set up wizard broken$",repVisits::completeSetupWizardBroken);
+
         Then("^HS I complete the set up wizard from any location$",repVisits::completeSetupWizardFromAnylocation);
 
         And("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in Agenda view$", repVisits::setStartDateAndEndDateInAgendaView);
@@ -775,5 +777,28 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the Appointment in calendar page using \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyAppointmentCalendarPage);
 
         Then("^HS I verify the Default the HS user to see the Request subtab when they arrive on the Notifications page$",repVisits::verifySubTabInNotifications);
+
+        Then("^HS I complete the setup wizard$",repVisits::loadSetupWizardPage);
+        And("^HS  I Store the college Fair Name created$", repVisits::storeCollegeFairName);
+        And("^HS I click on Unpublish option on repvisits sidebar$", repVisits::chooseUnpublish);
+        Then("^HS I verify Fair unpublished message on the repvisits sidebar$", repVisits::assertUnpublish);
+
+        And("^HS I verify that the connecting naviance and repvisits page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInConnectingNavianceAndRepvisitsPage);
+        And("^HS I verify that the naviance sync settings page contains the text: \"([^\"]*)\"$", repVisits::verifyTextInNavianceSyncSettingsPage);
+
+        Then("^HS I manually add the attendee for created college fair without last name \"([^\"]*)\",\"([^\"]*)\"$",repVisits::manuallyAddAttendee);
+
+        Then("^HS I verify \"([^\"]*)\" text is not displaying in the attendee page$",repVisits::verifyUndefinedTextIsNotDisplayingInAttendeePage);
+      
+        Then("^HS I go to the calendar page and verify the visit appointment is displaying with gray color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyPendingVisitInCalendar);
+
+        Then("^HS I go to the calendar page and verify the visit appointment is displaying with blue color \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$",repVisits::verifyScheduledVisitInCalendar);
+
+        Then("^HS I verify the date \"([^\"]*)\" is not enabled in college fair page$",repVisits::verifyDateIsDisabledInCollegeFairPage);
+
+        Then("^HS I verify the date \"([^\"]*)\" is not enabled in edit college fair page$",repVisits::verifyDateIsDisabledInEditCollegeFairPage);
+
+        Then("^HS I create a College Fair using the following data \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$",repVisits::hsCreateCollegeFair);
+
     }
 }

@@ -47,7 +47,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-811 @MATCH-814 @MATCH-815
   Scenario: As an authorized HS User, I need to be able to update my enrollment data in the purple community.
   So I should be able to change my address, phone, fax, and website URL.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ENROLLMENT INFORMATION FIELDS exist
@@ -141,7 +141,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-811 @MATCH-814 @MATCH-815
   Scenario: As an authorized HS User, I need to be able to update my academic data fields in the purple community.
   So I should be able to change any academic data attributes.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ACADEMIC DATA FIELDS exist
@@ -188,7 +188,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-1245
   Scenario: As a HS user with the appropriate permissions enabled in Naviance I need to be able to edit my HS institution's profile data that displays in Community
   So that data is always fresh and current.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the ACADEMIC DATA FIELDS exist
@@ -198,7 +198,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
       | Coeducational                      | Coed (school has male and female students) |
     And HS I successfully sign out
     #Checking to make sure non_admin users do not have access to the edit profile button
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I verify that I do not have access to the institution profile edit button
 
@@ -206,7 +206,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
 
   @MATCH-1568
   Scenario: As a HS Intersect User on my HS Institution Edit page I want to see the right suffixes on grade levels in drop downs
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the LOWEST and HIGHEST GRADE LEVEL FIELDS exist
@@ -220,7 +220,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-1563
   Scenario: As a HS User on my HS Institution Edit page I would like to see a header above the Title I data entry boxes
   To reduce the risk of confusion.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I verify the header exist above Title I data entry boxes "Title I Information"
@@ -228,7 +228,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-1562
   Scenario: As an authenticated HS user on the HS Institution Edit Page I don't want to have a "total" box in demographic data
   So data entry is less confusing.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure that no total fields exist
@@ -237,7 +237,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-1564
   Scenario: As an HS Intersect user viewing my HS Institution Edit page I want dropdowns that don't have too many options
   So I'm not confused during editing.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     Then HS I make sure the Title I Eligibility dropdown only displays appropriate options "titleEligible"
@@ -269,7 +269,7 @@ Feature:  HS - Community - EditInstitutionProfile - As an HS user, I should be a
   @MATCH-1565
   Scenario: As a HS Intersect User on the HS Institution edit page I want to see placeholder text when fields are blank
   So there is less confusion on what to put in the field.
-    Given HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
+    Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone7"
     Then HS I access the INSTITUTION page
     And HS I access the EDIT PROFILE page by clicking edit button
     And HS I want to ensure placeholders exist for the appropriate fields click "Cancel"

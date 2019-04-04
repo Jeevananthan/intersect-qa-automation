@@ -3,6 +3,7 @@ package pageObjects.HUBS;
 import cucumber.api.DataTable;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -59,7 +60,10 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
                     break;
                 case "Study Options" :
                     String enableDisable;
-                    studyOptionsButton().click();
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    publishButton().sendKeys(Keys.PAGE_DOWN);
+                    jsClick(studyOptionsButton());
+                    //studyOptionsButton().click(); added js click
                     if (fieldAndValueElement.get(1).split(";")[1].equals("enabled")) {
                         enableDisable = "enabled";
                     } else {
@@ -228,10 +232,10 @@ public class StudiesEditPageImpl extends PageObjectFacadeImpl {
     private WebElement continueEditingLink() {
         return link("Continue editing");
     }
-    private WebElement publishButton() {
+    public WebElement publishButton() {
         return getDriver().findElement(By.xpath("//span[@class='intersect-btn intersect-btn--fuschia ng-binding']"));
     }
     private WebElement studyOptionCheckbox(String label) {
-        return getDriver().findElement(By.xpath("//label[@class='hem-checkbox-label ng-binding'][text()='" + label + "']"));
+        return getDriver().findElement(By.xpath("//label[@class='hem-checkbox-label ng-binding'][text()=' " + label + " ']"));
     }
 }

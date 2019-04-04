@@ -3,9 +3,8 @@ Feature: As an HE or HS user I want my office phone number to be required so tha
 
 
 Scenario: The HS user profile activation page requires Office Phone
-  Given HS I am logged in to Intersect HS as user type "default"
+  Given HS I am logged in to Intersect HS as user type "resetAccount"
   When I am sure that HS user will be logged in for the first time and HS Welcome page will be opened
-  And I go to HS Counselor Community page
   Then I check if office phone is required field
   #Then I upload Profile and Banner pictures
   And I populate all the fields on Welcome page
@@ -17,9 +16,8 @@ Scenario: The HS user profile activation page requires Office Phone
 
 
 Scenario: The HE user profile activation page requires Office Phone
-  Given HE I am logged in to Intersect HE as user type "administrator"
+  Given HE I am logged in to Intersect HE as user type "resetAccount"
   When I am sure that HE user will be logged in for the first time and Welcome page will be opened
-  And I go to Counselor Community page
   Then I check if office phone is required field
   #Then I upload Profile and Banner pictures
   And I populate all the fields on Welcome page

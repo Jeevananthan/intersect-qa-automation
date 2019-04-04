@@ -1,5 +1,6 @@
 package stepDefinitions.SM;
 
+import cucumber.api.PendingException;
 import cucumber.api.java8.En;
 import pageObjects.SM.searchPage.SearchPageImpl;
 
@@ -366,6 +367,8 @@ public class SearchPageStepDefs implements En {
         And("^SM I verify that position of \"([^\"]*)\" is \"([^\"]*)\" in Compare Pinned Schools page$", searchPage::verifyPositionOfCollegeInComparePinnedSchoolsPage);
 
         Then("^SM I \"([^\"]*)\" the \"([^\"]*)\" checkbox from the Student Life fit criteria$",searchPage::selectOrUnselectStudentLifeCriteria);
+      
+        Then("^SM I verify the Add Sports workflow$", searchPage::verifyAddSportsWorkflow);
 
         Then("^SM I check if I can pin or unpin \"([^\"]*)\" from the search box results$", searchPage::checkCollegeCanBePinnedUnpinnedFromSearchBoxResults);
 
@@ -374,5 +377,9 @@ public class SearchPageStepDefs implements En {
         Then("^SM I verify the text displayed in Compare Pinned Colleges page$", searchPage::verifyTextInComparePinnedCollegesPage);
 
         Then("^SM I verify if pagination buttons are displayed in Compare Pinned Colleges page$", searchPage::verifyPaginationButtonsInComparePinnedCollegesPage);
+
+        Then("^SM I verify that the college \"([^\"]*)\" pinned from the search box is displayed at the top of the list$", searchPage::verifyCollegeAtTopOfList);
+
+        Then("^SM I verify that the connector banner is displayed$", searchPage::verifyConnectorBannerIsDisplayed);
     }
 }

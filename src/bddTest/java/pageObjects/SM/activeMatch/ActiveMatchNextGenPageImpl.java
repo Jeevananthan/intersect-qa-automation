@@ -29,6 +29,13 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue(getAMNextGenMatches().isDisplayed());
     }
 
+    public void checkActiveMatchNextGenNumber(Integer number){
+        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
+        waitUntil(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".ui.card")));
+        Assert.assertTrue(getAMNextGenMatches().findElements(By.cssSelector(".ui.card")).size() > number);
+    }
+
     public void checkLegacyAMAreDisplayed(){
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
         Assert.assertTrue(getLegacyMatches().isDisplayed());
@@ -50,6 +57,11 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
              }
      }
 
+    public void verifyTextIsLinkInMatchCard(String collegeName) {
+        Assert.assertTrue("The '& more link...' is not displayed or it is not a link.",
+                moreLink(collegeName).isDisplayed());
+    }
+
     //Locators
     private WebElement getCard(String card) {
         return driver.findElement(By.xpath("//*[@class = 'ui card']//a[text()='" + card + "']"));
@@ -69,6 +81,9 @@ public class ActiveMatchNextGenPageImpl extends PageObjectFacadeImpl {
     }
 
     private String spinnerLocator = "div.ui.active.loader";
+
+    private WebElement moreLink(String college) { return driver.findElement(By.xpath("//div[@id = 'activematch-app']" +
+            "/div[1]//a[text() = '" + college + "']/../../..//a[text() = '& more...']")); }
 
 
 }

@@ -1,7 +1,7 @@
 @SM
 Feature: AMNG - AM NextGen Connector
 
-  @MATCH-5593
+  @MATCH-5593 @MATCH-5813 @concurrency @DataMissing
   Scenario: As a student using Naviance Student, when I match with an AM NextGen Connection client, I would like to see
   a Visual Step Progress Indicator on a connector form that would allow me to connect with that college so that I can send my information to them.
 
@@ -10,18 +10,10 @@ Feature: AMNG - AM NextGen Connector
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
-    And SM I press button "ADD NEW SUBSCRIPTION"
-    And SP I select the radio button "State" in Add new Subscription modal
-    And SP I click the Next button
-    And SP I fill the new subscription with the following data:
-      | State                | Virginia           |
-      | Diversity Filter     | All Students       |
-      | Competitors          | Burlington College |
-      | Majors               | yes                |
-      | Connection           | yes                |
-      | Start date           | 5 days from now    |
-      | End date             | 6 days from now    |
-    And SP I save the new subscription
+    And SP I navigate to the GraphiQL page
+    And SP I create a new subscription via GraphiQL with the data in "match-5507SubscriptionData.json" and the following settings:
+      | startDate | 0 days before now |
+      | endDate   | 2 days after now  |
     And SP I successfully sign out
 
     #Create Majors Messages
@@ -50,7 +42,8 @@ Feature: AMNG - AM NextGen Connector
       | Womens Studies                              |
       | Biology/Biological Sciences, General        |
     And SM I navigate to page via URL path "colleges/match/activematch-next"
-    Then SM I verify that the string "and more" is present in the card for "The University of Alabama" college
+    Then SM I verify that the string "& more..." is present in the card for "The University of Alabama" college
+    Then SM I verify that the text '& more...' is a link in "The University of Alabama" match card
 
     #Delete created subscription
     Given SP I am logged in to the Admin page as an Admin user

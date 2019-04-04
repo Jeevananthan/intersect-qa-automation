@@ -7,9 +7,12 @@ Feature: HUBS - StudentLife - As a community user viewing College Hubs, I want t
     And HUBS I access HUBS Edit Mode
     Then HUBS I open the "Student Life" tab in the preview
 
+  @HUBS-942
   Scenario: All the elements of the page are displayed for HE users in Student Life
+    And HUBS I open "Student Life" in the edit menu
     Then HUBS All the elements of the student life tab should be displayed
 
+  @HUBS-942
   Scenario: All the types of fields are editable in real time
     And HUBS I open "Student Life" in the edit menu
     Then HUBS I should be able to edit the following fields for Student Life in real time:

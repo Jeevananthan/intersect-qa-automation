@@ -56,6 +56,7 @@ public class PageObjectFacadeImpl extends SeleniumBase {
     protected void communityFrame() {
         // This shouldn't navigate, it should only jump into the iFrame.  Use navBar.goToCommunity() instead for that.
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("iframe[title=Community]")));
         waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.cssSelector("iframe[title=Community]")));
         waitForUITransition();
     }
@@ -151,7 +152,12 @@ public class PageObjectFacadeImpl extends SeleniumBase {
                     datePickerNextMonthButton().click();
                 }
             }
+        } else{
+                while (!datePickerMonthYearText().getText().equals(getMonth(date) + " " + getYear(date))) {
+                    datePickerNextMonthButton().click();
+                }
         }
+
         waitForUITransition();
 
         driver.findElement(By.xpath("//div[@class='DayPicker-Day' or @class='DayPicker-Day DayPicker-Day--today'" +
@@ -322,6 +328,22 @@ public class PageObjectFacadeImpl extends SeleniumBase {
         return date.getTime();
     }
 
+    /**
+     * Checks the page to see if a SuperMatch toast message is displayed, and if so, clicks the close button to dismiss it.
+     */
+    public void clearSuperMatchToast() {
+        while (getDriver().findElements(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")).size() > 0) {
+            // In some rare cases, you can have multiple stacked toasts, and trying to click one can give you
+            // one under another and fail due to being "not clickable"  JS click events bypass that limitation.
+            jsClick(superMatchToastMessageCloseButton());
+        }
+        if (getDriver().findElements(By.xpath("//div[@class[contains(.,'supermatch-filter-message-reminder')]]/i[@class='close icon']")).size() > 0)
+            superMatchToastMessageCloseButton().click();
+        // Toast doesn't clear instantly and can still break things, wait a couple hundred ms.
+        waitUntilPageFinishLoading();
+    }
+
+    protected WebElement superMatchToastMessageCloseButton() { return getDriver().findElement(By.xpath("//div[@class[contains(.,'supermatch-toast-message')]]/i[@class='close icon']")); }
     protected WebElement datePickerMonthYearText() { return driver.findElement(By.cssSelector(datePickerMonthYearTextLocator)); }
     private String datePickerMonthYearTextLocator = "div.DayPicker-Caption";
     protected WebElement datePickerNextMonthButton() { return driver.findElement(By.cssSelector("span.DayPicker-NavButton.DayPicker-NavButton--next")); }

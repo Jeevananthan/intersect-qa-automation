@@ -30,16 +30,18 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     public void goToUserProfilePage() {
         logger.info("Going to user profile page.");
         iframeExit();
+        getNavigationBar().goToCommunity();
         communityFrame();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
     public void goToHSUserProfilePage() {
         logger.info("Going to user profile page.");
+        link(By.xpath("(//div[text()='Home'])[1]")).click();
         link(By.id("js-main-nav-home-menu-link")).click();
         communityFrame();
-        link(By.cssSelector("a[href='/profile']")).click();
-        waitUntilPageFinishLoading();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a[href='/profile']")));
         link(By.cssSelector("a[href='/profile']")).click();
     }
 
@@ -404,6 +406,13 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         notificationsGlove().click();
     }
 
+    public void openNotificationsSupport() {
+        iframeExit();
+        logger.info("Opening notifications list.");
+        waitUntilPageFinishLoading();
+        notificationsGloveSupport().click();
+    }
+
     private boolean checkNewNotification() {
         logger.info("Checking if new notification is raised.");
         try {
@@ -444,6 +453,14 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         notificationsGlove().click();
     }
 
+    public void clearAllNotificationsSupport() {
+        logger.info("Clearing all the notifications");
+        iframeExit();
+        notificationsGloveSupport().click();
+        waitUntilPageFinishLoading();
+        notificationsGloveSupport().click();
+    }
+
     public void checkNewNotificationNotRaised() {
         Assert.assertFalse("The new notification is raised!", checkNewNotification());
         communityFrame();
@@ -465,9 +482,9 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     public void checkPublicFieldsVisibility() {
         communityFrame();
         logger.info("Checking if only public fields are visible.");
-        Assert.assertTrue("Public field work email is not visible.", checkItemVisible("purpleheautomation@gmail.com"));
-        Assert.assertFalse("Connections Only privacy field office phone is visible.", checkItemVisible("+12161234567"));
-        Assert.assertFalse("Private privacy field personal email is visible.", checkItemVisible("testemail@personal.com"));
+        Assert.assertTrue("Public field work email is not visible.", checkItemVisible("purpleheautomation+marketing5104@gmail.com"));
+        Assert.assertFalse("Connections Only privacy field office phone is visible.", checkItemVisible("5555555555"));
+       /// Assert.assertFalse("Private privacy field personal email is visible.", checkItemVisible("testemail@personal.com"));
     }
 
     public void checkConnectionsOnlyFieldsVisibility() {
@@ -488,7 +505,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
         logger.info("Writing comment to the post.");
         driver.findElement(By.xpath("//p[contains(text(), '"+postText+"')]/../../../../div[@class='post-comments-link']")).click();
         driver.findElement(By.id("edit-comment-body")).sendKeys(commentText);
-        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
+        updateBtn().click();
         waitUntilPageFinishLoading();
     }
 
@@ -581,7 +598,7 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
 
     public void clickOnThePostBtn() {
         logger.info("Clicking on the Post button.");
-        driver.findElement(By.xpath("//div[contains(@id, 'comment-reply-form-wrapper')]//input[@class='form-submit ajax-processed no-input']")).click();
+        editPostTextbox().click();
 //        driver.findElement(By.cssSelector("input[class='form-submit ajax-processed']")).click();
     }
 
@@ -644,7 +661,8 @@ public class UserProfilePageImpl extends PageObjectFacadeImpl {
     private WebElement addNewStateBtn() {return driver.findElement(By.id("edit-add-item"));}
     private WebElement addNewCountyForState01Field() {return driver.findElement(By.xpath("//div[@id='edit_cp_states_0_counties_chosen']/ul/li/input"));}
     private WebElement addNewCountyForState02Field() {return driver.findElement(By.xpath("//div[@id='edit_cp_states_1_counties_chosen']/ul/li/input"));}
-    private WebElement notificationsGlove() {return link(By.id("notifications"));}
+    private WebElement notificationsGlove() {return link(By.id("notificationsNav"));}
+    private WebElement notificationsGloveSupport() {return link(By.id("notifications"));}
     private WebElement privacyWorkEmail(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-contact-work-privacy']/option[@value='"+privacy+"']"));}
     private WebElement privacyPersonalEmail(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-contact-personal-privacy']/option[@value='"+privacy+"']"));}
     private WebElement privacyOfficePhone(String privacy) {return driver.findElement(By.xpath("//select[@id='edit-privacy-options-field-office-phone-privacy']/option[@value='"+privacy+"']"));}

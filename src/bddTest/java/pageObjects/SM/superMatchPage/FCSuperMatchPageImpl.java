@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import pageObjects.CM.groupsPage.GroupsPageImpl;
 import pageObjects.COMMON.PageObjectFacadeImpl;
 import pageObjects.SM.searchPage.SearchPageImpl;
+import utilities.GetProperties;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -324,7 +325,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void clickSaveSearchButton() {
-        chooseFitCriteria().click();
+        //chooseFitCriteria().click();
         saveSearchButton().sendKeys(Keys.RETURN);
     }
 
@@ -420,9 +421,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             searchPage.setResourcesCriteria(res);
             clickSaveSearchButton();
-            searchPage.saveSearchWithName("Search" + counter);
-            searchPage.verifyConfirmationMessage();
-            verifySavedSearchInDropdown("Search" + counter);
+            String randomSearchName = counter + "Search" + Integer.toString(new Random().nextInt(9999));
+            searchPage.saveSearchWithName(randomSearchName);
+            //searchPage.verifyConfirmationMessage();
+            verifySavedSearchInDropdown(randomSearchName);
             counter++;
             searchPage.unsetResourcesCriteria(res);
             saveSearchNeedToCreate--;
@@ -434,9 +436,10 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
                 break;
             searchPage.setResourcesCriteria(resTwo);
             clickSaveSearchButton();
-            searchPage.saveSearchWithName("Search" + counter);
-            searchPage.verifyConfirmationMessage();
-            verifySavedSearchInDropdown("Search" + counter);
+            String randomSearchName = counter + "Search" + Integer.toString(new Random().nextInt(9999));
+            searchPage.saveSearchWithName(randomSearchName);
+            //searchPage.verifyConfirmationMessage();
+            verifySavedSearchInDropdown(randomSearchName);
             counter++;
             saveSearchNeedToCreate--;
         }
@@ -585,7 +588,7 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void deleteAllSavedSearches() {
-        if (driver.findElements(By.cssSelector(disabledSavedSearchesButtonLocator)).size() == 0) {
+        if (driver.findElements(By.xpath(disabledSavedSearchesButtonLocator)).size() == 0) {
             savedSearchesDropdown().click();
             List<WebElement> deleteIconList = driver.findElements(By.cssSelector(savedSearchesListLocator + " + i"));
             savedSearchesDropdown().click();
@@ -659,8 +662,18 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     }
 
     public void addCollegeToImThinkingAboutList(String collegeName) {
-        gotToCollegesImThinkingAboutList();
-        link("Add Colleges to List").click();
+
+        try {
+            gotToCollegesImThinkingAboutList();
+            link("Add Colleges to List").click();
+        } catch (WebDriverException e) {
+            if (driver.findElements(By.cssSelector(connectorCloseIconLocator)).size() > 0) {
+            driver.findElement(By.cssSelector(connectorCloseIconLocator)).click();
+                gotToCollegesImThinkingAboutList();
+                link("Add Colleges to List").click();
+            }
+        }
+
         Select lookByDropdown = new Select(driver.findElement(By.xpath(lookByDropdownLocator)));
         lookByDropdown.selectByVisibleText("Keyword");
         lookupByNameField().sendKeys(collegeName);
@@ -671,12 +684,27 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
         }
     }
 
+    public void removeCollegeViaLookupPage(String collegeName){
+        load(GetProperties.get("fc.app.url")+ "colleges/college-lookup/thinking-about");
+        Select lookByDropdown = new Select(driver.findElement(By.xpath(lookByDropdownLocator)));
+        lookByDropdown.selectByVisibleText("Keyword");
+        lookupByNameField().sendKeys(collegeName);
+        button("Go").click();
+        waitUntil(ExpectedConditions.visibilityOf(heartIconInList(collegeName)));
+        if (heartIconInList(collegeName).getAttribute("aria-label").equals("Unfavorite")) {
+            heartIconInList(collegeName).click();
+            waitUntilPageFinishLoading();
+            waitUntil(ExpectedConditions.attributeToBe(heartIconInList(collegeName), "aria-label", "Favorite"));
+        }
+        waitUntilPageFinishLoading();
+    }
+
     public void goToCollegesLookingForStudentsLikeYou() {
         link("/colleges").click();
         button("Find Your Fit").click();
         link("College Match").click();
         waitUntilPageFinishLoading();
-        getCollegeMatchTab("Colleges Looking For Students Like You!").click();
+        getCollegeMatchTab("Colleges Looking For Students Like You").click();
         waitUntilPageFinishLoading();
     }
 
@@ -753,15 +781,18 @@ public class FCSuperMatchPageImpl extends PageObjectFacadeImpl {
     private String gpaTooltipIconInResultsLocator = "td.you-column button.supermatch-tooltip-trigger";
     private static WebElement superMatchCollegeSearchHeader() { return driver.findElement(By.xpath("//h1[text()='SuperMatch College Search']")); }
     private WebElement yesDeleteButton() { return driver.findElement(By.cssSelector("div.actions button.ui.teal.basic.button:nth-of-type(1)")); }
-    private String disabledSavedSearchesButtonLocator = "div[aria-disabled='true']";
+    private String disabledSavedSearchesButtonLocator = "//div[@class='supermatch-saved-searches']/div[@aria-disabled='true']";
     private String letterGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(1)";
     private String percentGradeListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(2)";
     private String fourScaleListLocator = "div[id *= 'supermatch-tooltip-'] tbody td:nth-of-type(3)";
     private WebElement infoBarMainWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]")); }
     private WebElement infoBarExtraWording() { return driver.findElement(By.xpath("//div[contains(@class, 'message')]/div/span[3]/span[3]")); }
-    private WebElement getMainMenuTab(String tabName) { return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
+    private WebElement getMainMenuTab(String tabName) {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul//div[text() = '" + tabName + "']")));
+        return driver.findElement(By.xpath("//ul//div[text() = '" + tabName + "']")); }
     private String lookByDropdownLocator = "//label[text() = 'Lookup by:']//select";
     private WebElement lookupByNameField() { return driver.findElement(By.cssSelector("input[name='name']")); }
     private WebElement heartIconInList(String collegeName) { return driver.findElement(By.xpath("//a[text() = '" + collegeName + "']/preceding-sibling::button")); }
     private WebElement getCollegeMatchTab(String tabName) { return driver.findElement(By.xpath("//div//a[text() = '" + tabName + "']")); }
+    public String connectorCloseIconLocator = "i.close.icon";
 }
