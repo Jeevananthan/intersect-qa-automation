@@ -3874,9 +3874,10 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
 
             } else{
                 if(status.equalsIgnoreCase("is not displayed")){
-                    Assert.assertTrue(String.format("The %s button is displayed for an school with %s",
-                            buttonText,appointmentsLabel),school.findElements(By.xpath(String.format(
-                            "descendant::span[text()='%s']",buttonText))).size()==0);
+                    setImplicitWaitTimeout(2);
+                    softly().assertThat(school.findElements(By.xpath(String.format("descendant::span[text()='%s']",buttonText))).size()).as("Add to Travel Plan button (should not display)").isEqualTo(0);
+                    //Assert.assertTrue(String.format("The %s button is displayed for an school with %s", buttonText,appointmentsLabel),school.findElements(By.xpath(String.format("descendant::span[text()='%s']",buttonText))).size()==0);
+                    resetImplicitWaitTimeout();
                 } else{
                     Assert.fail("The status of the button is not correct");
                 }

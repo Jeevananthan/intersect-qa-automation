@@ -31,12 +31,12 @@ Scenario: As a HE premium user, I want the ability to remove any institution I a
   @MATCH-1620 @MATCH-1715 @MATCH-3021
   Scenario: As an HE user of an HE institution with a Presence subscription active, I want to view recommendations for other high schools to potentially visit,
   so I can visit high schools I might not have otherwise considered.
-    Given SP I am logged in to the Admin page as an Admin user
-    When SP I search for "2400006"
-    And SP I select "The University of Alabama" from the global search results
-    Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
-    And SP I Click the Save Changes button
-    And SP I successfully sign out
+   # Given SP I am logged in to the Admin page as an Admin user
+   # When SP I search for "2400006"
+   # And SP I select "The University of Alabama" from the global search results
+   # Then SP I set the "Intersect Presence Subscription" module to "active" in the institution page
+   # And SP I Click the Save Changes button
+   # And SP I successfully sign out
 
     Given HS I am logged in to Intersect HS as user type "HSadmin4"
     Then HS I go to the repvisits page
