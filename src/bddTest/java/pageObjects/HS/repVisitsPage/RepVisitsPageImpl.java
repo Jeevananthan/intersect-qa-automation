@@ -9209,6 +9209,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void setStartDateAndEndDateInCalendarAgendaView(String numberOfDaysFromNowTillStartDate, String numberOfDaysFromNowTillEndDate) {
+        int date = Integer.parseInt(numberOfDaysFromNowTillEndDate);
+        agendaViewEndDatePicker().click();
+        setSpecificDate(date);
+        agendaViewStartDatePicker().click();
+        setSpecificDate(date);
+    }
+
     // Locators
 
     private WebElement getUserNameHS() {

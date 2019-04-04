@@ -2321,11 +2321,11 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         emailTextBox().sendKeys(ValidEmail);
         saveButton().click();
         waitUntilPageFinishLoading();
-        String ExactMessage=getDriver().findElement(By.xpath("//span/div[@class='aIt5aCQ6cGJhCVYB9NA02']")).getText();
+        String ExactMessage=getDriver().findElement(By.cssSelector("div[class='content']")).getText();
         String SuccessMessage="Success! You've updated your notifications settings.";
         Assert.assertTrue("Success Message is not displayed", ExactMessage.equals(SuccessMessage));
         setImplicitWaitTimeout(7);
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[@class='LkKQEXqh0w8bxd1kyg0Mq']/span")));
+        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[class='content']")));
         resetImplicitWaitTimeout();
     }
 
