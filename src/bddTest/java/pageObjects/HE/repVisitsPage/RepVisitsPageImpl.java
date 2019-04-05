@@ -2576,7 +2576,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Contact is not displayed",contactLabel().isDisplayed());
         Assert.assertTrue("user is not displayed",userText(user).isDisplayed());
         Assert.assertTrue("email id is not displayed",eMail(eMail).isDisplayed());
-        Assert.assertTrue("contact no is not displayed",contactNo(contactPhoneNo).isDisplayed());
+        Assert.assertTrue("contact no is not displayed",!getContactNo(eMail).getText().equals(""));
         Assert.assertTrue("school name is not displayed",schoolNameText(school).isDisplayed());
         Assert.assertTrue("address is not displayed",address(school,hsAddress).isDisplayed());
         String Date = getSpecificDateforCalendar(date);
@@ -2597,7 +2597,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("Contact is not displayed",contactLabel().isDisplayed());
         Assert.assertTrue("user is not displayed",userText(user).isDisplayed());
         Assert.assertTrue("email id is not displayed",eMail(eMail).isDisplayed());
-        Assert.assertTrue("contact no is not displayed",contactNo(contactPhoneNo).isDisplayed());
+        Assert.assertTrue("contact no is not displayed",!getContactNo(eMail).getText().equals(""));
         Assert.assertTrue("school name is not displayed",schoolNameText(school).isDisplayed());
         Assert.assertTrue("address is not displayed",address(school,hsAddress).isDisplayed());
         String Date=getSpecificDateforCalendar(date);
@@ -5362,6 +5362,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
      */
     private WebElement getRecommendationsSearchbox(){
         return  textbox("Search by location...");
+    }
+    private WebElement getContactNo(String eMail){
+        return getDriver().findElement(By.xpath("//div[text()='"+eMail+"']/following-sibling::div"));
     }
 }
 
