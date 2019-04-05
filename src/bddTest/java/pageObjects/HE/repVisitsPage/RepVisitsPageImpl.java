@@ -3836,8 +3836,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.xpath(String.format(".//div/div/h3[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
                     ,school))).click();
             button("YES, REMOVE").click();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
-            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Succesfully removed']")));
+            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Successfully removed']")));
+            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Successfully removed']")));
         }
         waitForUITransition();
         waitForUITransition();
