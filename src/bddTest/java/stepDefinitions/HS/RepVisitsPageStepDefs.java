@@ -800,5 +800,7 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HS I create a College Fair using the following data \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$",repVisits::hsCreateCollegeFair);
 
+        Then("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in calendar Agenda view$",repVisits::setStartDateAndEndDateInCalendarAgendaView);
+
     }
 }
