@@ -45,8 +45,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logout() {
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class,'ui small icon success message toast')]")));
-        userDropdown().click();
+        // If there's a toast, it blocks the user dropdown, so jsClick past it instead.
+        if (getDriver().findElements(By.xpath("//*[contains(@class,'ui small icon success message toast')]")).size() > 0) {
+            jsClick(userDropdown());
+        } else {
+            userDropdown().click();
+        }
         button(By.id("user-dropdown-signout")).click();
         driver.manage().deleteAllCookies();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(loginButtonLocator), 1));
