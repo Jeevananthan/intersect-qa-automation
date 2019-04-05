@@ -441,6 +441,16 @@ public class RepVisitsPageStepDefs implements En {
 
         Then("^HE I verify the content begins where title would begin in notification bar \"([^\"]*)\"$",repVisits::verifyProductAnnouncementContent);
 
+        Then("^HE I verify the Recommendation tab of the RepVisits page$", repVisits::verifyRecommendatiosPage);
+
+        Then("^HE I search \"([^\"]*)\" in Recommendation tab of the RepVisits page",repVisits::searchforRecommendationsPage);
+
+        Then("^HE I verify the Details of Recommendation result for \"([^\"]*)\"$",repVisits::verifyDetailsofRecommendation);
+
+        Then("^HE I click the View Availability for \"([^\"]*)\" and verify the close button$",repVisits::verifyViewAvailabilityCloseButton);
+
+        Then("^HE I verify \"([^\"]*)\" for \"([^\"]*)\"$",repVisits::verifyAvailability);
+
         Then("^HE I verify the 'Read More' button is not displaying for the content with less than 140 character limit$",repVisits::verifyReadMoreButtonIsNotDisplaying);
 
         Then("^HE I verify the \"([^\"]*)\" button$",repVisits::verifyAddToTravelPlanButtonInHSPage);

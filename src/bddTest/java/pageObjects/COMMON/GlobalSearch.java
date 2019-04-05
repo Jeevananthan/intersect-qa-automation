@@ -297,7 +297,8 @@ public class GlobalSearch extends SeleniumBase {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"),1));
         WebElement frameClass=getDriver().findElement(By.className("_2ROBZ2Dk5vz-sbMhTR-LJ"));
-        getDriver().switchTo().frame(frameClass);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameClass));
+        //getDriver().switchTo().frame(frameClass);
         waitUntilElementExists(getDriver().findElement(By.xpath("//div/a[text()='Check RepVisits Availability']")));
         waitUntilElementExists(RepvisitsAvailabilityButton());
         Assert.assertTrue("RepvisitsAvialbilityButton is not displayed",RepvisitsAvailabilityButton().isDisplayed());

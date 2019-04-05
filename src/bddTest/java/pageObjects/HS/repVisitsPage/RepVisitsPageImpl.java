@@ -8063,7 +8063,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector("button[title='previous week']"), 1));
         driver.findElement(By.cssSelector("button[class='ui small button _2D2Na6uaWaEMu9Nqe1UnST']")).click();
-        setSpecificDate(Date);
+        setSpecificDateForException(Date);
         String date = selectCurrentDate(Date);
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//table//th//div/span[text()='" + date + "']/parent::div/following-sibling::div/span[text()='" + reason + "']"), 1));
         WebElement calendar = driver.findElement(By.cssSelector("div[class='igoATb7tmfPWBM8CX8CkN']"));
@@ -8119,6 +8119,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             removeButton = driver.findElements(By.xpath("//span[text()='Remove']"));
             removeButtonIteration = removeButton.size() - 1;
         }
+        getDriver().findElement(By.cssSelector("button[class='ui primary button']")).click();
+
     }
 
     public int getColumnIdFromTableforManuallyAddVisit(String tableHeaderLocator, String fieldName) {
@@ -9207,6 +9209,14 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         findMonth(calendarHeading);
         clickOnDay(parts[1]);
         waitUntilPageFinishLoading();
+    }
+
+    public void setStartDateAndEndDateInCalendarAgendaView(String numberOfDaysFromNowTillStartDate, String numberOfDaysFromNowTillEndDate) {
+        int date = Integer.parseInt(numberOfDaysFromNowTillEndDate);
+        agendaViewEndDatePicker().click();
+        setSpecificDate(date);
+        agendaViewStartDatePicker().click();
+        setSpecificDate(date);
     }
 
     // Locators
