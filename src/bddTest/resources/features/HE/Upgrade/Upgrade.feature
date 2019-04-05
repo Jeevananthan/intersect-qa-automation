@@ -46,6 +46,8 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     And SP I set the "Connection" module to "inactive" in the institution page
     And SP I set the "ActiveMatch Plus" module to "inactive" in the institution page
     And SP I Click the Save Changes button
+    Then SP I successfully sign out
+
     Given HE I am logged in to Intersect HE as user type "upgradeSubscriptions"
     And HE I Verify Upgrade Subscription Ribbon and Button for "Connection"
     And HE I click on Upgrade button subscription "Connection"
@@ -77,6 +79,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     Then SP I set the "Advanced Awareness" module to "inactive" in the institution page
     Then SP I set the "Connection" module to "inactive" in the institution page
     And SP I Click the Save Changes button
+    Then SP I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the community page
@@ -97,6 +100,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
     When SP I select "Bowling Green State University-Main Campus" from the institution dashboard
     Then SP I set the "Intersect Presence Subscription" module to "inactive" in the institution page
     And SP I Click the Save Changes button
+    Then SP I successfully sign out
 
     Given HE I am logged in to Intersect HE as user type "limited"
     Then HE I navigate to the Fields "<Fields>" in repvisits page

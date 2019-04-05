@@ -36,6 +36,13 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
 
     public void selectDiversityOptions(DataTable diversityOptions){
         List<String> ethnicities = diversityOptions.asList(String.class);
+     //unselect the options
+        for (String  eachOption : ethnicities) {
+            if(checkBoxDiversityChecked(eachOption).isSelected())
+               diversityEthnicityCheckBox(eachOption).click();
+        }
+        clickDiversitySaveButton();
+     //select the options
         for (String  eachOption : ethnicities) {
             if(!checkBoxDiversityChecked(eachOption).isSelected())
                 diversityEthnicityCheckBox(eachOption).click();
@@ -114,8 +121,7 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
     public void clickOnSaveButton(){
         waitUntil(ExpectedConditions.visibilityOf(saveButton()));
         saveButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(majorsSavedConfirmationMessageLocator), 0));
-        waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath(majorsSavedConfirmationMessageLocator), 0));
+        waitUntilPageFinishLoading();
     }
 
     public void cleanAllMajorsMessages() {
@@ -145,6 +151,13 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
         List<WebElement> majorsInCard = driver.findElements(By.xpath(majorsInCardLocator(collegeName)));
         Assert.assertTrue("The string: " + searchedString + " was not found in the card.",
                 majorsInCard.get(majorsInCard.size() - 1).getText().contains(searchedString));
+    }
+
+    public void clickDiversitySaveButton(){
+        waitUntilElementExists(diversitySaveButton());
+        diversitySaveButton().click();
+        waitUntilPageFinishLoading();
+        waitForUITransition();
     }
 
     //locators
@@ -201,4 +214,8 @@ public class AdvanceAwarenessPageImpl extends PageObjectFacadeImpl {
             "'" + collegeName + "']/../../..//div[@class = 'item custom-bulleted-list']/a"; }
 
     private String majorsSavedConfirmationMessageLocator = "//span[text() = 'Major messages have been successfully updated.']";
+
+    private String successMessage = "div[class='content']";
+
+    private WebElement diversitySaveButton(){return getDriver().findElement(By.xpath("//span[text()='Save']"));}
 }

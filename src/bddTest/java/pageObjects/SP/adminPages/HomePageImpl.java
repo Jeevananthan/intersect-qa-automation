@@ -31,6 +31,7 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyUserIsLoggedIn() {
         //Check if user element is present
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("user-dropdown")));
         Assert.assertTrue("User did not signed in",link(By.id("user-dropdown")).isDisplayed());
         logger.info("Logged in successfully");
     }

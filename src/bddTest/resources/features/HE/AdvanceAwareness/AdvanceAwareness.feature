@@ -2,15 +2,39 @@
 Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engaged to perform actions on my subscription Advanced Awareness
          so that I can set Diversity , Configure Audience  etc etc
 
-
   @MATCH-4629
   Scenario: As an HE user, I want to configure Advance Awareness
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    #Pre-condition
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Alpena Community College" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
+    And HE I click the link "Advanced Awareness"
+    And SP I delete all the subscriptions for school
+    And SP I click 'ADD NEW SUBSCRIPTION' button
+    And SP I select the radio button "State" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      | State                | Alabama                  |
+      | Counties             | None                     |
+      | Diversity Filter     | Racial & Ethnic Minority |
+      | Competitors          | Alpena Community College |
+      | Majors               | yes                      |
+      | Connection           | yes                      |
+      | Start date           | 2 days from now          |
+      | End date             | 3 days from now          |
+      | Zips                 | None                     |
+      | Radius from zips     | None                     |
+    And SP I save the new subscription
+    Then SP I successfully sign out
+
+    Given HE I am logged in to Intersect HE as user type "AdvancedAwareness"
     And HE I click on button Configure for subscription "Advanced Awareness"
     And HE I click on Advance Awareness menu option "Diversity"
     And HE I select following Diversity Settings
     | Asian |
     | Hispanic/Latino of any race |
+    Then HE I click Diversity save button
     And HE I click on Advance Awareness menu option "Competitors"
     And HE I click the advanced awareness save button
     And HE I click on Advance Awareness menu option "Diversity"
@@ -31,6 +55,17 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
       | Hispanic/Latino of any race |
     And HE I click on Advance Awareness menu option "Competitors"
     And HE I click the advanced awareness save button
+    Then HE I successfully sign out
+
+    Given SP I am logged in to the Admin page as a Support user
+    When SP I select "Alpena Community College" from the institution dashboard
+    Then SP I set the "Advanced Awareness" module to "active" with the start date "0" and end date "35" in the institution page
+    And SP I Click the Save Changes button
+    And HE I click the link "Advanced Awareness"
+    And SP I delete the subscriptions with the following data:
+      | Diversity  | Racial & Ethnic Minority   |
+      | Start Date | 2 days from now            |
+    Then SP I successfully sign out
 
   @MATCH-4399
   Scenario: One Academic Threshold value must be entered if "Use Default Threshold" is selected for a subscription.
@@ -44,6 +79,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
       | startDate | 2 days before now |
       | endDate   | 2 days after now  |
     And SP I successfully sign out
+
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "advanced-awareness/threshold" url
     Then HE I check "Enabled" checkbox for the first row on the Threshold Page
@@ -257,7 +293,7 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
       | startDate | 2 days before now |
       | endDate   | 2 days after now  |
     And SP I successfully sign out
-    Given HE I am logged in to Intersect HE as user type "administrator"
+    Given HE I am logged in to Intersect HE as user type "AdvancedAwareness"
     When HE I navigate to the "advanced-awareness/majors" url
     Then HE I check competitors are displayed in alphabetical order
     Then HE I check each major contains option "Display without message"
