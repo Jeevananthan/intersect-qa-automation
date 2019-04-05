@@ -12001,6 +12001,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private  WebElement unpublishOption(){
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(@class,'ui button')]")));
         return   driver.findElement(By.xpath("//button[contains(@class,'ui button')]"));
     }
 
