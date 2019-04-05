@@ -131,7 +131,7 @@ Feature: HE - RepVisits - CollegeFairs - As an HE user, I should be able to sign
     And HS I am logged in to Intersect HS through Naviance with user type "navianceAdmin"
     And HS I cancel the fair of name "PreviouslySetFair" with the reason "test"
 
-  @manual @NotInQA
+  @manual @NotInQA @ignore
   Scenario: As a HE user, I need to verify that the error message when the fair is not available anymore
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I search for "Int Qa High School 4" in RepVisits
