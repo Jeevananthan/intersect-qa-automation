@@ -865,7 +865,9 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     public WebElement audienceField() { return driver.findElement(By.cssSelector("input[name='filters-dropdown']")); }
     private WebElement saveDraftButton() { return driver.findElement(By.cssSelector("button[title='Save Draft']")); }
     private WebElement publishNowButton() { return driver.findElement(By.cssSelector("button[title='Publish Now']")); }
-    private WebElement createEventButton() { return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
+    private WebElement createEventButton() {
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='CREATE EVENT']")));
+        return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     public WebElement menuButtonForEvent(String eventName) {
         return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//i"));
     }

@@ -132,6 +132,7 @@ public class FCCollegeEvents extends PageObjectFacadeImpl {
 
     public void selectYesCancelRegistration() {
         PageFactory.initElements(driver, FCCollegeEventsPage.class);
+        waitUntil(ExpectedConditions.visibilityOf(FCCollegeEventsPage.clickYesToCancelRegistration));
         FCCollegeEventsPage.clickYesToCancelRegistration.click();
     }
 
