@@ -1640,6 +1640,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifySchedulePopup(String school, String startTime, String endTime) {
+        waitUntilPageFinishLoading();
+        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        Assert.assertTrue("SchedulePopup is not displayed", getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
+        Assert.assertTrue("school is not displayed", getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with " + school + " from')]")).isDisplayed());
+//        Assert.assertTrue("time is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
+        visitRequestButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(visitSuccessMessage(),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(visitSuccessMessage(),0));
+        waitUntil(ExpectedConditions.visibilityOf(goToDate()));
+    }
+
     public void setDateFixed(String inputDate) {
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -5370,6 +5382,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactNo(String eMail){
         return getDriver().findElement(By.xpath("//div[text()='"+eMail+"']/following-sibling::div"));
     }
+    private By visitSuccessMessage(){return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']");}
 }
 
 
