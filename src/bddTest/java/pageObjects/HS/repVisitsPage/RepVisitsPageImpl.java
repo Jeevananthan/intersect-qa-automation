@@ -1982,6 +1982,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         Assert.assertTrue("school is not displayed", getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with " + school + " from')]")).isDisplayed());
 //        Assert.assertTrue("time is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
         visitRequestButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(visitSuccessMessage(),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(visitSuccessMessage(),0));
         waitUntil(ExpectedConditions.visibilityOf(goToDate()));
     }
 
@@ -12064,4 +12066,6 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     }
 
     private By blockedDayInException(String currentDate){return By.xpath("//div/span[text()='" + currentDate + "']/parent::div/following-sibling::div/span[text()='Blocked - Holiday']");}
+
+    private By visitSuccessMessage(){return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']");}
 }

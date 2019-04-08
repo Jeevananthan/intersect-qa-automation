@@ -3416,8 +3416,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
         if(!checkBoxInYourNotification().isSelected())
             checkBoxInYourNotification().click();
-            saveButtonInYourNotification().click();
-            waitUntil(ExpectedConditions.invisibilityOfElementLocated(notificationsSettingsWereUpdatedToastLocator()));
+        saveButtonInYourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(notificationsSettingsWereUpdatedToastLocator(),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(notificationsSettingsWereUpdatedToastLocator(),0));
     }
 
     public void accessAgendaView(String agenda){
@@ -4048,6 +4049,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String actualValue[] = message.split("!");
         softly().assertThat(getMessage[0]).as("Message is not equal").isEqualTo(actualValue[0]);
         softly().assertThat(getMessage[1]).as("Message is not equal").isEqualTo(actualValue[1]);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(successMessage(),0));
     }
 
     public void loggingAnotherAccount(String usertype){
