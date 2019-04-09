@@ -520,5 +520,7 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HE I close community availability side bar$",repVisits::closeCommunityAvailability);
 
         Then("^HE I navigate to \"([^\"]*)\"$",repVisits::navigateToRepVisitsSection);
+
+        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
     }
 }
