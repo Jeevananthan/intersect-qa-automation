@@ -102,7 +102,7 @@ public class NavBarImpl extends SeleniumBase {
         Assert.assertTrue("Counselor Community is not displayed",getCommunityBtn().isDisplayed());
         getCommunityBtn().click();
         WebElement element=getDriver().findElement(By.xpath("//iframe[@class='_2ROBZ2Dk5vz-sbMhTR-LJ']"));
-        getDriver().switchTo().frame(element);
+        waitUntil(ExpectedConditions.frameToBeAvailableAndSwitchToIt(element));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@class='form-textarea']")));
         getDriver().findElement(By.xpath("//textarea[@class='form-textarea']")).sendKeys(msg);
         getDriver().findElement(By.xpath("//input[@id='edit-save']")).click();

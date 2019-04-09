@@ -55,6 +55,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
     {
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(userDropDown()));
         userDropdown().click();
         Assert.assertTrue("Account Settings option is not displayed",selectOptionfromDropdownList(option).isDisplayed());
         selectOptionfromDropdownList(option).click();
@@ -146,4 +147,7 @@ public class AccountSettingsPageImpl extends PageObjectFacadeImpl {
         return By.xpath(String.format("//span[text()='%s']",tab));
     }
 
+    private By userDropDown(){
+        return By.id("user-dropdown");
+    }
 }

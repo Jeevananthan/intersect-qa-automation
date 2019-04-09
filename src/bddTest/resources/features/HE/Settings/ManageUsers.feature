@@ -16,8 +16,7 @@ Feature: HE - Settings - ManageUsers - As an HE admin user, I should be able to 
     Then HE I am logged in to Intersect HE as user type "recruiter"
     And HE I am able to successfully login
 
-
-  @MATCH-133 @Unstable
+  @MATCH-133
   Scenario: As an HE administrator, I am able to manage other users' roles in my institution.
     Given HE I am logged in to Intersect HE as user type "administrator"
     Then HE I edit the user account for "purpleheautomation+recruiter@gmail.com" with the following info
@@ -59,7 +58,7 @@ Feature: HE - Settings - ManageUsers - As an HE admin user, I should be able to 
     Then HE I can see the last login date for user type "administrator"
 
 
-  @MATCH-1416 @NotInQA
+  @MATCH-1416 @NotInQA @ignore
   Scenario: As an Intersect system I want HE user accounts that have been inactivated to also have their
             corresponding Community user accounts inactivated.
     Given HE I am logged in to Intersect HE as user type "administrator"

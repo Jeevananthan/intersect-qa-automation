@@ -42,11 +42,8 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
 
         for( int i=0; i<itemsInStaffMemberMenu.size(); i++)
         {
-            try {
-                isCommunityAvatarDisplayed = itemsInStaffMemberMenu.get(i).
-                        findElement(By.xpath(staffMember()+"/img | "+staffMember()+"/i")).isDisplayed();
-            } catch(Exception ex) {
-                isCommunityAvatarDisplayed = false;
+            if(itemsInStaffMemberMenu.get(i).findElements(By.xpath(staffMember() + "/img | " + staffMember() + "/i")).size()>0) {
+                isCommunityAvatarDisplayed = true;
             }
 
             String nameOfStaffMember = itemsInStaffMemberMenu.get(i).findElement(By.xpath(staffMember())).getText();
@@ -63,12 +60,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
 
         for(int i=0; i<itemsInStaffMemberMenuWithNoRatings.size(); i++)
         {
-            try {
-                isIndividualAverageRatingWithStarIconDisplayedToRightOfStaffMemberName = itemsInStaffMemberMenuWithNoRatings.get(i).findElement(By.xpath(".//div[contains(@class, 'right aligned middle aligned')]")).isDisplayed();
-            } catch(Exception ex) {
-                isIndividualAverageRatingWithStarIconDisplayedToRightOfStaffMemberName = false;
+            if(itemsInStaffMemberMenuWithNoRatings.get(i).findElements(By.xpath(".//div[contains(@class, 'right aligned middle aligned')]")).size()==1){
+                isIndividualAverageRatingWithStarIconDisplayedToRightOfStaffMemberName = true;
             }
-
             String nameOfStaffMember = itemsInStaffMemberMenuWithNoRatings.get(i).findElement(By.xpath(staffMember())).getText();
             Assert.assertFalse("Average rating and star icon displayed to the right of staff member with name - " + nameOfStaffMember , isIndividualAverageRatingWithStarIconDisplayedToRightOfStaffMemberName);
 
@@ -90,13 +84,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             driver.manage().timeouts().implicitlyWait(-1, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            while(isLoadMoreLinkDisplayed)
-            {
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Load more']"))).click();
-                } catch(Exception ex) {
-                    isLoadMoreLinkDisplayed = false;
-                }
+            while(getDriver().findElements(By.xpath("//span[text()='Load more']")).size()==1) {
+                getDriver().findElement(By.xpath("//span[text()='Load more']")).click();
+                waitForUITransition();
             }
 
             List<WebElement> listOfRatings = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rating-details']/div/div[@class='ui vertical segment rating-segment']")));
@@ -141,13 +131,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             driver.manage().timeouts().implicitlyWait(-1, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            while(isLoadMoreLinkDisplayed)
-            {
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Load more']"))).click();
-                } catch(Exception ex) {
-                    isLoadMoreLinkDisplayed = false;
-                }
+            while(getDriver().findElements(By.xpath("//span[text()='Load more']")).size()==1) {
+                getDriver().findElement(By.xpath("//span[text()='Load more']")).click();
+                waitForUITransition();
             }
 
             List<WebElement> listOfRatings = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rating-details']/div/div[@class='ui vertical segment rating-segment']")));
@@ -216,13 +202,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             driver.manage().timeouts().implicitlyWait(-1, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            while(isLoadMoreLinkDisplayed)
-            {
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Load more']"))).click();
-                } catch(Exception ex) {
-                    isLoadMoreLinkDisplayed = false;
-                }
+            while(getDriver().findElements(By.xpath("//span[text()='Load more']")).size()==1) {
+                getDriver().findElement(By.xpath("//span[text()='Load more']")).click();
+                waitForUITransition();
             }
 
             List<WebElement> listOfRatings = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rating-details']/div/div[@class='ui vertical segment rating-segment']")));
@@ -260,13 +242,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             driver.manage().timeouts().implicitlyWait(-1, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            while(isLoadMoreLinkDisplayed)
-            {
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Load more']"))).click();
-                } catch(Exception ex) {
-                    isLoadMoreLinkDisplayed = false;
-                }
+            while(getDriver().findElements(By.xpath("//span[text()='Load more']")).size()==1) {
+                getDriver().findElement(By.xpath("//span[text()='Load more']")).click();
+                waitForUITransition();
             }
 
 
@@ -319,13 +297,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             driver.manage().timeouts().implicitlyWait(-1, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            while(isLoadMoreLinkDisplayed)
-            {
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Load more']"))).click();
-                } catch(Exception ex) {
-                    isLoadMoreLinkDisplayed = false;
-                }
+            while(getDriver().findElements(By.xpath("//span[text()='Load more']")).size()==1) {
+                getDriver().findElement(By.xpath("//span[text()='Load more']")).click();
+                waitForUITransition();
             }
 
             List<WebElement> listOfRatings = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='rating-details']/div/div[@class='ui vertical segment rating-segment']")));
@@ -413,13 +387,9 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
             driver.manage().timeouts().implicitlyWait(-1, TimeUnit.SECONDS);
             WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            while(isLoadMoreLinkDisplayed)
-            {
-                try {
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Load more']"))).click();
-                } catch(Exception ex) {
-                    isLoadMoreLinkDisplayed = false;
-                }
+            while(getDriver().findElements(By.xpath("//span[text()='Load more']")).size()==1) {
+                getDriver().findElement(By.xpath("//span[text()='Load more']")).click();
+                waitForUITransition();
             }
 
             List<WebElement> listOfATITagsWithThumbsDownIcon = new ArrayList<WebElement>();
@@ -549,7 +519,7 @@ public class RepVisitsFeedbackPageImpl extends RepVisitsPageImpl {
         // Verify the contents of an individual rating are present
         softly().assertThat(getSingleRating().findElement(By.xpath("./div[@role='radiogroup']")).isDisplayed()).as("Star ratings are displayed for visit").isTrue();
         softly().assertThat(getSingleRating().findElement(By.className("_3HkfzGwe9DUTIza-b_pTkn")).isDisplayed()).as("Area of excellence/improvement icon").isTrue();
-        softly().assertThat(getSingleRating().findElement(By.xpath("./strong/span/span[text()='stars']")).isDisplayed()).as("Textual star rating").isTrue();
+        softly().assertThat(getSingleRating().findElement(By.xpath("//span[text()='stars']")).isDisplayed()).as("Textual star rating").isTrue();
     }
 
     private ArrayList sortByLastName(ArrayList<String> al) {

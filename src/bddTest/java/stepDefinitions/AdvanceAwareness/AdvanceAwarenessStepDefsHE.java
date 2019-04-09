@@ -28,4 +28,5 @@ public class AdvanceAwarenessStepDefsHE implements En {
         And("^HE I clean all the majors messages$", advanceAwarenessPage::cleanAllMajorsMessages);
         And("^HE I set messages for the following majors:$", advanceAwarenessPage::setMajorsMessages);
         Then("^SM I verify that the string \"([^\"]*)\" is present in the card for \"([^\"]*)\" college$", advanceAwarenessPage::verifyStringInCard);
+        Then("^HE I click Diversity save button$",advanceAwarenessPage::clickDiversitySaveButton);
     }}

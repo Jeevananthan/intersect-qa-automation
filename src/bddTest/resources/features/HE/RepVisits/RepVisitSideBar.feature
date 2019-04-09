@@ -8,7 +8,7 @@
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I navigate to the "Travel Plan" page in RepVisits
     Then HE I verify the school "Int Qa High School 4" and delete if it is added to travel plan
-    And  HE I search for "Int Qa High School 4" in "All"
+    And  HE I search for "Int Qa High School 4" in "Institutions"
     And  HE I select "Int Qa High School 4" from the results
     When HE I select Check RepVisits Availability in the community page
     Then HE I verify the side bar popup has "Int Qa High School 4" as school Name on the header
@@ -24,7 +24,7 @@
 
 
     @MATCH-2081
-    Scenario Outline:As an HE user, I want the current high school availability sidebar, when the fair toggle,is enabled to only display fairs that have been published by the high school soI cannot see afair that the high school has not yet published.
+    Scenario Outline:As an HE user, I want the current high school availability sidebar, when the fair toggle,is enabled to only display fairs that have been published by the high school so I cannot see a fair that the high school has not yet published.
 
       #verifying a published fair
       Given HS I am logged in to Intersect HS as user type "HSadmin1"
@@ -36,7 +36,7 @@
 
       Given HE I am logged in to Intersect HE as user type "administrator"
       When  I navigate to Counselor Community page
-      And  HE I search for "Fabens High School" in "All"
+      And  HE I search for "Fabens High School" in "Institutions"
       And  HE I select "Fabens High School" from the results
       When HE I select Check RepVisits Availability in the community page
       Then HE I verify the side bar popup has "Fabens High School" as school Name on the header
@@ -56,7 +56,7 @@
 
       Given HE I am logged in to Intersect HE as user type "administrator"
       When  I navigate to Counselor Community page
-      And  HE I search for "Fabens High School" in "All"
+      And  HE I search for "Fabens High School" in "Institutions"
       And  HE I select "Fabens High School" from the results
       When HE I select Check RepVisits Availability in the community page
       Then HE I verify the side bar popup has "Fabens High School" as school Name on the header
@@ -64,7 +64,7 @@
       Then HE I verify the recently "UnPublished" Fair on the fairs toggle
 
       Examples:
-        |College Fair Name    |Date            |Start Time|End Time|RSVP Deadline    |Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|MaxNumberofColleges|NumberofStudentsExpected|ButtonToClick|VerifyDateEdit       |VerifyRSVPDateEdit     |verifyStartTime|verifyEndTime|
-        |QA Test Fair New/Edit|35              |0900AM    |1000AM  |7                |$25 |25                    |100                        | Save          |$25 |25                 |100                     |Save         |Tuesday, Dec 12, 2018|Wednesday, Nov 15, 2018|09:00          |10:00        |
+        |College Fair Name                 |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |Cost|
+        |Publish/UnpublishWhenToggleON/OFF|35  |0900AM    |1000AM  |7            |$25 |25                    |100                        | Save          |$25 |
 
 

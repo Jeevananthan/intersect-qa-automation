@@ -61,7 +61,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Examples:
       |School                   |College Fair Name         |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected| ButtonToClick |fairTime|
-      |Standalone High School 2 |QA4 Fairs for testing     |35  |0900AM    |1000AM  |28           |$25 |25                    |100                        | Save          |9:00am  |
+      |Standalone High School 2 |QA4 Fairs for testing     |35  |1123AM    |1000AM  |28           |$25 |25                    |100                        | Save          |11:23am  |
 
   @MATCH-2565
   Scenario Outline: As a Repvisits admin users, I want to view the all requests should be available for all Admin user until one of the user approves/denies the request.

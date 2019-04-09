@@ -45,8 +45,12 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     public void logout() {
         waitUntilPageFinishLoading();
         driver.switchTo().defaultContent();
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class,'ui small icon success message toast')]")));
-        userDropdown().click();
+        // If there's a toast, it blocks the user dropdown, so jsClick past it instead.
+        if (getDriver().findElements(By.xpath("//*[contains(@class,'ui small icon success message toast')]")).size() > 0) {
+            jsClick(userDropdown());
+        } else {
+            userDropdown().click();
+        }
         button(By.id("user-dropdown-signout")).click();
         driver.manage().deleteAllCookies();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(loginButtonLocator), 1));
@@ -244,8 +248,8 @@ public class HomePageImpl extends PageObjectFacadeImpl {
 
     public void verifyRepVisitsLandingPage(){
         getNavigationBar().goToRepVisits();
-        waitUntilElementExists(getSearchAndScheduleHeading());
-        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getSearchAndScheduleHeading().isDisplayed());
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(searchButton()));
+        Assert.assertTrue("Clicking on RepVisits is not redirecting to Search and Schedule tab", getDriver().findElement(searchButton()).isDisplayed());
     }
 
 
@@ -416,4 +420,6 @@ public class HomePageImpl extends PageObjectFacadeImpl {
     private WebElement getBackToProfileLink(){
         return getDriver().findElement(backToProfileLinkLocator());
     }
+
+    private By searchButton(){return By.cssSelector("button[aria-label='search-btn']");}
 }

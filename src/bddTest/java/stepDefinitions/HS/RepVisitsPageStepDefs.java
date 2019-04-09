@@ -112,8 +112,6 @@ public class RepVisitsPageStepDefs implements En {
 
         And("^HS I verify that the time slot was removed from date \"([^\"]*)\", with the start time \"([^\"]*)\"$", repVisits::verifyAbsenceOfTimeSlot);
 
-        Then("^HE I verify the schedule pop_up for \"([^\"]*)\" using \"([^\"]*)\" and \"([^\"]*)\"$",repVisits::verifySchedulePopup);
-
         Then("^HS I clear the day$", repVisits::clearDay);
 
         Then("^HE I set and verify that \"([^\"]*)\" is blocked on the Blocked Days page$", repVisits::verifyManualBlockedHolidays);
@@ -797,6 +795,10 @@ public class RepVisitsPageStepDefs implements En {
         Then("^HS I verify the date \"([^\"]*)\" is not enabled in college fair page$",repVisits::verifyDateIsDisabledInCollegeFairPage);
 
         Then("^HS I verify the date \"([^\"]*)\" is not enabled in edit college fair page$",repVisits::verifyDateIsDisabledInEditCollegeFairPage);
+
+        Then("^HS I create a College Fair using the following data \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$",repVisits::hsCreateCollegeFair);
+
+        Then("^HS I select Start date \"([^\"]*)\" and End date \"([^\"]*)\" in calendar Agenda view$",repVisits::setStartDateAndEndDateInCalendarAgendaView);
 
     }
 }

@@ -69,10 +69,12 @@ public class CollegesImApplyingToPageImpl extends PageObjectFacadeImpl {
     }
 
     public void removeCollegeFromList(String college) {
-        collegeCheckbox(college).click();
-        removeButton().click();
-        dialogRemoveButton().click();
-        waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(confirmationBannerLocator), 0));
+        if (driver.findElements(By.xpath(collegeCheckboxLocator(college))).size() > 0) {
+            collegeCheckbox(college).click();
+            removeButton().click();
+            dialogRemoveButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(confirmationBannerLocator), 0));
+        }
     }
 
 
@@ -83,6 +85,7 @@ public class CollegesImApplyingToPageImpl extends PageObjectFacadeImpl {
     private WebElement connectDisconnectMenuItem() { return driver.findElement(By.cssSelector("button + div a + button figure + span")); }
     private String commonMoreMenuItems = "button + div:not(.hidden) a figure";
     private WebElement collegeCheckbox(String college) { return driver.findElement(By.xpath("//a[text() = '" + college + "']/../../../td[1]//figure")); }
+    private String collegeCheckboxLocator(String college) {return "//a[text() = '" + college + "']/../../../td[1]//figure";}
     private WebElement removeButton() { return driver.findElement(By.xpath("//button[contains(text(), 'REMOVE')]")); }
     private WebElement dialogRemoveButton() { return driver.findElement(By.xpath("//button[text() = 'REMOVE']")); }
     private String confirmationBannerLocator = "//strong[text() = 'Confirmation']";
