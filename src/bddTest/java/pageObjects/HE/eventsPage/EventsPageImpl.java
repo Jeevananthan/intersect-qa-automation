@@ -56,8 +56,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyEventIsPresent(String eventName) {
-        if (eventName.equalsIgnoreCase("RandomEventName"))
-            eventName = staticEventName;
+        eventName = eventName;
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.elementToBeClickable(getEventsInternalTab("Unpublished")));
         driver.get(driver.getCurrentUrl());
