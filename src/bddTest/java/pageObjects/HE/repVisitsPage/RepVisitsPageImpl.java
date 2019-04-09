@@ -1640,6 +1640,18 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntilPageFinishLoading();
     }
 
+    public void verifySchedulePopup(String school, String startTime, String endTime) {
+        waitUntilPageFinishLoading();
+        startTime = pageObjects.HS.repVisitsPage.RepVisitsPageImpl.StartTime;
+        Assert.assertTrue("SchedulePopup is not displayed", getDriver().findElement(By.xpath("//div[contains(text(),'Ready to Schedule?')]")).isDisplayed());
+        Assert.assertTrue("school is not displayed", getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with " + school + " from')]")).isDisplayed());
+//        Assert.assertTrue("time is not displayed",getDriver().findElement(By.xpath("//div[contains(text(),'Do you want to schedule a visit with "+school+" from')]/b[contains(text(),'"+startTime+"-"+endTime+"')]")).isDisplayed());
+        visitRequestButton().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(visitSuccessMessage(),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(visitSuccessMessage(),0));
+        waitUntil(ExpectedConditions.visibilityOf(goToDate()));
+    }
+
     public void setDateFixed(String inputDate) {
         String[] parts = inputDate.split(" ");
         String calendarHeading = parts[0] + " " + parts[2];
@@ -3416,8 +3428,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.xpath("//button/span[text()='Save']"),1));
         if(!checkBoxInYourNotification().isSelected())
             checkBoxInYourNotification().click();
-            saveButtonInYourNotification().click();
-            waitUntil(ExpectedConditions.invisibilityOfElementLocated(notificationsSettingsWereUpdatedToastLocator()));
+        saveButtonInYourNotification().click();
+        waitUntil(ExpectedConditions.numberOfElementsToBe(notificationsSettingsWereUpdatedToastLocator(),1));
+        waitUntil(ExpectedConditions.numberOfElementsToBe(notificationsSettingsWereUpdatedToastLocator(),0));
     }
 
     public void accessAgendaView(String agenda){
@@ -3836,8 +3849,8 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
             button(By.xpath(String.format(".//div/div/h3[text()='%s']/ancestor::div[@class='item']//span[text()='Remove']"
                     ,school))).click();
             button("YES, REMOVE").click();
-            waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Successfully removed']")));
-            waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//span[text()='Successfully removed']")));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(successMessage(),1));
+            waitUntil(ExpectedConditions.numberOfElementsToBe(successMessage(),0));
         }
         waitForUITransition();
         waitForUITransition();
@@ -4048,6 +4061,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
         String actualValue[] = message.split("!");
         softly().assertThat(getMessage[0]).as("Message is not equal").isEqualTo(actualValue[0]);
         softly().assertThat(getMessage[1]).as("Message is not equal").isEqualTo(actualValue[1]);
+        waitUntil(ExpectedConditions.numberOfElementsToBe(successMessage(),0));
     }
 
     public void loggingAnotherAccount(String usertype){
@@ -5368,6 +5382,7 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
     private WebElement getContactNo(String eMail){
         return getDriver().findElement(By.xpath("//div[text()='"+eMail+"']/following-sibling::div"));
     }
+    private By visitSuccessMessage(){return By.cssSelector("span[class='LkKQEXqh0w8bxd1kyg0Mq']");}
 }
 
 
