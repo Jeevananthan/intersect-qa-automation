@@ -32,34 +32,11 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
     }
 
     public void inactivateUser(String accountName) {
-        takeUserAction(accountName,"Inactivate");
-        waitUntilElementExists( button("Yes"));
-        Actions action = new Actions(getDriver());
-        jsClick(getDriver().findElement(By.xpath(".//span[text()='Yes']")));
-        waitForUITransition();
-        try{
-            (new WebDriverWait(getDriver(),10)).until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath(".//span[text()='Yes']")));
-            waitForUITransition();
-            action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
-        }catch (Exception e){}
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(".//div[text()='Inactivate this user']")));
-        waitForUITransition();
+        takeUserActionForActiveOrInActive(accountName,"Inactivate");
     }
 
     public void activateUser(String accountName) {
-        takeUserAction(accountName,"Activate");
-        waitUntilElementExists( button("Yes"));
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(By.xpath(".//span[text()='Yes']"))).click().build().perform();
-        try{
-            (new WebDriverWait(getDriver(),10)).until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath(".//span[text()='Yes']")));
-            waitForUITransition();
-            action.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
-        }catch (Exception e){}
-        waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(".//div[text()='Activate this user']")));
-        waitForUITransition();
+        takeUserActionForActiveOrInActive(accountName,"Activate");
     }
 
     public void unlockUser(String accountName) {
@@ -80,6 +57,7 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
             }
         }
         getSaveButton().click();
+        waitForUITransition();
     }
 
 
@@ -123,6 +101,34 @@ public class ManageUsersPageImpl extends PageObjectFacadeImpl {
         WebElement actionsButton = userAccountRow.findElement(By.cssSelector("div[aria-label='Actions']"));
         WebElement button = actionsButton.findElement(By.xpath("div/div/span[contains(text(),'"+action+"')]"));
         jsClick(button);
+        waitForUITransition();
+    }
+
+    private void takeUserActionForActiveOrInActive(String accountName, String action) {
+        AccountSettingsPageImpl accountSettings = new AccountSettingsPageImpl();
+        accountSettings.accessUsersPage("Account Settings","Users");
+        WebElement userAccountRow = getDriver().findElement(By.xpath(String.format(".//div[text()='%s']/parent::td/parent::tr",accountName)));
+        WebElement actionsButton = userAccountRow.findElement(By.cssSelector("div[aria-label='Actions']"));
+        List<WebElement> button = actionsButton.findElements(By.xpath("div/div/span[contains(text(),'"+action+"')]"));
+        if(button.size()>0) {
+            jsClick(actionsButton.findElement(By.xpath("div/div/span[contains(text(),'"+action+"')]")));
+            waitUntilElementExists(button("Yes"));
+            Actions actionObj = new Actions(getDriver());
+            jsClick(getDriver().findElement(By.xpath(".//span[text()='Yes']")));
+            waitForUITransition();
+            try {
+                (new WebDriverWait(getDriver(), 10)).until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath(".//span[text()='Yes']")));
+                waitForUITransition();
+                actionObj.sendKeys(Keys.TAB).sendKeys(Keys.TAB).sendKeys(Keys.ENTER).build().perform();
+            } catch (Exception e) { }
+            if(action.equals("Inactivate")){
+                waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(".//div[text()='Inactivate this user']")));
+            }else if (action.equals("Activate")){
+                waitUntil(ExpectedConditions.invisibilityOfElementLocated(By.xpath(".//div[text()='Activate this user']")));
+            }
+            waitForUITransition();
+        }
     }
 
     public void verifyEmailChangedNotification(DataTable data) {
