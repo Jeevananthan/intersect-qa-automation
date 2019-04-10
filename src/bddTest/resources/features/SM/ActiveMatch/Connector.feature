@@ -181,11 +181,12 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
 
-  @MATCH-5324 @MATCH-5944 @ignore
+  @MATCH-5324 @MATCH-5944
   Scenario: As a student using Naviance Student, when I match with more than one AM NextGen Connection HE client,
   I would like to see a connector form that would allow me to connect with more than one college so that I can send my information to them at once.
 
-    #Clean existing subscriptions and create new ones
+    #Clean existing connections, subscriptions and create new ones
+
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"
@@ -201,6 +202,7 @@ Feature: AMNG - AM NextGen Connector
     And SP I create a new subscription via GraphiQL with the data in "match-5324SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
       | endDate   | 2 days after now  |
+    When I remove all connections for the user id "402714135"
     And SP I successfully sign out
 
     #Create Majors Messages
@@ -212,11 +214,13 @@ Feature: AMNG - AM NextGen Connector
     And HE I click the advanced awareness save button
 
     #Make the connector verifications
-    Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
+    Given SM I am logged in to SuperMatch through Family Connection as user "jaredsupermatch" with password "Hobsons!23" from school "blue1combo"
     And SM I clear all pills from Must have  and Nice to have boxes
     When SM I select the following majors in the SEARCH MAJORS multi-select combobox for Bachelor's degree type
       | African-American/Black Studies              |
       | American/United States Studies/Civilization |
+    And SM I navigate to page via URL path "colleges/applying-to"
+    And SM I remove "The University of Alabama" if it is in the Colleges I'm applying to list
     When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
     And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
     And SM I add "Auburn University" to the Colleges I'm thinking about list if it is not already there
@@ -231,8 +235,6 @@ Feature: AMNG - AM NextGen Connector
     Then SM I verify that "Share all" is unselected when any data checkbox is unselected, for example "Email"
     Then SM I verify that at least one of the following fields is required for submitting the form: Email, Phone, Address
     Then SM I verify that the following connector fields are editable:
-      | First Name * |
-      | Last Name *  |
       | Email      |
       | Phone      |
       | Street     |
@@ -245,11 +247,15 @@ Feature: AMNG - AM NextGen Connector
       | Your GPA  |
       | Ethnicity |
     Then SM I verify that it is possible to select the value "African-American/Black Studies" in the Majors dropdown
+    Then SM I verify that it is possible to select the value "American/United States Studies/Civilization" in the Majors dropdown
+    Then SM I verify that it is possible to select the value "Accounting" in the Majors dropdown
     And HE I click the button "Submit" in the connector dialog
     Then SM I verify that the Successfully Submitted! screen is displayed
     And HE I click the button "Close" in the connector dialog
 
     #Clean subscriptions
+    Given SP I am logged in to the Admin page as an Admin user
+    When I remove all connections for the user id "402714135"
     Given SP I am logged in to the Admin page as an Admin user
     When SP I select "The University of Alabama" from the institution dashboard
     And HE I click the link "Advanced Awareness"

@@ -30,9 +30,22 @@ public class CollegesImApplyingToPageImpl extends PageObjectFacadeImpl {
         }
     }
 
-        //Locators
-
-        private WebElement getCollegeDropDown() { return getDriver().findElement(By.xpath("//div/input")); }
-
+    public void removeCollegeFromList(String college) {
+        if (driver.findElements(By.xpath(collegeCheckboxLocator(college))).size() > 0) {
+            collegeCheckbox(college).click();
+            removeButton().click();
+            dialogRemoveButton().click();
+            waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath(confirmationBannerLocator), 0));
+        }
     }
+
+    //Locators
+
+    private WebElement getCollegeDropDown() { return getDriver().findElement(By.xpath("//div/input")); }
+    private WebElement collegeCheckbox(String college) { return driver.findElement(By.xpath(collegeCheckboxLocator(college))); }
+    private String collegeCheckboxLocator(String college) {return "//a[text() = '" + college + "']/../../../td[1]//figure";}
+    private WebElement removeButton() { return driver.findElement(By.xpath("//button[contains(text(), 'REMOVE')]")); }
+    private WebElement dialogRemoveButton() { return driver.findElement(By.xpath("//button[text() = 'REMOVE']")); }
+    private String confirmationBannerLocator = "//strong[text() = 'Confirmation']";
+}
 

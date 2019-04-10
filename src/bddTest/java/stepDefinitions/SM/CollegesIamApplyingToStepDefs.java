@@ -14,5 +14,8 @@ public class CollegesIamApplyingToStepDefs implements En {
 
         And("^SM I add \"([^\"]*)\" to I'm applying list$", collegesIamApplyingToStepDefs::addCollegeToImApplyingTo);
 
+
+        And("^SM I remove \"([^\"]*)\" if it is in the Colleges I'm applying to list$", collegesIamApplyingToStepDefs::removeCollegeFromList);
+
     }
 }
