@@ -37,9 +37,9 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
     private void searchForInstitution(String institution){
         waitUntilPageFinishLoading();
         textbox("Search Institutions...").sendKeys(institution);
-        waitForUITransition();
         WebElement results = getDriver().findElement(By.id("global-search-box-results"));
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.id("search-box-item-0")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'"+institution+"')]")));
         results.findElement(By.id("search-box-item-0")).click();
         waitUntilPageFinishLoading();
         if (driver.findElements(By.className("primary-user")).size() > 0) {
@@ -47,6 +47,7 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         } else {
             Assert.assertTrue("\"Review the details above to confirm this is your institution. To become the primary user for your institution, please complete this form..\" Text is displaying.", text("Review the details above to confirm this is your institution").isDisplayed());
         }
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.linkText("please complete this form.")));
         link("please complete this form.").click();
     }
 
@@ -112,10 +113,8 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
         agreeIntersectPolicy();
         agreeIntersectTermsOfUse();
         clickReCaptcha();
-        waitForUITransition();
         button("REQUEST USER").click();
-        waitForUITransition();
-
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(requestConfirmation()));
         Assert.assertTrue("Confirmation message was not displayed!", text("Your request has been successfully submitted. You can expect a response from Hobsons within 1 business day.").isDisplayed());
         button("OK").click();
         loginPage.verifyLoginPage();
@@ -123,7 +122,11 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
 
     private void clickReCaptcha(){
         getDriver().switchTo().frame(driver.findElement(By.tagName("iframe")));
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.className("recaptcha-checkbox")));
+        waitUntil(ExpectedConditions.elementToBeClickable(By.className("recaptcha-checkbox")));
         checkbox(By.className("recaptcha-checkbox")).click();
+        waitForUITransition();
+        waitUntil(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='recaptcha-checkbox-checkmark']")));
         getDriver().switchTo().defaultContent();
         waitUntilPageFinishLoading();
     }
@@ -158,5 +161,9 @@ public class RequestPrimaryUserPageImpl extends PageObjectFacadeImpl {
 
     private WebElement getSearchButton() {
         return button("SEARCH");
+    }
+
+    private By requestConfirmation(){
+        return By.xpath("//span[text()='Your request has been submitted.']");
     }
 }
