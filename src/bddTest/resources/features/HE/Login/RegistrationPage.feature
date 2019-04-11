@@ -5,7 +5,7 @@ Feature: HE - Login - RegistrationPage - As a potential HE User, I want to be ab
   Scenario: As a new freemium user, I want to utilize the Request User page to request a new user account when a Primary User already exists for my institution
             As a tester, I want to verify the fields and messaging on the Request User Page
     Given HE I want to request for a New User account via the Request User Account page
-    Then HE I use the New User Search to find "Florida Southern College" and request a new freemium user
+    Then HE I use the New User Search to find "Bowling Green State University-Main Campus" and request a new freemium user
     Then HE I verify the fields and error messaging on the Request User page using the following info
       |First Name   |NewUserTest            |
       |Last Name    |LNameTest              |

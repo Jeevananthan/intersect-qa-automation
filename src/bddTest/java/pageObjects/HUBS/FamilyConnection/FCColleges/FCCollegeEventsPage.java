@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static Selenium.SeleniumLibrary.driver;
 
@@ -110,6 +112,8 @@ public class FCCollegeEventsPage {
 
     }
     public static WebElement signupForEvent(String eventName){
+        WebDriverWait wait = new WebDriverWait(driver,40);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h3[text()='" + eventName + "']/../../..//div[@ng-switch-when='SIGNUP']")));
         return driver.findElement((By.xpath("//h3[text()='" + eventName + "']/../../..//div[@ng-switch-when='SIGNUP']")));
     }
     public  static WebElement registerEvent(){

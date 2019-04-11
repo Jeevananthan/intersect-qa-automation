@@ -54,12 +54,6 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
         List<String> fieldsList = dataTable.asList(String.class);
         for (String field : fieldsList) {
             switch (field) {
-                case "First Name *" :
-                    softly().assertThat(ExpectedConditions.visibilityOf(connectorField(field))).as(field + " is not an editable field");
-                    break;
-                case "Last Name *" :
-                    softly().assertThat(ExpectedConditions.visibilityOf(connectorField(field))).as(field + " is not an editable field");
-                    break;
                 case "Email" :
                     softly().assertThat(ExpectedConditions.visibilityOf(emailField())).as(field + " is not an editable field");
                     break;
@@ -173,7 +167,9 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     }
 
     public void verifyValueSelectionMajors(String value) {
-        majorsDropdown().click();
+        if (driver.findElements(By.cssSelector(majorsContainer)).size() == 0) {
+            majorsDropdown().click();
+        }
         majorsTextField().sendKeys(value);
         Actions actions = new Actions(driver);
         actions.moveToElement(majorsDropdownValue(value));
@@ -260,4 +256,5 @@ public class ConnectorPageImpl extends PageObjectFacadeImpl {
     private WebElement connectorTextFirstLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(1)")); }
     private WebElement connectorTextSecondLine() { return driver.findElement(By.cssSelector("form.ui.form.connect-message p:nth-of-type(2)")); }
     private WebElement closeIcon() { return driver.findElement(By.cssSelector("i.close.icon")); }
+    private String majorsContainer = "div.visible.menu.transition";
 }

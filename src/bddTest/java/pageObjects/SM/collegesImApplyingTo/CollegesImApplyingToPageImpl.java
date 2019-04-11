@@ -78,7 +78,7 @@ public class CollegesImApplyingToPageImpl extends PageObjectFacadeImpl {
     }
 
 
-        //Locators
+    //Locators
 
     private WebElement getCollegeDropDown() { return getDriver().findElement(By.xpath("//div/input")); }
     private WebElement moreButton(String college) { return driver.findElement(By.xpath("//a[text() = '" + college + "']/../../../td[last()]//button")); }
