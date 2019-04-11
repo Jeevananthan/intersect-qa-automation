@@ -285,9 +285,23 @@ Feature: HE - Upgrade - Upgrade - As an HE user in Intersect, I need to be engag
   Scenario: As an HE user, I need to be be able to compose my Majors messaging so that I can  attract the students with
   interests in specific majors and interest of study
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I select "The University of Alabama" from the institution dashboard
+    When SP I select "Alpena Community College" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
+    When SP I select "Alpena Community College" from the institution dashboard
+    And HE I click the link "Advanced Awareness"
+    And SP I click 'ADD NEW SUBSCRIPTION' button
+    And SP I select the radio button "State" in Add new Subscription modal
+    And SP I click the Next button
+    And SP I fill the new subscription with the following data:
+      | State                | Alabama                      |
+      | Diversity Filter     | Racial & Ethnic Minority     |
+      | Competitors          | The University of Alabama    |
+      | Majors               | yes                          |
+      | Connection           | yes                          |
+      | Start date           | 2 days from now              |
+      | End date             | 3 days from now              |
+    And SP I save the new subscription
     And SP I navigate to the GraphiQL page
     And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
