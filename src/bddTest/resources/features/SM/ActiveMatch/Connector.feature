@@ -438,19 +438,19 @@ Feature: AMNG - AM NextGen Connector
     Given SM I am logged in to SuperMatch through Family Connection as user "linussupermatch" with password "Hobsons!23" from school "blue1combo"
     When SM I add "Babson College" to the Colleges I'm thinking about list if it is not already there
     And SM I navigate to page via URL path "colleges/applying-to"
-    And SM I remove "The University of Alabama" if it is in the Colleges I'm applying to list
-    And SM I add "The University of Alabama" to the Colleges I'm thinking about list if it is not already there
-    And  SM I add "The University of Alabama" to the Colleges I'm applying to list from the CITA page
+    And SM I remove "Adrian College" if it is in the Colleges I'm applying to list
+    And SM I add "Adrian College" to the Colleges I'm thinking about list if it is not already there
+    And  SM I add "Adrian College" to the Colleges I'm applying to list from the CITA page
 
     #Clean existing connections, subscriptions and create new ones
     Given SP I am logged in to the Admin page as an Admin user
     When I remove all connections for the user id "402661187"
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I select "The University of Alabama" from the institution dashboard
+    When SP I select "Adrian College" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
     And SP I navigate to the GraphiQL page
-    And SP I create a new subscription via GraphiQL with the data in "match-5545SubscriptionData.json" and the following settings:
+    And SP I create a new subscription via GraphiQL with the data in "match-5332SubscriptionData.json" and the following settings:
       | startDate | 2 days before now |
       | endDate   | 2 days after now  |
     And SP I successfully sign out
@@ -460,19 +460,19 @@ Feature: AMNG - AM NextGen Connector
     And SM I navigate to page via URL path "colleges/applying-to"
     Then SM I verify that the connector dialog is displayed in the page of URL "https://family-connection-ui-qa.mango.naviance.com/colleges/applying-to"
     And HE I click the button "No, Thanks" in the connector dialog
-    And SM I click "CONNECT" from the More menu for "The University of Alabama"
+    And SM I click "CONNECT" from the More menu for "Adrian College"
     Then SM I verify that the connector dialog is displayed in the page of URL "https://family-connection-ui-qa.mango.naviance.com/colleges/applying-to"
     And SM I click the button "Yes, I do" in the connection dialog
     And HE I click the button "Submit" in the connector dialog
     And HE I click the button "Close" in the connector dialog
-    Then SM I verify that "DISCONNECT" is displayed in the More menu for "The University of Alabama"
-    And SM I click "DISCONNECT" from the More menu for "The University of Alabama"
+    Then SM I verify that "DISCONNECT" is displayed in the More menu for "Adrian College"
+    And SM I click "DISCONNECT" from the More menu for "Adrian College"
     Then SM I click the button "Yes, I'm sure" in the disconnect dialog
-    Then SM I verify that "CONNECT" is displayed in the More menu for "The University of Alabama"
+    Then SM I verify that "CONNECT" is displayed in the More menu for "Adrian College"
 
     #Clean subscriptions
     Given SP I am logged in to the Admin page as an Admin user
-    When SP I select "The University of Alabama" from the institution dashboard
+    When SP I select "Adrian College" from the institution dashboard
     And HE I click the link "Advanced Awareness"
     And SP I delete all the subscriptions for school
     When I remove all connections for the user id "402661187"

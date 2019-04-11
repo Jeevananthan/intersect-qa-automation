@@ -50,11 +50,23 @@ public class CollegesImThinkingAboutPageImpl extends PageObjectFacadeImpl {
         button("Research Colleges").click();
         link("I'm Thinking About").click();
         waitForUITransition();
-        collegeCheckBoxInList(college).click();
-        moveToApplicationListLink().click();
-        waitUntilPageFinishLoading();
-        addToApplicationsButton().click();
-        waitUntilPageFinishLoading();
+        try {
+            collegeCheckBoxInList(college).click();
+            moveToApplicationListLink().click();
+            waitUntilPageFinishLoading();
+            addToApplicationsButton().click();
+            waitUntilPageFinishLoading();
+        } catch (WebDriverException e) {
+            if (driver.findElements(By.cssSelector(fcSuperMatchPage.connectorCloseIconLocator)).size() > 0) {
+                driver.findElement(By.cssSelector(fcSuperMatchPage.connectorCloseIconLocator)).click();
+            }
+            collegeCheckBoxInList(college).click();
+            moveToApplicationListLink().click();
+            waitUntilPageFinishLoading();
+            addToApplicationsButton().click();
+            waitUntilPageFinishLoading();
+        }
+
     }
 
     //Locators
