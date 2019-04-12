@@ -2328,13 +2328,11 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     public void pressWhyButtonForCollege(String collegeName) {
         waitUntilPageFinishLoading();
         waitUntil(ExpectedConditions.numberOfElementsToBe(By.cssSelector(spinnerLocator), 0));
-        WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
-                + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
-        WebElement nextCollege = driver.findElement(By.xpath("//*[text()='" + collegeName
-                + "']/../../../../following-sibling::tr[2]"));
+        //WebElement whyButtonForCollege = driver.findElement(By.xpath("//*[text()='" + collegeName + "']/../../../..//button[@class='ui teal basic button supermatch-why-btn']"));
+        WebElement nextCollege = driver.findElement(By.xpath("//*[text()='"+ collegeName +"']/ancestor::tr/following-sibling::tr[2]"));
         clearSuperMatchToast();
         scrollDown(nextCollege);
-        jsClick(whyButtonForCollege);
+        jsClick(getDriver().findElement(By.xpath(whyButtonLocator(collegeName))));
     }
 
     public void verifyCheckboxIsDisplayed(String checkboxText) {
@@ -3305,7 +3303,7 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
 
     private WebElement showMoreButton() { return driver.findElement(By.cssSelector("button[aria-roledescription='Load more Results']")); }
 
-    private String pinLinkLocator(String collegeName) { return "//a[text()='" + collegeName + "']/../../div/a[@class = 'supermatch-college-action-pin-to-compare']"; }
+    private String pinLinkLocator(String collegeName) { return "//a[text()='"+ collegeName +"']/ancestor::div[@class='institution-details-cell']//a[@class='supermatch-college-action-pin-to-compare']"; }
 
     private String pinLinkLocatorWhyDrawer(String collegeName) { return "//div[contains(@class, 'supermatch-sidebar')]//a[text()='"+ collegeName +"']//ancestor::div[@class='row']//a[@class='supermatch-college-action-pin-to-compare']"; }
 
