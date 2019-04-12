@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriverException;
 import selenium.SeleniumBase;
+import stepDefinitions.GlobalSteps;
 
 public class Hooks extends SeleniumBase {
     Logger logger = Logger.getLogger(Hooks.class);
@@ -16,6 +17,7 @@ public class Hooks extends SeleniumBase {
 
     public void testTearDown() {
         takeScreenshotOnFailure();
+        GlobalSteps.softly.assertAll();
         driver.quit();
     }
 
