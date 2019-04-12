@@ -1693,6 +1693,9 @@ public class RepVisitsPageImpl extends PageObjectFacadeImpl {
                     jsClick(optInYesRadioButton());
                 } else if (completePage().size() == 1) {
                     jsClick(allRepVisitsUsersRadioButton());
+                } else if (getDriver().findElements(By.cssSelector("input#notification_contacts_primary_contact_phone")).size() > 0) {
+                    if (primaryContactPhone().getText().length() < 10)
+                        primaryContactPhone().sendKeys("1234567890");
                 }
                 nextButton().click();
                 waitForUITransition();

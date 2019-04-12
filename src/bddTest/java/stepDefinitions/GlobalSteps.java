@@ -17,7 +17,8 @@ public class GlobalSteps {
 
     @After
     public void afterScenario(Scenario scenario) {
-        softly.assertAll();
+        // Moving inside testTearDown so that we still get screenshots on failure.
+        // softly.assertAll();
         new Hooks(scenario).testTearDown();
     }
 
