@@ -162,9 +162,14 @@ public class HEHSCommonImpl extends PageObjectFacadeImpl {
         button("Sign In").click();
         waitUntilPageFinishLoading();
         load("https://purple-mongo-qa.hesos.net/db/match/amhsstudentconnections?skip=0&key=userId&value=" + userId + "&type=S&query=&projection=");
+        setImplicitWaitTimeout(3);
         try {getBigDeleteButton().click();
-        button(By.id("deleteListConfirmButton")).click();}
-        catch (Exception e) {}
+            button(By.id("deleteListConfirmButton")).click();
+            resetImplicitWaitTimeout();
+        }
+        catch (Exception e) {
+            resetImplicitWaitTimeout();
+        }
         waitUntilPageFinishLoading();
     }
 
