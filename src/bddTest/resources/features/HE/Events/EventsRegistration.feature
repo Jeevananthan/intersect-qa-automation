@@ -6,33 +6,33 @@ Feature: HE - Events - EventsRegistration - As an HE Events user, I can view and
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and publish a new event with the following details:
-      | Event Name | TestEventAttendees65778 |
+      | Event Name | RandomEventName |
       | Event Start | 14;10:00AM |
       | Max Attendees | 30 |
       | RSVP Deadline | 7;10:00AM |
       | EVENT LOCATION BY POSITION  | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
-    And HE I verify that the Attendees tab in the event of name "TestEventAttendees65778" is opened by clicking the attendee status bar/students area
+    And HE I verify that the Attendees tab in the event of name "RandomEventName" is opened by clicking the attendee status bar/students area
     And HE I open the Events list
-    And HE I unpublish the event of name "TestEventAttendees65778"
-    And HE I delete the event of name "TestEventAttendees65778"
+    And HE I unpublish the event of name "RandomEventName"
+    And HE I delete the event of name "RandomEventName"
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the ellipse of a Published Event
     Given HE I am logged in to Intersect HE as user type "administrator"
     When HE I open the Events list
     And HE I create and publish a new event with the following details:
-      | Event Name | TestEventAttendees2 |
+      | Event Name | RandomEventName |
       | Event Start | 14;10:00AM |
       | Max Attendees | 30 |
       | RSVP Deadline | 7;10:00AM |
       | EVENT LOCATION BY POSITION       | 1 |
       | EVENT PRIMARY CONTACT BY POSITION | 1 |
-    Then HE I verify that the Attendees tab in the event of name "TestEventAttendees2" is opened by clicking the Attendees option in the edit menu
+    Then HE I verify that the Attendees tab in the event of name "RandomEventName" is opened by clicking the Attendees option in the edit menu
     And HE I open the Events list
-    And HE I unpublish the event of name "TestEventAttendees2"
+    And HE I unpublish the event of name "RandomEventName"
     And HE I open the "Unpublished" tab in Events
-    And HE I delete the event of name "TestEventAttendees2"
+    And HE I delete the event of name "RandomEventName"
 
   @MATCH-3312
   Scenario: Verify access to the Attendees list by clicking on the ellipse of a Cancelled and Expired  Event

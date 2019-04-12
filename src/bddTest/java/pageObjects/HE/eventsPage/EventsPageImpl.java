@@ -604,6 +604,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
     public void verifyAttendeesFromStatusBar(String eventName) {
         waitForUITransition();
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         attendeeStatusBarStudent(eventName).click();
         verifyNoAttendeesMessage();
     }
@@ -654,6 +656,8 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
 
 
     public void verifyAttendeesFromEditMenu(String eventName) {
+        if (eventName.equalsIgnoreCase("RandomEventName"))
+            eventName = staticEventName;
         menuButtonForEvent(eventName).click();
         getOptionFromMenuButtonForEvents("Attendees").click();
         verifyNoAttendeesMessage();
@@ -868,7 +872,7 @@ public class EventsPageImpl extends PageObjectFacadeImpl {
         waitUntil(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='CREATE EVENT']")));
         return driver.findElement(By.xpath("//span[text()='CREATE EVENT']")); }
     public WebElement menuButtonForEvent(String eventName) {
-        return driver.findElement(By.xpath("//h3[text() = '" + eventName + "']/../../../..//i"));
+        return driver.findElement(By.xpath("//h3[text() = '"+eventName+"']/ancestor::div[@class='seven wide column _3l-lrs4zHMTh-dgZAy1GoL']/following-sibling::div[@class='three wide column _9SozV5IWiYp704W5xAqOC']//i"));
     }
     private WebElement getOptionFromMenuButtonForEvents(String optionName) {
         return getDriver().findElement(By.xpath("//span[text()='" + optionName + "']"));
