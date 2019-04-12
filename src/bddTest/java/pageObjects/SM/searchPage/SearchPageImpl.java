@@ -2420,22 +2420,13 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
             cal = getDeltaDate(Integer.parseInt(delta));
         }
 
-        String month = getMonth(cal);
         String dateNo = getDay(cal);
         if (dateNo.startsWith("0"))
             dateNo = dateNo.substring(1);
 
-        String year = getYear(cal);
-        //Select selectYear = new Select(driver.findElement(By.id("year-select")));
-        //selectYear.selectByVisibleText(year);
-
-        while (!superMatchCalendarWidgetMonthHeading().getText().equalsIgnoreCase(month)) {
-            logger.info("Calendar Heading: "+superMatchCalendarWidgetMonthHeading().getText() +" -- Expected Month: " +month);
-            superMatchCalendarWidgetNextArrow().click();
-        }
-
-        //Select selectMonth = new Select(driver.findElement(By.id("month-select")));
-        //selectMonth.selectByVisibleText(month);
+        monthSelector().click();
+        Select dropdown = new Select(monthSelector());
+        dropdown.selectByIndex(Integer.valueOf(getMonthNumber(cal).replaceFirst("0", "")));
 
         WebElement dateTemp = getDriver().findElement(By.xpath("//div[@class='DayPicker-Week']/div[text()='"+dateNo+"']"));
         dateTemp.click();
@@ -3668,5 +3659,6 @@ public class SearchPageImpl extends PageObjectFacadeImpl {
     private WebElement bannerConnectButton() { return driver.findElement(By.cssSelector("button.button-accept")); }
     private WebElement whyDrawerEmptyHeartIcon() { return driver.findElement(By.xpath("//div[@class = 'six wide column']//span/i[contains(@class, 'empty')]")); }
     private WebElement whyDrawerFullHeartIcon() { return driver.findElement(By.xpath("//div[@class = 'six wide column']//span/i[(@class = 'heart icon')]")); }
+    private WebElement monthSelector() { return driver.findElement(By.cssSelector("select#month-select")); }
 }
 
