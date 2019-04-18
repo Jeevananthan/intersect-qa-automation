@@ -314,6 +314,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 #FOR FAIRS
 #Naviance
     Given HS I am logged in to Intersect HS through Naviance with user type "navAdminStandalone2"
+    Then HS I set the date using "<StartDate>" and "<EndDate>"
 #Create a Fair
     Then HS I cancel the college fairs created
     Then HS I set the following data to On the College Fair page "<College Fair Name>", "<Date>", "<Start Time>", "<End Time>", "<RSVP Deadline>", "<Cost>", "<Max Number of Colleges>", "<Number of Students Expected>", "<ButtonToClick>"
@@ -352,8 +353,8 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
     And HS I successfully sign out
 
     Examples:
-      |user    |institution              |fairStartTime|School                  |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool |schoolForHE                     |
-      |PurpleHE|The University of Alabama|9:00am       |Standalone High School 2|QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Milford, Ohio        |Standalone High School 2 - Ohio |
+      |user    |institution              |fairStartTime|School                  |College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|cityAndStateofInstitution|cityAndStateofSchool |schoolForHE                     |StartDate|EndDate |
+      |PurpleHE|The University of Alabama|9:00am       |Standalone High School 2|QA Fairs for City and State|12  |0900AM    |1000AM  |11           |$25 |25                    |100                        |Save         |Tuscaloosa, AL           |Milford, Ohio        |Standalone High School 2 - Ohio |1       |92      |
 
 
   @MATCH-2168
@@ -459,7 +460,7 @@ Feature: HS - RepVisits - Notification - As an HS user, I should be able to see 
 
     Examples:
       |user    |institution              |fairStartTime|College Fair Name          |Date|Start Time|End Time|RSVP Deadline|Cost|Max Number of Colleges|Number of Students Expected|ButtonToClick|Non-NavSchool             |cityAndStateofInstitution|cityAndStateofNon-NavianceSchool|Non-NavschoolForHE                   |
-      |PurpleHE|The University of Alabama|9:00am       |QA Fairs for City and State|14  |0900AM    |1000AM  |12           |$25 |25                    |100                        |Save         |Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|
+      |PurpleHE|The University of Alabama|9:01am       |QA Fairs for City and State|12  |0901AM    |1001AM  |11           |$25 |25                    |100                        |Save         |Trimble County High School|Tuscaloosa, AL           |Bedford, Kentucky               |Trimble County High School - Kentucky|
 
   @MATCH-2091
   Scenario: As a HS user I want to see RepVisit notifications organized intuitively within my Notifications page REQUESTS subtab
